@@ -82,11 +82,11 @@ let g_firstTimeFlag = true
 //
 //  Set Defaults for REMOTE setup
 //
-let w_port = '13011'
-let w_Client = REM_CLIENT1
-let w_Database = REM_DATABASE1
-let w_Server = REM_SERVER1
-let w_URL = REM_SERVERURL1
+let w_port = '13022'
+let w_Client = REM_CLIENT2
+let w_Database = REM_DATABASE2
+let w_Server = REM_SERVER2
+let w_URL = REM_SERVERURL2
 //----------------------------------------------------------------------------
 //- Main Line
 //----------------------------------------------------------------------------
