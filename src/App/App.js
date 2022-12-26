@@ -72,6 +72,10 @@ const { LOC_LOC_REM_CLIENT2 } = require('../services/constants.js')
 const { LOC_LOC_REM_SERVER2 } = require('../services/constants.js')
 const { LOC_LOC_REM_SERVERURL2 } = require('../services/constants.js')
 //
+//
+//
+const { DFT_SERVERURL } = require('../services/constants.js')
+//
 // Debug Settings
 //
 const debugLog = debugSettings()
@@ -82,11 +86,24 @@ let g_firstTimeFlag = true
 //
 //  Set Defaults for REMOTE setup
 //
-let w_port = '13022'
-let w_Client = REM_CLIENT2
-let w_Database = REM_DATABASE2
-let w_Server = REM_SERVER2
-let w_URL = REM_SERVERURL2
+let w_port
+let w_Client
+let w_Database
+let w_Server
+let w_URL
+if (DFT_SERVERURL === 1) {
+  w_port = '3801'
+  w_Client = REM_CLIENT1
+  w_Database = REM_DATABASE1
+  w_Server = REM_SERVER1
+  w_URL = REM_SERVERURL1
+} else {
+  w_port = '3802'
+  w_Client = REM_CLIENT2
+  w_Database = REM_DATABASE2
+  w_Server = REM_SERVER2
+  w_URL = REM_SERVERURL2
+}
 //----------------------------------------------------------------------------
 //- Main Line
 //----------------------------------------------------------------------------
@@ -178,7 +195,7 @@ export default function App() {
       //------------------------------------------------------
       //  Client(Local/Remote) --> Remote Server 1 --> Remote Database 1
       //------------------------------------------------------
-      case '13011':
+      case '3801':
         w_Client = REM_CLIENT1
         w_Server = REM_SERVER1
         w_Database = REM_DATABASE1
@@ -187,7 +204,7 @@ export default function App() {
       //------------------------------------------------------
       //  Client(Local/Remote) --> Remote Server 2 --> Remote Database 2
       //------------------------------------------------------
-      case '13022':
+      case '3802':
         w_Client = REM_CLIENT2
         w_Server = REM_SERVER2
         w_Database = REM_DATABASE2
@@ -196,7 +213,7 @@ export default function App() {
       //------------------------------------------------------
       //  Local Client --> Local Server 1 --> Remote Database 1
       //------------------------------------------------------
-      case '13101':
+      case '3811':
         w_Client = LOC_LOC_REM_CLIENT1
         w_Server = LOC_LOC_REM_SERVER1
         w_Database = REM_DATABASE1
@@ -205,7 +222,7 @@ export default function App() {
       //------------------------------------------------------
       //  Local Client --> Local Server 2 --> Remote Database 2
       //------------------------------------------------------
-      case '13202':
+      case '3812':
         w_Client = LOC_LOC_REM_CLIENT2
         w_Server = LOC_LOC_REM_SERVER2
         w_Database = REM_DATABASE2
@@ -214,7 +231,7 @@ export default function App() {
       //------------------------------------------------------
       //  Local Client --> Local Server --> Local Database 6
       //------------------------------------------------------
-      case '13606':
+      case '3816':
         w_Client = LOC_LOC_LOC_CLIENT6
         w_Server = LOC_LOC_LOC_SERVER6
         w_Database = LOC_LOC_LOC_DATABASE6
@@ -223,7 +240,7 @@ export default function App() {
       //------------------------------------------------------
       //  Local Client --> Local Server --> Local Database 7
       //------------------------------------------------------
-      case '13707':
+      case '3817':
         w_Client = LOC_LOC_LOC_CLIENT7
         w_Server = LOC_LOC_LOC_SERVER7
         w_Database = LOC_LOC_LOC_DATABASE7
