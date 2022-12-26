@@ -22,7 +22,7 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 const debugFunStart = false
 const debugModule = 'QuizSignin'
 //
@@ -34,6 +34,7 @@ const initialFValues = {
 }
 //
 let ALLReceived
+let QuizSigninInit_cnt = 0
 //...................................................................................
 //.  Main Line
 //...................................................................................
@@ -50,7 +51,7 @@ export default function QuizSignin({ handlePage }) {
   useEffect(() => {
     GetBuildOptions()
     // eslint-disable-next-line
-  }, [])
+  }, [ALLReceived])
   //
   // Form Message
   //
@@ -59,6 +60,23 @@ export default function QuizSignin({ handlePage }) {
   //  Interface to Form
   //
   const { values, errors, setErrors, handleInputChange } = useMyForm(initialFValues, true, validate)
+  //...................................................................................
+  //.  Data Options
+  //...................................................................................
+  function GetBuildOptions() {
+    if (debugFunStart) console.log('GetBuildOptions')
+    //
+    //  Data Options already exist - return
+    //
+    ALLReceived = JSON.parse(sessionStorage.getItem('Data_Options_ALL_Received'))
+    if (debugFunStart) console.log('ALLReceived ALREADY', ALLReceived)
+    if (ALLReceived) return
+    //
+    //  Get the Selection Options
+    //
+    QuizSigninInit_cnt++
+    QuizSigninInit(QuizSigninInit_cnt)
+  }
   //.............................................................................
   //.  Input field validation
   //.............................................................................
@@ -174,23 +192,7 @@ export default function QuizSignin({ handlePage }) {
     //
     handlePage('PAGESTART')
   }
-  //...................................................................................
-  //.  Data Options
-  //...................................................................................
-  function GetBuildOptions() {
-    if (debugFunStart) console.log('GetBuildOptions')
-    //
-    //  Data Options already exist - return
-    //
-    ALLReceived = JSON.parse(sessionStorage.getItem('Data_Options_ALL_Received'))
-    if (debugFunStart) console.log('ALLReceived ALREADY', ALLReceived)
-    if (ALLReceived) return
 
-    //
-    //  Get the Selection Options
-    //
-    QuizSigninInit()
-  }
   //...................................................................................
   //.  Render the form
   //...................................................................................

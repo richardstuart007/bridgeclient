@@ -9,64 +9,89 @@ import debugSettings from '../../debug/debugSettings'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
+//
+//  Global
+//
+let timerStart
+let sessionStorageItems = []
+let sessionStorageItemsALL = 'Data_Options_ALL_Received'
 //...................................................................................
 //.  Main Line
 //...................................................................................
-export default function QuizSigninInit() {
+export default function QuizSigninInit(count) {
   if (debugLog) console.log(`Function: QuizSigninInit`)
   //
-  //  Elapsed Time
+  //  First time only
   //
-  const timerStart = new Date()
-  //
-  //  Set storage items
-  //
-  let sessionStorageItemsALL = 'Data_Options_ALL_Received'
-  let sessionStorageItems = []
-  sessionStorageItems.push('Data_Options_Owner_Received')
-  sessionStorageItems.push('Data_Options_OwnerGroup_Received')
-  sessionStorageItems.push('Data_Options_Group2_Received')
-  sessionStorageItems.push('Data_Options_Group3_Received')
-  //
-  //  Initialise storage status to FALSE
-  //
-  sessionStorage.setItem(sessionStorageItemsALL, false)
-  for (let i = 0; i < sessionStorageItems.length; i++) {
-    sessionStorage.setItem(sessionStorageItems[i], false)
+  if (count === 1) {
+    //
+    //  Elapsed Time
+    //
+    timerStart = new Date()
+    //
+    //  Set storage items
+    //
+    sessionStorageItems.push('Data_Options_Owner_Received')
+    sessionStorageItems.push('Data_Options_OwnerGroup_Received')
+    sessionStorageItems.push('Data_Options_Group2_Received')
+    sessionStorageItems.push('Data_Options_Group3_Received')
+    //
+    //  Initialise storage status to FALSE
+    //
+    sessionStorage.setItem(sessionStorageItemsALL, false)
+    for (let i = 0; i < sessionStorageItems.length; i++) {
+      sessionStorage.setItem(sessionStorageItems[i], false)
+    }
   }
   //
   //  Get the Selection Options
   //
-  const Promise_Owner = createOptions({
-    cop_sqlTable: 'owner',
-    cop_id: 'oowner',
-    cop_title: 'otitle',
-    cop_store: 'Data_Options_Owner',
-    cop_received: 'Data_Options_Owner_Received'
-  })
-  const Promise_OwnerGroup = createOptions({
-    cop_sqlTable: 'ownergroup',
-    cop_owner: 'ogowner',
-    cop_id: 'oggroup',
-    cop_title: 'ogtitle',
-    cop_store: 'Data_Options_OwnerGroup',
-    cop_received: 'Data_Options_OwnerGroup_Received'
-  })
-  const Promise_Group2 = createOptions({
-    cop_sqlTable: 'group2',
-    cop_id: 'g2id',
-    cop_title: 'g2title',
-    cop_store: 'Data_Options_Group2',
-    cop_received: 'Data_Options_Group2_Received'
-  })
-  const Promise_Group3 = createOptions({
-    cop_sqlTable: 'group3',
-    cop_id: 'g3id',
-    cop_title: 'g3title',
-    cop_store: 'Data_Options_Group3',
-    cop_received: 'Data_Options_Group3_Received'
-  })
+  let Promise_Owner
+  if (!JSON.parse(sessionStorage.getItem('Data_Options_Owner_Received'))) {
+    Promise_Owner = createOptions({
+      cop_sqlTable: 'owner',
+      cop_id: 'oowner',
+      cop_title: 'otitle',
+      cop_store: 'Data_Options_Owner',
+      cop_received: 'Data_Options_Owner_Received'
+    })
+  }
+
+  let Promise_OwnerGroup
+  if (!JSON.parse(sessionStorage.getItem('Data_Options_OwnerGroup_Received'))) {
+    Promise_OwnerGroup = createOptions({
+      cop_sqlTable: 'ownergroup',
+      cop_owner: 'ogowner',
+      cop_id: 'oggroup',
+      cop_title: 'ogtitle',
+      cop_store: 'Data_Options_OwnerGroup',
+      cop_received: 'Data_Options_OwnerGroup_Received'
+    })
+  }
+
+  let Promise_Group2
+  if (!JSON.parse(sessionStorage.getItem('Data_Options_Group2_Received'))) {
+    Promise_Group2 = createOptions({
+      cop_sqlTable: 'group2',
+      cop_id: 'g2id',
+      cop_title: 'g2title',
+      cop_store: 'Data_Options_Group2',
+      cop_received: 'Data_Options_Group2_Received'
+    })
+  }
+
+  let Promise_Group3
+  if (!JSON.parse(sessionStorage.getItem('Data_Options_Group3_Received'))) {
+    Promise_Group3 = createOptions({
+      cop_sqlTable: 'group3',
+      cop_id: 'g3id',
+      cop_title: 'g3title',
+      cop_store: 'Data_Options_Group3',
+      cop_received: 'Data_Options_Group3_Received'
+    })
+  }
+
   //
   //   Wait for all promises
   //

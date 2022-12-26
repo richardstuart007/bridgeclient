@@ -24,7 +24,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "startremremrem1": "react-scripts start",
     "startlocremrem1": "set PORT=13011 && react-scripts start",
     "startlocremrem2": "set PORT=13022 && react-scripts start",
     "startloclocrem1": "set PORT=13101 && react-scripts start",
