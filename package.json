@@ -23,6 +23,7 @@
     "@types/react": "^17.0.50"
   },
   "scripts": {
+    "start": "react-scripts start",
     "start01": "set PORT=3801 && react-scripts start",
     "start02": "set PORT=3802 && react-scripts start",
     "start11": "set PORT=3811 && react-scripts start",
