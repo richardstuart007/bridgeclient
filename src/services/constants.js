@@ -1,21 +1,20 @@
 //------------------------------------------------------------------------
 //  Remote - Production
 //------------------------------------------------------------------------
-exports.DFT_SERVERURL = 2
 //
 //  Remote/Local Client --> Remote Server 1 --> Remote Database 1
 //
 exports.REM_CLIENT1 = 'LOC/REM:3801'
 exports.REM_SERVER1 = 'REMOTE:Render/3901'
 exports.REM_DATABASE1 = 'REMOTE:Elephant'
-exports.REM_SERVERURL1 = 'https://quizserver021render.onrender.com'
+exports.REM_SERVERURL1 = 'https://bridgeserver01.onrender.com'
 //
 //  Remote/Local --> Remote Server 2 --> Remote Database 2
 //
 exports.REM_CLIENT2 = 'LOC/REM:3802'
 exports.REM_SERVER2 = 'REMOTE:Render/3902'
 exports.REM_DATABASE2 = 'REMOTE:Railway'
-exports.REM_SERVERURL2 = 'https://bridgeserver.onrender.com'
+exports.REM_SERVERURL2 = 'https://bridgeserver02.onrender.com'
 //------------------------------------------------------------------------
 //  Local
 //------------------------------------------------------------------------

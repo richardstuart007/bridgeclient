@@ -72,9 +72,14 @@ const { LOC_LOC_REM_CLIENT2 } = require('../services/constants.js')
 const { LOC_LOC_REM_SERVER2 } = require('../services/constants.js')
 const { LOC_LOC_REM_SERVERURL2 } = require('../services/constants.js')
 //
+//  Environment variable
 //
-//
-const { DFT_SERVERURL } = require('../services/constants.js')
+const SERVER_DATABASE = process.env.REACT_APP_SERVER_DATABASE
+console.log('SERVER_DATABASE ', SERVER_DATABASE)
+const NODE_ENV = process.env.NODE_ENV
+console.log('NODE_ENV ', NODE_ENV)
+const SECRET_CODE = process.env.REACT_APP_SECRET_CODE
+console.log('SECRET_CODE ', SECRET_CODE)
 //
 // Debug Settings
 //
@@ -91,7 +96,7 @@ let w_Client
 let w_Database
 let w_Server
 let w_URL
-if (DFT_SERVERURL === 1) {
+if (SERVER_DATABASE === '01') {
   w_port = '3801'
   w_Client = REM_CLIENT1
   w_Database = REM_DATABASE1

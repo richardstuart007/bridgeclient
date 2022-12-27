@@ -29,6 +29,7 @@
     "start11": "set PORT=3811 && react-scripts start",
     "start12": "set PORT=3812 && react-scripts start",
     "start16": "set PORT=3816 && react-scripts start",
+    "start16t": "set PORT=3816 && set REACT_APP_SECRET_CODE=secret && react-scripts start",
     "start17": "set PORT=3817 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
