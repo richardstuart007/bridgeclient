@@ -17,14 +17,14 @@ import debugSettings from '../../debug/debugSettings'
 //  Table Heading
 //
 const headCellsLarge = [
-  { id: 'rid', label: 'ID' },
-  { id: 'rdesc', label: 'Description' },
-  { id: 'rwho', label: 'Who' },
-  { id: 'rtype', label: 'Type' },
+  { id: 'lrid', label: 'ID' },
+  { id: 'lrdesc', label: 'Description' },
+  { id: 'lrwho', label: 'Who' },
+  { id: 'lrtype', label: 'Type' },
   { id: 'actions', label: 'View', disableSorting: true }
 ]
 const headCellsSmall = [
-  { id: 'rdesc', label: 'Description' },
+  { id: 'lrdesc', label: 'Description' },
   { id: 'actions', label: 'View', disableSorting: true }
 ]
 //.............................................................................
@@ -92,11 +92,11 @@ export default function QuizRefs({ handlePage }) {
         <TblHead />
         <TableBody>
           {recordsAfterPagingAndSorting().map(row => (
-            <TableRow key={row.rid}>
-              {ScreenSmall ? null : <TableCell>{row.rid}</TableCell>}
-              <TableCell>{row.rdesc}</TableCell>
-              {ScreenSmall ? null : <TableCell>{row.rwho}</TableCell>}
-              {ScreenSmall ? null : <TableCell>{row.rtype}</TableCell>}
+            <TableRow key={row.lrid}>
+              {ScreenSmall ? null : <TableCell>{row.lrid}</TableCell>}
+              <TableCell>{row.lrdesc}</TableCell>
+              {ScreenSmall ? null : <TableCell>{row.lrwho}</TableCell>}
+              {ScreenSmall ? null : <TableCell>{row.lrtype}</TableCell>}
               <TableCell>
                 <MyActionButton
                   startIcon={<PreviewIcon fontSize='small' />}

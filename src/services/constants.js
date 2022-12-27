@@ -49,5 +49,5 @@ exports.URL_TABLES = '/QuizTables'
 //  Other Parameters
 //------------------------------------------------------------------------
 exports.MAX_QUESTIONS_SELECT = 50
-exports.WAIT = 100
-exports.WAIT_MAX_TRY = 20
+exports.WAIT = 200
+exports.WAIT_MAX_TRY = 40

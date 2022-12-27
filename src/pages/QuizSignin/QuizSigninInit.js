@@ -9,7 +9,7 @@ import debugSettings from '../../debug/debugSettings'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 //
 //  Global
 //
@@ -34,8 +34,6 @@ export default function QuizSigninInit(count) {
     //
     sessionStorageItems.push('Data_Options_Owner_Received')
     sessionStorageItems.push('Data_Options_OwnerGroup_Received')
-    sessionStorageItems.push('Data_Options_Group2_Received')
-    sessionStorageItems.push('Data_Options_Group3_Received')
     //
     //  Initialise storage status to FALSE
     //
@@ -69,33 +67,10 @@ export default function QuizSigninInit(count) {
       cop_received: 'Data_Options_OwnerGroup_Received'
     })
   }
-
-  let Promise_Group2
-  if (!JSON.parse(sessionStorage.getItem('Data_Options_Group2_Received'))) {
-    Promise_Group2 = createOptions({
-      cop_sqlTable: 'group2',
-      cop_id: 'g2id',
-      cop_title: 'g2title',
-      cop_store: 'Data_Options_Group2',
-      cop_received: 'Data_Options_Group2_Received'
-    })
-  }
-
-  let Promise_Group3
-  if (!JSON.parse(sessionStorage.getItem('Data_Options_Group3_Received'))) {
-    Promise_Group3 = createOptions({
-      cop_sqlTable: 'group3',
-      cop_id: 'g3id',
-      cop_title: 'g3title',
-      cop_store: 'Data_Options_Group3',
-      cop_received: 'Data_Options_Group3_Received'
-    })
-  }
-
   //
   //   Wait for all promises
   //
-  Promise.all([Promise_Owner, Promise_OwnerGroup, Promise_Group2, Promise_Group3]).then(values => {
+  Promise.all([Promise_Owner, Promise_OwnerGroup]).then(values => {
     if (debugLog) console.log(`Promise values ALL`, values)
     promisesAllComplete()
   })
@@ -129,6 +104,5 @@ export default function QuizSigninInit(count) {
         console.log(`SessionStorage(${sessionStorageItemsALL}) Elapsed Time(${timeDiff})`)
       sessionStorage.setItem(sessionStorageItemsALL, true)
     }
-    //...................................................................................
   }
 }

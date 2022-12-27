@@ -20,17 +20,10 @@ import BuildQuizData from '../../services/BuildQuizData'
 //
 let g_DataLoad = true
 //
-//  Settings
-//
-let QuizSelect_ShowSelectionGroup2
-let QuizSelect_ShowSelectionGroup3
-//
 //  Data output
 //
 let Data_Options_Owner = []
 let Data_Options_OwnerGroup = []
-let Data_Options_Group2 = []
-let Data_Options_Group3 = []
 let Data_Options_OwnerGroup_Subset = []
 //
 // Debug Settings
@@ -43,9 +36,7 @@ const debugModule = 'QuizSelect'
 //
 const initialFValues = {
   qowner: '',
-  qgroup: '',
-  qgroup2: '',
-  qgroup3: ''
+  qgroup: ''
 }
 //
 //  References to display
@@ -69,22 +60,11 @@ export default function QuizSelect({ handlePage }) {
   //
   initialFValues.qowner = JSON.parse(sessionStorage.getItem('Quiz_Select_Owner'))
   initialFValues.qgroup = JSON.parse(sessionStorage.getItem('Quiz_Select_OwnerGroup'))
-  initialFValues.qgroup2 = JSON.parse(sessionStorage.getItem('Quiz_Select_Group2'))
-  initialFValues.qgroup3 = JSON.parse(sessionStorage.getItem('Quiz_Select_Group3'))
   //
   //  Default owner from User if empty
   //
   if (initialFValues.qowner === '') initialFValues.qowner = User_Settings_User.u_dftowner
   if (debugLog) console.log('initialFValues ', initialFValues)
-  //
-  //  Load setup values
-  //
-  QuizSelect_ShowSelectionGroup2 = JSON.parse(
-    sessionStorage.getItem('QuizSelect_ShowSelectionGroup2')
-  )
-  QuizSelect_ShowSelectionGroup3 = JSON.parse(
-    sessionStorage.getItem('QuizSelect_ShowSelectionGroup3')
-  )
   //
   //  Load the data array from the store
   //
@@ -114,11 +94,6 @@ export default function QuizSelect({ handlePage }) {
     const Data_Options_OwnerGroupJSON = sessionStorage.getItem('Data_Options_OwnerGroup')
     Data_Options_OwnerGroup = JSON.parse(Data_Options_OwnerGroupJSON)
 
-    const Data_Options_Group2JSON = sessionStorage.getItem('Data_Options_Group2')
-    Data_Options_Group2 = JSON.parse(Data_Options_Group2JSON)
-
-    const Data_Options_Group3JSON = sessionStorage.getItem('Data_Options_Group3')
-    Data_Options_Group3 = JSON.parse(Data_Options_Group3JSON)
     //
     //  Set ownergroup Options
     //
@@ -229,10 +204,8 @@ export default function QuizSelect({ handlePage }) {
     //
     //  BuildQuizData
     //
-    const { qowner, qgroup, qgroup2, qgroup3 } = values
+    const { qowner, qgroup } = values
     let SqlString_Q = `* from questions where qowner = '${qowner}' and qgroup = '${qgroup}'`
-    if (qgroup2 & (qgroup2 !== 'All')) SqlString_Q = SqlString_Q + ` qgroup2 = '${qgroup2}`
-    if (qgroup3 & (qgroup3 !== 'All')) SqlString_Q = SqlString_Q + ` qgroup3 = '${qgroup3}`
     const params = {
       SqlString_Q: SqlString_Q
     }
@@ -390,32 +363,6 @@ export default function QuizSelect({ handlePage }) {
                 sx={{ minWidth: '300px' }}
               />
             </Grid>
-            {/*.................................................................................................*/}
-            {QuizSelect_ShowSelectionGroup2 ? (
-              <Grid item xs={12}>
-                <MySelect
-                  name='qgroup2'
-                  label='Group2'
-                  value={values.qgroup2}
-                  onChange={handleInputChange}
-                  options={Data_Options_Group2}
-                  sx={{ minWidth: '300px' }}
-                />
-              </Grid>
-            ) : null}
-            {/*.................................................................................................*/}
-            {QuizSelect_ShowSelectionGroup3 ? (
-              <Grid item xs={12}>
-                <MySelect
-                  name='qgroup3'
-                  label='Group3'
-                  value={values.qgroup3}
-                  onChange={handleInputChange}
-                  options={Data_Options_Group3}
-                  sx={{ minWidth: '300px' }}
-                />
-              </Grid>
-            ) : null}
             {/*.................................................................................................*/}
             <Grid item xs={12}>
               <Typography style={{ color: 'red' }}>{form_message}</Typography>

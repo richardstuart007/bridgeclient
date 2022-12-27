@@ -22,7 +22,7 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugFunStart = false
 const debugModule = 'QuizSignin'
 //
@@ -69,7 +69,7 @@ export default function QuizSignin({ handlePage }) {
     //  Data Options already exist - return
     //
     ALLReceived = JSON.parse(sessionStorage.getItem('Data_Options_ALL_Received'))
-    if (debugFunStart) console.log('ALLReceived ALREADY', ALLReceived)
+    if (debugLog) console.log('ALLReceived ALREADY', ALLReceived)
     if (ALLReceived) return
     //
     //  Get the Selection Options
@@ -119,10 +119,18 @@ export default function QuizSignin({ handlePage }) {
   function FormUpdate() {
     if (debugFunStart) console.log('FormUpdate')
     //
+    //  Check Build Options retrieved
+    //
+    GetBuildOptions()
+    if (!ALLReceived) {
+      setForm_message('Waiting for Quiz Options')
+      return
+    }
+    //
     //  Deconstruct values
     //
     const { user, password } = values
-    setForm_message('Validating')
+    setForm_message('Validating Signin')
     //
     //  Process promise
     //
@@ -169,7 +177,7 @@ export default function QuizSignin({ handlePage }) {
     //  All received ?
     //
     ALLReceived = JSON.parse(sessionStorage.getItem('Data_Options_ALL_Received'))
-    if (debugFunStart) console.log('ALLReceived ', ALLReceived)
+    if (debugLog) console.log('ALLReceived ', ALLReceived)
     //
     //  Not all data received - error
     //

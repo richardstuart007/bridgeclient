@@ -68,7 +68,7 @@ const { SERVERURL12 } = require('../services/constants.js')
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 //
 // Global
 //
@@ -145,18 +145,11 @@ export default function App() {
     //
     sessionStorage.setItem('User_Settings_SignedIn', false)
     //
-    //  QuizSelect
-    //
-    sessionStorage.setItem('QuizSelect_ShowSelectionGroup2', false)
-    sessionStorage.setItem('QuizSelect_ShowSelectionGroup3', false)
-    //
     //  Quiz
     //
     sessionStorage.setItem('Quiz_Reset', true)
     sessionStorage.setItem('Quiz_Select_Owner', JSON.stringify(''))
     sessionStorage.setItem('Quiz_Select_OwnerGroup', JSON.stringify(''))
-    sessionStorage.setItem('Quiz_Select_Group2', JSON.stringify('All'))
-    sessionStorage.setItem('Quiz_Select_Group3', JSON.stringify('All'))
     //
     //  QuizHistory
     //
