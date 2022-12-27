@@ -107,10 +107,9 @@ export default function Layout({ handlePage, pageCurrent, children }) {
   //
   //  Add clientserver
   //
-  const App_Settings_Client = JSON.parse(sessionStorage.getItem('App_Settings_Client'))
   const App_Settings_Server = JSON.parse(sessionStorage.getItem('App_Settings_Server'))
   const App_Settings_Database = JSON.parse(sessionStorage.getItem('App_Settings_Database'))
-  const clientserver = `Client(${App_Settings_Client}) Server(${App_Settings_Server}) Database(${App_Settings_Database})`
+  const clientserver = `Server(${App_Settings_Server}) Database(${App_Settings_Database})`
   //
   //  Default if not signed in
   //

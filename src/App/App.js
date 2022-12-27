@@ -31,84 +31,53 @@ const theme = createTheme({})
 //
 //  Remote Client --> Remote Server 1 --> Remote Database 1
 //
-const { REM_CLIENT1 } = require('../services/constants.js')
-const { REM_SERVER1 } = require('../services/constants.js')
-const { REM_DATABASE1 } = require('../services/constants.js')
-const { REM_SERVERURL1 } = require('../services/constants.js')
+const { SERVER01 } = require('../services/constants.js')
+const { DATABASE01 } = require('../services/constants.js')
+const { SERVERURL01 } = require('../services/constants.js')
 //
 //  Remote Client --> Remote Server 2 --> Remote Database 2
 //
-const { REM_CLIENT2 } = require('../services/constants.js')
-const { REM_SERVER2 } = require('../services/constants.js')
-const { REM_DATABASE2 } = require('../services/constants.js')
-const { REM_SERVERURL2 } = require('../services/constants.js')
+const { SERVER02 } = require('../services/constants.js')
+const { DATABASE02 } = require('../services/constants.js')
+const { SERVERURL02 } = require('../services/constants.js')
 //------------------------------------------------------------------------
 //  Local
 //------------------------------------------------------------------------
 //
 //  Local Client --> Local Server --> Local Database 6
 //
-const { LOC_LOC_LOC_CLIENT6 } = require('../services/constants.js')
-const { LOC_LOC_LOC_SERVER6 } = require('../services/constants.js')
-const { LOC_LOC_LOC_DATABASE6 } = require('../services/constants.js')
-const { LOC_LOC_LOC_SERVERURL6 } = require('../services/constants.js')
+const { SERVER16 } = require('../services/constants.js')
+const { DATABASE6 } = require('../services/constants.js')
+const { SERVERURL16 } = require('../services/constants.js')
 //
 //  Local Client --> Local Server --> Local Database 7
 //
-const { LOC_LOC_LOC_CLIENT7 } = require('../services/constants.js')
-const { LOC_LOC_LOC_SERVER7 } = require('../services/constants.js')
-const { LOC_LOC_LOC_DATABASE7 } = require('../services/constants.js')
-const { LOC_LOC_LOC_SERVERURL7 } = require('../services/constants.js')
+const { SERVER17 } = require('../services/constants.js')
+const { DATABASE7 } = require('../services/constants.js')
+const { SERVERURL17 } = require('../services/constants.js')
 //
 //  Local Client --> Local Server 1 --> Remote Database 1
 //
-const { LOC_LOC_REM_CLIENT1 } = require('../services/constants.js')
-const { LOC_LOC_REM_SERVER1 } = require('../services/constants.js')
-const { LOC_LOC_REM_SERVERURL1 } = require('../services/constants.js')
+const { SERVER11 } = require('../services/constants.js')
+const { SERVERURL11 } = require('../services/constants.js')
 //
 //  Local Client --> Local Server 2 --> Remote Database 2
 //
-const { LOC_LOC_REM_CLIENT2 } = require('../services/constants.js')
-const { LOC_LOC_REM_SERVER2 } = require('../services/constants.js')
-const { LOC_LOC_REM_SERVERURL2 } = require('../services/constants.js')
-//
-//  Environment variable
-//
-const SERVER_DATABASE = process.env.REACT_APP_SERVER_DATABASE
-console.log('SERVER_DATABASE ', SERVER_DATABASE)
-const NODE_ENV = process.env.NODE_ENV
-console.log('NODE_ENV ', NODE_ENV)
-const SECRET_CODE = process.env.REACT_APP_SECRET_CODE
-console.log('SECRET_CODE ', SECRET_CODE)
+const { SERVER12 } = require('../services/constants.js')
+const { SERVERURL12 } = require('../services/constants.js')
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 //
 // Global
 //
 let g_firstTimeFlag = true
-//
-//  Set Defaults for REMOTE setup
-//
-let w_port
-let w_Client
+let w_server_database
+let w_node_env
 let w_Database
 let w_Server
 let w_URL
-if (SERVER_DATABASE === '01') {
-  w_port = '3801'
-  w_Client = REM_CLIENT1
-  w_Database = REM_DATABASE1
-  w_Server = REM_SERVER1
-  w_URL = REM_SERVERURL1
-} else {
-  w_port = '3802'
-  w_Client = REM_CLIENT2
-  w_Database = REM_DATABASE2
-  w_Server = REM_SERVER2
-  w_URL = REM_SERVERURL2
-}
 //----------------------------------------------------------------------------
 //- Main Line
 //----------------------------------------------------------------------------
@@ -139,29 +108,32 @@ export default function App() {
   function firstTime() {
     if (debugLog) console.log(`First Time APP Reset`)
     //
-    //  Override LOCAL if Windows port (from package.json)
+    //  Environment variables
     //
-    const windowport = window.location.port
-    if (windowport) {
-      w_port = windowport
-      localport(w_port)
-    }
+    w_server_database = process.env.REACT_APP_SERVER_DATABASE
+    w_server_database = w_server_database.trim()
+    if (debugLog) console.log('w_server_database ', w_server_database)
+    w_node_env = process.env.NODE_ENV
+    if (debugLog) console.log('w_node_env ', w_node_env)
+    //
+    //  Server & Database
+    //
+    update_serverdatabase()
     //
     //  Store Client, Server, Database, URL
     //
-    sessionStorage.setItem('App_Settings_Client', JSON.stringify(w_Client))
+    sessionStorage.setItem('App_Settings_Server_Database', JSON.stringify(w_server_database))
+    sessionStorage.setItem('App_Settings_Node_Env', JSON.stringify(w_node_env))
     sessionStorage.setItem('App_Settings_Server', JSON.stringify(w_Server))
     sessionStorage.setItem('App_Settings_Database', JSON.stringify(w_Database))
     sessionStorage.setItem('App_Settings_URL', JSON.stringify(w_URL))
     if (debugLog)
-      console.log(
-        `QuizClient-PORT(${w_port}) CLIENT(${w_Client}) SERVER(${w_Server}) DATABASE(${w_Database}) URL(${w_URL})`
-      )
+      console.log(`QuizClient: SERVER(${w_Server}) DATABASE(${w_Database}) URL(${w_URL})`)
     //
     //  DevMode if local client
     //
     let App_Settings_DevMode
-    windowport ? (App_Settings_DevMode = true) : (App_Settings_DevMode = false)
+    w_node_env === 'development' ? (App_Settings_DevMode = true) : (App_Settings_DevMode = false)
     sessionStorage.setItem('App_Settings_DevMode', App_Settings_DevMode)
     //
     //  Navigation
@@ -195,67 +167,60 @@ export default function App() {
   //.............................................................................
   //.  Local Port Overridden - Update Constants
   //.............................................................................
-  function localport(w_port) {
-    switch (w_port) {
+  function update_serverdatabase() {
+    switch (w_server_database) {
       //------------------------------------------------------
       //  Client(Local/Remote) --> Remote Server 1 --> Remote Database 1
       //------------------------------------------------------
-      case '3801':
-        w_Client = REM_CLIENT1
-        w_Server = REM_SERVER1
-        w_Database = REM_DATABASE1
-        w_URL = REM_SERVERURL1
+      case '01':
+        w_Server = SERVER01
+        w_Database = DATABASE01
+        w_URL = SERVERURL01
         break
       //------------------------------------------------------
       //  Client(Local/Remote) --> Remote Server 2 --> Remote Database 2
       //------------------------------------------------------
-      case '3802':
-        w_Client = REM_CLIENT2
-        w_Server = REM_SERVER2
-        w_Database = REM_DATABASE2
-        w_URL = REM_SERVERURL2
+      case '02':
+        w_Server = SERVER02
+        w_Database = DATABASE02
+        w_URL = SERVERURL02
         break
       //------------------------------------------------------
       //  Local Client --> Local Server 1 --> Remote Database 1
       //------------------------------------------------------
-      case '3811':
-        w_Client = LOC_LOC_REM_CLIENT1
-        w_Server = LOC_LOC_REM_SERVER1
-        w_Database = REM_DATABASE1
-        w_URL = LOC_LOC_REM_SERVERURL1
+      case '11':
+        w_Server = SERVER11
+        w_Database = DATABASE01
+        w_URL = SERVERURL11
         break
       //------------------------------------------------------
       //  Local Client --> Local Server 2 --> Remote Database 2
       //------------------------------------------------------
-      case '3812':
-        w_Client = LOC_LOC_REM_CLIENT2
-        w_Server = LOC_LOC_REM_SERVER2
-        w_Database = REM_DATABASE2
-        w_URL = LOC_LOC_REM_SERVERURL2
+      case '12':
+        w_Server = SERVER12
+        w_Database = DATABASE02
+        w_URL = SERVERURL12
         break
       //------------------------------------------------------
       //  Local Client --> Local Server --> Local Database 6
       //------------------------------------------------------
-      case '3816':
-        w_Client = LOC_LOC_LOC_CLIENT6
-        w_Server = LOC_LOC_LOC_SERVER6
-        w_Database = LOC_LOC_LOC_DATABASE6
-        w_URL = LOC_LOC_LOC_SERVERURL6
+      case '16':
+        w_Server = SERVER16
+        w_Database = DATABASE6
+        w_URL = SERVERURL16
         break
       //------------------------------------------------------
       //  Local Client --> Local Server --> Local Database 7
       //------------------------------------------------------
-      case '3817':
-        w_Client = LOC_LOC_LOC_CLIENT7
-        w_Server = LOC_LOC_LOC_SERVER7
-        w_Database = LOC_LOC_LOC_DATABASE7
-        w_URL = LOC_LOC_LOC_SERVERURL7
+      case '17':
+        w_Server = SERVER17
+        w_Database = DATABASE7
+        w_URL = SERVERURL17
         break
       //------------------------------------------------------
       //  Error
       //------------------------------------------------------
       default:
-        w_Client = 'Error'
         w_Database = 'Error'
         w_Server = 'Error'
         w_URL = 'Error'
