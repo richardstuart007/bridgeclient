@@ -4,10 +4,6 @@
 import { Button } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Styles
 //
 const useStyles = makeStyles(theme => ({
@@ -16,14 +12,8 @@ const useStyles = makeStyles(theme => ({
     textTransform: 'none'
   }
 }))
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //=====================================================================================
 export default function MyButton(props) {
-  if (debugLog) console.log('Start MyButton')
-
   const { text, size, color, variant, onClick, ...other } = props
   const classes = useStyles()
 

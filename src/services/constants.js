@@ -50,4 +50,4 @@ exports.URL_TABLES = '/QuizTables'
 //------------------------------------------------------------------------
 exports.MAX_QUESTIONS_SELECT = 50
 exports.WAIT = 200
-exports.WAIT_MAX_TRY = 40
+exports.WAIT_MAX_TRY = 50

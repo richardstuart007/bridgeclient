@@ -4,10 +4,6 @@
 import { TextField } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Styles
 //
 const useStyles = makeStyles(theme => ({
@@ -15,13 +11,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'azure'
   }
 }))
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //=====================================================================================
 export default function MyInput(props) {
-  if (debugLog) console.log('Start MyInput')
   //
   //  Deconstruct
   //
@@ -35,7 +26,6 @@ export default function MyInput(props) {
   //
   let classNames = classes.root
   if (className) classNames = classNames + ` ${className}`
-  if (debugLog) console.log('classNames ', classNames)
 
   return (
     <TextField

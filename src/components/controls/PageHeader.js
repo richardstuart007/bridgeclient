@@ -4,10 +4,6 @@
 import { Paper, Card, Typography } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Styles
 //
 const useStyles = makeStyles(theme => ({
@@ -31,13 +27,8 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }))
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //=====================================================================================
 export default function PageHeader(props) {
-  if (debugLog) console.log('Start PageHeader')
   //
   //  Styles
   //

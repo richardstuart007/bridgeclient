@@ -12,10 +12,6 @@ import {
 } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Styles
 //
 const useStyles = makeStyles(theme => ({
@@ -37,16 +33,8 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }))
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //=====================================================================================
 export default function useMyTable(records, headCells, filterFn, startPage0, setStartPage0) {
-  if (debugLog) console.log('Start Function:  useMyTable')
-  if (debugLog) console.log('records ', records)
-  if (debugLog) console.log('headCells ', headCells)
-  if (debugLog) console.log('startPage0 ', startPage0)
   //
   //  Styles
   //
@@ -63,10 +51,8 @@ export default function useMyTable(records, headCells, filterFn, startPage0, set
   //  Start at Page 0
   //
   if (startPage0) {
-    if (debugLog) console.log('setPage(0) ')
     setPage(0)
     setStartPage0(false)
-    if (debugLog) console.log('setStartPage0(false) ')
   }
   //.....................................................................................
   //. Table Container
@@ -115,14 +101,12 @@ export default function useMyTable(records, headCells, filterFn, startPage0, set
   //.  Change Page
   //.....................................................................................
   const handleChangePage = (event, newPage) => {
-    if (debugLog) console.log('handleChangePage ')
     setPage(newPage)
   }
   //.....................................................................................
   //.  Change Rows per page
   //.....................................................................................
   const handleChangeRowsPerPage = event => {
-    if (debugLog) console.log('Start Function: handleChangeRowsPerPage ')
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }
@@ -145,7 +129,6 @@ export default function useMyTable(records, headCells, filterFn, startPage0, set
   //.  Sort Functions
   //.....................................................................................
   function stableSort(array, comparator) {
-    if (debugLog) console.log('Start Function: stableSort ')
     const stabilizedThis = array.map((el, index) => [el, index])
     stabilizedThis.sort((a, b) => {
       const order = comparator(a[0], b[0])
@@ -174,7 +157,6 @@ export default function useMyTable(records, headCells, filterFn, startPage0, set
   //.  Filter, Slice a page, sort
   //.....................................................................................
   const recordsAfterPagingAndSorting = () => {
-    if (debugLog) console.log('Start Function: recordsAfterPagingAndSorting ')
     return stableSort(filterFn.fn(records), getComparator(order, orderBy)).slice(
       page * rowsPerPage,
       (page + 1) * rowsPerPage

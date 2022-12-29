@@ -17,7 +17,7 @@ const { URL_SIGNIN } = require('./constants.js')
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------

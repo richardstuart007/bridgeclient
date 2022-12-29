@@ -86,6 +86,18 @@ export default function QuizSelect({ handlePage }) {
   function LoadOptions() {
     if (debugFunStart) console.log('LoadOptions')
     //
+    //  All received ?
+    //
+    const ALLReceived = JSON.parse(sessionStorage.getItem('Data_Options_ALL_Received'))
+    if (debugLog) console.log('ALLReceived ', ALLReceived)
+    //
+    //  Not all data received - error
+    //
+    if (!ALLReceived) {
+      setForm_message('Unable to load ALL Options - Error')
+      return
+    }
+    //
     //  Get Data from the Store  Data_Options_OwnerGroup
     //
     const Data_Options_OwnerJSON = sessionStorage.getItem('Data_Options_Owner')
@@ -93,7 +105,6 @@ export default function QuizSelect({ handlePage }) {
 
     const Data_Options_OwnerGroupJSON = sessionStorage.getItem('Data_Options_OwnerGroup')
     Data_Options_OwnerGroup = JSON.parse(Data_Options_OwnerGroupJSON)
-
     //
     //  Set ownergroup Options
     //

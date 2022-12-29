@@ -8,7 +8,6 @@ import { Paper, Grid, Typography } from '@mui/material'
 //
 import QuizSigninInit from './QuizSigninInit'
 import checkSignin from '../../services/checkSignin'
-
 //
 //  Debug Settings
 //
@@ -22,7 +21,7 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 const debugFunStart = false
 const debugModule = 'QuizSignin'
 //
@@ -32,9 +31,6 @@ const initialFValues = {
   user: '',
   password: ''
 }
-//
-let ALLReceived
-let QuizSigninInit_cnt = 0
 //...................................................................................
 //.  Main Line
 //...................................................................................
@@ -51,7 +47,7 @@ export default function QuizSignin({ handlePage }) {
   useEffect(() => {
     GetBuildOptions()
     // eslint-disable-next-line
-  }, [ALLReceived])
+  }, [])
   //
   // Form Message
   //
@@ -68,14 +64,13 @@ export default function QuizSignin({ handlePage }) {
     //
     //  Data Options already exist - return
     //
-    ALLReceived = JSON.parse(sessionStorage.getItem('Data_Options_ALL_Received'))
+    const ALLReceived = JSON.parse(sessionStorage.getItem('Data_Options_ALL_Received'))
     if (debugLog) console.log('ALLReceived ALREADY', ALLReceived)
     if (ALLReceived) return
     //
     //  Get the Selection Options
     //
-    QuizSigninInit_cnt++
-    QuizSigninInit(QuizSigninInit_cnt)
+    QuizSigninInit()
   }
   //.............................................................................
   //.  Input field validation
@@ -118,14 +113,6 @@ export default function QuizSignin({ handlePage }) {
   //...................................................................................
   function FormUpdate() {
     if (debugFunStart) console.log('FormUpdate')
-    //
-    //  Check Build Options retrieved
-    //
-    GetBuildOptions()
-    if (!ALLReceived) {
-      setForm_message('Waiting for Quiz Options')
-      return
-    }
     //
     //  Deconstruct values
     //
@@ -174,18 +161,6 @@ export default function QuizSignin({ handlePage }) {
   function ProcessSignIn(user) {
     if (debugFunStart) console.log('ProcessSignIn')
     //
-    //  All received ?
-    //
-    ALLReceived = JSON.parse(sessionStorage.getItem('Data_Options_ALL_Received'))
-    if (debugLog) console.log('ALLReceived ', ALLReceived)
-    //
-    //  Not all data received - error
-    //
-    if (!ALLReceived) {
-      setForm_message('Unable to load ALL Options - Error')
-      return
-    }
-    //
     //  User Info
     //
     sessionStorage.setItem('User_Settings_User', JSON.stringify(user))
@@ -200,7 +175,6 @@ export default function QuizSignin({ handlePage }) {
     //
     handlePage('PAGESTART')
   }
-
   //...................................................................................
   //.  Render the form
   //...................................................................................

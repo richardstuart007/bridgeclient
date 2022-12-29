@@ -215,7 +215,8 @@ export default function Library({ handlePage }) {
     //
     //  BuildQuizData
     //
-    const SqlString_Q = `* from questions where '${row.lrref}' = ANY (qrefs)`
+    const w_group = row.lrgroup
+    const SqlString_Q = `* from questions where qgroup = '${w_group}'`
     const params = {
       SqlString_Q: SqlString_Q
     }
@@ -229,7 +230,9 @@ export default function Library({ handlePage }) {
     //
     const waitSessionStorageParams = {
       sessionItem: 'BuildQuizData_Received',
-      handlePageValue: 'Quiz'
+      handlePageValue: 'Quiz',
+      dftWait: 200,
+      dftMaxTry: 50
     }
     waitSessionStorage(waitSessionStorageParams, handlePage)
   }
@@ -286,6 +289,9 @@ export default function Library({ handlePage }) {
           if (debugLog) console.log('No Quiz Questions found')
           return
         }
+        //
+        //  Questions found - page change
+        //
         handlePage(handlePageValue)
       } else {
         //
@@ -305,9 +311,8 @@ export default function Library({ handlePage }) {
     }
   }
   //.............................................................................
-  //
   //  Search/Filter
-  //
+  //.............................................................................
   function handleSearch() {
     if (debugFunStart) console.log('handleSearch')
     setStartPage0(true)

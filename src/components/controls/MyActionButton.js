@@ -7,10 +7,6 @@ import makeStyles from '@mui/styles/makeStyles'
 //
 import MyButton from './MyButton'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Styles
 //
 const useStyles = makeStyles(theme => ({
@@ -38,14 +34,8 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }))
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //=====================================================================================
 export default function MyActionButton(props) {
-  if (debugLog) console.log('Start MyActionButton')
-
   const { color, children, onClick, ...other } = props
   const classes = useStyles()
   return (

@@ -9,22 +9,24 @@ import debugSettings from '../../debug/debugSettings'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 //
 //  Global
 //
 let timerStart
 let sessionStorageItems = []
 let sessionStorageItemsALL = 'Data_Options_ALL_Received'
+let firsttime = true
 //...................................................................................
 //.  Main Line
 //...................................................................................
-export default function QuizSigninInit(count) {
+export default function QuizSigninInit() {
   if (debugLog) console.log(`Function: QuizSigninInit`)
   //
   //  First time only
   //
-  if (count === 1) {
+  if (firsttime) {
+    firsttime = false
     //
     //  Elapsed Time
     //

@@ -31,12 +31,8 @@ export default function BuildQuizData(props) {
   //  Function Variables
   //
   let Data_Questions_Quiz = []
-
   let Data_Questions_qid = []
   let Data_Questions_qidString = ''
-
-  // let Data_Questions_qrefs = []
-  // let Data_Qrefs_String = ''
   //
   //  Deconstruct props
   //
@@ -63,7 +59,6 @@ export default function BuildQuizData(props) {
   sessionStorage.setItem('Data_Questions_Quiz', [])
   sessionStorage.setItem('Data_Questions_Quiz_Count', 0)
   sessionStorage.setItem('Data_Questions_qid', [])
-  // sessionStorage.setItem('Data_Qrefs_Unique', '')
   //
   //  Load data
   //
@@ -164,46 +159,19 @@ export default function BuildQuizData(props) {
     if (debugLog) console.log('Data_Questions_Quiz ', Data_Questions_Quiz)
     for (let i = 0; i < Data_Questions_Quiz.length; i++) {
       Data_Questions_qid.push(Data_Questions_Quiz[i].qid)
-      // Data_Questions_qrefs.push(Data_Questions_Quiz[i].qrefs)
     }
     if (debugLog) console.log('Data_Questions_qid ', Data_Questions_qid)
-    // if (debugLog) console.log('Data_Questions_qrefs ', Data_Questions_qrefs)
     //
     //  String version of ID
     //
     Data_Questions_qidString = Data_Questions_qid.toString()
     if (debugLog) console.log('Data_Questions_qidString ', Data_Questions_qidString)
-    // //
-    // //  String version of Refs
-    // //  ----------------------
-    // //
-    // //  Flatten
-    // //
-    // const Data_Qrefs_flat = Data_Questions_qrefs.flat()
-    // //
-    // //  Unique
-    // //
-    // const Data_Qrefs_Unique = [...new Set(Data_Qrefs_flat)]
-    // //
-    // //  Add quotes
-    // //
-    // let Data_Qrefs_Quote = []
-    // for (let i = 0; i < Data_Qrefs_Unique.length; i++) {
-    //   Data_Qrefs_Quote.push(`'${Data_Qrefs_Unique[i]}'`)
-    // }
-    // if (debugLog) console.log('Data_Qrefs_Quote ', Data_Qrefs_Quote)
-    // //
-    // //  Convert to string with commas
-    // //
-    // Data_Qrefs_String = Data_Qrefs_Quote.toString()
-    // if (debugLog) console.log('Data_Qrefs_String ', Data_Qrefs_String)
     //
     //  Session Storage
     //
     sessionStorage.setItem('Data_Questions_Quiz', JSON.stringify(Data_Questions_Quiz))
     sessionStorage.setItem('Data_Questions_Quiz_Count', JSON.stringify(Data_Questions_Quiz.length))
     sessionStorage.setItem('Data_Questions_qid', JSON.stringify(Data_Questions_qid))
-    // sessionStorage.setItem('Data_Qrefs_Unique', JSON.stringify(Data_Qrefs_Unique))
   }
   //...................................................................................
   //.  Load Server - Bidding

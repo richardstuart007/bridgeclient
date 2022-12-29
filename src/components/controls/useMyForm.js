@@ -3,19 +3,10 @@
 //
 import { useState } from 'react'
 import makeStyles from '@mui/styles/makeStyles'
-//
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //=====================================================================================
 //=  useMyForm
 //=====================================================================================
 export function useMyForm(initialFValues, validateOnChange = false, validate) {
-  if (debugLog) console.log('Start useMyForm')
   //
   //  State
   //
@@ -27,9 +18,6 @@ export function useMyForm(initialFValues, validateOnChange = false, validate) {
   //
   const handleInputChange = e => {
     const { name, value } = e.target
-    if (debugLog) console.log({ name }, { value })
-    if (debugLog) console.log({ [name]: value })
-
     setValues({
       ...values,
       [name]: value
@@ -48,7 +36,6 @@ export function useMyForm(initialFValues, validateOnChange = false, validate) {
   //
   //  Return Values
   //
-  if (debugLog) console.log({ values })
   return {
     values,
     setValues,
@@ -76,7 +63,6 @@ const useStyles = makeStyles(theme => ({
 //  MyForm
 //
 export function MyForm(props) {
-  if (debugLog) console.log('Start MyForm')
   const classes = useStyles()
   const { children, ...other } = props
   return (
