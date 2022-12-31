@@ -46,7 +46,7 @@ export default function BuildHistoryDetail(row) {
     let sqlString = ''
     sqlString =
       sqlString +
-      `r_id, r_qid, r_ans, qid, qowner, qkey, qdetail, qans, qpoints, qgroup, hnorth, heast, hsouth, hwest, brounds`
+      `r_id, r_qid, r_ans, qid, qowner, qseq, qdetail, qans, qpoints, qgroup, hnorth, heast, hsouth, hwest, brounds`
     sqlString = sqlString + ' from usershistory'
     sqlString = sqlString + ' FULL OUTER JOIN questions on qid = ANY (r_qid)'
     sqlString = sqlString + ' FULL OUTER JOIN bidding on bid = qid'
@@ -55,7 +55,7 @@ export default function BuildHistoryDetail(row) {
     sqlString = sqlString + ' group by'
     sqlString =
       sqlString +
-      ' r_id, r_qid, r_ans, qid, qowner, qkey, qdetail, qans, qpoints, qgroup, hnorth, heast, hsouth, hwest, brounds'
+      ' r_id, r_qid, r_ans, qid, qowner, qseq, qdetail, qans, qpoints, qgroup, hnorth, heast, hsouth, hwest, brounds'
     if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise
@@ -97,7 +97,7 @@ export default function BuildHistoryDetail(row) {
         const {
           qid,
           qowner,
-          qkey,
+          qseq,
           qdetail,
           qans,
           qpoints,
@@ -119,7 +119,7 @@ export default function BuildHistoryDetail(row) {
         const rowQuestion = {
           qid: qid,
           qowner: qowner,
-          qkey: qkey,
+          qseq: qseq,
           qdetail: qdetail,
           qans: qans,
           qpoints: qpoints,

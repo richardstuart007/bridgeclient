@@ -31,7 +31,7 @@ export default function QuizQuestion(params) {
   //  Deconstruct row
   //
   if (debugLog) console.log('quizRow ', quizRow)
-  const { qid, qkey, qdetail } = quizRow
+  const { qid, qseq, qdetail } = quizRow
   let hyperLink
   qdetail.substring(0, 8) === 'https://' ? (hyperLink = true) : (hyperLink = false)
   if (debugLog) console.log('hyperLink ', hyperLink)
@@ -45,7 +45,7 @@ export default function QuizQuestion(params) {
   //
   //  Question string
   //
-  const QuestionString = `Question ${quizQuestion}/${quizTotal} (KEY: ${qkey} ID: ${qid})`
+  const QuestionString = `Question ${quizQuestion}/${quizTotal} (SEQ: ${qseq} ID: ${qid})`
   //
   //  Uppercase the question
   //
