@@ -66,7 +66,7 @@ const headCellsLarge = [
   { id: 'r_id', label: 'ID' },
   { id: 'yymmdd', label: 'Date' },
   { id: 'r_owner', label: 'Owner' },
-  { id: 'ogtitle', label: 'Group 1' },
+  { id: 'ogtitle', label: 'Group' },
   { id: 'r_questions', label: 'Questions' },
   { id: 'r_correct', label: 'Correct' },
   { id: 'r_percent', label: '%' },
@@ -504,7 +504,7 @@ export default function QuizHistory({ handlePage }) {
       {/* .......................................................................................... */}
       {ScreenSmall ? null : (
         <PageHeader
-          title='QUIZ History'
+          title='Quiz History'
           subTitle={subtitle}
           icon={<PeopleOutlineTwoToneIcon fontSize='large' />}
         />

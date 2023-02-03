@@ -19,7 +19,7 @@ import debugSettings from '../../debug/debugSettings'
 //
 //  Components
 //
-import MyActionButton from '../../components/controls/MyActionButton'
+import MyActionButton from '../controls/MyActionButton'
 //
 //  Style overrides
 //
@@ -35,8 +35,8 @@ const useStyles = makeStyles(theme => {
 //
 const debugLog = debugSettings()
 //===================================================================================
-export default function QuizNavigation({ handlePage }) {
-  if (debugLog) console.log('Start QuizNavigation')
+export default function Navigation({ handlePage }) {
+  if (debugLog) console.log('Start Navigation')
   const classes = useStyles()
   //
   //  Define
@@ -66,14 +66,14 @@ export default function QuizNavigation({ handlePage }) {
   PageCurrent !== 'QuizSelect' &&
   PageCurrent !== 'QuizReview' &&
   PageCurrent !== 'UsersSettings' &&
-  PageCurrent !== 'QuizRefs' &&
+  PageCurrent !== 'LibraryRefs' &&
   PageCurrent !== 'Quiz'
     ? (showButton_QuizSelect = true)
     : (showButton_QuizSelect = false)
   //
   //  Show Book Button ?
   //
-  let showButton_QuizRefs = false
+  let showButton_LibraryRefs = false
   let Data_Library = []
   const Data_LibraryJSON = sessionStorage.getItem('Data_Library')
   if (Data_LibraryJSON && Data_LibraryJSON.length > 0) Data_Library = JSON.parse(Data_LibraryJSON)
@@ -82,7 +82,7 @@ export default function QuizNavigation({ handlePage }) {
     Data_Library[0] &&
     Data_Library.length > 0
   )
-    showButton_QuizRefs = true
+    showButton_LibraryRefs = true
   //
   //  Show Settings Button ?
   //
@@ -156,12 +156,12 @@ export default function QuizNavigation({ handlePage }) {
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}
-        {showButton_QuizRefs ? (
+        {showButton_LibraryRefs ? (
           <MyActionButton
             startIcon={<MenuBookIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              handlePage('QuizRefs')
+              handlePage('LibraryRefs')
             }}
             text='Learn'
           ></MyActionButton>
@@ -206,7 +206,7 @@ export default function QuizNavigation({ handlePage }) {
             startIcon={<LogoutIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              handlePage('QuizSignin')
+              handlePage('Signin')
             }}
             text={buttonTextSignout}
           ></MyActionButton>

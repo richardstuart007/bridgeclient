@@ -6,15 +6,15 @@ import debugSettings from '../debug/debugSettings'
 //  Sub Components
 //
 import UsersSettings from './UsersSettings/UsersSettings'
-import QuizSplash from './QuizSplash/QuizSplash'
-import QuizRegister from './QuizRegister/QuizRegister'
-import QuizSignin from './QuizSignin/QuizSignin'
+import Splash from './Splash/Splash'
+import Register from './Register/Register'
+import Signin from './Signin/Signin'
 import QuizSelect from './QuizSelect/QuizSelect'
 import Quiz from './Quiz/Quiz'
 import QuizReview from './QuizReview/QuizReview'
 import QuizHistory from './QuizHistory/QuizHistory'
 import QuizHistoryDetail from './QuizHistory/QuizHistoryDetail'
-import QuizRefs from './QuizRefs/QuizRefs'
+import LibraryRefs from './LibraryRefs/LibraryRefs'
 import Library from './Library/Library'
 import SwitchUser from './SwitchUser/SwitchUser'
 //
@@ -22,8 +22,8 @@ import SwitchUser from './SwitchUser/SwitchUser'
 //
 const debugLog = debugSettings()
 //===================================================================================
-function QuizControl({ handlePage }) {
-  if (debugLog) console.log('Start QuizControl')
+function Control({ handlePage }) {
+  if (debugLog) console.log('Start Control')
   //.............................................................................
   //.  Main Line
   //.............................................................................
@@ -38,18 +38,18 @@ function QuizControl({ handlePage }) {
     <>
       {(() => {
         switch (PageCurrent) {
-          case 'QuizSplash':
-            return <QuizSplash handlePage={handlePage} />
+          case 'Splash':
+            return <Splash handlePage={handlePage} />
           case 'UsersSettings':
             return <UsersSettings handlePage={handlePage} />
-          case 'QuizRegister':
-            return <QuizRegister handlePage={handlePage} />
-          case 'QuizSignin':
-            return <QuizSignin handlePage={handlePage} />
+          case 'Register':
+            return <Register handlePage={handlePage} />
+          case 'Signin':
+            return <Signin handlePage={handlePage} />
           case 'QuizSelect':
             return <QuizSelect handlePage={handlePage} />
-          case 'QuizRefs':
-            return <QuizRefs handlePage={handlePage} />
+          case 'LibraryRefs':
+            return <LibraryRefs handlePage={handlePage} />
           case 'Library':
             return <Library handlePage={handlePage} />
           case 'Quiz':
@@ -70,4 +70,4 @@ function QuizControl({ handlePage }) {
   )
 }
 
-export default QuizControl
+export default Control

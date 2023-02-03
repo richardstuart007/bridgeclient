@@ -18,8 +18,8 @@ import MyButton from '../../components/controls/MyButton'
 //
 const debugLog = debugSettings()
 //===================================================================================
-export default function QuizSplash({ handlePage }) {
-  if (debugLog) console.log('Start QuizSplash')
+export default function Splash({ handlePage }) {
+  if (debugLog) console.log('Start Splash')
   //
   //  Screen Width
   //
@@ -81,7 +81,7 @@ export default function QuizSplash({ handlePage }) {
               text='Continue'
               value='Submit'
               onClick={() => {
-                handlePage('QuizSignin')
+                handlePage('Signin')
               }}
             />
           </Grid>

@@ -17,10 +17,7 @@ import MyButton from '../../components/controls/MyButton'
 import QuizReviewAnswers from '../QuizReview/QuizReviewAnswers'
 import QuizHands from '../QuizHands/QuizHands'
 import QuizBidding from '../QuizBidding/QuizBidding'
-//
-//  Common Components
-//
-import QuizQuestion from '../Common/QuizQuestion'
+import QuizQuestion from '../Quiz/QuizQuestion'
 //
 // Debug Settings
 //

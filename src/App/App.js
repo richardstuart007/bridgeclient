@@ -12,7 +12,7 @@ import debugSettings from '../debug/debugSettings'
 //
 //  Pages
 //
-import QuizControl from '../pages/QuizControl'
+import Control from '../pages/Control'
 //
 //  Utilities
 //
@@ -83,7 +83,7 @@ let w_URL
 //----------------------------------------------------------------------------
 export default function App() {
   if (debugLog) console.log(`Start APP`)
-  const [pageCurrent, setPageCurrent] = useState('QuizSplash')
+  const [pageCurrent, setPageCurrent] = useState('Splash')
   //
   //  Screen Width
   //
@@ -138,7 +138,7 @@ export default function App() {
     //
     //  Navigation
     //
-    sessionStorage.setItem('Nav_Page_Current', JSON.stringify('QuizSplash'))
+    sessionStorage.setItem('Nav_Page_Current', JSON.stringify('Splash'))
     sessionStorage.setItem('Nav_Page_Previous', JSON.stringify(''))
     //
     //  SignedIn Status
@@ -259,7 +259,7 @@ export default function App() {
     //
     //  If SignIN, Update signed in info
     //
-    if (PageNext === 'QuizSignin') {
+    if (PageNext === 'Signin') {
       sessionStorage.setItem('User_Settings_SignedIn', false)
     }
     //
@@ -281,7 +281,7 @@ export default function App() {
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Layout handlePage={handlePage} pageCurrent={pageCurrent}>
-            <QuizControl handlePage={handlePage} />
+            <Control handlePage={handlePage} />
           </Layout>
           <CssBaseline />
         </ThemeProvider>

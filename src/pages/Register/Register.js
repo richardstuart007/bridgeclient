@@ -26,11 +26,17 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 const debugLog = debugSettings()
 const debugFunStartSetting = false
-const debugModule = 'QuizRegister'
+const debugModule = 'Register'
 //
 // Constants
 //
-const sqlClient = 'QuizRegister'
+const sqlClient = 'Register'
+const { DFT_USER_MAXQUESTIONS } = require('../../services/constants.js')
+const { DFT_USER_OWNER } = require('../../services/constants.js')
+const { DFT_USER_SHOWPROGRESS } = require('../../services/constants.js')
+const { DFT_USER_SHOWSCORE } = require('../../services/constants.js')
+const { DFT_USER_SORTQUESTIONS } = require('../../services/constants.js')
+const { DFT_USER_SKIPCORRECT } = require('../../services/constants.js')
 //.............................................................................
 //.  Data Input Fields
 //.............................................................................
@@ -48,7 +54,7 @@ const initialFValues = {
 //...................................................................................
 //.  Main Line
 //...................................................................................
-function QuizRegister({ handlePage }) {
+function Register({ handlePage }) {
   if (debugFunStartSetting) console.log(debugModule)
   //
   // Form Message
@@ -135,12 +141,12 @@ function QuizRegister({ handlePage }) {
       name: name,
       fedid: fedid,
       fedcountry: fedcountry,
-      dftmaxquestions: 5,
-      dftowner: 'NZBridge',
-      showprogress: true,
-      showscore: true,
-      sortquestions: true,
-      skipcorrect: true,
+      dftmaxquestions: DFT_USER_MAXQUESTIONS,
+      dftowner: DFT_USER_OWNER,
+      showprogress: DFT_USER_SHOWPROGRESS,
+      showscore: DFT_USER_SHOWSCORE,
+      sortquestions: DFT_USER_SORTQUESTIONS,
+      skipcorrect: DFT_USER_SKIPCORRECT,
       admin: false
     }
     const myPromiseRegister = registerUser(params)
@@ -159,7 +165,7 @@ function QuizRegister({ handlePage }) {
         if (debugLog) console.log('Usersrow ', Usersrow)
         setForm_message(`Data updated in Database with ID(${Usersrow.u_id})`)
         sessionStorage.setItem('User_Settings_User', JSON.stringify(Usersrow))
-        handlePage('QuizSignin')
+        handlePage('Signin')
       } else {
         //
         //  Error
@@ -294,7 +300,7 @@ function QuizRegister({ handlePage }) {
           <MyButton
             color='warning'
             onClick={() => {
-              handlePage('QuizSignin')
+              handlePage('Signin')
             }}
             text='Signin'
           />
@@ -305,4 +311,4 @@ function QuizRegister({ handlePage }) {
   )
 }
 
-export default QuizRegister
+export default Register

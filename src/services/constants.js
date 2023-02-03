@@ -51,3 +51,12 @@ exports.URL_TABLES = '/QuizTables'
 exports.MAX_QUESTIONS_SELECT = 50
 exports.WAIT = 200
 exports.WAIT_MAX_TRY = 50
+//------------------------------------------------------------------------
+//  User Defaults
+//------------------------------------------------------------------------
+exports.DFT_USER_MAXQUESTIONS = 5
+exports.DFT_USER_OWNER = 'NZBridge'
+exports.DFT_USER_SHOWPROGRESS = true
+exports.DFT_USER_SHOWSCORE = true
+exports.DFT_USER_SORTQUESTIONS = true
+exports.DFT_USER_SKIPCORRECT = true

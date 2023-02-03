@@ -20,8 +20,8 @@ let firsttime = true
 //...................................................................................
 //.  Main Line
 //...................................................................................
-export default function QuizSigninInit() {
-  if (debugLog) console.log(`Function: QuizSigninInit`)
+export default function SigninInit() {
+  if (debugLog) console.log(`Function: SigninInit`)
   //
   //  First time only
   //

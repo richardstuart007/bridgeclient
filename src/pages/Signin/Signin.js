@@ -4,10 +4,13 @@
 import { useState, useEffect } from 'react'
 import { Paper, Grid, Typography } from '@mui/material'
 //
+//  Sub components
+//
+import SigninInit from './SigninInit'
+//
 //  Utilities
 //
-import QuizSigninInit from './QuizSigninInit'
-import checkSignin from '../../services/checkSignin'
+import apiAxios from '../../utilities/apiAxios'
 //
 //  Debug Settings
 //
@@ -23,7 +26,7 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 const debugLog = debugSettings(true)
 const debugFunStart = false
-const debugModule = 'QuizSignin'
+const debugModule = 'Signin'
 //
 //  Initial Values
 //
@@ -31,11 +34,27 @@ const initialFValues = {
   user: '',
   password: ''
 }
+//
+// Constants
+//
+const { URL_SIGNIN } = require('../../services/constants.js')
+//
+//  Object returned by this handler - as per server
+//
+let rtnObj = {
+  rtnValue: false,
+  rtnMessage: '',
+  rtnSqlFunction: debugModule,
+  rtnCatchFunction: '',
+  rtnCatch: false,
+  rtnCatchMsg: '',
+  rtnRows: []
+}
 //...................................................................................
 //.  Main Line
 //...................................................................................
-export default function QuizSignin({ handlePage }) {
-  if (debugFunStart) console.log('QuizSignin')
+export default function Signin({ handlePage }) {
+  if (debugFunStart) console.log('Signin')
   //
   //  Get User (Previous, if any)
   //
@@ -70,7 +89,7 @@ export default function QuizSignin({ handlePage }) {
     //
     //  Get the Selection Options
     //
-    QuizSigninInit()
+    SigninInit()
   }
   //.............................................................................
   //.  Input field validation
@@ -96,7 +115,6 @@ export default function QuizSignin({ handlePage }) {
     setErrors({
       ...temp
     })
-
     if (fieldValues === values) return Object.values(temp).every(x => x === '')
   }
   //...................................................................................
@@ -114,58 +132,113 @@ export default function QuizSignin({ handlePage }) {
   function FormUpdate() {
     if (debugFunStart) console.log('FormUpdate')
     //
-    //  Deconstruct values
+    //  Check the user/pwd
     //
-    const { user, password } = values
-    setForm_message('Validating Signin')
-    //
-    //  Process promise
-    //
-    const params = {
-      sqlCaller: debugModule,
-      user: user,
-      password: password
-    }
-    const myPromiseSignin = checkSignin(params)
+    const myPromiseSignin = checkSignin()
     //
     //  Resolve Status
     //
     myPromiseSignin.then(function (rtnObj) {
       if (debugLog) console.log('rtnObj ', rtnObj)
       //
-      //  Valid ?
+      //  Error
       //
       const rtnValue = rtnObj.rtnValue
-      if (debugLog) console.log('rtnValue ', rtnValue)
-      if (rtnValue) {
-        const Usersrow = rtnObj.rtnRows[0]
-        if (debugLog) console.log('Usersrow ', Usersrow)
-        setForm_message('Signin being processed')
-        ProcessSignIn(Usersrow)
-      } else {
-        //
-        //  Error
-        //
+      if (!rtnValue) {
         let message
         rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
         if (debugLog) console.log(message)
         setForm_message(message)
+        return
       }
-      return
+      //
+      //  SignIn
+      //
+      ProcessSignIn()
     })
-    return myPromiseSignin
+  }
+  //--------------------------------------------------------------------
+  //-  Check the User/Pwd
+  //--------------------------------------------------------------------
+  async function checkSignin() {
+    //
+    //  User message
+    //
+    setForm_message('Validating ..may take a minute WAIT..')
+    //
+    //  Deconstruct values
+    //
+    const { user, password } = values
+    //
+    //  Get the URL
+    //
+    const App_Settings_URL = JSON.parse(sessionStorage.getItem('App_Settings_URL'))
+    if (debugLog) console.log('App_Settings_URL ', App_Settings_URL)
+    //
+    //  Initialise Values
+    //
+    rtnObj.rtnValue = false
+    rtnObj.rtnMessage = ''
+    rtnObj.rtnSqlFunction = debugModule
+    rtnObj.rtnCatchFunction = ''
+    rtnObj.rtnCatch = false
+    rtnObj.rtnCatchMsg = ''
+    rtnObj.rtnRows = []
+    //
+    // Fetch the data
+    //
+    try {
+      //
+      //  Setup actions
+      //
+      const method = 'post'
+      let body = {
+        sqlClient: debugModule,
+        user: user,
+        password: password
+      }
+      const URL = App_Settings_URL + URL_SIGNIN
+      if (debugLog) console.log('URL ', URL)
+      //
+      //  SQL database
+      //
+      rtnObj = await apiAxios(method, URL, body)
+      if (debugLog) console.log('rtnObj ', rtnObj)
+      return rtnObj
+      //
+      // Errors
+      //
+    } catch (err) {
+      console.log(err)
+      return rtnObj
+    }
   }
   //...................................................................................
   //.  Process User Signin
   //...................................................................................
-  function ProcessSignIn(user) {
+  function ProcessSignIn() {
     if (debugFunStart) console.log('ProcessSignIn')
+    //
+    //  Form Message
+    //
+    setForm_message('Signin being processed')
+    //
+    //  User Row
+    //
+    const userRow = rtnObj.rtnRows[0]
+    if (debugLog) console.log('userRow ', userRow)
+    //
+    //  User owner rows
+    //
+    const userownerRows = rtnObj.rtnRows[1]
+    if (debugLog) console.log('userownerRows ', userownerRows)
     //
     //  User Info
     //
-    sessionStorage.setItem('User_Settings_User', JSON.stringify(user))
-    sessionStorage.setItem('User_Settings_UserAdmin', JSON.stringify(user.u_admin))
+    sessionStorage.setItem('User_Settings_User', JSON.stringify(userRow))
+    sessionStorage.setItem('User_Settings_UserAdmin', JSON.stringify(userRow.u_admin))
     sessionStorage.setItem('User_Settings_UserSwitch', JSON.stringify(false))
+    sessionStorage.setItem('User_Settings_Userowners', JSON.stringify(userownerRows))
     //
     //  Signed In
     //
@@ -239,7 +312,7 @@ export default function QuizSignin({ handlePage }) {
           <MyButton
             color='warning'
             onClick={() => {
-              handlePage('QuizRegister')
+              handlePage('Register')
             }}
             text='Register'
           />

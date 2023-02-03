@@ -316,7 +316,7 @@ export default function QuizSelect({ handlePage }) {
     //
     const Data_LibraryJSON = sessionStorage.getItem('Data_Library')
     if (debugLog) console.log('Data_LibraryJSON ', Data_LibraryJSON)
-    if (handlePageValue === 'QuizRefs') {
+    if (handlePageValue === 'LibraryRefs') {
       if (Data_LibraryJSON === '') {
         setForm_message('QuizSelect: No Learning Material found')
         return
@@ -401,7 +401,7 @@ export default function QuizSelect({ handlePage }) {
             text='Learn'
             sx={{ float: 'right' }}
             onClick={() => {
-              g_PageNew = 'QuizRefs'
+              g_PageNew = 'LibraryRefs'
               SubmitForm()
             }}
           />

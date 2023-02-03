@@ -6,7 +6,7 @@ import makeStyles from '@mui/styles/makeStyles'
 //
 //  Common Sub Components
 //
-import QuizNavigation from '../../pages/Common/QuizNavigation'
+import Navigation from './Navigation'
 //
 //  Debug Settings
 //
@@ -75,19 +75,19 @@ export default function Layout({ handlePage, pageCurrent, children }) {
     case 'UsersSettings':
       title = 'Settings'
       break
-    case 'QuizRegister':
+    case 'Register':
       title = 'Register'
       break
-    case 'QuizSignin':
+    case 'Signin':
       title = 'SignIn'
       break
-    case 'QuizSplash':
+    case 'Splash':
       title = 'Splash'
       break
     case 'QuizSelect':
       title = 'Quiz Selection'
       break
-    case 'QuizRefs':
+    case 'LibraryRefs':
       title = 'References'
       break
     case 'Quiz':
@@ -109,7 +109,7 @@ export default function Layout({ handlePage, pageCurrent, children }) {
   //
   const App_Settings_Server = JSON.parse(sessionStorage.getItem('App_Settings_Server'))
   const App_Settings_Database = JSON.parse(sessionStorage.getItem('App_Settings_Database'))
-  const clientserver = `Server(${App_Settings_Server}) Database(${App_Settings_Database})`
+  const clientserver = ` Server(${App_Settings_Server}) Database(${App_Settings_Database})`
   //
   //  Default if not signed in
   //
@@ -222,7 +222,7 @@ export default function Layout({ handlePage, pageCurrent, children }) {
             <Grid item xs></Grid>
 
             {/* .......................................................................................... */}
-            {!ScreenSmall && <QuizNavigation handlePage={handlePage} />}
+            {!ScreenSmall && <Navigation handlePage={handlePage} />}
             {/* .......................................................................................... */}
           </Grid>
         </Toolbar>
@@ -232,7 +232,7 @@ export default function Layout({ handlePage, pageCurrent, children }) {
       {/* .......................................................................................... */}
       <div className={classes.page}>
         <div className={classes.toolbar}></div>
-        {ScreenSmall && <QuizNavigation handlePage={handlePage} />}
+        {ScreenSmall && <Navigation handlePage={handlePage} />}
         {children}
       </div>
     </div>

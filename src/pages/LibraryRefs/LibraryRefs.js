@@ -35,8 +35,8 @@ const headCellsSmall = [
 //
 const debugLog = debugSettings()
 //=====================================================================================
-export default function QuizRefs({ handlePage }) {
-  if (debugLog) console.log('Start QuizRefs')
+export default function LibraryRefs({ handlePage }) {
+  if (debugLog) console.log('Start LibraryRefs')
   //
   //  Screen Width
   //

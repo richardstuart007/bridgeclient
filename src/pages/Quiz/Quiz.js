@@ -17,8 +17,8 @@ import MyButton from '../../components/controls/MyButton'
 import QuizPanel from './QuizPanel'
 import QuizHands from '../QuizHands/QuizHands'
 import QuizBidding from '../QuizBidding/QuizBidding'
-import QuizQuestion from '../Common/QuizQuestion'
-import QuizLinearProgress from '../Common/QuizLinearProgress'
+import QuizQuestion from './QuizQuestion'
+import QuizLinearProgress from './QuizLinearProgress'
 //.............................................................................
 //.  Initialisation
 //.............................................................................
