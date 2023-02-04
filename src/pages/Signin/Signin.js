@@ -24,7 +24,7 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugFunStart = false
 const debugModule = 'Signin'
 //
