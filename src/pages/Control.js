@@ -36,36 +36,33 @@ function Control({ handlePage }) {
   //
   return (
     <>
-      {(() => {
-        switch (PageCurrent) {
-          case 'Splash':
-            return <Splash handlePage={handlePage} />
-          case 'UsersSettings':
-            return <UsersSettings handlePage={handlePage} />
-          case 'Register':
-            return <Register handlePage={handlePage} />
-          case 'Signin':
-            return <Signin handlePage={handlePage} />
-          case 'QuizSelect':
-            return <QuizSelect handlePage={handlePage} />
-          case 'LibraryRefs':
-            return <LibraryRefs handlePage={handlePage} />
-          case 'Library':
-            return <Library handlePage={handlePage} />
-          case 'Quiz':
-            return <Quiz handlePage={handlePage} />
-          case 'QuizReview':
-            return <QuizReview handlePage={handlePage} />
-          case 'QuizHistory':
-            return <QuizHistory handlePage={handlePage} />
-          case 'QuizHistoryDetail':
-            return <QuizHistoryDetail handlePage={handlePage} />
-          case 'SwitchUser':
-            return <SwitchUser handlePage={handlePage} />
-          default:
-            return null
-        }
-      })()}
+      {PageCurrent === 'Splash' ? (
+        <Splash handlePage={handlePage} />
+      ) : PageCurrent === 'UsersSettings' ? (
+        <UsersSettings handlePage={handlePage} />
+      ) : PageCurrent === 'UsersSettings' ? (
+        <UsersSettings handlePage={handlePage} />
+      ) : PageCurrent === 'Register' ? (
+        <Register handlePage={handlePage} />
+      ) : PageCurrent === 'Signin' ? (
+        <Signin handlePage={handlePage} />
+      ) : PageCurrent === 'QuizSelect' ? (
+        <QuizSelect handlePage={handlePage} />
+      ) : PageCurrent === 'LibraryRefs' ? (
+        <LibraryRefs handlePage={handlePage} />
+      ) : PageCurrent === 'Library' ? (
+        <Library handlePage={handlePage} />
+      ) : PageCurrent === 'Quiz' ? (
+        <Quiz handlePage={handlePage} />
+      ) : PageCurrent === 'QuizReview' ? (
+        <QuizReview handlePage={handlePage} />
+      ) : PageCurrent === 'QuizHistory' ? (
+        <QuizHistory handlePage={handlePage} />
+      ) : PageCurrent === 'QuizHistoryDetail' ? (
+        <QuizHistoryDetail handlePage={handlePage} />
+      ) : PageCurrent === 'SwitchUser' ? (
+        <SwitchUser handlePage={handlePage} />
+      ) : null}
     </>
   )
 }

@@ -60,3 +60,7 @@ exports.DFT_USER_SHOWPROGRESS = true
 exports.DFT_USER_SHOWSCORE = true
 exports.DFT_USER_SORTQUESTIONS = true
 exports.DFT_USER_SKIPCORRECT = true
+//------------------------------------------------------------------------
+//  Old Static URL
+//------------------------------------------------------------------------
+exports.STATIC_URL = 'https://quizclient021renderstatic.onrender.com/'

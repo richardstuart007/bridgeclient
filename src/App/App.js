@@ -75,9 +75,9 @@ const debugLog = debugSettings()
 let g_firstTimeFlag = true
 let w_server_database
 let w_node_env
-let w_Database
-let w_Server
-let w_URL
+let w_Database = 'Error'
+let w_Server = 'Error'
+let w_URL = 'Error'
 //----------------------------------------------------------------------------
 //- Main Line
 //----------------------------------------------------------------------------
@@ -161,6 +161,13 @@ export default function App() {
   //.  Local Port Overridden - Update Constants
   //.............................................................................
   function update_serverdatabase() {
+    const isDevEnv = w_node_env === 'development'
+    if (isDevEnv & (w_server_database < '10')) {
+      console.log(
+        `Error: Database is REMOTE(${w_server_database}) but trying to run LOCAL client to LOCAL database`
+      )
+      return
+    }
     switch (w_server_database) {
       //------------------------------------------------------
       //  Client(Local/Remote) --> Remote Server 1 --> Remote Database 1
@@ -214,9 +221,6 @@ export default function App() {
       //  Error
       //------------------------------------------------------
       default:
-        w_Database = 'Error'
-        w_Server = 'Error'
-        w_URL = 'Error'
         break
     }
   }

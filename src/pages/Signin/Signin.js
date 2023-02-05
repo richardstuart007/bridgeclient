@@ -147,7 +147,7 @@ export default function Signin({ handlePage }) {
       if (!rtnValue) {
         let message
         rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
-        if (debugLog) console.log(message)
+        if (debugLog) console.log('Error Message ', message)
         setForm_message(message)
         return
       }
@@ -203,7 +203,6 @@ export default function Signin({ handlePage }) {
       //  SQL database
       //
       rtnObj = await apiAxios(method, URL, body)
-      if (debugLog) console.log('rtnObj ', rtnObj)
       return rtnObj
       //
       // Errors

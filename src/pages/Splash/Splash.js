@@ -10,6 +10,10 @@ import debugSettings from '../../debug/debugSettings'
 //  Controls
 //
 import MyButton from '../../components/controls/MyButton'
+//
+// Constants
+//
+const { STATIC_URL } = require('../../services/constants.js')
 //..............................................................................
 //.  Initialisation
 //.............................................................................
@@ -24,6 +28,12 @@ export default function Splash({ handlePage }) {
   //  Screen Width
   //
   const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
+  //
+  //  Check if errors
+  //
+  const App_Settings_Server = JSON.parse(sessionStorage.getItem('App_Settings_Server'))
+  const noErrors = App_Settings_Server !== 'Error'
+
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -75,20 +85,22 @@ export default function Splash({ handlePage }) {
             <Typography variant='subtitle2'>Click below to REGISTER/SIGNIN</Typography>
           </Grid>
           {/*.................................................................................................*/}
-          <Grid item xs={12}>
-            <MyButton
-              type='submit'
-              text='Continue'
-              value='Submit'
-              onClick={() => {
-                handlePage('Signin')
-              }}
-            />
-          </Grid>
+          {noErrors ? (
+            <Grid item xs={12}>
+              <MyButton
+                type='submit'
+                text='Continue'
+                value='Submit'
+                onClick={() => {
+                  handlePage('Signin')
+                }}
+              />
+            </Grid>
+          ) : null}
           {/*.................................................................................................*/}
           <Grid item xs={12}>
             <Typography variant='subtitle2' sx={{ marginTop: '8px', color: 'green' }}>
-              <a href='https://quizclient021renderstatic.onrender.com/'>Old Static Version</a>
+              <a href={STATIC_URL}>Old Static Version</a>
             </Typography>
           </Grid>
           {/*.................................................................................................*/}
