@@ -219,7 +219,7 @@ export default function QuizHistory({ handlePage }) {
     //
     let sqlString = `r_id, r_uid, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_correct, 100 * r_correct/r_questions as r_percent`
     sqlString = sqlString + ` from usershistory`
-    sqlString = sqlString + ` join ownergroup on r_group = oggroup`
+    sqlString = sqlString + ` join ownergroup on r_owner = ogowner and r_group = oggroup`
     if (!User_Admin) sqlString = sqlString + ` where r_uid='${u_id}'`
     sqlString = sqlString + ` order by r_id desc`
     if (debugLog) console.log('sqlString', sqlString)

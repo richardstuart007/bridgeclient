@@ -161,13 +161,6 @@ export default function App() {
   //.  Local Port Overridden - Update Constants
   //.............................................................................
   function update_serverdatabase() {
-    const isDevEnv = w_node_env === 'development'
-    if (isDevEnv & (w_server_database < '10')) {
-      console.log(
-        `Error: Database is REMOTE(${w_server_database}) but trying to run LOCAL client to LOCAL database`
-      )
-      return
-    }
     switch (w_server_database) {
       //------------------------------------------------------
       //  Client(Local/Remote) --> Remote Server 1 --> Remote Database 1
