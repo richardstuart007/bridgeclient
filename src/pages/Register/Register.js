@@ -18,6 +18,7 @@ import debugSettings from '../../debug/debugSettings'
 import MyButton from '../../components/controls/MyButton'
 import MyInput from '../../components/controls/MyInput'
 import { useMyForm, MyForm } from '../../components/controls/useMyForm'
+import SelectCountry from './SelectCountry'
 //..............................................................................
 //.  Initialisation
 //.............................................................................
@@ -32,7 +33,6 @@ const debugModule = 'Register'
 //
 const sqlClient = 'Register'
 const { DFT_USER_MAXQUESTIONS } = require('../../services/constants.js')
-const { DFT_USER_OWNER } = require('../../services/constants.js')
 const { DFT_USER_SHOWPROGRESS } = require('../../services/constants.js')
 const { DFT_USER_SHOWSCORE } = require('../../services/constants.js')
 const { DFT_USER_SORTQUESTIONS } = require('../../services/constants.js')
@@ -63,7 +63,11 @@ function Register({ handlePage }) {
   //
   //  Interface to Form
   //
-  const { values, errors, setErrors, handleInputChange } = useMyForm(initialFValues, true, validate)
+  const { values, setValues, errors, setErrors, handleInputChange } = useMyForm(
+    initialFValues,
+    true,
+    validate
+  )
   //.............................................................................
   //.  Input field validation
   //.............................................................................
@@ -142,7 +146,6 @@ function Register({ handlePage }) {
       fedid: fedid,
       fedcountry: fedcountry,
       dftmaxquestions: DFT_USER_MAXQUESTIONS,
-      dftowner: DFT_USER_OWNER,
       showprogress: DFT_USER_SHOWPROGRESS,
       showscore: DFT_USER_SHOWSCORE,
       sortquestions: DFT_USER_SORTQUESTIONS,
@@ -178,6 +181,23 @@ function Register({ handlePage }) {
       return
     })
     return myPromiseRegister
+  }
+  //...................................................................................
+  //.  Select Country
+  //...................................................................................
+  function handleSelectCountry(CountryCode) {
+    if (debugLog) console.log('handleSelectCountry')
+    if (debugLog) console.log('CountryCode ', CountryCode)
+    //
+    //  Populate Country Object & change country code
+    //
+    const updValues = { ...values }
+    updValues.u_fedcountry = CountryCode
+    if (debugLog) console.log('updValues ', updValues)
+    //
+    //  Update values
+    //
+    setValues(updValues)
   }
   //...................................................................................
   //.  Render the form
@@ -270,12 +290,10 @@ function Register({ handlePage }) {
             </Grid>
             {/*.................................................................................................*/}
             <Grid item xs={12}>
-              <MyInput
-                name='fedcountry'
-                label='Bridge Rederation Country'
-                value={values.fedcountry}
-                onChange={handleInputChange}
-                error={errors.fedcountry}
+              <SelectCountry
+                label='Bridge Federation Country'
+                onChange={handleSelectCountry}
+                countryCode={values.u_fedcountry}
               />
             </Grid>
 

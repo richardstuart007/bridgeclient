@@ -15,7 +15,15 @@ const debugModule = 'createOptions'
 //.  Main Line
 //...................................................................................
 export default function createOptions(props) {
-  const { cop_sqlTable, cop_owner, cop_id, cop_title, cop_store, cop_received } = props
+  const {
+    cop_sqlTable,
+    cop_sqlWhere = null,
+    cop_owner,
+    cop_id,
+    cop_title,
+    cop_store,
+    cop_received
+  } = props
   if (debugLog) console.log(props)
   //
   //  Received flag
@@ -24,7 +32,9 @@ export default function createOptions(props) {
   //
   //  Process promise
   //
-  const sqlString = `* from ${cop_sqlTable}`
+  let sqlString = `* from ${cop_sqlTable} `
+  if (cop_sqlWhere) sqlString = sqlString + cop_sqlWhere
+  if (debugLog) console.log('sqlString ', sqlString)
   const rowCrudparams = {
     axiosMethod: 'post',
     sqlCaller: debugModule,

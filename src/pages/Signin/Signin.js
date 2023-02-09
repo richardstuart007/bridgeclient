@@ -1,7 +1,7 @@
 //
 //  Libraries
 //
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Paper, Grid, Typography } from '@mui/material'
 //
 //  Sub components
@@ -50,6 +50,10 @@ let rtnObj = {
   rtnCatchMsg: '',
   rtnRows: []
 }
+//
+//  Previous signed in user
+//
+let previousUser = null
 //...................................................................................
 //.  Main Line
 //...................................................................................
@@ -59,14 +63,11 @@ export default function Signin({ handlePage }) {
   //  Get User (Previous, if any)
   //
   const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
-  if (User_Settings_User) initialFValues.user = User_Settings_User.u_user
-  //
-  //  Load Data Options
-  //
-  useEffect(() => {
-    GetBuildOptions()
-    // eslint-disable-next-line
-  }, [])
+  if (User_Settings_User) {
+    previousUser = User_Settings_User.u_user
+    initialFValues.user = previousUser
+  }
+
   //
   // Form Message
   //
@@ -75,22 +76,6 @@ export default function Signin({ handlePage }) {
   //  Interface to Form
   //
   const { values, errors, setErrors, handleInputChange } = useMyForm(initialFValues, true, validate)
-  //...................................................................................
-  //.  Data Options
-  //...................................................................................
-  function GetBuildOptions() {
-    if (debugFunStart) console.log('GetBuildOptions')
-    //
-    //  Data Options already exist - return
-    //
-    const ALLReceived = JSON.parse(sessionStorage.getItem('Data_Options_ALL_Received'))
-    if (debugLog) console.log('ALLReceived ALREADY', ALLReceived)
-    if (ALLReceived) return
-    //
-    //  Get the Selection Options
-    //
-    SigninInit()
-  }
   //.............................................................................
   //.  Input field validation
   //.............................................................................
@@ -235,13 +220,16 @@ export default function Signin({ handlePage }) {
     //  User Info
     //
     sessionStorage.setItem('User_Settings_User', JSON.stringify(userRow))
-    sessionStorage.setItem('User_Settings_UserAdmin', JSON.stringify(userRow.u_admin))
     sessionStorage.setItem('User_Settings_UserSwitch', JSON.stringify(false))
     sessionStorage.setItem('User_Settings_Userowners', JSON.stringify(userownerRows))
     //
     //  Signed In
     //
     sessionStorage.setItem('User_Settings_SignedIn', true)
+    //
+    //  Get the Selection Options (if not already exists)
+    //
+    if (userRow.u_user !== previousUser) SigninInit()
     //
     //  Start Page
     //

@@ -151,7 +151,7 @@ export default function QuizHistory({ handlePage }) {
   //
   //  Default if not signed in
   //
-  const User_Admin = JSON.parse(sessionStorage.getItem('User_Settings_UserAdmin'))
+  const User_Admin = User_Settings_User.u_admin
   //
   //  Reset Quiz State
   //

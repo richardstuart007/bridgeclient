@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => {
 //
 const debugLog = debugSettings()
 //===================================================================================
-export default function Layout({ handlePage, pageCurrent, children }) {
+export default function Layout({ handlePage, children }) {
   if (debugLog) console.log('Start Layout')
   //
   //  Style overrides
@@ -69,7 +69,6 @@ export default function Layout({ handlePage, pageCurrent, children }) {
   const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
   let title
   if (debugLog) console.log('PageCurrent ', PageCurrent)
-  if (debugLog) console.log('pageCurrent ', pageCurrent)
 
   switch (PageCurrent) {
     case 'UsersSettings':
@@ -115,6 +114,7 @@ export default function Layout({ handlePage, pageCurrent, children }) {
   //
   let User_Name = ''
   let User_Admin = false
+  let User_Dev = false
   let User_Switched = false
   //
   //  Signed in User
@@ -123,15 +123,15 @@ export default function Layout({ handlePage, pageCurrent, children }) {
   const User_Settings_SignedIn = JSON.parse(sessionStorage.getItem('User_Settings_SignedIn'))
   if (User_Settings_SignedIn) {
     const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
-    const User_Settings_UserAdmin = JSON.parse(sessionStorage.getItem('User_Settings_UserAdmin'))
     const User_Settings_UserSwitch = JSON.parse(sessionStorage.getItem('User_Settings_UserSwitch'))
     User_Name = User_Settings_User.u_name
-    User_Admin = User_Settings_UserAdmin
+    User_Admin = User_Settings_User.u_admin
+    User_Dev = User_Settings_User.u_dev
     User_Switched = User_Settings_UserSwitch
     //
     //  Do not show clientserver if not admin
     //
-    ShowClientServer = User_Admin
+    ShowClientServer = User_Dev
   }
   //...................................................................................
   //.  Render the component
@@ -190,6 +190,19 @@ export default function Layout({ handlePage, pageCurrent, children }) {
                   }}
                 >
                   ADMIN
+                </Typography>
+              </Grid>
+            ) : null}
+            {/* .......................................................................................... */}
+            {User_Dev ? (
+              <Grid item>
+                <Typography
+                  className={classes.clientserver}
+                  sx={{
+                    display: { xs: 'none', sm: 'inline', color: 'white', backgroundColor: 'red' }
+                  }}
+                >
+                  DEV
                 </Typography>
               </Grid>
             ) : null}

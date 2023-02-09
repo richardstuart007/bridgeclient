@@ -65,7 +65,6 @@ const headCells = [
   { id: 'u_fedid', label: 'Bridge ID' },
   { id: 'u_fedcountry', label: 'Country' },
   { id: 'u_dftmaxquestions', label: 'Max Questions' },
-  { id: 'u_dftowner', label: 'Dft Owner' },
   { id: 'actions', label: 'Actions', disableSorting: true }
 ]
 const searchTypeOptions = [
@@ -293,7 +292,6 @@ export default function SwitchUser({ handlePage }) {
                 <TableCell>{row.u_fedid}</TableCell>
                 <TableCell>{row.u_fedcountry}</TableCell>
                 <TableCell>{row.u_dftmaxquestions}</TableCell>
-                <TableCell>{row.u_dftowner}</TableCell>
                 <TableCell>
                   <MyActionButton
                     startIcon={<SwitchAccountIcon fontSize='small' />}

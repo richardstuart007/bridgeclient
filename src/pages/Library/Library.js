@@ -101,7 +101,7 @@ const functionName = 'Library'
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugFunStart = false
+const debugFunStart = true
 const debugModule = 'Library'
 //...................................................................................
 //.  Main Line
@@ -156,8 +156,9 @@ export default function Library({ handlePage }) {
     //
     //  Selection
     //
+    const ownersString = JSON.parse(sessionStorage.getItem('User_Settings_Userownersstring'))
     let sqlString = `*`
-    sqlString = sqlString + ` from library`
+    sqlString = sqlString + ` from library where lrowner in (${ownersString})`
     sqlString = sqlString + ` order by lrid`
     if (debugLog) console.log('sqlString', sqlString)
     //

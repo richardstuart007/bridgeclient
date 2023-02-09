@@ -135,6 +135,7 @@ export default function App() {
     let App_Settings_DevMode
     w_node_env === 'development' ? (App_Settings_DevMode = true) : (App_Settings_DevMode = false)
     sessionStorage.setItem('App_Settings_DevMode', App_Settings_DevMode)
+    sessionStorage.setItem('User_Settings_UserDev', App_Settings_DevMode)
     //
     //  Navigation
     //

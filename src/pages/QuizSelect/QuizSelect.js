@@ -61,9 +61,11 @@ export default function QuizSelect({ handlePage }) {
   initialFValues.qowner = JSON.parse(sessionStorage.getItem('Quiz_Select_Owner'))
   initialFValues.qgroup = JSON.parse(sessionStorage.getItem('Quiz_Select_OwnerGroup'))
   //
-  //  Default owner from User if empty
+  //  Default owner from User if empty (!!Error!!)
   //
-  if (initialFValues.qowner === '') initialFValues.qowner = User_Settings_User.u_dftowner
+  const { DFT_USER_OWNER } = require('../../services/constants.js')
+  if (initialFValues.qowner === '') initialFValues.qowner = DFT_USER_OWNER
+  if (debugLog) console.log('User_Settings_User ', User_Settings_User)
   if (debugLog) console.log('initialFValues ', initialFValues)
   //
   //  Load the data array from the store

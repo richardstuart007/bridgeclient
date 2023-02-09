@@ -13,7 +13,6 @@ import debugSettings from '../../debug/debugSettings'
 import MyButton from '../../components/controls/MyButton'
 import MyInput from '../../components/controls/MyInput'
 import MyCheckbox from '../../components/controls/MyCheckbox'
-import MySelect from '../../components/controls/MySelect'
 import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 //  Services
@@ -31,7 +30,6 @@ const initialFValues = {
   u_sortquestions: true,
   u_skipcorrect: true,
   u_dftmaxquestions: 5,
-  u_dftowner: '',
   u_fedcountry: '',
   u_fedid: ''
 }
@@ -280,19 +278,6 @@ export default function UsersSettings({ handlePage }) {
                 onChange={handleInputChange}
                 error={errors.u_dftmaxquestions}
                 sx={{ minWidth: '200px' }}
-              />
-            </Grid>
-            {/*------------------------------------------------------------------------------ */}
-            <Grid item xs={12}>
-              <MySelect
-                key={OptionsOwner.id}
-                name='u_dftowner'
-                label='Default Owner'
-                value={values.u_dftowner}
-                onChange={handleInputChange}
-                error={errors.u_dftowner}
-                options={OptionsOwner}
-                sx={{ minWidth: '300px' }}
               />
             </Grid>
             {/*------------------------------------------------------------------------------ */}

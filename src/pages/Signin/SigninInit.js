@@ -16,17 +16,80 @@ const debugLog = debugSettings()
 let timerStart
 let sessionStorageItems = []
 let sessionStorageItemsALL = 'Data_Options_ALL_Received'
-let firsttime = true
+let ownersString
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function SigninInit() {
   if (debugLog) console.log(`Function: SigninInit`)
   //
-  //  First time only
+  //  Initialisation
   //
-  if (firsttime) {
-    firsttime = false
+  init()
+  //
+  //  Owner
+  //
+  let Promise_Owner
+  if (!JSON.parse(sessionStorage.getItem('Data_Options_Owner_Received'))) {
+    const cop_sqlWhere = `where oowner in (${ownersString})`
+    Promise_Owner = createOptions({
+      cop_sqlTable: 'owner',
+      cop_sqlWhere: cop_sqlWhere,
+      cop_id: 'oowner',
+      cop_title: 'otitle',
+      cop_store: 'Data_Options_Owner',
+      cop_received: 'Data_Options_Owner_Received'
+    })
+  }
+  //
+  //  Ownergroup
+  //
+  let Promise_OwnerGroup
+  if (!JSON.parse(sessionStorage.getItem('Data_Options_OwnerGroup_Received'))) {
+    const cop_sqlWhere = `where ogowner in (${ownersString})`
+    Promise_OwnerGroup = createOptions({
+      cop_sqlTable: 'ownergroup',
+      cop_owner: 'ogowner',
+      cop_sqlWhere: cop_sqlWhere,
+      cop_id: 'oggroup',
+      cop_title: 'ogtitle',
+      cop_store: 'Data_Options_OwnerGroup',
+      cop_received: 'Data_Options_OwnerGroup_Received'
+    })
+  }
+  //
+  //   Wait for all promises
+  //
+  Promise.all([Promise_Owner, Promise_OwnerGroup]).then(values => {
+    if (debugLog) console.log(`Promise values ALL values`, values)
+    promisesAllComplete()
+  })
+  //...................................................................................
+  //.  First time
+  //...................................................................................
+  function init() {
+    //
+    //  Get User and User/Owner
+    //
+    const User_Settings_Userowners = JSON.parse(sessionStorage.getItem('User_Settings_Userowners'))
+    if (debugLog) console.log('User_Settings_Userowners ', User_Settings_Userowners)
+    //
+    //  Userowners string
+    //
+    ownersString = ''
+    if (User_Settings_Userowners.length === 0) {
+      const { DFT_USER_OWNER } = require('../../services/constants.js')
+      ownersString = `'${DFT_USER_OWNER}'`
+      if (debugLog) console.log('ownersString ', ownersString)
+    } else {
+      for (let i = 0; i < User_Settings_Userowners.length; i++) {
+        const uoowner = User_Settings_Userowners[i].uoowner
+        if (i > 0) ownersString = ownersString + `,`
+        ownersString = ownersString + ` '${uoowner}'`
+      }
+    }
+    if (debugLog) console.log('ownersString ', ownersString)
+    sessionStorage.setItem('User_Settings_Userownersstring', JSON.stringify(ownersString))
     //
     //  Elapsed Time
     //
@@ -44,38 +107,6 @@ export default function SigninInit() {
       sessionStorage.setItem(sessionStorageItems[i], false)
     }
   }
-  //
-  //  Get the Selection Options
-  //
-  let Promise_Owner
-  if (!JSON.parse(sessionStorage.getItem('Data_Options_Owner_Received'))) {
-    Promise_Owner = createOptions({
-      cop_sqlTable: 'owner',
-      cop_id: 'oowner',
-      cop_title: 'otitle',
-      cop_store: 'Data_Options_Owner',
-      cop_received: 'Data_Options_Owner_Received'
-    })
-  }
-
-  let Promise_OwnerGroup
-  if (!JSON.parse(sessionStorage.getItem('Data_Options_OwnerGroup_Received'))) {
-    Promise_OwnerGroup = createOptions({
-      cop_sqlTable: 'ownergroup',
-      cop_owner: 'ogowner',
-      cop_id: 'oggroup',
-      cop_title: 'ogtitle',
-      cop_store: 'Data_Options_OwnerGroup',
-      cop_received: 'Data_Options_OwnerGroup_Received'
-    })
-  }
-  //
-  //   Wait for all promises
-  //
-  Promise.all([Promise_Owner, Promise_OwnerGroup]).then(values => {
-    if (debugLog) console.log(`Promise values ALL`, values)
-    promisesAllComplete()
-  })
   //...................................................................................
   //.  Process completed promises
   //...................................................................................
