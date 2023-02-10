@@ -14,7 +14,7 @@ import MyRadioGroup from '../../components/controls/MyRadioGroup'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 //
 //  Global
 //

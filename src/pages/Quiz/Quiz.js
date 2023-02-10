@@ -25,7 +25,7 @@ import QuizLinearProgress from './QuizLinearProgress'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 //
 //  Global store variables
 //

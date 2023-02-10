@@ -17,7 +17,7 @@ import MyButton from '../../components/controls/MyButton'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 //===================================================================================
 export default function QuizQuestion(params) {
   //...................................................................................
@@ -31,7 +31,7 @@ export default function QuizQuestion(params) {
   //  Deconstruct row
   //
   if (debugLog) console.log('quizRow ', quizRow)
-  const { qgroup, qid, qdetail } = quizRow
+  const { qowner, qgroup, qid, qdetail } = quizRow
   let hyperLink
   qdetail.substring(0, 8) === 'https://' ? (hyperLink = true) : (hyperLink = false)
   if (debugLog) console.log('hyperLink ', hyperLink)
@@ -47,7 +47,7 @@ export default function QuizQuestion(params) {
   //
   const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
   const User_Dev = User_Settings_User.u_dev
-  let QuestionInfo = `${qgroup} ${quizQuestion}/${quizTotal}`
+  let QuestionInfo = `${qowner}/${qgroup} ${quizQuestion}/${quizTotal}`
   if (User_Dev) QuestionInfo = QuestionInfo + ` (${qid})`
   //...................................................................................
   //.  Render the form
