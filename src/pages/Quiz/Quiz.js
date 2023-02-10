@@ -25,7 +25,7 @@ import QuizLinearProgress from './QuizLinearProgress'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 //
 //  Global store variables
 //
@@ -37,7 +37,7 @@ let g_quizAns = []
 //...................................................................................
 //.  Main Line
 //...................................................................................
-function Quiz({ handlePage }) {
+export default function Quiz({ handlePage }) {
   if (debugLog) console.log('Start Quiz')
   //
   //  Signed in User
@@ -53,7 +53,10 @@ function Quiz({ handlePage }) {
   //
   const [ansPass, setAnsPass] = useState(0)
   const [ansCount, setAnsCount] = useState(0)
-
+  const [value, setValue] = useState(0)
+  const [id, setId] = useState(0)
+  const [showSubmit, setShowSubmit] = useState(false)
+  const [quizRow, setQuizRow] = useState(true)
   //
   //  Reset Quiz State
   //
@@ -87,7 +90,6 @@ function Quiz({ handlePage }) {
     let quest = []
     Data_Questions_Quiz.forEach(row => {
       const rowData = { ...row }
-      if (debugLog) console.log('rowData ', rowData)
       quest.push(rowData)
     })
     //
@@ -97,6 +99,7 @@ function Quiz({ handlePage }) {
     g_questCount = quest.length
     g_Idx = 0
     g_quizRow = g_quizQuest[g_Idx]
+    setQuizRow(g_quizRow)
     if (debugLog) console.log('g_quizQuest ', g_quizQuest)
     if (debugLog) console.log('g_questCount ', g_questCount)
     if (debugLog) console.log('g_quizRow ', g_quizRow)
@@ -111,7 +114,16 @@ function Quiz({ handlePage }) {
   //...................................................................................
   //.  Form Submit
   //...................................................................................
-  function onSubmitForm(id) {
+  function handleSubmit() {
+    if (debugLog) console.log(`Function: HandleSubmit`)
+    if (debugLog) console.log(`ID selected ${id}`)
+    if (debugLog) console.log('g_Idx ', g_Idx, 'qid ', g_quizRow.qid)
+    //
+    //  No selection
+    //
+    if (!id) {
+      return
+    }
     //
     //  Update count
     //
@@ -125,6 +137,7 @@ function Quiz({ handlePage }) {
     //
     if (debugLog) console.log('g_Idx ', g_Idx, 'id ', id)
     g_quizAns[g_Idx] = id
+    if (debugLog) console.log('g_quizAns ', g_quizAns)
     sessionStorage.setItem('Data_Answers', JSON.stringify(g_quizAns))
 
     const nextAnsCount = ansCount + 1
@@ -145,25 +158,24 @@ function Quiz({ handlePage }) {
     //
     g_Idx++
     g_quizRow = g_quizQuest[g_Idx]
+    setQuizRow(g_quizRow)
     if (debugLog) console.log('g_quizRow', g_quizRow)
-  }
-  //...................................................................................
-  //. Answer Selected
-  //...................................................................................
-  function handleSelect(id) {
-    if (debugLog) console.log(`ID selected ${id}`)
-    if (debugLog) console.log('g_Idx ', g_Idx, 'qid ', g_quizRow.qid)
-    onSubmitForm(id)
   }
   //...................................................................................
   //.  Render the form
   //...................................................................................
   return (
     <>
-      <QuizQuestion quizRow={g_quizRow} quizQuestion={g_Idx + 1} quizTotal={g_questCount} />
-      <QuizBidding qid={g_quizRow.qid} />
-      <QuizHands qid={g_quizRow.qid} />
-      <QuizPanel quizRow={g_quizRow} handleSelect={handleSelect} />
+      <QuizQuestion quizRow={quizRow} quizQuestion={g_Idx + 1} quizTotal={g_questCount} />
+      <QuizBidding qid={quizRow.qid} />
+      <QuizHands qid={quizRow.qid} />
+      <QuizPanel
+        quizRow={quizRow}
+        value={value}
+        setValue={setValue}
+        setId={setId}
+        setShowSubmit={setShowSubmit}
+      />
       {/* .......................................................................................... */}
       {showLinearProgress ? (
         <QuizLinearProgress count={ansCount} total={g_questCount} text={'Progress'} />
@@ -174,12 +186,22 @@ function Quiz({ handlePage }) {
       ) : null}
       {/* .......................................................................................... */}
       <Box sx={{ mt: 2, maxWidth: 600 }}>
+        {showSubmit ? (
+          <MyButton
+            text='Submit Answer'
+            onClick={() => {
+              handleSubmit()
+            }}
+          />
+        ) : null}
+        {/* .......................................................................................... */}
         {g_Idx > 0 ? (
           <MyButton
             type='submit'
             text='End/Review'
             color='warning'
             variant='contained'
+            sx={{ float: 'right' }}
             onClick={() => {
               handlePage('QuizReview')
             }}
@@ -201,5 +223,3 @@ function Quiz({ handlePage }) {
     </>
   )
 }
-
-export default Quiz
