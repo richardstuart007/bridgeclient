@@ -39,22 +39,43 @@ export default function writeHistory() {
   const r_owner = JSON.parse(sessionStorage.getItem('Quiz_Select_Owner'))
   const r_group = JSON.parse(sessionStorage.getItem('Quiz_Select_OwnerGroup'))
   //
-  //  Correct Answers
-  //
-  let r_correct = 0
-  r_ans.forEach(id => {
-    if (id === 1) r_correct++
-  })
-  //
   //  Question IDs of Answered questions
   //
   let r_qid = []
+  let r_points = []
   let count = 0
+  let r_totalpoints = 0
+  let r_maxpoints = 0
+  let r_correctpercent = 0
   const Data_Questions_Quiz = JSON.parse(sessionStorage.getItem('Data_Questions_Quiz'))
   Data_Questions_Quiz.forEach(row => {
     count++
-    if (count <= r_questions) r_qid.push(row.qid)
+    if (count <= r_questions) {
+      r_qid.push(row.qid)
+      //
+      //  Points for each answer (start at 0 not 1)
+      //
+      const i = count - 1
+      const p = r_ans[i] - 1
+      if (debugLog) console.log('i ', i)
+      if (debugLog) console.log('p ', p)
+      if (debugLog) console.log('row ', row)
+      const points = row.qpoints[p]
+      r_points.push(points)
+      //
+      //  Total points
+      //
+      r_totalpoints = r_totalpoints + points
+      //
+      //  Max points
+      //
+      r_maxpoints = r_maxpoints + Math.max(...row.qpoints)
+    }
   })
+  //
+  //  Percentage correct
+  //
+  if (r_maxpoints !== 0) r_correctpercent = Math.ceil((r_totalpoints * 100) / r_maxpoints)
   //
   //  Build row
   //
@@ -64,9 +85,12 @@ export default function writeHistory() {
     r_owner: r_owner,
     r_group: r_group,
     r_questions: r_questions,
-    r_correct: r_correct,
     r_qid: r_qid,
-    r_ans: r_ans
+    r_ans: r_ans,
+    r_points: r_points,
+    r_maxpoints: r_maxpoints,
+    r_totalpoints: r_totalpoints,
+    r_correctpercent: r_correctpercent
   }
   if (debugLog) console.log('sqlRow ', sqlRow)
   //

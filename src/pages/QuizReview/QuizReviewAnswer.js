@@ -1,7 +1,7 @@
 //
 //  Libraries
 //
-import { Card, CardContent, CardActionArea, Typography } from '@mui/material'
+import { Card, CardContent, CardActionArea, Typography, Grid } from '@mui/material'
 import { green, red } from 'material-ui-colors'
 //
 //  Debug Settings
@@ -13,17 +13,14 @@ import debugSettings from '../../debug/debugSettings'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 //===================================================================================
 export default function QuizAnswer(props) {
   //
   // Deconstruct Props
   //
-  const { answer, AnswerNum, FieldNum } = props
-  if (debugLog) console.log(answer, AnswerNum, FieldNum)
-  if (debugLog) console.log('answer ', answer)
-  if (debugLog) console.log('AnswerNum ', AnswerNum)
-  if (debugLog) console.log('FieldNum ', FieldNum)
+  const { answer, points, AnswerNum, FieldNum } = props
+  if (debugLog) console.log('props ', props)
   //
   //  Set Colour
   //
@@ -33,22 +30,34 @@ export default function QuizAnswer(props) {
   if (FieldNum === 1) backgroundColor = green.A100
   //  .... Bad Answer
   else if (AnswerNum === FieldNum) backgroundColor = red.A100
+  //
+  //  Display non-zero points
+  //
+  let showPoints
+  points === 0 ? (showPoints = false) : (showPoints = true)
   //.............................................................................
   return (
     <>
-      <Card
-        elevation={1}
-        sx={{ mt: 2, maxWidth: 600 }}
-        style={{ backgroundColor: backgroundColor }}
-      >
-        <CardActionArea>
-          <CardContent sx={{ padding: '4px' }}>
-            <Typography variant='body2' color='textSecondary'>
-              {answer}
+      <Grid container sx={{ mt: 2, mb: 2, maxWidth: 600 }} alignItems='center'>
+        <Grid item xs={11}>
+          <Card elevation={1} style={{ backgroundColor: backgroundColor }}>
+            <CardActionArea>
+              <CardContent sx={{ padding: '4px' }}>
+                <Typography variant='body2' color='textSecondary'>
+                  {answer}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+        <Grid item xs={1}>
+          {showPoints ? (
+            <Typography variant='body2' color='Green' align='center'>
+              {points}
             </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
+          ) : null}
+        </Grid>
+      </Grid>
     </>
   )
 }

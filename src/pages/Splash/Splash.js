@@ -10,10 +10,6 @@ import debugSettings from '../../debug/debugSettings'
 //  Controls
 //
 import MyButton from '../../components/controls/MyButton'
-//
-// Constants
-//
-const { STATIC_URL } = require('../../services/constants.js')
 //..............................................................................
 //.  Initialisation
 //.............................................................................
@@ -97,12 +93,6 @@ export default function Splash({ handlePage }) {
               />
             </Grid>
           ) : null}
-          {/*.................................................................................................*/}
-          <Grid item xs={12}>
-            <Typography variant='subtitle2' sx={{ marginTop: '8px', color: 'green' }}>
-              <a href={STATIC_URL}>Old Static Version</a>
-            </Typography>
-          </Grid>
           {/*.................................................................................................*/}
         </Grid>
       </Paper>

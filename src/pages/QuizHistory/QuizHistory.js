@@ -68,8 +68,9 @@ const headCellsLarge = [
   { id: 'r_owner', label: 'Owner' },
   { id: 'ogtitle', label: 'Group' },
   { id: 'r_questions', label: 'Questions' },
-  { id: 'r_correct', label: 'Correct' },
-  { id: 'r_percent', label: '%' },
+  { id: 'r_totalpoints', label: 'Points' },
+  { id: 'r_maxpoints', label: 'Max Points' },
+  { id: 'r_correctpercent', label: 'Points %' },
   { id: 'review', label: 'Review', disableSorting: true },
   { id: 'quiz', label: 'Quiz', disableSorting: true }
 ]
@@ -213,11 +214,10 @@ export default function QuizHistory({ handlePage }) {
     //  Start of function
     //
     if (debugFunStart) console.log(`Function: getRowAllData`)
-
     //
     //  Selection
     //
-    let sqlString = `r_id, r_uid, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_correct, 100 * r_correct/r_questions as r_percent`
+    let sqlString = `r_id, r_uid, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_totalpoints, r_maxpoints, r_correctpercent`
     sqlString = sqlString + ` from usershistory`
     sqlString = sqlString + ` join ownergroup on r_owner = ogowner and r_group = oggroup`
     if (!User_Admin) sqlString = sqlString + ` where r_uid='${u_id}'`
@@ -571,8 +571,9 @@ export default function QuizHistory({ handlePage }) {
                 {ScreenSmall ? null : <TableCell>{row.r_owner}</TableCell>}
                 <TableCell>{row.ogtitle}</TableCell>
                 {ScreenSmall ? null : <TableCell>{row.r_questions}</TableCell>}
-                {ScreenSmall ? null : <TableCell>{row.r_correct}</TableCell>}
-                {ScreenSmall ? null : <TableCell>{row.r_percent}</TableCell>}
+                {ScreenSmall ? null : <TableCell>{row.r_totalpoints}</TableCell>}
+                {ScreenSmall ? null : <TableCell>{row.r_maxpoints}</TableCell>}
+                {ScreenSmall ? null : <TableCell>{row.r_correctpercent}</TableCell>}
                 <TableCell>
                   <MyActionButton
                     startIcon={<ScoreboardIcon fontSize='small' />}

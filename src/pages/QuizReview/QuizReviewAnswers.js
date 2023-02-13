@@ -1,7 +1,7 @@
 //
 //  Libraries
 //
-import { Typography } from '@mui/material'
+import { Typography, Grid, Card } from '@mui/material'
 //
 //  Debug Settings
 //
@@ -16,9 +16,9 @@ import QuizReviewAnswer from './QuizReviewAnswer'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 //===================================================================================
-const QuizReviewAnswers = props => {
+export default function QuizReviewAnswers(props) {
   if (debugLog) console.log('Start QuizReviewAnswers')
   //
   // Deconstruct Props
@@ -29,7 +29,8 @@ const QuizReviewAnswers = props => {
   //
   //  Load answers to array
   //
-  let Answers = quizRow.qans
+  const Answers = quizRow.qans
+  const Points = quizRow.qpoints
   //
   //  Text - correct/incorrect
   //
@@ -46,11 +47,30 @@ const QuizReviewAnswers = props => {
         </Typography>
       ) : null}
 
-      {Answers.map((answer, key) => (
-        <QuizReviewAnswer key={key} answer={answer} AnswerNum={AnswerNum} FieldNum={key + 1} />
-      ))}
+      <Card sx={{ maxWidth: 600, marginTop: '16px' }} style={{ backgroundColor: 'LightGray' }}>
+        <Grid container sx={{ mt: 2, maxWidth: 600 }} alignItems='center'>
+          <Grid item xs={11}>
+            <Typography variant='subtitle2' style={{ color: 'Blue' }}>
+              {quizRow.qdetail}
+            </Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <Typography variant='subtitle2' color='Blue' align='center'>
+              Points
+            </Typography>
+          </Grid>
+        </Grid>
+
+        {Answers.map((answer, key) => (
+          <QuizReviewAnswer
+            key={key}
+            answer={answer}
+            points={Points[key]}
+            AnswerNum={AnswerNum}
+            FieldNum={key + 1}
+          />
+        ))}
+      </Card>
     </>
   )
 }
-
-export default QuizReviewAnswers
