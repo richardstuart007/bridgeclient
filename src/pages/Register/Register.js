@@ -33,6 +33,7 @@ const debugModule = 'Register'
 //
 const sqlClient = 'Register'
 const { DFT_USER_MAXQUESTIONS } = require('../../services/constants.js')
+const { DFT_USER_OWNER } = require('../../services/constants.js')
 const { DFT_USER_SHOWPROGRESS } = require('../../services/constants.js')
 const { DFT_USER_SHOWSCORE } = require('../../services/constants.js')
 const { DFT_USER_SORTQUESTIONS } = require('../../services/constants.js')
@@ -146,6 +147,7 @@ function Register({ handlePage }) {
       fedid: fedid,
       fedcountry: fedcountry,
       dftmaxquestions: DFT_USER_MAXQUESTIONS,
+      dftowner: DFT_USER_OWNER,
       showprogress: DFT_USER_SHOWPROGRESS,
       showscore: DFT_USER_SHOWSCORE,
       sortquestions: DFT_USER_SORTQUESTIONS,
