@@ -157,9 +157,13 @@ export default function Library({ handlePage }) {
     //  Selection
     //
     const ownersString = JSON.parse(sessionStorage.getItem('User_Settings_Userownersstring'))
-    let sqlString = `*`
-    sqlString = sqlString + ` from library where lrowner in (${ownersString})`
-    sqlString = sqlString + ` order by lrid`
+    let sqlString
+    if (
+      ownersString
+        ? (sqlString = `* from library where lrowner in (${ownersString})`)
+        : (sqlString = `* from library `)
+    )
+      sqlString = sqlString + ` order by lrid`
     if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise
