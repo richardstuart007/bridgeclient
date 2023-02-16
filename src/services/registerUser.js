@@ -41,7 +41,8 @@ export default async function registerUser(props) {
     showscore,
     sortquestions,
     skipcorrect,
-    admin
+    admin,
+    dev
   } = props
   let sqlClient = `${functionName}/${sqlCaller}`
   //
@@ -77,7 +78,8 @@ export default async function registerUser(props) {
         showscore: showscore,
         sortquestions: sortquestions,
         skipcorrect: skipcorrect,
-        admin: admin
+        admin: admin,
+        dev: dev
       }
       const URL = App_Settings_URL + URL_REGISTER
       if (debugLog) console.log('URL ', URL)

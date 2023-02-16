@@ -101,7 +101,7 @@ const functionName = 'Library'
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugFunStart = true
+const debugFunStart = false
 const debugModule = 'Library'
 //...................................................................................
 //.  Main Line

@@ -13,7 +13,7 @@ import debugSettings from '../../debug/debugSettings'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 //===================================================================================
 export default function QuizAnswer(props) {
   //

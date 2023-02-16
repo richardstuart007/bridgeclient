@@ -207,17 +207,6 @@ export default function Quiz({ handlePage }) {
             }}
           />
         ) : null}
-        {/* .......................................................................................... */}
-        <MyButton
-          type='submit'
-          text='Back'
-          color='warning'
-          variant='contained'
-          sx={{ float: 'right' }}
-          onClick={() => {
-            handlePage('PAGEBACK')
-          }}
-        />
       </Box>
       {/* .......................................................................................... */}
     </>

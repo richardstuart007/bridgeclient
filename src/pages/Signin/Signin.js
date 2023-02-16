@@ -67,11 +67,11 @@ export default function Signin({ handlePage }) {
     previousUser = User_Settings_User.u_user
     initialFValues.user = previousUser
   }
-
   //
   // Form Message
   //
   const [form_message, setForm_message] = useState('')
+  const [showButtons, setShowButtons] = useState(true)
   //
   //  Interface to Form
   //
@@ -117,6 +117,10 @@ export default function Signin({ handlePage }) {
   function FormUpdate() {
     if (debugFunStart) console.log('FormUpdate')
     //
+    //  Hide signin button
+    //
+    setShowButtons(false)
+    //
     //  Check the user/pwd
     //
     const myPromiseSignin = checkSignin()
@@ -134,6 +138,10 @@ export default function Signin({ handlePage }) {
         rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
         if (debugLog) console.log('Error Message ', message)
         setForm_message(message)
+        //
+        //  Hide signin button
+        //
+        setShowButtons(true)
         return
       }
       //
@@ -149,7 +157,7 @@ export default function Signin({ handlePage }) {
     //
     //  User message
     //
-    setForm_message('Validating ..may take a minute WAIT..')
+    setForm_message('Validating please WAIT..')
     //
     //  Deconstruct values
     //
@@ -284,26 +292,30 @@ export default function Signin({ handlePage }) {
             </Grid>
 
             {/*.................................................................................................*/}
-            <Grid item xs={12}>
-              <MyButton
-                text='SignIn'
-                onClick={() => {
-                  FormSubmit()
-                }}
-              />
-            </Grid>
+            {showButtons ? (
+              <Grid item xs={12}>
+                <MyButton
+                  text='SignIn'
+                  onClick={() => {
+                    FormSubmit()
+                  }}
+                />
+              </Grid>
+            ) : null}
           </Grid>
         </Paper>
         {/*.................................................................................................*/}
-        <Grid item xs={12}>
-          <MyButton
-            color='warning'
-            onClick={() => {
-              handlePage('Register')
-            }}
-            text='Register'
-          />
-        </Grid>
+        {showButtons ? (
+          <Grid item xs={12}>
+            <MyButton
+              color='warning'
+              onClick={() => {
+                handlePage('Register')
+              }}
+              text='Register'
+            />
+          </Grid>
+        ) : null}
         {/*.................................................................................................*/}
       </MyForm>
     </>

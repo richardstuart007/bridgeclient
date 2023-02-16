@@ -16,7 +16,7 @@ import QuizReviewAnswer from './QuizReviewAnswer'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 //===================================================================================
 export default function QuizReviewAnswers(props) {
   if (debugLog) console.log('Start QuizReviewAnswers')

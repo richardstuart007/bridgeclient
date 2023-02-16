@@ -152,8 +152,10 @@ function Register({ handlePage }) {
       showscore: DFT_USER_SHOWSCORE,
       sortquestions: DFT_USER_SORTQUESTIONS,
       skipcorrect: DFT_USER_SKIPCORRECT,
-      admin: false
+      admin: false,
+      dev: false
     }
+    if (debugLog) console.log('params ', params)
     const myPromiseRegister = registerUser(params)
     //
     //  Resolve Status

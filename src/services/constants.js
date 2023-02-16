@@ -56,8 +56,8 @@ exports.WAIT_MAX_TRY = 50
 //------------------------------------------------------------------------
 exports.DFT_USER_MAXQUESTIONS = 20
 exports.DFT_USER_OWNER = 'NZBridge'
-exports.DFT_USER_SHOWPROGRESS = true
-exports.DFT_USER_SHOWSCORE = true
+exports.DFT_USER_SHOWPROGRESS = false
+exports.DFT_USER_SHOWSCORE = false
 exports.DFT_USER_SORTQUESTIONS = true
 exports.DFT_USER_SKIPCORRECT = true
 //------------------------------------------------------------------------
