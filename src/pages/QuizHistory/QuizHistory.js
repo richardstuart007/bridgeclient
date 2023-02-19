@@ -146,18 +146,18 @@ export default function QuizHistory({ handlePage }) {
   //
   //  Get User
   //
-  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
-  const u_name = User_Settings_User.u_name
-  const u_id = User_Settings_User.u_id
+  const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
+  const u_name = User_Data_User.u_name
+  const u_id = User_Data_User.u_id
   //
   //  Default if not signed in
   //
-  const User_Admin = User_Settings_User.u_admin
+  const User_Admin = User_Data_User.u_admin
   //
   //  Reset Quiz State
   //
-  let QuizHistory_Reset = JSON.parse(sessionStorage.getItem('QuizHistory_Reset'))
-  if (debugLog) console.log('QuizHistory_Reset ', QuizHistory_Reset)
+  let Pages_QuizHistory_Reset = JSON.parse(sessionStorage.getItem('Pages_QuizHistory_Reset'))
+  if (debugLog) console.log('Pages_QuizHistory_Reset ', Pages_QuizHistory_Reset)
   //
   //  Initial Data Load
   //
@@ -186,21 +186,25 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Restore saved search values & search
     //
-    if (!QuizHistory_Reset) {
-      const QuizHistory_SearchValue = JSON.parse(sessionStorage.getItem('QuizHistory_SearchValue'))
-      setSearchValue(QuizHistory_SearchValue)
-      if (debugLog) console.log('QuizHistory_SearchValue ', QuizHistory_SearchValue)
+    if (!Pages_QuizHistory_Reset) {
+      const Pages_QuizHistory_SearchValue = JSON.parse(
+        sessionStorage.getItem('Pages_QuizHistory_SearchValue')
+      )
+      setSearchValue(Pages_QuizHistory_SearchValue)
+      if (debugLog) console.log('Pages_QuizHistory_SearchValue ', Pages_QuizHistory_SearchValue)
 
-      const QuizHistory_SearchType = JSON.parse(sessionStorage.getItem('QuizHistory_SearchType'))
-      setSearchType(QuizHistory_SearchType)
-      if (debugLog) console.log('QuizHistory_SearchType ', QuizHistory_SearchType)
+      const Pages_QuizHistory_SearchType = JSON.parse(
+        sessionStorage.getItem('Pages_QuizHistory_SearchType')
+      )
+      setSearchType(Pages_QuizHistory_SearchType)
+      if (debugLog) console.log('Pages_QuizHistory_SearchType ', Pages_QuizHistory_SearchType)
     }
     //
     //  Reset flag
     //
-    sessionStorage.setItem('QuizHistory_Reset', false)
-    QuizHistory_Reset = false
-    if (debugLog) console.log('QuizHistory_Reset ', false)
+    sessionStorage.setItem('Pages_QuizHistory_Reset', false)
+    Pages_QuizHistory_Reset = false
+    if (debugLog) console.log('Pages_QuizHistory_Reset ', false)
     //
     //  Get Data
     //
@@ -322,7 +326,7 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Reset Quiz Data
     //
-    sessionStorage.setItem('Quiz_Reset', true)
+    sessionStorage.setItem('Pages_Quiz_Reset', true)
     //
     //  Wait for data
     //
@@ -377,8 +381,8 @@ export default function QuizHistory({ handlePage }) {
             `waitSessionStorage sessionStorage(${sessionItem}) value(${completedFlag}) Elapsed Time(${timeDiff})`
           )
         clearInterval(myInterval)
-        sessionStorage.setItem('QuizHistory_SearchValue', JSON.stringify(searchValue))
-        sessionStorage.setItem('QuizHistory_SearchType', JSON.stringify(searchType))
+        sessionStorage.setItem('Pages_QuizHistory_SearchValue', JSON.stringify(searchValue))
+        sessionStorage.setItem('Pages_QuizHistory_SearchType', JSON.stringify(searchType))
         handlePage(handlePageValue)
       } else {
         //

@@ -154,16 +154,37 @@ export default function Library({ handlePage }) {
   function getRowAllData() {
     if (debugFunStart) console.log('getRowAllData')
     //
+    //  Do not refetch data if already exists
+    //
+    if (debugLog) console.log('records', records)
+    if (records.length !== 0) return
+    //
+    //  Same selection - take from Storage
+    //
+    const UserOwnersString = JSON.parse(sessionStorage.getItem('User_Data_UserOwnersString'))
+    const UserOwnersString_S = JSON.parse(sessionStorage.getItem('User_Data_UserOwnersString_S'))
+    if (UserOwnersString === UserOwnersString_S) {
+      //
+      //  Session Storage
+      //
+      const Pages_Library_Data = JSON.parse(sessionStorage.getItem('Pages_Library_Data'))
+      if (Pages_Library_Data) {
+        if (debugLog) console.log('Pages_Library_Data', Pages_Library_Data)
+        //
+        //  Update Table
+        //
+        setRecords(Pages_Library_Data)
+        //
+        //  Filter
+        //
+        handleSearch()
+        return
+      }
+    }
+    //
     //  Selection
     //
-    const ownersString = JSON.parse(sessionStorage.getItem('User_Settings_Userownersstring'))
-    let sqlString
-    if (
-      ownersString
-        ? (sqlString = `* from library where lrowner in (${ownersString})`)
-        : (sqlString = `* from library `)
-    )
-      sqlString = sqlString + ` order by lrid`
+    const sqlString = `* from library where lrowner in (${UserOwnersString}) order by lrid`
     if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise
@@ -188,15 +209,16 @@ export default function Library({ handlePage }) {
       //
       //  Data
       //
-      const Data_Library = rtnObj.rtnRows
+      const Pages_Library_Data = rtnObj.rtnRows
       //
       //  Session Storage
       //
-      sessionStorage.setItem('Data_Library', JSON.stringify(Data_Library))
+      sessionStorage.setItem('Pages_Library_Data', JSON.stringify(Pages_Library_Data))
+      sessionStorage.setItem('User_Data_UserOwnersString_S', JSON.stringify(UserOwnersString))
       //
       //  Update Table
       //
-      setRecords(Data_Library)
+      setRecords(Pages_Library_Data)
       //
       //  Filter
       //
@@ -216,12 +238,11 @@ export default function Library({ handlePage }) {
     //
     //  Store Row
     //
-    sessionStorage.setItem('Data_Library_Row', JSON.stringify(row))
+    sessionStorage.setItem('Pages_Library_Data_Row', JSON.stringify(row))
     //
     //  BuildQuizData
     //
-    const w_group = row.lrgroup
-    const SqlString_Q = `* from questions where qgroup = '${w_group}'`
+    const SqlString_Q = `* from questions where qowner = '${row.lrowner}' and qgroup = '${row.lrgroup}'`
     const params = {
       SqlString_Q: SqlString_Q
     }
@@ -229,7 +250,7 @@ export default function Library({ handlePage }) {
     //
     //  Reset Quiz Data
     //
-    sessionStorage.setItem('Quiz_Reset', true)
+    sessionStorage.setItem('Pages_Quiz_Reset', true)
     //
     //  Wait for data
     //
@@ -286,10 +307,10 @@ export default function Library({ handlePage }) {
         //
         //  Data ?
         //
-        const Data_Questions_Quiz_Count = JSON.parse(
-          sessionStorage.getItem('Data_Questions_Quiz_Count')
+        const Pages_Quiz_Questions_Quiz_Count = JSON.parse(
+          sessionStorage.getItem('Pages_Quiz_Questions_Quiz_Count')
         )
-        if (Data_Questions_Quiz_Count === 0) {
+        if (Pages_Quiz_Questions_Quiz_Count === 0) {
           setForm_message('QuizSelect: No Questions found')
           if (debugLog) console.log('No Quiz Questions found')
           return

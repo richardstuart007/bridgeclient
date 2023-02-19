@@ -25,40 +25,34 @@ export default function BuildQuizData(props) {
   //
   //  Signed in User
   //
-  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
-  const MaxQuestions = User_Settings_User.u_dftmaxquestions
+  const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
+  const MaxQuestions = User_Data_User.u_dftmaxquestions
   //
   //  Function Variables
   //
-  let Data_Questions_Quiz = []
-  let Data_Questions_qid = []
-  let Data_Questions_qidString = ''
+  let Pages_Quiz_Questions_Quiz = []
+  let Pages_Quiz_Questions_qid = []
+  let Pages_Quiz_Questions_qidString = ''
   //
   //  Deconstruct props
   //
   if (debugLog) console.log('props', props)
   const { SqlString_Q } = props
   //
-  //  Update store
-  //
-  sessionStorage.setItem('BuildQuizData_SqlString_Q', JSON.stringify(SqlString_Q))
-  //
   //  Reset the Data
   //
-  sessionStorage.setItem('Data_Questions_Received', false)
-  sessionStorage.setItem('Data_Bidding_Received', false)
-  sessionStorage.setItem('Data_Hands_Received', false)
-  sessionStorage.setItem('Data_Library_Received', false)
+  sessionStorage.setItem('Pages_Quiz_Questions_Received', false)
+  sessionStorage.setItem('Pages_Quiz_Bidding_Received', false)
+  sessionStorage.setItem('Pages_Quiz_Hands_Received', false)
   sessionStorage.setItem('BuildQuizData_Received', false)
 
-  sessionStorage.setItem('Data_Questions', [])
-  sessionStorage.setItem('Data_Bidding', [])
-  sessionStorage.setItem('Data_Hands', [])
-  sessionStorage.setItem('Data_Library', [])
+  sessionStorage.setItem('Pages_Quiz_Questions', [])
+  sessionStorage.setItem('Pages_Quiz_Bidding', [])
+  sessionStorage.setItem('Pages_Quiz_Hands', [])
 
-  sessionStorage.setItem('Data_Questions_Quiz', [])
-  sessionStorage.setItem('Data_Questions_Quiz_Count', 0)
-  sessionStorage.setItem('Data_Questions_qid', [])
+  sessionStorage.setItem('Pages_Quiz_Questions_Quiz', [])
+  sessionStorage.setItem('Pages_Quiz_Questions_Quiz_Count', 0)
+  sessionStorage.setItem('Pages_Quiz_Questions_qid', [])
   //
   //  Load data
   //
@@ -96,82 +90,83 @@ export default function BuildQuizData(props) {
       //
       //  Data
       //
-      const Data_Questions = rtnObj.rtnRows
+      const Pages_Quiz_Questions = rtnObj.rtnRows
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Data_Questions ', Data_Questions)
-      sessionStorage.setItem('Data_Questions', JSON.stringify(Data_Questions))
-      sessionStorage.setItem('Data_Questions_Received', true)
+      if (debugLog) console.log('Pages_Quiz_Questions ', Pages_Quiz_Questions)
+      sessionStorage.setItem('Pages_Quiz_Questions', JSON.stringify(Pages_Quiz_Questions))
+      sessionStorage.setItem('Pages_Quiz_Questions_Received', true)
       //
       //  No Questions
       //
-      if (!Data_Questions[0]) {
+      if (!Pages_Quiz_Questions[0]) {
         sessionStorage.setItem('BuildQuizData_Received', true)
         return
       }
       //
       //  Store Owner/group
       //
-      const row1 = Data_Questions[0]
-      sessionStorage.setItem('Quiz_Select_Owner', JSON.stringify(row1.qowner))
-      sessionStorage.setItem('Quiz_Select_OwnerGroup', JSON.stringify(row1.qgroup))
-      const w_qgroup = row1.qgroup
+      const row1 = Pages_Quiz_Questions[0]
+      sessionStorage.setItem('Pages_Quiz_Owner', JSON.stringify(row1.qowner))
+      sessionStorage.setItem('Pages_Quiz_OwnerGroup', JSON.stringify(row1.qgroup))
       //
-      //  Output Data_Questions_Quiz
+      //  Output Pages_Quiz_Questions_Quiz
       //
-      QuestionsSortMax(Data_Questions)
+      QuestionsSortMax(Pages_Quiz_Questions)
       //
       //  Load related
       //
       LoadServerBidding()
       LoadServerHands()
-      LoadServerLibrary(w_qgroup)
       return
     })
 
     return
   }
   //...................................................................................
-  //.  Output Data_Questions_Quiz
+  //.  Output Pages_Quiz_Questions_Quiz
   //...................................................................................
-  function QuestionsSortMax(Data_Questions) {
+  function QuestionsSortMax(Pages_Quiz_Questions) {
     if (debugFunStart) console.log('QuestionsSortMax')
     //
     //  Random sort questions
     //
-    const SortQuestions = User_Settings_User.u_sortquestions
+    const SortQuestions = User_Data_User.u_sortquestions
     SortQuestions
-      ? (Data_Questions_Quiz = randomSort(Data_Questions))
-      : (Data_Questions_Quiz = Data_Questions)
+      ? (Pages_Quiz_Questions_Quiz = randomSort(Pages_Quiz_Questions))
+      : (Pages_Quiz_Questions_Quiz = Pages_Quiz_Questions)
     //
     //  Apply max number
     //
-    if (Data_Questions_Quiz.length > MaxQuestions) {
-      let i = Data_Questions_Quiz.length - 1
+    if (Pages_Quiz_Questions_Quiz.length > MaxQuestions) {
+      let i = Pages_Quiz_Questions_Quiz.length - 1
       for (i; i >= MaxQuestions; i--) {
-        Data_Questions_Quiz.pop()
+        Pages_Quiz_Questions_Quiz.pop()
       }
     }
     //
     //  Question IDs & Refs
     //
-    if (debugLog) console.log('Data_Questions_Quiz ', Data_Questions_Quiz)
-    for (let i = 0; i < Data_Questions_Quiz.length; i++) {
-      Data_Questions_qid.push(Data_Questions_Quiz[i].qid)
+    if (debugLog) console.log('Pages_Quiz_Questions_Quiz ', Pages_Quiz_Questions_Quiz)
+    for (let i = 0; i < Pages_Quiz_Questions_Quiz.length; i++) {
+      Pages_Quiz_Questions_qid.push(Pages_Quiz_Questions_Quiz[i].qid)
     }
-    if (debugLog) console.log('Data_Questions_qid ', Data_Questions_qid)
+    if (debugLog) console.log('Pages_Quiz_Questions_qid ', Pages_Quiz_Questions_qid)
     //
     //  String version of ID
     //
-    Data_Questions_qidString = Data_Questions_qid.toString()
-    if (debugLog) console.log('Data_Questions_qidString ', Data_Questions_qidString)
+    Pages_Quiz_Questions_qidString = Pages_Quiz_Questions_qid.toString()
+    if (debugLog) console.log('Pages_Quiz_Questions_qidString ', Pages_Quiz_Questions_qidString)
     //
     //  Session Storage
     //
-    sessionStorage.setItem('Data_Questions_Quiz', JSON.stringify(Data_Questions_Quiz))
-    sessionStorage.setItem('Data_Questions_Quiz_Count', JSON.stringify(Data_Questions_Quiz.length))
-    sessionStorage.setItem('Data_Questions_qid', JSON.stringify(Data_Questions_qid))
+    sessionStorage.setItem('Pages_Quiz_Questions_Quiz', JSON.stringify(Pages_Quiz_Questions_Quiz))
+    sessionStorage.setItem(
+      'Pages_Quiz_Questions_Quiz_Count',
+      JSON.stringify(Pages_Quiz_Questions_Quiz.length)
+    )
+    sessionStorage.setItem('Pages_Quiz_Questions_qid', JSON.stringify(Pages_Quiz_Questions_qid))
   }
   //...................................................................................
   //.  Load Server - Bidding
@@ -181,7 +176,7 @@ export default function BuildQuizData(props) {
     //
     //  Selection
     //
-    let sqlString = `* from bidding where bid in (${Data_Questions_qidString}) order by bid`
+    let sqlString = `* from bidding where bid in (${Pages_Quiz_Questions_qidString}) order by bid`
     if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise
@@ -206,13 +201,13 @@ export default function BuildQuizData(props) {
       //
       //  Data
       //
-      const Data_Bidding = rtnObj.rtnRows
+      const Pages_Quiz_Bidding = rtnObj.rtnRows
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Data_Bidding ', Data_Bidding)
-      sessionStorage.setItem('Data_Bidding', JSON.stringify(Data_Bidding))
-      sessionStorage.setItem('Data_Bidding_Received', true)
+      if (debugLog) console.log('Pages_Quiz_Bidding ', Pages_Quiz_Bidding)
+      sessionStorage.setItem('Pages_Quiz_Bidding', JSON.stringify(Pages_Quiz_Bidding))
+      sessionStorage.setItem('Pages_Quiz_Bidding_Received', true)
       //
       //  All Data Received ?
       //
@@ -230,7 +225,7 @@ export default function BuildQuizData(props) {
     //
     //  Selection
     //
-    let sqlString = `* from hands where hid in (${Data_Questions_qidString}) order by hid`
+    let sqlString = `* from hands where hid in (${Pages_Quiz_Questions_qidString}) order by hid`
     if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise
@@ -255,13 +250,13 @@ export default function BuildQuizData(props) {
       //
       //  Data
       //
-      const Data_Hands = rtnObj.rtnRows
+      const Pages_Quiz_Hands = rtnObj.rtnRows
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Data_Hands ', Data_Hands)
-      sessionStorage.setItem('Data_Hands', JSON.stringify(Data_Hands))
-      sessionStorage.setItem('Data_Hands_Received', true)
+      if (debugLog) console.log('Pages_Quiz_Hands ', Pages_Quiz_Hands)
+      sessionStorage.setItem('Pages_Quiz_Hands', JSON.stringify(Pages_Quiz_Hands))
+      sessionStorage.setItem('Pages_Quiz_Hands_Received', true)
       //
       //  All Data Received ?
       //
@@ -272,52 +267,6 @@ export default function BuildQuizData(props) {
     return
   }
   //...................................................................................
-  //.  Load Server - Library
-  //...................................................................................
-  function LoadServerLibrary(qgroup) {
-    if (debugFunStart) console.log('LoadServerLibrary')
-    let sqlString = `* from library where lrgroup = '${qgroup}' order by lrref`
-    if (debugLog) console.log('sqlString', sqlString)
-    //
-    //  Process promise
-    //
-    const rowCrudparams = {
-      axiosMethod: 'post',
-      sqlCaller: functionName,
-      sqlTable: 'library',
-      sqlAction: 'SELECTSQL',
-      sqlString: sqlString
-    }
-    const myPromiseLibrary = rowCrud(rowCrudparams)
-    //
-    //  Resolve Status
-    //
-    myPromiseLibrary.then(function (rtnObj) {
-      if (debugLog) console.log('rtnObj ', rtnObj)
-      //
-      //  No data returned
-      //
-      if (!rtnObj.rtnValue) return
-      //
-      //  Data
-      //
-      const Data_Library = rtnObj.rtnRows
-      //
-      //  Session Storage
-      //
-      if (debugLog) console.log('Data_Library ', Data_Library)
-      sessionStorage.setItem('Data_Library', JSON.stringify(Data_Library))
-      sessionStorage.setItem('Data_Library_Received', true)
-      //
-      //  All Data Received ?
-      //
-      CheckAllData()
-      return
-    })
-
-    return myPromiseLibrary
-  }
-  //...................................................................................
   //.  All Data Received ?
   //...................................................................................
   function CheckAllData() {
@@ -325,19 +274,19 @@ export default function BuildQuizData(props) {
     //
     //  Data received, end wait
     //
-    const Data_Questions_Received = JSON.parse(sessionStorage.getItem('Data_Questions_Received'))
-    const Data_Bidding_Received = JSON.parse(sessionStorage.getItem('Data_Bidding_Received'))
-    const Data_Hands_Received = JSON.parse(sessionStorage.getItem('Data_Hands_Received'))
-    const Data_Library_Received = JSON.parse(sessionStorage.getItem('Data_Library_Received'))
+    const Pages_Quiz_Questions_Received = JSON.parse(
+      sessionStorage.getItem('Pages_Quiz_Questions_Received')
+    )
+    const Pages_Quiz_Bidding_Received = JSON.parse(
+      sessionStorage.getItem('Pages_Quiz_Bidding_Received')
+    )
+    const Pages_Quiz_Hands_Received = JSON.parse(
+      sessionStorage.getItem('Pages_Quiz_Hands_Received')
+    )
     //
     //  All data received
     //
-    if (
-      Data_Questions_Received &&
-      Data_Bidding_Received &&
-      Data_Hands_Received &&
-      Data_Library_Received
-    ) {
+    if (Pages_Quiz_Questions_Received && Pages_Quiz_Bidding_Received && Pages_Quiz_Hands_Received) {
       if (debugLog) console.log('All DATA received')
       sessionStorage.setItem('BuildQuizData_Received', true)
     }

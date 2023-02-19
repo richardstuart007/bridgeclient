@@ -4,10 +4,6 @@
 import { useState } from 'react'
 import { Paper, Grid, Typography } from '@mui/material'
 //
-//  Sub components
-//
-import SigninInit from './SigninInit'
-//
 //  Utilities
 //
 import apiAxios from '../../utilities/apiAxios'
@@ -38,6 +34,7 @@ const initialFValues = {
 // Constants
 //
 const { URL_SIGNIN } = require('../../services/constants.js')
+const { DFT_USER_OWNER } = require('../../services/constants.js')
 //
 //  Object returned by this handler - as per server
 //
@@ -50,25 +47,18 @@ let rtnObj = {
   rtnCatchMsg: '',
   rtnRows: []
 }
-//
-//  Previous signed in user
-//
-let previousUser = null
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function Signin({ handlePage }) {
   if (debugFunStart) console.log('Signin')
   //
-  //  Get User (Previous, if any)
   //
-  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
-  if (User_Settings_User) {
-    previousUser = User_Settings_User.u_user
-    initialFValues.user = previousUser
-  }
   //
-  // Form Message
+  const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
+  if (User_Data_User) initialFValues.user = User_Data_User.u_user
+  //
+  // State
   //
   const [form_message, setForm_message] = useState('')
   const [showButtons, setShowButtons] = useState(true)
@@ -139,7 +129,7 @@ export default function Signin({ handlePage }) {
         if (debugLog) console.log('Error Message ', message)
         setForm_message(message)
         //
-        //  Hide signin button
+        //  Show button
         //
         setShowButtons(true)
         return
@@ -218,26 +208,34 @@ export default function Signin({ handlePage }) {
     //  User Row
     //
     const userRow = rtnObj.rtnRows[0]
-    if (debugLog) console.log('userRow ', userRow)
     //
     //  User owner rows
     //
     const userownerRows = rtnObj.rtnRows[1]
-    if (debugLog) console.log('userownerRows ', userownerRows)
     //
     //  User Info
     //
-    sessionStorage.setItem('User_Settings_User', JSON.stringify(userRow))
-    sessionStorage.setItem('User_Settings_UserSwitch', JSON.stringify(false))
-    sessionStorage.setItem('User_Settings_Userowners', JSON.stringify(userownerRows))
+    sessionStorage.setItem('User_Data_User', JSON.stringify(userRow))
+    sessionStorage.setItem('User_Data_UserSwitch', JSON.stringify(false))
+    sessionStorage.setItem('User_Data_UserOwners', JSON.stringify(userownerRows))
+    //
+    //  Userowners string
+    //
+    let ownersString = `'${DFT_USER_OWNER}'`
+    if (userownerRows && userownerRows.length > 0) {
+      ownersString = ''
+      for (let i = 0; i < userownerRows.length; i++) {
+        const uoowner = userownerRows[i].uoowner
+        if (i > 0) ownersString = ownersString + `, `
+        ownersString = ownersString + `'${uoowner}'`
+      }
+    }
+    if (debugLog) console.log('ownersString ', ownersString)
+    sessionStorage.setItem('User_Data_UserOwnersString', JSON.stringify(ownersString))
     //
     //  Signed In
     //
     sessionStorage.setItem('User_Settings_SignedIn', true)
-    //
-    //  Get the Selection Options (if not already exists)
-    //
-    if (userRow.u_user !== previousUser) SigninInit()
     //
     //  Start Page
     //

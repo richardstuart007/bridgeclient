@@ -51,7 +51,7 @@ export default function UsersSettings({ handlePage }) {
     //
     //  Get User
     //
-    const recordForEdit = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+    const recordForEdit = JSON.parse(sessionStorage.getItem('User_Data_User'))
     if (debugLog) console.log('useEffect')
     if (debugLog) console.log('recordForEdit ', recordForEdit)
     //
@@ -63,11 +63,6 @@ export default function UsersSettings({ handlePage }) {
 
     // eslint-disable-next-line
   }, [])
-  //
-  //  Get Store
-  //
-  const OptionsOwner = JSON.parse(sessionStorage.getItem('Data_Options_Owner'))
-  if (debugLog) console.log('OptionsOwner ', OptionsOwner)
   //...................................................................................
   //
   // Validate the fields
@@ -144,7 +139,7 @@ export default function UsersSettings({ handlePage }) {
       //
       //  Store
       //
-      sessionStorage.setItem('User_Settings_User', JSON.stringify(UpdateValues))
+      sessionStorage.setItem('User_Data_User', JSON.stringify(UpdateValues))
       //
       //  Update database
       //

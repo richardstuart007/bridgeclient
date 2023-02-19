@@ -45,7 +45,7 @@ export default function QuizHistoryDetail({ handlePage }) {
   //
   //  Signed in User
   //
-  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
   //
   //  Load the data array from the store
   //
@@ -111,13 +111,15 @@ export default function QuizHistoryDetail({ handlePage }) {
     const Data_Hist_Row_Join = JSON.parse(sessionStorage.getItem('Data_Hist_Row_Join'))
     if (debugLog) console.log('Data_Hist_Row_Join ', Data_Hist_Row_Join)
 
-    const Data_Questions_Quiz = JSON.parse(sessionStorage.getItem('Data_Questions_Quiz'))
+    const Pages_Quiz_Questions_Quiz = JSON.parse(
+      sessionStorage.getItem('Pages_Quiz_Questions_Quiz')
+    )
     const Hist_r_ans = row.r_ans
     //
     //  Questions
     //
     let ArrQuestions = []
-    Data_Questions_Quiz.forEach(row => {
+    Pages_Quiz_Questions_Quiz.forEach(row => {
       const rowData = { ...row }
       ArrQuestions.push(rowData)
     })
@@ -139,7 +141,7 @@ export default function QuizHistoryDetail({ handlePage }) {
       //
       //  Only show failed answers ?
       //
-      let ReviewSkipPass = User_Settings_User.u_skipcorrect
+      let ReviewSkipPass = User_Data_User.u_skipcorrect
       //
       //  BUGS!
       //

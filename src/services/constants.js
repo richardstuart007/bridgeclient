@@ -64,3 +64,8 @@ exports.DFT_USER_SKIPCORRECT = true
 //  Old Static URL
 //------------------------------------------------------------------------
 exports.STATIC_URL = 'https://quizclient021renderstatic.onrender.com/'
+//------------------------------------------------------------------------
+//  Other
+//------------------------------------------------------------------------
+exports.PAGESTART = 'Library'
+exports.PAGESTARTAPP = 'Splash'

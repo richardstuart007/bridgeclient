@@ -66,6 +66,11 @@ const { SERVERURL11 } = require('../services/constants.js')
 const { SERVER12 } = require('../services/constants.js')
 const { SERVERURL12 } = require('../services/constants.js')
 //
+//  Start Pages
+//
+const { PAGESTART } = require('../services/constants.js')
+const { PAGESTARTAPP } = require('../services/constants.js')
+//
 // Debug Settings
 //
 const debugLog = debugSettings()
@@ -83,18 +88,14 @@ let w_URL = 'Error'
 //----------------------------------------------------------------------------
 export default function App() {
   if (debugLog) console.log(`Start APP`)
-  const [pageCurrent, setPageCurrent] = useState('Splash')
+
+  const [pageCurrent, setPageCurrent] = useState(PAGESTARTAPP)
   //
   //  Screen Width
   //
   const ScreenMedium = useMediaQuery(theme.breakpoints.up('sm'))
   const ScreenSmall = !ScreenMedium
   sessionStorage.setItem('App_Settings_ScreenSmall', ScreenSmall)
-  //
-  //  Set PageStart
-  //
-  let PageStart = 'Library'
-  sessionStorage.setItem('Nav_Page_PageStart', JSON.stringify(PageStart))
   //
   //  First Time Setup
   //
@@ -112,56 +113,20 @@ export default function App() {
     //
     w_server_database = process.env.REACT_APP_SERVER_DATABASE
     w_server_database = w_server_database.trim()
-    if (debugLog) console.log('w_server_database ', w_server_database)
     w_node_env = process.env.NODE_ENV
-    if (debugLog) console.log('w_node_env ', w_node_env)
     //
     //  Server & Database
     //
-    update_serverdatabase()
+    Set_ServerDatabase()
     //
-    //  Store Server, Database, URL
+    //  Initialise storage
     //
-    sessionStorage.setItem('App_Settings_Server_Database', JSON.stringify(w_server_database))
-    sessionStorage.setItem('App_Settings_Node_Env', JSON.stringify(w_node_env))
-    sessionStorage.setItem('App_Settings_Server', JSON.stringify(w_Server))
-    sessionStorage.setItem('App_Settings_Database', JSON.stringify(w_Database))
-    sessionStorage.setItem('App_Settings_URL', JSON.stringify(w_URL))
-    if (debugLog)
-      console.log(`QuizClient: SERVER(${w_Server}) DATABASE(${w_Database}) URL(${w_URL})`)
-    //
-    //  DevMode if local client
-    //
-    let App_Settings_DevMode
-    w_node_env === 'development' ? (App_Settings_DevMode = true) : (App_Settings_DevMode = false)
-    sessionStorage.setItem('App_Settings_DevMode', App_Settings_DevMode)
-    sessionStorage.setItem('User_Settings_UserDev', App_Settings_DevMode)
-    //
-    //  Navigation
-    //
-    sessionStorage.setItem('Nav_Page_Current', JSON.stringify('Splash'))
-    sessionStorage.setItem('Nav_Page_Previous', JSON.stringify(''))
-    //
-    //  SignedIn Status
-    //
-    sessionStorage.setItem('User_Settings_SignedIn', false)
-    //
-    //  Quiz
-    //
-    sessionStorage.setItem('Quiz_Reset', true)
-    sessionStorage.setItem('Quiz_Select_Owner', JSON.stringify(''))
-    sessionStorage.setItem('Quiz_Select_OwnerGroup', JSON.stringify(''))
-    //
-    //  QuizHistory
-    //
-    sessionStorage.setItem('QuizHistory_Reset', true)
-    sessionStorage.setItem('QuizHistory_SearchValue', JSON.stringify(''))
-    sessionStorage.setItem('QuizHistory_SearchType', JSON.stringify('ogtitle'))
+    Init_Storage()
   }
   //.............................................................................
   //.  Local Port Overridden - Update Constants
   //.............................................................................
-  function update_serverdatabase() {
+  function Set_ServerDatabase() {
     switch (w_server_database) {
       //------------------------------------------------------
       //  Client(Local/Remote) --> Remote Server 1 --> Remote Database 1
@@ -219,14 +184,48 @@ export default function App() {
     }
   }
   //.............................................................................
+  //.  Initialise Storage
+  //.............................................................................
+  function Init_Storage() {
+    //
+    //  Store Server, Database, URL
+    //
+    sessionStorage.setItem('App_Settings_Server_Database', JSON.stringify(w_server_database))
+    sessionStorage.setItem('App_Settings_Node_Env', JSON.stringify(w_node_env))
+    sessionStorage.setItem('App_Settings_Server', JSON.stringify(w_Server))
+    sessionStorage.setItem('App_Settings_Database', JSON.stringify(w_Database))
+    sessionStorage.setItem('App_Settings_URL', JSON.stringify(w_URL))
+    //
+    //  Navigation
+    //
+    sessionStorage.setItem('App_Nav_Page_Current', JSON.stringify(PAGESTARTAPP))
+    sessionStorage.setItem('App_Nav_Page_Previous', JSON.stringify(''))
+    //
+    //  SignedIn Status
+    //
+    sessionStorage.setItem('User_Settings_SignedIn', false)
+    //
+    //  Quiz
+    //
+    sessionStorage.setItem('Pages_Quiz_Reset', true)
+    sessionStorage.setItem('Pages_Quiz_Owner', JSON.stringify(''))
+    sessionStorage.setItem('Pages_Quiz_OwnerGroup', JSON.stringify(''))
+    //
+    //  QuizHistory
+    //
+    sessionStorage.setItem('Pages_QuizHistory_Reset', true)
+    sessionStorage.setItem('Pages_QuizHistory_SearchValue', JSON.stringify(''))
+    sessionStorage.setItem('Pages_QuizHistory_SearchType', JSON.stringify('ogtitle'))
+  }
+  //.............................................................................
   //.  Handle Page Change
   //.............................................................................
   function handlePage(nextPage) {
     //
     //  Retrieve the state
     //
-    let PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
-    const PagePrevious = JSON.parse(sessionStorage.getItem('Nav_Page_Previous'))
+    let PageCurrent = JSON.parse(sessionStorage.getItem('App_Nav_Page_Current'))
+    const PagePrevious = JSON.parse(sessionStorage.getItem('App_Nav_Page_Previous'))
     //
     //  If no change of Page, return
     //
@@ -234,8 +233,9 @@ export default function App() {
     //
     //  Back/Start ?
     //
+
     const PageNext =
-      nextPage === 'PAGEBACK' ? PagePrevious : nextPage === 'PAGESTART' ? PageStart : nextPage
+      nextPage === 'PAGEBACK' ? PagePrevious : nextPage === 'PAGESTART' ? PAGESTART : nextPage
     //
     //  Quiz End, write history
     //
@@ -249,10 +249,12 @@ export default function App() {
     //
     //  Update Previous Page
     //
-    sessionStorage.setItem('Nav_Page_Previous', JSON.stringify(PageCurrent))
+    sessionStorage.setItem('App_Nav_Page_Previous', JSON.stringify(PageCurrent))
     if (debugLog)
       console.log(
-        `UPDATED Nav_Page_Previous ${JSON.parse(sessionStorage.getItem('Nav_Page_Previous'))}`
+        `UPDATED App_Nav_Page_Previous ${JSON.parse(
+          sessionStorage.getItem('App_Nav_Page_Previous')
+        )}`
       )
     //
     //  If SignIN, Update signed in info
@@ -263,10 +265,10 @@ export default function App() {
     //
     //  Update NEW Page
     //
-    sessionStorage.setItem('Nav_Page_Current', JSON.stringify(PageNext))
+    sessionStorage.setItem('App_Nav_Page_Current', JSON.stringify(PageNext))
     if (debugLog)
       console.log(
-        `UPDATED Nav_Page_Current ${JSON.parse(sessionStorage.getItem('Nav_Page_Current'))}`
+        `UPDATED App_Nav_Page_Current ${JSON.parse(sessionStorage.getItem('App_Nav_Page_Current'))}`
       )
     //
     //  Update State

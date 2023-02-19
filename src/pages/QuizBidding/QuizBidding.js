@@ -28,20 +28,20 @@ const QuizBidding = ({ qid }) => {
   //
   //  Get Bidding
   //
-  const Data_BiddingJSON = sessionStorage.getItem('Data_Bidding')
+  const Pages_Quiz_BiddingJSON = sessionStorage.getItem('Pages_Quiz_Bidding')
   //
   //  No Bidding, return
   //
-  if (Data_BiddingJSON === []) return null
+  if (Pages_Quiz_BiddingJSON === []) return null
   //
   //  Parse data
   //
-  const Data_Bidding = JSON.parse(Data_BiddingJSON)
-  if (debugLog) console.log('Data_Bidding ', Data_Bidding)
+  const Pages_Quiz_Bidding = JSON.parse(Pages_Quiz_BiddingJSON)
+  if (debugLog) console.log('Pages_Quiz_Bidding ', Pages_Quiz_Bidding)
   //
   //  Find the BiddingRow
   //
-  let BiddingRow = Data_Bidding.find(element => element.bid === testingQid)
+  let BiddingRow = Pages_Quiz_Bidding.find(element => element.bid === testingQid)
   if (debugLog) console.log('BiddingRow ', BiddingRow)
   //
   //  Has BiddingRow ?

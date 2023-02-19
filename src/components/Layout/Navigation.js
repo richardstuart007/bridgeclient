@@ -6,10 +6,8 @@ import makeStyles from '@mui/styles/makeStyles'
 //
 //  Icons
 //
-import QuizIcon from '@mui/icons-material/Quiz'
 import ScoreboardIcon from '@mui/icons-material/Scoreboard'
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications'
-import MenuBookIcon from '@mui/icons-material/MenuBook'
 import LogoutIcon from '@mui/icons-material/Logout'
 import SwitchAccountIcon from '@mui/icons-material/SwitchAccount'
 //
@@ -41,7 +39,7 @@ export default function Navigation({ handlePage }) {
   //
   //  Define
   //
-  const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
+  const PageCurrent = JSON.parse(sessionStorage.getItem('App_Nav_Page_Current'))
   const User_Settings_SignedIn = JSON.parse(sessionStorage.getItem('User_Settings_SignedIn'))
   //
   //  Screen Width
@@ -59,36 +57,10 @@ export default function Navigation({ handlePage }) {
   let showButton_Signin
   User_Settings_SignedIn ? (showButton_Signin = true) : (showButton_Signin = false)
   //
-  //  Show  Restart Button ?
-  //
-  let showButton_QuizSelect
-  User_Settings_SignedIn &&
-  PageCurrent !== 'QuizSelect' &&
-  PageCurrent !== 'QuizReview' &&
-  PageCurrent !== 'UsersSettings' &&
-  PageCurrent !== 'LibraryRefs' &&
-  PageCurrent !== 'Quiz'
-    ? (showButton_QuizSelect = true)
-    : (showButton_QuizSelect = false)
-  //
-  //  Show Book Button ?
-  //
-  let showButton_LibraryRefs = false
-  let Data_Library = []
-  const Data_LibraryJSON = sessionStorage.getItem('Data_Library')
-  if (Data_LibraryJSON && Data_LibraryJSON.length > 0) Data_Library = JSON.parse(Data_LibraryJSON)
-  if (
-    (PageCurrent === 'QuizReview' || PageCurrent === 'QuizHistoryDetail') &&
-    Data_Library[0] &&
-    Data_Library.length > 0
-  )
-    showButton_LibraryRefs = true
-  //
   //  Show Settings Button ?
   //
   let showButton_UsersSettings
-  User_Settings_SignedIn &&
-  (PageCurrent === 'QuizSelect' || PageCurrent === 'QuizHistory' || PageCurrent === 'Library')
+  User_Settings_SignedIn && (PageCurrent === 'QuizHistory' || PageCurrent === 'Library')
     ? (showButton_UsersSettings = true)
     : (showButton_UsersSettings = false)
   //
@@ -117,8 +89,8 @@ export default function Navigation({ handlePage }) {
   //
   let User_Admin = false
   if (User_Settings_SignedIn) {
-    const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
-    User_Admin = User_Settings_User.u_admin
+    const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
+    User_Admin = User_Data_User.u_admin
   }
   let showButton_SwitchUser
   User_Settings_SignedIn && !ScreenSmall && User_Admin
@@ -149,32 +121,10 @@ export default function Navigation({ handlePage }) {
             startIcon={<ScoreboardIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              sessionStorage.setItem('QuizHistory_Reset', true)
+              sessionStorage.setItem('Pages_QuizHistory_Reset', true)
               handlePage('QuizHistory')
             }}
             text='History'
-          ></MyActionButton>
-        ) : null}
-        {/* .......................................................................................... */}
-        {showButton_LibraryRefs ? (
-          <MyActionButton
-            startIcon={<MenuBookIcon fontSize='small' />}
-            color='warning'
-            onClick={() => {
-              handlePage('LibraryRefs')
-            }}
-            text='Learn'
-          ></MyActionButton>
-        ) : null}
-        {/* .......................................................................................... */}
-        {showButton_QuizSelect ? (
-          <MyActionButton
-            startIcon={<QuizIcon fontSize='small' />}
-            color='warning'
-            onClick={() => {
-              handlePage('QuizSelect')
-            }}
-            text='Quiz'
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}

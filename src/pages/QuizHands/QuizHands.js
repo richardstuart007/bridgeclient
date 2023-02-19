@@ -28,20 +28,20 @@ const QuizHands = ({ qid }) => {
   //
   //  Get hands
   //
-  const Data_HandsJSON = sessionStorage.getItem('Data_Hands')
+  const Pages_Quiz_HandsJSON = sessionStorage.getItem('Pages_Quiz_Hands')
   //
   //  No data, return
   //
-  if (Data_HandsJSON === []) return null
+  if (Pages_Quiz_HandsJSON === []) return null
   //
   //  Parse data
   //
-  const Data_Hands = JSON.parse(Data_HandsJSON)
-  if (debugLog) console.log('Data_Hands ', Data_Hands)
+  const Pages_Quiz_Hands = JSON.parse(Pages_Quiz_HandsJSON)
+  if (debugLog) console.log('Pages_Quiz_Hands ', Pages_Quiz_Hands)
   //
   //  Find the HandsRow for this ID
   //
-  let HandsRow = Data_Hands.find(element => element.hid === testingQid)
+  let HandsRow = Pages_Quiz_Hands.find(element => element.hid === testingQid)
   if (debugLog) console.log('HandsRow ', HandsRow)
   //
   //  Has HandsRow ?

@@ -9,12 +9,10 @@ import UsersSettings from './UsersSettings/UsersSettings'
 import Splash from './Splash/Splash'
 import Register from './Register/Register'
 import Signin from './Signin/Signin'
-import QuizSelect from './QuizSelect/QuizSelect'
 import Quiz from './Quiz/Quiz'
 import QuizReview from './QuizReview/QuizReview'
 import QuizHistory from './QuizHistory/QuizHistory'
 import QuizHistoryDetail from './QuizHistory/QuizHistoryDetail'
-import LibraryRefs from './LibraryRefs/LibraryRefs'
 import Library from './Library/Library'
 import SwitchUser from './SwitchUser/SwitchUser'
 //
@@ -30,7 +28,7 @@ function Control({ handlePage }) {
   //
   //  Retrieve the state
   //
-  const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
+  const PageCurrent = JSON.parse(sessionStorage.getItem('App_Nav_Page_Current'))
   //
   //  Present the selected component
   //
@@ -46,10 +44,6 @@ function Control({ handlePage }) {
         <Register handlePage={handlePage} />
       ) : PageCurrent === 'Signin' ? (
         <Signin handlePage={handlePage} />
-      ) : PageCurrent === 'QuizSelect' ? (
-        <QuizSelect handlePage={handlePage} />
-      ) : PageCurrent === 'LibraryRefs' ? (
-        <LibraryRefs handlePage={handlePage} />
       ) : PageCurrent === 'Library' ? (
         <Library handlePage={handlePage} />
       ) : PageCurrent === 'Quiz' ? (

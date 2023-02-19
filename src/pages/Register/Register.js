@@ -58,9 +58,10 @@ const initialFValues = {
 function Register({ handlePage }) {
   if (debugFunStartSetting) console.log(debugModule)
   //
-  // Form Message
+  // State
   //
   const [form_message, setForm_message] = useState('')
+  const [showButtons, setShowButtons] = useState(true)
   //
   //  Interface to Form
   //
@@ -131,6 +132,14 @@ function Register({ handlePage }) {
   function FormUpdate() {
     if (debugFunStartSetting) console.log('FormUpdate')
     //
+    //  User message
+    //
+    setForm_message('Registration in progress please WAIT..')
+    //
+    //  Hide signin button
+    //
+    setShowButtons(false)
+    //
     //  Deconstruct values
     //
     const { name, user, email, password, fedid, fedcountry } = values
@@ -171,7 +180,7 @@ function Register({ handlePage }) {
         const Usersrow = rtnObj.rtnRows[0]
         if (debugLog) console.log('Usersrow ', Usersrow)
         setForm_message(`Data updated in Database with ID(${Usersrow.u_id})`)
-        sessionStorage.setItem('User_Settings_User', JSON.stringify(Usersrow))
+        sessionStorage.setItem('User_Data_User', JSON.stringify(Usersrow))
         handlePage('Signin')
       } else {
         //
@@ -181,6 +190,10 @@ function Register({ handlePage }) {
         rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
         if (debugLog) console.log(message)
         setForm_message(message)
+        //
+        //  Show button
+        //
+        setShowButtons(true)
       }
       return
     })
@@ -307,26 +320,30 @@ function Register({ handlePage }) {
             </Grid>
 
             {/*.................................................................................................*/}
-            <Grid item xs={12}>
-              <MyButton
-                text='Register'
-                onClick={() => {
-                  FormSubmit()
-                }}
-              />
-            </Grid>
+            {showButtons ? (
+              <Grid item xs={12}>
+                <MyButton
+                  text='Register'
+                  onClick={() => {
+                    FormSubmit()
+                  }}
+                />
+              </Grid>
+            ) : null}
           </Grid>
         </Paper>
         {/*.................................................................................................*/}
-        <Grid item xs={12}>
-          <MyButton
-            color='warning'
-            onClick={() => {
-              handlePage('Signin')
-            }}
-            text='Signin'
-          />
-        </Grid>
+        {showButtons ? (
+          <Grid item xs={12}>
+            <MyButton
+              color='warning'
+              onClick={() => {
+                handlePage('Signin')
+              }}
+              text='Signin'
+            />
+          </Grid>
+        ) : null}
         {/*.................................................................................................*/}
       </MyForm>
     </>

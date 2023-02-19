@@ -221,8 +221,8 @@ export default function SwitchUser({ handlePage }) {
   //  Switch User
   //.............................................................................
   function submitSwitchUser(row) {
-    sessionStorage.setItem('User_Settings_User', JSON.stringify(row))
-    sessionStorage.setItem('User_Settings_UserSwitch', JSON.stringify(true))
+    sessionStorage.setItem('User_Data_User', JSON.stringify(row))
+    sessionStorage.setItem('User_Data_UserSwitch', JSON.stringify(true))
     handlePage('PAGEBACK')
   }
   //...................................................................................
