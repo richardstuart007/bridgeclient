@@ -76,6 +76,7 @@ const headCellsLarge = [
   { id: 'lrwho', label: 'Who' },
   { id: 'lrtype', label: 'Type' },
   { id: 'learn', label: 'Learn', disableSorting: true },
+  { id: 'ogcntquestions', label: 'Questions' },
   { id: 'quiz', label: 'Quiz', disableSorting: true }
 ]
 const headCellsSmall = [
@@ -184,7 +185,7 @@ export default function Library({ handlePage }) {
     //
     //  Selection
     //
-    const sqlString = `* from library where lrowner in (${UserOwnersString}) order by lrid`
+    const sqlString = `* from library join ownergroup on lrowner = ogowner and lrgroup = oggroup where lrowner in (${UserOwnersString}) order by lrid`
     if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise
@@ -489,6 +490,7 @@ export default function Library({ handlePage }) {
                 <TableCell>{row.lrdesc}</TableCell>
                 {ScreenSmall ? null : <TableCell>{row.lrwho}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.lrtype}</TableCell>}
+
                 <TableCell>
                   <MyActionButton
                     startIcon={<PreviewIcon fontSize='small' />}
@@ -497,9 +499,9 @@ export default function Library({ handlePage }) {
                     onClick={() => openHyperlink(row.lrlink)}
                   ></MyActionButton>
                 </TableCell>
-
+                {ScreenSmall ? null : <TableCell>{row.ogcntquestions}</TableCell>}
                 <TableCell>
-                  {row.lrgroup !== 'NOQUIZ' ? (
+                  {row.ogcntquestions > 0 ? (
                     <MyActionButton
                       startIcon={<QuizIcon fontSize='small' />}
                       text={buttonTextQuiz}

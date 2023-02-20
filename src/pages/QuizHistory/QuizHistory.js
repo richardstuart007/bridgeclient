@@ -149,9 +149,6 @@ export default function QuizHistory({ handlePage }) {
   const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
   const u_name = User_Data_User.u_name
   const u_id = User_Data_User.u_id
-  //
-  //  Default if not signed in
-  //
   const User_Admin = User_Data_User.u_admin
   //
   //  Reset Quiz State
@@ -221,10 +218,8 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Selection
     //
-    let sqlString = `r_id, r_uid, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_totalpoints, r_maxpoints, r_correctpercent`
-    sqlString = sqlString + ` from usershistory`
-    sqlString = sqlString + ` join ownergroup on r_owner = ogowner and r_group = oggroup`
-    if (!User_Admin) sqlString = sqlString + ` where r_uid='${u_id}'`
+    let sqlString = `r_id, r_uid, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_totalpoints, r_maxpoints, r_correctpercent from usershistory join ownergroup on r_owner = ogowner and r_group = oggroup`
+    // if (!User_Admin) sqlString = sqlString + ` where r_uid='${u_id}'`
     sqlString = sqlString + ` order by r_id desc`
     if (debugLog) console.log('sqlString', sqlString)
     //
