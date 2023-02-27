@@ -3,6 +3,7 @@
 //
 import { useState } from 'react'
 import { Box } from '@mui/material'
+import { Card } from '@mui/material'
 //
 //  Debug Settings
 //
@@ -42,12 +43,12 @@ export default function Quiz({ handlePage }) {
   //
   //  Signed in User
   //
-  const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
   //
   //  Show Linear Bars ?
   //
-  const showLinearProgress = User_Data_User.u_showprogress
-  const showLinearScore = User_Data_User.u_showscore
+  const showLinearProgress = User_Settings_User.u_showprogress
+  const showLinearScore = User_Settings_User.u_showscore
   //
   //  Define the State variables
   //
@@ -169,13 +170,26 @@ export default function Quiz({ handlePage }) {
       <QuizQuestion quizRow={quizRow} quizQuestion={g_Idx + 1} quizTotal={g_questCount} />
       <QuizBidding qid={quizRow.qid} />
       <QuizHands qid={quizRow.qid} />
-      <QuizPanel
-        quizRow={quizRow}
-        value={value}
-        setValue={setValue}
-        setId={setId}
-        setShowSubmit={setShowSubmit}
-      />
+      <Card sx={{ maxWidth: 600, marginTop: '16px' }} style={{ backgroundColor: 'LightGray' }}>
+        <QuizPanel
+          quizRow={quizRow}
+          value={value}
+          setValue={setValue}
+          setId={setId}
+          setShowSubmit={setShowSubmit}
+        />
+        {/* .......................................................................................... */}
+        <Box>
+          {showSubmit ? (
+            <MyButton
+              text='Submit Answer'
+              onClick={() => {
+                handleSubmit()
+              }}
+            />
+          ) : null}
+        </Box>
+      </Card>
       {/* .......................................................................................... */}
       {showLinearProgress ? (
         <QuizLinearProgress count={ansCount} total={g_questCount} text={'Progress'} />
@@ -186,21 +200,11 @@ export default function Quiz({ handlePage }) {
       ) : null}
       {/* .......................................................................................... */}
       <Box sx={{ mt: 2, maxWidth: 600 }}>
-        {showSubmit ? (
-          <MyButton
-            text='Submit Answer'
-            onClick={() => {
-              handleSubmit()
-            }}
-          />
-        ) : null}
-        {/* .......................................................................................... */}
         <MyButton
           type='submit'
           text='Back'
           color='warning'
           variant='contained'
-          sx={{ float: 'right' }}
           onClick={() => {
             handlePage('PAGEBACK')
           }}

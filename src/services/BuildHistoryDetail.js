@@ -35,13 +35,13 @@ export default function BuildHistoryDetail(row) {
     //
     //  Initialise
     //
-    sessionStorage.setItem('Data_Hist_Row_Join_Received', false)
-    sessionStorage.setItem('Data_Hist_Row_Join', [])
+    sessionStorage.setItem('Pages_QuizHistory_Data_Row_Join_Received', false)
+    sessionStorage.setItem('Pages_QuizHistory_Data_Row_Join', [])
     sessionStorage.setItem('Pages_Quiz_Questions_Quiz', [])
     sessionStorage.setItem('Pages_Quiz_Bidding', [])
     sessionStorage.setItem('Pages_Quiz_Hands', [])
     //
-    //  Load Data_Hist_Row_Join
+    //  Load Pages_QuizHistory_Data_Row_Join
     //
     let sqlString = ''
     sqlString =
@@ -80,12 +80,16 @@ export default function BuildHistoryDetail(row) {
       //
       //  Data
       //
-      const Data_Hist_Row_Join = rtnObj.rtnRows
+      const Pages_QuizHistory_Data_Row_Join = rtnObj.rtnRows
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Data_Hist_Row_Join RESOLVED', Data_Hist_Row_Join)
-      sessionStorage.setItem('Data_Hist_Row_Join', JSON.stringify(Data_Hist_Row_Join))
+      if (debugLog)
+        console.log('Pages_QuizHistory_Data_Row_Join RESOLVED', Pages_QuizHistory_Data_Row_Join)
+      sessionStorage.setItem(
+        'Pages_QuizHistory_Data_Row_Join',
+        JSON.stringify(Pages_QuizHistory_Data_Row_Join)
+      )
       //
       //  Store separately
       //
@@ -93,7 +97,7 @@ export default function BuildHistoryDetail(row) {
       let Pages_Quiz_Bidding = []
       let Pages_Quiz_Hands = []
 
-      Data_Hist_Row_Join.forEach(row => {
+      Pages_QuizHistory_Data_Row_Join.forEach(row => {
         const {
           qid,
           qowner,
@@ -156,7 +160,7 @@ export default function BuildHistoryDetail(row) {
       sessionStorage.setItem('Pages_Quiz_Questions_Quiz', JSON.stringify(Pages_Quiz_Questions_Quiz))
       sessionStorage.setItem('Pages_Quiz_Bidding', JSON.stringify(Pages_Quiz_Bidding))
       sessionStorage.setItem('Pages_Quiz_Hands', JSON.stringify(Pages_Quiz_Hands))
-      sessionStorage.setItem('Data_Hist_Row_Join_Received', true)
+      sessionStorage.setItem('Pages_QuizHistory_Data_Row_Join_Received', true)
     })
 
     return

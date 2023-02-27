@@ -116,12 +116,12 @@ export default function Layout({ handlePage, children }) {
   let ShowClientServer = true
   const User_Settings_SignedIn = JSON.parse(sessionStorage.getItem('User_Settings_SignedIn'))
   if (User_Settings_SignedIn) {
-    const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
-    const User_Data_UserSwitch = JSON.parse(sessionStorage.getItem('User_Data_UserSwitch'))
-    User_Name = User_Data_User.u_name
-    User_Admin = User_Data_User.u_admin
-    User_Dev = User_Data_User.u_dev
-    User_Switched = User_Data_UserSwitch
+    const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+    const User_Settings_UserSwitch = JSON.parse(sessionStorage.getItem('User_Settings_UserSwitch'))
+    User_Name = User_Settings_User.u_name
+    User_Admin = User_Settings_User.u_admin
+    User_Dev = User_Settings_User.u_dev
+    User_Switched = User_Settings_UserSwitch
     //
     //  Do not show clientserver if not dev
     //

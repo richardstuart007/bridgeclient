@@ -27,11 +27,11 @@ export default function writeHistory() {
   //
   //  Get User
   //
-  const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
   //
   //  Key
   //
-  const r_uid = User_Data_User.u_id
+  const r_uid = User_Settings_User.u_id
   const r_datetime = new Date()
   //
   //  Selection Data

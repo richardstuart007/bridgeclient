@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Card } from '@mui/material'
 //
 //  Debug Settings
 //
@@ -110,20 +109,17 @@ export default function QuizPanel({ quizRow, value, setValue, setId, setShowSubm
   //  Format Panel
   //...................................................................................
   return (
-    <>
-      <Card sx={{ maxWidth: 600, marginTop: '16px' }} style={{ backgroundColor: 'LightGray' }}>
-        <MyRadioGroup
-          label={label}
-          name={'MuiRadio'}
-          value={value}
-          onChange={handleSelect}
-          items={answers}
-          colorFormLabel={'LightSeaGreen'}
-          colorRadioButton={'Blue'}
-          colorRadioText={'SaddleBrown'}
-          size='small'
-        />
-      </Card>
-    </>
+    <MyRadioGroup
+      label={label}
+      name={'MuiRadio'}
+      value={value}
+      onChange={handleSelect}
+      items={answers}
+      styleFormLabel={'subtitle2'}
+      colorFormLabel={'LightSeaGreen'}
+      colorRadioButton={'Blue'}
+      colorRadioText={'SaddleBrown'}
+      size='small'
+    />
   )
 }

@@ -94,6 +94,7 @@ const searchTypeOptionsLarge = [
   { id: 'lrtype', title: 'Type' }
 ]
 const searchTypeOptionsSmall = [{ id: 'lrdesc', title: 'Description' }]
+
 //
 //  Constants
 //
@@ -162,8 +163,10 @@ export default function Library({ handlePage }) {
     //
     //  Same selection - take from Storage
     //
-    const UserOwnersString = JSON.parse(sessionStorage.getItem('User_Data_UserOwnersString'))
-    const UserOwnersString_S = JSON.parse(sessionStorage.getItem('User_Data_UserOwnersString_S'))
+    const UserOwnersString = JSON.parse(sessionStorage.getItem('User_Settings_UserOwnersString'))
+    const UserOwnersString_S = JSON.parse(
+      sessionStorage.getItem('User_Settings_UserOwnersString_S')
+    )
     if (UserOwnersString === UserOwnersString_S) {
       //
       //  Session Storage
@@ -176,9 +179,17 @@ export default function Library({ handlePage }) {
         //
         setRecords(Pages_Library_Data)
         //
-        //  Filter
+        //  Form Saved Values - retrieve
         //
-        handleSearch()
+        const selection = JSON.parse(sessionStorage.getItem('Pages_Library_Selection'))
+        if (debugLog) console.log('Pages_Library_Selection', selection)
+        if (selection) {
+          const searchType = selection.searchType
+          const searchValue = selection.searchValue
+          setSearchType(searchType)
+          setSearchValue(searchValue)
+          handleSearch(searchType, searchValue)
+        }
         return
       }
     }
@@ -215,7 +226,7 @@ export default function Library({ handlePage }) {
       //  Session Storage
       //
       sessionStorage.setItem('Pages_Library_Data', JSON.stringify(Pages_Library_Data))
-      sessionStorage.setItem('User_Data_UserOwnersString_S', JSON.stringify(UserOwnersString))
+      sessionStorage.setItem('User_Settings_UserOwnersString_S', JSON.stringify(UserOwnersString))
       //
       //  Update Table
       //
@@ -232,7 +243,7 @@ export default function Library({ handlePage }) {
     return myPromiseGet
   }
   //...................................................................................
-  //.  Prepare Row before sqitching to Quiz
+  //.  Prepare Row before switching to Quiz
   //...................................................................................
   function LibraryRow(row) {
     if (debugLog) console.log('LibraryRow ')
@@ -247,6 +258,7 @@ export default function Library({ handlePage }) {
     const params = {
       SqlString_Q: SqlString_Q
     }
+    setForm_message('Quiz: Building data....wait')
     BuildQuizData(params)
     //
     //  Reset Quiz Data
@@ -340,61 +352,70 @@ export default function Library({ handlePage }) {
   //.............................................................................
   //  Search/Filter
   //.............................................................................
-  function handleSearch() {
+  function handleSearch(p_searchType = searchType, p_searchValue = searchValue) {
     if (debugFunStart) console.log('handleSearch')
     setStartPage0(true)
-    if (debugLog) console.log('setStartPage0(true)')
+    //
+    //  Form Saved Values
+    //
+    const selection = {
+      searchType: p_searchType,
+      searchValue: p_searchValue
+    }
+    sessionStorage.setItem('Pages_Library_Selection', JSON.stringify(selection))
+    if (debugLog) console.log('Pages_Library_Selection', selection)
+    //
+    //  Filter
+    //
     setFilterFn({
       fn: items => {
         //
         //  Nothing to search, return rows
         //
-        if (searchValue === '') {
+        if (p_searchValue === '') {
           return items
         }
         //
         //  Numeric
         //
-        const searchValueInt = parseInt(searchValue)
+        const p_searchValueInt = parseInt(p_searchValue)
         //
         //  Filter
         //
-        if (debugLog) console.log('searchType ', searchType)
-        if (debugLog) console.log('searchValue ', searchValue)
         let itemsFilter = items
-        switch (searchType) {
+        switch (p_searchType) {
           case 'lrid':
-            itemsFilter = items.filter(x => x.lrid === searchValueInt)
+            itemsFilter = items.filter(x => x.lrid === p_searchValueInt)
             break
           case 'lrowner':
             itemsFilter = items.filter(x =>
-              x.lrowner.toLowerCase().includes(searchValue.toLowerCase())
+              x.lrowner.toLowerCase().includes(p_searchValue.toLowerCase())
             )
             break
           case 'lrgroup':
             itemsFilter = items.filter(x =>
-              x.lrgroup.toLowerCase().includes(searchValue.toLowerCase())
+              x.lrgroup.toLowerCase().includes(p_searchValue.toLowerCase())
             )
             break
           case 'lrref':
             itemsFilter = items.filter(x =>
-              x.lrref.toLowerCase().includes(searchValue.toLowerCase())
+              x.lrref.toLowerCase().includes(p_searchValue.toLowerCase())
             )
             break
           case 'lrdesc':
             if (debugLog) console.log('lrdesc ')
             itemsFilter = items.filter(x =>
-              x.lrdesc.toLowerCase().includes(searchValue.toLowerCase())
+              x.lrdesc.toLowerCase().includes(p_searchValue.toLowerCase())
             )
             break
           case 'lrwho':
             itemsFilter = items.filter(x =>
-              x.lrwho.toLowerCase().includes(searchValue.toLowerCase())
+              x.lrwho.toLowerCase().includes(p_searchValue.toLowerCase())
             )
             break
           case 'lrtype':
             itemsFilter = items.filter(x =>
-              x.lrtype.toLowerCase().includes(searchValue.toLowerCase())
+              x.lrtype.toLowerCase().includes(p_searchValue.toLowerCase())
             )
             break
           default:
@@ -472,7 +493,7 @@ export default function Library({ handlePage }) {
             text='Filter'
             variant='outlined'
             startIcon={<FilterListIcon />}
-            onClick={handleSearch}
+            onClick={() => handleSearch()}
             className={classes.myButton}
           />
           {/* .......................................................................................... */}

@@ -25,8 +25,8 @@ export default function BuildQuizData(props) {
   //
   //  Signed in User
   //
-  const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
-  const MaxQuestions = User_Data_User.u_dftmaxquestions
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  const MaxQuestions = User_Settings_User.u_dftmaxquestions
   //
   //  Function Variables
   //
@@ -132,7 +132,7 @@ export default function BuildQuizData(props) {
     //
     //  Random sort questions
     //
-    const SortQuestions = User_Data_User.u_sortquestions
+    const SortQuestions = User_Settings_User.u_sortquestions
     SortQuestions
       ? (Pages_Quiz_Questions_Quiz = randomSort(Pages_Quiz_Questions))
       : (Pages_Quiz_Questions_Quiz = Pages_Quiz_Questions)

@@ -23,13 +23,14 @@ export default function MyRadioGroup(props) {
     colorFormLabel = 'blue',
     colorRadioButton = 'blue',
     colorRadioText = 'blue',
+    styleFormLabel = 'subtitle2',
     size = 'medium',
     ...other
   } = props
   if (debugLog) console.log('Start props ', props)
   return (
     <FormControl>
-      <FormLabel sx={{ color: colorFormLabel }}>{label}</FormLabel>
+      <FormLabel sx={{ color: colorFormLabel, typography: styleFormLabel }}>{label}</FormLabel>
       <RadioGroup name={name} value={value} onChange={onChange}>
         {items.map(item => (
           <FormControlLabel

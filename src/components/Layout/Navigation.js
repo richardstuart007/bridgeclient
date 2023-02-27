@@ -89,8 +89,8 @@ export default function Navigation({ handlePage }) {
   //
   let User_Admin = false
   if (User_Settings_SignedIn) {
-    const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
-    User_Admin = User_Data_User.u_admin
+    const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+    User_Admin = User_Settings_User.u_admin
   }
   let showButton_SwitchUser
   User_Settings_SignedIn && !ScreenSmall && User_Admin

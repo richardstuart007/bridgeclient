@@ -180,7 +180,7 @@ function Register({ handlePage }) {
         const Usersrow = rtnObj.rtnRows[0]
         if (debugLog) console.log('Usersrow ', Usersrow)
         setForm_message(`Data updated in Database with ID(${Usersrow.u_id})`)
-        sessionStorage.setItem('User_Data_User', JSON.stringify(Usersrow))
+        sessionStorage.setItem('User_Settings_User', JSON.stringify(Usersrow))
         handlePage('Signin')
       } else {
         //

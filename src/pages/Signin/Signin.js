@@ -55,8 +55,8 @@ export default function Signin({ handlePage }) {
   //
   //
   //
-  const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
-  if (User_Data_User) initialFValues.user = User_Data_User.u_user
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  if (User_Settings_User) initialFValues.user = User_Settings_User.u_user
   //
   // State
   //
@@ -215,9 +215,9 @@ export default function Signin({ handlePage }) {
     //
     //  User Info
     //
-    sessionStorage.setItem('User_Data_User', JSON.stringify(userRow))
-    sessionStorage.setItem('User_Data_UserSwitch', JSON.stringify(false))
-    sessionStorage.setItem('User_Data_UserOwners', JSON.stringify(userownerRows))
+    sessionStorage.setItem('User_Settings_User', JSON.stringify(userRow))
+    sessionStorage.setItem('User_Settings_UserSwitch', JSON.stringify(false))
+    sessionStorage.setItem('User_Settings_UserOwners', JSON.stringify(userownerRows))
     //
     //  Userowners string
     //
@@ -231,7 +231,7 @@ export default function Signin({ handlePage }) {
       }
     }
     if (debugLog) console.log('ownersString ', ownersString)
-    sessionStorage.setItem('User_Data_UserOwnersString', JSON.stringify(ownersString))
+    sessionStorage.setItem('User_Settings_UserOwnersString', JSON.stringify(ownersString))
     //
     //  Signed In
     //

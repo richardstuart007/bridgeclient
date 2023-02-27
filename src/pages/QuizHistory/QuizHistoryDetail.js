@@ -45,7 +45,7 @@ export default function QuizHistoryDetail({ handlePage }) {
   //
   //  Signed in User
   //
-  const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
   //
   //  Load the data array from the store
   //
@@ -96,8 +96,8 @@ export default function QuizHistoryDetail({ handlePage }) {
     //
     //  Get Row Values
     //
-    const row = JSON.parse(sessionStorage.getItem('Data_Hist_Row'))
-    if (debugLog) console.log('Data_Hist_Row ', row)
+    const row = JSON.parse(sessionStorage.getItem('Pages_QuizHistory_Data_Row'))
+    if (debugLog) console.log('Pages_QuizHistory_Data_Row ', row)
     updateSelection(row)
   }
   //...................................................................................
@@ -108,8 +108,10 @@ export default function QuizHistoryDetail({ handlePage }) {
     //
     //  Get Stored Data
     //
-    const Data_Hist_Row_Join = JSON.parse(sessionStorage.getItem('Data_Hist_Row_Join'))
-    if (debugLog) console.log('Data_Hist_Row_Join ', Data_Hist_Row_Join)
+    const Pages_QuizHistory_Data_Row_Join = JSON.parse(
+      sessionStorage.getItem('Pages_QuizHistory_Data_Row_Join')
+    )
+    if (debugLog) console.log('Pages_QuizHistory_Data_Row_Join ', Pages_QuizHistory_Data_Row_Join)
 
     const Pages_Quiz_Questions_Quiz = JSON.parse(
       sessionStorage.getItem('Pages_Quiz_Questions_Quiz')
@@ -141,7 +143,7 @@ export default function QuizHistoryDetail({ handlePage }) {
       //
       //  Only show failed answers ?
       //
-      let ReviewSkipPass = User_Data_User.u_skipcorrect
+      let ReviewSkipPass = User_Settings_User.u_skipcorrect
       //
       //  BUGS!
       //

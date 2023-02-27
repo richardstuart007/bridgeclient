@@ -51,7 +51,7 @@ export default function UsersSettings({ handlePage }) {
     //
     //  Get User
     //
-    const recordForEdit = JSON.parse(sessionStorage.getItem('User_Data_User'))
+    const recordForEdit = JSON.parse(sessionStorage.getItem('User_Settings_User'))
     if (debugLog) console.log('useEffect')
     if (debugLog) console.log('recordForEdit ', recordForEdit)
     //
@@ -139,7 +139,7 @@ export default function UsersSettings({ handlePage }) {
       //
       //  Store
       //
-      sessionStorage.setItem('User_Data_User', JSON.stringify(UpdateValues))
+      sessionStorage.setItem('User_Settings_User', JSON.stringify(UpdateValues))
       //
       //  Update database
       //

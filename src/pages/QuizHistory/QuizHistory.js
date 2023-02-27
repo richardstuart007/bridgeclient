@@ -68,9 +68,9 @@ const headCellsLarge = [
   { id: 'r_owner', label: 'Owner' },
   { id: 'ogtitle', label: 'Group' },
   { id: 'r_questions', label: 'Questions' },
-  { id: 'r_totalpoints', label: 'Points' },
-  { id: 'r_maxpoints', label: 'Max Points' },
-  { id: 'r_correctpercent', label: 'Points %' },
+  { id: 'r_totalpoints', label: 'Score' },
+  { id: 'r_maxpoints', label: 'Maximum' },
+  { id: 'r_correctpercent', label: 'Score %' },
   { id: 'review', label: 'Review', disableSorting: true },
   { id: 'quiz', label: 'Quiz', disableSorting: true }
 ]
@@ -146,10 +146,10 @@ export default function QuizHistory({ handlePage }) {
   //
   //  Get User
   //
-  const User_Data_User = JSON.parse(sessionStorage.getItem('User_Data_User'))
-  const u_name = User_Data_User.u_name
-  const u_id = User_Data_User.u_id
-  const User_Admin = User_Data_User.u_admin
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  const u_name = User_Settings_User.u_name
+  const u_id = User_Settings_User.u_id
+  const User_Admin = User_Settings_User.u_admin
   //
   //  Reset Quiz State
   //
@@ -245,23 +245,26 @@ export default function QuizHistory({ handlePage }) {
       //
       //  Data
       //
-      const Data_Hist = rtnObj.rtnRows
+      const Pages_QuizHistory_Data = rtnObj.rtnRows
       //
       //  Data History add time stamp
       //
-      const Data_Hist_Update = Data_Hist.map(record => ({
+      const Pages_QuizHistory_Data_Update = Pages_QuizHistory_Data.map(record => ({
         ...record,
         yymmdd: format(parseISO(record.r_datetime), 'yy-MM-dd')
       }))
       //
       //  Session Storage
       //
-      sessionStorage.setItem('Data_Hist', JSON.stringify(Data_Hist_Update))
-      if (debugLog) console.log('Data_Hist ', Data_Hist_Update)
+      sessionStorage.setItem(
+        'Pages_QuizHistory_Data',
+        JSON.stringify(Pages_QuizHistory_Data_Update)
+      )
+      if (debugLog) console.log('Pages_QuizHistory_Data ', Pages_QuizHistory_Data_Update)
       //
       //  Update Table
       //
-      setRecords(Data_Hist_Update)
+      setRecords(Pages_QuizHistory_Data_Update)
       //
       //  Filter
       //
@@ -284,7 +287,7 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Store Row
     //
-    sessionStorage.setItem('Data_Hist_Row', JSON.stringify(row))
+    sessionStorage.setItem('Pages_QuizHistory_Data_Row', JSON.stringify(row))
     //
     //  Get data
     //
@@ -293,7 +296,7 @@ export default function QuizHistory({ handlePage }) {
     //  Wait for data
     //
     const waitSessionStorageParams = {
-      sessionItem: 'Data_Hist_Row_Join_Received',
+      sessionItem: 'Pages_QuizHistory_Data_Row_Join_Received',
       handlePageValue: 'QuizHistoryDetail'
     }
     waitSessionStorage(waitSessionStorageParams, handlePage)
@@ -309,7 +312,7 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Store Row
     //
-    sessionStorage.setItem('Data_Hist_Row', JSON.stringify(row))
+    sessionStorage.setItem('Pages_QuizHistory_Data_Row', JSON.stringify(row))
     //
     //  BuildQuizData
     //
