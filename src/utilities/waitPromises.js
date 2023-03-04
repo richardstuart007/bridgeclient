@@ -11,12 +11,11 @@ const { WAIT_MAX_TRY } = require('../services/constants')
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugFunStart = false
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function waitPromises(props) {
-  if (debugFunStart) console.log(`Function: waitPromises`)
+  if (debugLog) console.log(`Function: waitPromises`)
   if (debugLog) console.log('props ', props)
   //
   //  Deconstruct props

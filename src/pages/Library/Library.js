@@ -94,7 +94,6 @@ const searchTypeOptionsLarge = [
   { id: 'lrtype', title: 'Type' }
 ]
 const searchTypeOptionsSmall = [{ id: 'lrdesc', title: 'Description' }]
-
 //
 //  Constants
 //
@@ -103,13 +102,12 @@ const functionName = 'Library'
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugFunStart = false
 const debugModule = 'Library'
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function Library({ handlePage }) {
-  if (debugFunStart) console.log(debugModule)
+  if (debugLog) console.log(debugModule)
   //
   //  Styles
   //
@@ -130,7 +128,7 @@ export default function Library({ handlePage }) {
   //
   //  Small Screen overrides
   //
-  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Set_ScreenSmall'))
   let headCells = headCellsLarge
   let searchTypeOptions = searchTypeOptionsLarge
   let searchInput = classes.searchInputLarge
@@ -154,7 +152,7 @@ export default function Library({ handlePage }) {
   //.  GET ALL
   //.............................................................................
   function getRowAllData() {
-    if (debugFunStart) console.log('getRowAllData')
+    if (debugLog) console.log(`Function: getRowAllData`)
     //
     //  Do not refetch data if already exists
     //
@@ -163,26 +161,27 @@ export default function Library({ handlePage }) {
     //
     //  Same selection - take from Storage
     //
-    const UserOwnersString = JSON.parse(sessionStorage.getItem('User_Settings_UserOwnersString'))
-    const UserOwnersString_S = JSON.parse(
-      sessionStorage.getItem('User_Settings_UserOwnersString_S')
-    )
+    const UserOwnersString = JSON.parse(sessionStorage.getItem('User_Set_UserOwnersString'))
+    const UserOwnersString_S = JSON.parse(sessionStorage.getItem('User_Set_UserOwnersString_S'))
     if (UserOwnersString === UserOwnersString_S) {
       //
       //  Session Storage
       //
-      const Pages_Library_Data = JSON.parse(sessionStorage.getItem('Pages_Library_Data'))
-      if (Pages_Library_Data) {
-        if (debugLog) console.log('Pages_Library_Data', Pages_Library_Data)
+      const Pg_Lib_Data = JSON.parse(sessionStorage.getItem('Pg_Lib_Data'))
+      if (Pg_Lib_Data) {
+        if (debugLog) console.log('Pg_Lib_Data', Pg_Lib_Data)
         //
         //  Update Table
         //
-        setRecords(Pages_Library_Data)
+        setRecords(Pg_Lib_Data)
         //
         //  Form Saved Values - retrieve
         //
-        const selection = JSON.parse(sessionStorage.getItem('Pages_Library_Selection'))
-        if (debugLog) console.log('Pages_Library_Selection', selection)
+        const selection = JSON.parse(sessionStorage.getItem('Pg_Lib_Selection'))
+        if (debugLog) console.log('Pg_Lib_Selection', selection)
+        //
+        //  Filter
+        //
         if (selection) {
           const searchType = selection.searchType
           const searchValue = selection.searchValue
@@ -221,16 +220,16 @@ export default function Library({ handlePage }) {
       //
       //  Data
       //
-      const Pages_Library_Data = rtnObj.rtnRows
+      const Pg_Lib_Data = rtnObj.rtnRows
       //
       //  Session Storage
       //
-      sessionStorage.setItem('Pages_Library_Data', JSON.stringify(Pages_Library_Data))
-      sessionStorage.setItem('User_Settings_UserOwnersString_S', JSON.stringify(UserOwnersString))
+      sessionStorage.setItem('Pg_Lib_Data', JSON.stringify(Pg_Lib_Data))
+      sessionStorage.setItem('User_Set_UserOwnersString_S', JSON.stringify(UserOwnersString))
       //
       //  Update Table
       //
-      setRecords(Pages_Library_Data)
+      setRecords(Pg_Lib_Data)
       //
       //  Filter
       //
@@ -250,7 +249,7 @@ export default function Library({ handlePage }) {
     //
     //  Store Row
     //
-    sessionStorage.setItem('Pages_Library_Data_Row', JSON.stringify(row))
+    sessionStorage.setItem('Pg_Lib_Data_Row', JSON.stringify(row))
     //
     //  BuildQuizData
     //
@@ -261,17 +260,11 @@ export default function Library({ handlePage }) {
     setForm_message('Quiz: Building data....wait')
     BuildQuizData(params)
     //
-    //  Reset Quiz Data
-    //
-    sessionStorage.setItem('Pages_Quiz_Reset', true)
-    //
     //  Wait for data
     //
     const waitSessionStorageParams = {
-      sessionItem: 'BuildQuizData_Received',
-      handlePageValue: 'Quiz',
-      dftWait: 200,
-      dftMaxTry: 50
+      sessionItem: 'Pg_Qz_All_R',
+      handlePageValue: 'Quiz'
     }
     waitSessionStorage(waitSessionStorageParams, handlePage)
   }
@@ -320,10 +313,10 @@ export default function Library({ handlePage }) {
         //
         //  Data ?
         //
-        const Pages_Quiz_Questions_Quiz_Count = JSON.parse(
-          sessionStorage.getItem('Pages_Quiz_Questions_Quiz_Count')
+        const Pg_Qz_Questions_Quiz_Count = JSON.parse(
+          sessionStorage.getItem('Pg_Qz_Questions_Quiz_Count')
         )
-        if (Pages_Quiz_Questions_Quiz_Count === 0) {
+        if (Pg_Qz_Questions_Quiz_Count === 0) {
           setForm_message('QuizSelect: No Questions found')
           if (debugLog) console.log('No Quiz Questions found')
           return
@@ -353,17 +346,20 @@ export default function Library({ handlePage }) {
   //  Search/Filter
   //.............................................................................
   function handleSearch(p_searchType = searchType, p_searchValue = searchValue) {
-    if (debugFunStart) console.log('handleSearch')
+    if (debugLog) console.log(`Function: handleSearch`)
+    //
+    //  Start at first page (0)
+    //
     setStartPage0(true)
     //
-    //  Form Saved Values
+    //  Save search values
     //
     const selection = {
       searchType: p_searchType,
       searchValue: p_searchValue
     }
-    sessionStorage.setItem('Pages_Library_Selection', JSON.stringify(selection))
-    if (debugLog) console.log('Pages_Library_Selection', selection)
+    sessionStorage.setItem('Pg_Lib_Selection', JSON.stringify(selection))
+    if (debugLog) console.log('Pg_Lib_Selection', selection)
     //
     //  Filter
     //

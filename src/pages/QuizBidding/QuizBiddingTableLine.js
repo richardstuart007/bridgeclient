@@ -1,30 +1,16 @@
 import TableRow from '@mui/material/TableRow'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Sub Components
 //
 import QuizBiddingTableLineCell from './QuizBiddingTableLineCell'
-//.............................................................................
-//.  Initialisation
-//.............................................................................
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
-const QuizBiddingTableLine = props => {
-  //...................................................................................
-  //.  Main Line
-  //...................................................................................
-  if (debugLog) console.log('props ', props)
+//...................................................................................
+//.  Main Line
+//...................................................................................
+export default function QuizBiddingTableLine(props) {
   //
   //  Destructure props
   //
   const { round, roundCount } = props
-  if (debugLog) console.log('round ', round)
-  if (debugLog) console.log('roundCount ', roundCount)
   //
   //  round into Object
   //
@@ -38,8 +24,6 @@ const QuizBiddingTableLine = props => {
   if (round[1]) roundBid.east = round[1].bid
   if (round[2]) roundBid.south = round[2].bid
   if (round[3]) roundBid.west = round[3].bid
-
-  if (debugLog) console.log('roundBid ', roundBid)
   //
   //  round into Object
   //
@@ -53,8 +37,6 @@ const QuizBiddingTableLine = props => {
   if (round[1]) roundSuit.east = round[1].suit
   if (round[2]) roundSuit.south = round[2].suit
   if (round[3]) roundSuit.west = round[3].suit
-  if (debugLog) console.log('roundSuit ', roundSuit)
-
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -77,5 +59,3 @@ const QuizBiddingTableLine = props => {
     </TableRow>
   )
 }
-
-export default QuizBiddingTableLine

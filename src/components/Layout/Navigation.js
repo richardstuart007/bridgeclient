@@ -40,11 +40,11 @@ export default function Navigation({ handlePage }) {
   //  Define
   //
   const PageCurrent = JSON.parse(sessionStorage.getItem('App_Nav_Page_Current'))
-  const User_Settings_SignedIn = JSON.parse(sessionStorage.getItem('User_Settings_SignedIn'))
+  const User_Set_SignedIn = JSON.parse(sessionStorage.getItem('User_Set_SignedIn'))
   //
   //  Screen Width
   //
-  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Set_ScreenSmall'))
   let buttonTextSignout = 'Signout'
   let buttonTextSettings = 'Settings'
   if (ScreenSmall) {
@@ -55,19 +55,19 @@ export default function Navigation({ handlePage }) {
   //  Show SignOut Button ?
   //
   let showButton_Signin
-  User_Settings_SignedIn ? (showButton_Signin = true) : (showButton_Signin = false)
+  User_Set_SignedIn ? (showButton_Signin = true) : (showButton_Signin = false)
   //
   //  Show Settings Button ?
   //
   let showButton_UsersSettings
-  User_Settings_SignedIn && (PageCurrent === 'QuizHistory' || PageCurrent === 'Library')
+  User_Set_SignedIn && (PageCurrent === 'QuizHistory' || PageCurrent === 'Library')
     ? (showButton_UsersSettings = true)
     : (showButton_UsersSettings = false)
   //
   //  Show History Button ?
   //
   let showButton_QuizHistory
-  User_Settings_SignedIn &&
+  User_Set_SignedIn &&
   PageCurrent !== 'QuizHistory' &&
   PageCurrent !== 'QuizHistoryDetail' &&
   PageCurrent !== 'UsersSettings' &&
@@ -78,7 +78,7 @@ export default function Navigation({ handlePage }) {
   //  Show Library Button ?
   //
   let showButton_Library
-  User_Settings_SignedIn &&
+  User_Set_SignedIn &&
   PageCurrent !== 'Library' &&
   PageCurrent !== 'Quiz' &&
   PageCurrent !== 'UsersSettings'
@@ -88,12 +88,12 @@ export default function Navigation({ handlePage }) {
   //  Show SwitchUser Button ?
   //
   let User_Admin = false
-  if (User_Settings_SignedIn) {
-    const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
-    User_Admin = User_Settings_User.u_admin
+  if (User_Set_SignedIn) {
+    const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
+    User_Admin = User_Set_User.u_admin
   }
   let showButton_SwitchUser
-  User_Settings_SignedIn && !ScreenSmall && User_Admin
+  User_Set_SignedIn && !ScreenSmall && User_Admin
     ? (showButton_SwitchUser = true)
     : (showButton_SwitchUser = false)
   //...................................................................................
@@ -121,7 +121,7 @@ export default function Navigation({ handlePage }) {
             startIcon={<ScoreboardIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              sessionStorage.setItem('Pages_QuizHistory_Reset', true)
+              sessionStorage.setItem('Pg_QH_Reset', true)
               handlePage('QuizHistory')
             }}
             text='History'

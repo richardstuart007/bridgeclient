@@ -48,7 +48,7 @@ export default function QuizReview({ handlePage }) {
   //
   //  Signed in User
   //
-  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
   //
   //  Load the data array from the store
   //
@@ -95,15 +95,13 @@ export default function QuizReview({ handlePage }) {
     //
     //  Get Store Values
     //
-    const Pages_Quiz_Questions_Quiz = JSON.parse(
-      sessionStorage.getItem('Pages_Quiz_Questions_Quiz')
-    )
-    const Pages_Quiz_Answers = JSON.parse(sessionStorage.getItem('Pages_Quiz_Answers'))
+    const Pg_Qz_Questions_Quiz = JSON.parse(sessionStorage.getItem('Pg_Qz_Questions_Quiz'))
+    const Pg_Qz_Answers = JSON.parse(sessionStorage.getItem('Pg_Qz_Answers'))
     //
     //  Questions
     //
     let ArrQuestions = []
-    Pages_Quiz_Questions_Quiz.forEach(row => {
+    Pg_Qz_Questions_Quiz.forEach(row => {
       const rowData = { ...row }
       ArrQuestions.push(rowData)
     })
@@ -119,13 +117,13 @@ export default function QuizReview({ handlePage }) {
     let AnsQuestIdx = -1
     let AnsReview = 0
 
-    Pages_Quiz_Answers.forEach(id => {
+    Pg_Qz_Answers.forEach(id => {
       AnsCount++
       AnsQuestIdx++
       //
       //  Only show failed answers ?
       //
-      const ReviewSkipPass = User_Settings_User.u_skipcorrect
+      const ReviewSkipPass = User_Set_User.u_skipcorrect
       if (id !== 1 || !ReviewSkipPass) {
         Ans.push(id)
         AnsNum.push(AnsQuestIdx)

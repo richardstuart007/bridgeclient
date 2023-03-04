@@ -3,52 +3,37 @@
 //
 import { Table, TableBody, Card } from '@mui/material'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Sub Components
 //
 import QuizBiddingTableHeader from './QuizBiddingTableHeader'
 import QuizBiddingTableLine from './QuizBiddingTableLine'
-//.............................................................................
-//.  Initialisation
-//.............................................................................
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //===================================================================================
-const QuizBidding = ({ qid }) => {
+export default function QuizBidding({ qid }) {
   //...................................................................................
   //.  Main Line
   //...................................................................................
-  if (debugLog) console.log('qid ', qid)
   let testingQid = qid
   //
   //  Get Bidding
   //
-  const Pages_Quiz_BiddingJSON = sessionStorage.getItem('Pages_Quiz_Bidding')
+  const Pg_Qz_BiddingJSON = sessionStorage.getItem('Pg_Qz_Bidding')
   //
   //  No Bidding, return
   //
-  if (Pages_Quiz_BiddingJSON === []) return null
+  if (Pg_Qz_BiddingJSON === []) return null
   //
   //  Parse data
   //
-  const Pages_Quiz_Bidding = JSON.parse(Pages_Quiz_BiddingJSON)
-  if (debugLog) console.log('Pages_Quiz_Bidding ', Pages_Quiz_Bidding)
+  const Pg_Qz_Bidding = JSON.parse(Pg_Qz_BiddingJSON)
   //
   //  Find the BiddingRow
   //
-  let BiddingRow = Pages_Quiz_Bidding.find(element => element.bid === testingQid)
-  if (debugLog) console.log('BiddingRow ', BiddingRow)
+  let BiddingRow = Pg_Qz_Bidding.find(element => element.bid === testingQid)
   //
   //  Has BiddingRow ?
   //
   let hasBidding
   BiddingRow === undefined ? (hasBidding = false) : (hasBidding = true)
-  if (debugLog) console.log('hasBidding ', hasBidding)
   //
   //  No BiddingRow, return
   //
@@ -57,8 +42,6 @@ const QuizBidding = ({ qid }) => {
   //  Build Bidding Arrays
   //
   let Rounds = [...BiddingRow.brounds]
-  if (debugLog) console.log('BiddingRow.brounds ', BiddingRow.brounds)
-  if (debugLog) console.log('Rounds ', Rounds)
   //
   //  Process each Round
   //
@@ -70,7 +53,6 @@ const QuizBidding = ({ qid }) => {
     //
     let bidObjArray = []
     round.forEach(bid => {
-      if (debugLog) console.log('bid ', bid)
       //
       //  Fill bidObj (bid/suit)
       //
@@ -79,7 +61,6 @@ const QuizBidding = ({ qid }) => {
         suit: ''
       }
       const level = bid.substr(0, 1)
-      if (debugLog) console.log('level ', level)
       switch (level) {
         // Pass
         case 'P':
@@ -132,7 +113,6 @@ const QuizBidding = ({ qid }) => {
     //
     //  Prefix bidObj with round number
     //
-    if (debugLog) console.log('bidObjArray ', bidObjArray)
     const objTemp = {
       roundCount: '',
       innerArray: []
@@ -145,7 +125,6 @@ const QuizBidding = ({ qid }) => {
     //
     roundsbidObjArray.push(objTemp)
   })
-  if (debugLog) console.log('roundsbidObjArray ', roundsbidObjArray)
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -171,5 +150,3 @@ const QuizBidding = ({ qid }) => {
     </>
   )
 }
-
-export default QuizBidding

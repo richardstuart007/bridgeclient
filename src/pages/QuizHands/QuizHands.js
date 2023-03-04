@@ -3,52 +3,36 @@
 //
 import { Table, TableBody, Card } from '@mui/material'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Sub Components
 //
 import QuizHandsTableHeader from './QuizHandsTableHeader'
 import QuizHandsTableLine from './QuizHandsTableLine'
-//.............................................................................
-//.  Initialisation
-//.............................................................................
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
-//===================================================================================
-const QuizHands = ({ qid }) => {
-  //...................................................................................
-  //.  Main Line
-  //...................................................................................
-  if (debugLog) console.log('qid ', qid)
+//...................................................................................
+//.  Main Line
+//...................................................................................
+export default function QuizHands({ qid }) {
   let testingQid = qid
   //
   //  Get hands
   //
-  const Pages_Quiz_HandsJSON = sessionStorage.getItem('Pages_Quiz_Hands')
+  const Pg_Qz_HandsJSON = sessionStorage.getItem('Pg_Qz_Hands')
   //
   //  No data, return
   //
-  if (Pages_Quiz_HandsJSON === []) return null
+  if (Pg_Qz_HandsJSON === []) return null
   //
   //  Parse data
   //
-  const Pages_Quiz_Hands = JSON.parse(Pages_Quiz_HandsJSON)
-  if (debugLog) console.log('Pages_Quiz_Hands ', Pages_Quiz_Hands)
+  const Pg_Qz_Hands = JSON.parse(Pg_Qz_HandsJSON)
   //
   //  Find the HandsRow for this ID
   //
-  let HandsRow = Pages_Quiz_Hands.find(element => element.hid === testingQid)
-  if (debugLog) console.log('HandsRow ', HandsRow)
+  let HandsRow = Pg_Qz_Hands.find(element => element.hid === testingQid)
   //
   //  Has HandsRow ?
   //
   let hasHands
   HandsRow === undefined ? (hasHands = false) : (hasHands = true)
-  if (debugLog) console.log('hasHands ', hasHands)
   //
   //  No HandsRow, return
   //
@@ -58,7 +42,6 @@ const QuizHands = ({ qid }) => {
   //
   let HandObjArray = []
   let RowCount = 0
-  if (debugLog) console.log('HandsRow', HandsRow)
   //
   //  North
   //
@@ -111,7 +94,6 @@ const QuizHands = ({ qid }) => {
     handObj.hand = [...HandsRow.hwest]
     HandObjArray.push(handObj)
   }
-  if (debugLog) console.log('HandObjArray ', HandObjArray)
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -137,5 +119,3 @@ const QuizHands = ({ qid }) => {
     </>
   )
 }
-
-export default QuizHands

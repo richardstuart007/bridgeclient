@@ -154,12 +154,12 @@ export default async function rowCrud(props) {
       //
       //  Base URL
       //
-      const App_Settings_URL = JSON.parse(sessionStorage.getItem('App_Settings_URL'))
-      if (debugLog) console.log('App_Settings_URL ', App_Settings_URL)
+      const App_Set_URL = JSON.parse(sessionStorage.getItem('App_Set_URL'))
+      if (debugLog) console.log('App_Set_URL ', App_Set_URL)
       //
       //  Full URL
       //
-      const URL = App_Settings_URL + URL_TABLES
+      const URL = App_Set_URL + URL_TABLES
       if (debugLog) console.log('URL ', URL)
       if (debugLog) console.log(`sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) `)
       //

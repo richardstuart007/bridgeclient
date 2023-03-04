@@ -18,7 +18,7 @@ export default function writeHistory() {
   //
   //  Answers
   //
-  const r_ans = JSON.parse(sessionStorage.getItem('Pages_Quiz_Answers'))
+  const r_ans = JSON.parse(sessionStorage.getItem('Pg_Qz_Answers'))
   const r_questions = r_ans.length
   //
   //  If no questions answered, do not write history
@@ -27,17 +27,17 @@ export default function writeHistory() {
   //
   //  Get User
   //
-  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
   //
   //  Key
   //
-  const r_uid = User_Settings_User.u_id
+  const r_uid = User_Set_User.u_id
   const r_datetime = new Date()
   //
   //  Selection Data
   //
-  const r_owner = JSON.parse(sessionStorage.getItem('Pages_Quiz_Owner'))
-  const r_group = JSON.parse(sessionStorage.getItem('Pages_Quiz_OwnerGroup'))
+  const r_owner = JSON.parse(sessionStorage.getItem('Pg_Qz_Owner'))
+  const r_group = JSON.parse(sessionStorage.getItem('Pg_Qz_OwnerGroup'))
   //
   //  Question IDs of Answered questions
   //
@@ -47,8 +47,8 @@ export default function writeHistory() {
   let r_totalpoints = 0
   let r_maxpoints = 0
   let r_correctpercent = 0
-  const Pages_Quiz_Questions_Quiz = JSON.parse(sessionStorage.getItem('Pages_Quiz_Questions_Quiz'))
-  Pages_Quiz_Questions_Quiz.forEach(row => {
+  const Pg_Qz_Questions_Quiz = JSON.parse(sessionStorage.getItem('Pg_Qz_Questions_Quiz'))
+  Pg_Qz_Questions_Quiz.forEach(row => {
     count++
     if (count <= r_questions) {
       r_qid.push(row.qid)

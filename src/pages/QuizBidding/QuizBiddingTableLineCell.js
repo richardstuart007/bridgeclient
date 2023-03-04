@@ -4,35 +4,20 @@ import TableCell from '@mui/material/TableCell'
 //
 import { Avatar, Typography, Grid } from '@mui/material'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Sub Components
 //
 import spade from '../../assets/images/spade.svg'
 import heart from '../../assets/images/heart.svg'
 import diamond from '../../assets/images/diamond.svg'
 import club from '../../assets/images/club.svg'
-//.............................................................................
-//.  Initialisation
-//.............................................................................
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //...................................................................................
 //.  Main Line
 //...................................................................................
-const QuizBiddingTableLineCell = props => {
-  if (debugLog) console.log('props ', props)
+export default function QuizBiddingTableLineCell(props) {
   //
   //  Destructure props
   //
   const { bid, suit, cell } = props
-  if (debugLog) console.log('bid ', bid)
-  if (debugLog) console.log('suit ', suit)
-  if (debugLog) console.log('cell ', cell)
   //
   //  Source svg
   //
@@ -86,5 +71,3 @@ const QuizBiddingTableLineCell = props => {
     </>
   )
 }
-
-export default QuizBiddingTableLineCell

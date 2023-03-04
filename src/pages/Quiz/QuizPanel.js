@@ -1,19 +1,11 @@
 import { useEffect, useState } from 'react'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Sub Components
 //
 import MyRadioGroup from '../../components/controls/MyRadioGroup'
 //..............................................................................
 //.  Initialisation
 //.............................................................................
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //
 //  Global
 //
@@ -22,7 +14,6 @@ let Answers = []
 let label = 'Select your answer'
 //===================================================================================
 export default function QuizPanel({ quizRow, value, setValue, setId, setShowSubmit }) {
-  if (debugLog) console.log('Start QuizPanel')
   //
   //  State
   //
@@ -64,14 +55,12 @@ export default function QuizPanel({ quizRow, value, setValue, setId, setShowSubm
     //  Sort the Answers by the random sort id
     //
     Answers.sort((a, b) => (a.random > b.random ? 1 : -1))
-    if (debugLog) console.log(Answers)
     //
     //  Re-assign the ID
     //
     for (let i = 0; i < Answers.length; i++) {
       Answers[i].id = i
     }
-    if (debugLog) console.log(Answers)
     //
     //  Update state
     //
@@ -97,11 +86,8 @@ export default function QuizPanel({ quizRow, value, setValue, setId, setShowSubm
   //...................................................................................
   const handleSelect = event => {
     const elem = event.target.value
-    if (debugLog) console.log('elem ', elem)
     setValue(elem)
-    if (debugLog) console.log('answers ', answers)
     const id = answers[elem].idnum
-    if (debugLog) console.log('id ', id)
     setId(id)
     setShowSubmit(true)
   }

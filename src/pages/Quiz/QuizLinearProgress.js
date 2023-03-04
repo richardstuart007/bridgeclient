@@ -4,19 +4,12 @@
 import { useState, useEffect } from 'react'
 import { LinearProgress, Typography, Box } from '@mui/material'
 import { teal } from 'material-ui-colors'
-//
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
 //.............................................................................
 //.  Initialisation
 //.............................................................................
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
+
 //===================================================================================
-const QuizLinearProgress = props => {
+export default function QuizLinearProgress(props) {
   const { count, total, text } = props
   //
   //  State
@@ -28,10 +21,6 @@ const QuizLinearProgress = props => {
   useEffect(() => {
     if (total > 0) setProgress(Math.round((100 * count) / total))
   }, [count, total])
-
-  if (debugLog) console.log('count ', count)
-  if (debugLog) console.log('total ', total)
-  if (debugLog) console.log('progress ', progress)
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -52,5 +41,3 @@ const QuizLinearProgress = props => {
     </>
   )
 }
-
-export default QuizLinearProgress

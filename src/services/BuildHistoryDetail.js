@@ -14,14 +14,13 @@ const functionName = 'BuildHistoryDetail'
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugFunStart = false
 const debugModule = 'BuildHistoryDetail'
 
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function BuildHistoryDetail(row) {
-  if (debugFunStart) console.log(debugModule)
+  if (debugLog) console.log(debugModule)
   //
   //  Load data
   //
@@ -31,17 +30,17 @@ export default function BuildHistoryDetail(row) {
   //.  Load Server - Questions
   //...................................................................................
   function LoadServerQuestions() {
-    if (debugFunStart) console.log('LoadServerQuestions')
+    if (debugLog) console.log('LoadServerQuestions')
     //
     //  Initialise
     //
-    sessionStorage.setItem('Pages_QuizHistory_Data_Row_Join_Received', false)
-    sessionStorage.setItem('Pages_QuizHistory_Data_Row_Join', [])
-    sessionStorage.setItem('Pages_Quiz_Questions_Quiz', [])
-    sessionStorage.setItem('Pages_Quiz_Bidding', [])
-    sessionStorage.setItem('Pages_Quiz_Hands', [])
+    sessionStorage.setItem('Pg_QH_Data_R', false)
+    sessionStorage.setItem('Pg_QH_Data_Row_Join', [])
+    sessionStorage.setItem('Pg_Qz_Questions_Quiz', [])
+    sessionStorage.setItem('Pg_Qz_Bidding', [])
+    sessionStorage.setItem('Pg_Qz_Hands', [])
     //
-    //  Load Pages_QuizHistory_Data_Row_Join
+    //  Load Pg_QH_Data_Row_Join
     //
     let sqlString = ''
     sqlString =
@@ -80,24 +79,20 @@ export default function BuildHistoryDetail(row) {
       //
       //  Data
       //
-      const Pages_QuizHistory_Data_Row_Join = rtnObj.rtnRows
+      const Pg_QH_Data_Row_Join = rtnObj.rtnRows
       //
       //  Session Storage
       //
-      if (debugLog)
-        console.log('Pages_QuizHistory_Data_Row_Join RESOLVED', Pages_QuizHistory_Data_Row_Join)
-      sessionStorage.setItem(
-        'Pages_QuizHistory_Data_Row_Join',
-        JSON.stringify(Pages_QuizHistory_Data_Row_Join)
-      )
+      if (debugLog) console.log('Pg_QH_Data_Row_Join RESOLVED', Pg_QH_Data_Row_Join)
+      sessionStorage.setItem('Pg_QH_Data_Row_Join', JSON.stringify(Pg_QH_Data_Row_Join))
       //
       //  Store separately
       //
-      let Pages_Quiz_Questions_Quiz = []
-      let Pages_Quiz_Bidding = []
-      let Pages_Quiz_Hands = []
+      let Pg_Qz_Questions_Quiz = []
+      let Pg_Qz_Bidding = []
+      let Pg_Qz_Hands = []
 
-      Pages_QuizHistory_Data_Row_Join.forEach(row => {
+      Pg_QH_Data_Row_Join.forEach(row => {
         const {
           qid,
           qowner,
@@ -129,7 +124,7 @@ export default function BuildHistoryDetail(row) {
           qpoints: qpoints,
           qgroup: qgroup
         }
-        Pages_Quiz_Questions_Quiz.push(rowQuestion)
+        Pg_Qz_Questions_Quiz.push(rowQuestion)
         //
         //  Bidding
         //
@@ -138,7 +133,7 @@ export default function BuildHistoryDetail(row) {
             bid: qid,
             brounds: brounds
           }
-          Pages_Quiz_Bidding.push(rowBidding)
+          Pg_Qz_Bidding.push(rowBidding)
         }
         //
         //  Hands
@@ -151,16 +146,16 @@ export default function BuildHistoryDetail(row) {
             hsouth: hsouth,
             hwest: hwest
           }
-          Pages_Quiz_Hands.push(rowHands)
+          Pg_Qz_Hands.push(rowHands)
         }
       })
       //
       //  Completion
       //
-      sessionStorage.setItem('Pages_Quiz_Questions_Quiz', JSON.stringify(Pages_Quiz_Questions_Quiz))
-      sessionStorage.setItem('Pages_Quiz_Bidding', JSON.stringify(Pages_Quiz_Bidding))
-      sessionStorage.setItem('Pages_Quiz_Hands', JSON.stringify(Pages_Quiz_Hands))
-      sessionStorage.setItem('Pages_QuizHistory_Data_Row_Join_Received', true)
+      sessionStorage.setItem('Pg_Qz_Questions_Quiz', JSON.stringify(Pg_Qz_Questions_Quiz))
+      sessionStorage.setItem('Pg_Qz_Bidding', JSON.stringify(Pg_Qz_Bidding))
+      sessionStorage.setItem('Pg_Qz_Hands', JSON.stringify(Pg_Qz_Hands))
+      sessionStorage.setItem('Pg_QH_Data_R', true)
     })
 
     return
@@ -169,12 +164,12 @@ export default function BuildHistoryDetail(row) {
   //.  Load Server - Library
   //...................................................................................
   function LoadServerLibrary() {
-    if (debugFunStart) console.log('LoadServerLibrary')
+    if (debugLog) console.log('LoadServerLibrary')
     //
     //  Initialise
     //
-    sessionStorage.setItem('Pages_Library_Data_Received', false)
-    sessionStorage.setItem('Pages_Library_Data', [])
+    sessionStorage.setItem('Pg_Lib_Data_R', false)
+    sessionStorage.setItem('Pg_Lib_Data', [])
     //
     //  List of Questions in a string
     //
@@ -218,13 +213,13 @@ export default function BuildHistoryDetail(row) {
       //
       //  Data
       //
-      const Pages_Library_Data = rtnObj.rtnRows
+      const Pg_Lib_Data = rtnObj.rtnRows
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Pages_Library_Data RESOLVED', Pages_Library_Data)
-      sessionStorage.setItem('Pages_Library_Data', JSON.stringify(Pages_Library_Data))
-      sessionStorage.setItem('Pages_Library_Data_Received', true)
+      if (debugLog) console.log('Pg_Lib_Data RESOLVED', Pg_Lib_Data)
+      sessionStorage.setItem('Pg_Lib_Data', JSON.stringify(Pg_Lib_Data))
+      sessionStorage.setItem('Pg_Lib_Data_R', true)
 
       return
     })

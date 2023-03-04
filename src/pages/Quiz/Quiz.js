@@ -43,12 +43,12 @@ export default function Quiz({ handlePage }) {
   //
   //  Signed in User
   //
-  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
   //
   //  Show Linear Bars ?
   //
-  const showLinearProgress = User_Settings_User.u_showprogress
-  const showLinearScore = User_Settings_User.u_showscore
+  const showLinearProgress = User_Set_User.u_showprogress
+  const showLinearScore = User_Set_User.u_showscore
   //
   //  Define the State variables
   //
@@ -61,8 +61,8 @@ export default function Quiz({ handlePage }) {
   //
   //  Reset Quiz State
   //
-  const Pages_Quiz_Reset = JSON.parse(sessionStorage.getItem('Pages_Quiz_Reset'))
-  if (Pages_Quiz_Reset) handleQuizReset()
+  const Pg_Qz_Reset = JSON.parse(sessionStorage.getItem('Pg_Qz_Reset'))
+  if (Pg_Qz_Reset) handleQuizReset()
   //
   //  No data (Error)
   //
@@ -79,17 +79,17 @@ export default function Quiz({ handlePage }) {
     //
     //  Reset flag
     //
-    if (debugLog) console.log('Pages_Quiz_Reset')
-    sessionStorage.setItem('Pages_Quiz_Reset', false)
+    if (debugLog) console.log('Pg_Qz_Reset')
+    sessionStorage.setItem('Pg_Qz_Reset', false)
     //
     //  Get store data & copy to State
     //
-    const Pages_Quiz_Questions_QuizJSON = sessionStorage.getItem('Pages_Quiz_Questions_Quiz')
-    const Pages_Quiz_Questions_Quiz = JSON.parse(Pages_Quiz_Questions_QuizJSON)
-    if (debugLog) console.log(Pages_Quiz_Questions_Quiz)
+    const Pg_Qz_Questions_QuizJSON = sessionStorage.getItem('Pg_Qz_Questions_Quiz')
+    const Pg_Qz_Questions_Quiz = JSON.parse(Pg_Qz_Questions_QuizJSON)
+    if (debugLog) console.log(Pg_Qz_Questions_Quiz)
 
     let quest = []
-    Pages_Quiz_Questions_Quiz.forEach(row => {
+    Pg_Qz_Questions_Quiz.forEach(row => {
       const rowData = { ...row }
       quest.push(rowData)
     })
@@ -108,7 +108,7 @@ export default function Quiz({ handlePage }) {
     // Reset Answers
     //
     g_quizAns = []
-    sessionStorage.setItem('Pages_Quiz_Answers', JSON.stringify(g_quizAns))
+    sessionStorage.setItem('Pg_Qz_Answers', JSON.stringify(g_quizAns))
     setAnsPass(0)
     setAnsCount(0)
   }
@@ -139,7 +139,7 @@ export default function Quiz({ handlePage }) {
     if (debugLog) console.log('g_Idx ', g_Idx, 'id ', id)
     g_quizAns[g_Idx] = id
     if (debugLog) console.log('g_quizAns ', g_quizAns)
-    sessionStorage.setItem('Pages_Quiz_Answers', JSON.stringify(g_quizAns))
+    sessionStorage.setItem('Pg_Qz_Answers', JSON.stringify(g_quizAns))
 
     const nextAnsCount = ansCount + 1
     setAnsCount(nextAnsCount)

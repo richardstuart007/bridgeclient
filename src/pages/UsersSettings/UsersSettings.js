@@ -37,13 +37,12 @@ const initialFValues = {
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugFunStart = false
 const debugModule = 'UsersSettings'
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function UsersSettings({ handlePage }) {
-  if (debugFunStart) console.log(debugModule)
+  if (debugLog) console.log(debugModule)
   //
   //  On change of record, set State
   //
@@ -51,7 +50,7 @@ export default function UsersSettings({ handlePage }) {
     //
     //  Get User
     //
-    const recordForEdit = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+    const recordForEdit = JSON.parse(sessionStorage.getItem('User_Set_User'))
     if (debugLog) console.log('useEffect')
     if (debugLog) console.log('recordForEdit ', recordForEdit)
     //
@@ -68,7 +67,7 @@ export default function UsersSettings({ handlePage }) {
   // Validate the fields
   //
   const validate = (fieldValues = values) => {
-    if (debugFunStart) console.log('validate')
+    if (debugLog) console.log('validate')
     if (debugLog) console.log(fieldValues)
     //
     //  Load previous errors
@@ -127,7 +126,7 @@ export default function UsersSettings({ handlePage }) {
   //.  Submit form
   //...................................................................................
   const handleSubmit = e => {
-    if (debugFunStart) console.log('handleSubmit')
+    if (debugLog) console.log('handleSubmit')
     e.preventDefault()
     //
     //  Validate & Update
@@ -139,7 +138,7 @@ export default function UsersSettings({ handlePage }) {
       //
       //  Store
       //
-      sessionStorage.setItem('User_Settings_User', JSON.stringify(UpdateValues))
+      sessionStorage.setItem('User_Set_User', JSON.stringify(UpdateValues))
       //
       //  Update database
       //
@@ -154,7 +153,7 @@ export default function UsersSettings({ handlePage }) {
   //.  UPDATE
   //.............................................................................
   const updateRowData = data => {
-    if (debugFunStart) console.log('updateRowData')
+    if (debugLog) console.log('updateRowData')
     //
     //  Data Received
     //

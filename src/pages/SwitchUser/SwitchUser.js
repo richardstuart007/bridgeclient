@@ -82,13 +82,12 @@ const functionName = 'SwitchUser'
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugFunStart = false
 const debugModule = 'SwitchUser'
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function SwitchUser({ handlePage }) {
-  if (debugFunStart) console.log(debugModule)
+  if (debugLog) console.log(debugModule)
   //.............................................................................
   //
   //  Styles
@@ -125,7 +124,7 @@ export default function SwitchUser({ handlePage }) {
   //.  GET ALL
   //.............................................................................
   function getRowAllData() {
-    if (debugFunStart) console.log('getRowAllData')
+    if (debugLog) console.log('getRowAllData')
     //
     //  Selection
     //
@@ -171,7 +170,7 @@ export default function SwitchUser({ handlePage }) {
   //  Search/Filter
   //.............................................................................
   function handleSearch() {
-    if (debugFunStart) console.log('handleSearch')
+    if (debugLog) console.log('handleSearch')
     setFilterFn({
       fn: items => {
         //
@@ -221,8 +220,8 @@ export default function SwitchUser({ handlePage }) {
   //  Switch User
   //.............................................................................
   function submitSwitchUser(row) {
-    sessionStorage.setItem('User_Settings_User', JSON.stringify(row))
-    sessionStorage.setItem('User_Settings_UserSwitch', JSON.stringify(true))
+    sessionStorage.setItem('User_Set_User', JSON.stringify(row))
+    sessionStorage.setItem('User_Set_UserSwitch', JSON.stringify(true))
     handlePage('PAGEBACK')
   }
   //...................................................................................

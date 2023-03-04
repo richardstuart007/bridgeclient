@@ -48,8 +48,8 @@ export default async function registerUser(props) {
   //
   //  Get the URL
   //
-  const App_Settings_URL = JSON.parse(sessionStorage.getItem('App_Settings_URL'))
-  if (debugLog) console.log('App_Settings_URL ', App_Settings_URL)
+  const App_Set_URL = JSON.parse(sessionStorage.getItem('App_Set_URL'))
+  if (debugLog) console.log('App_Set_URL ', App_Set_URL)
   //
   // Fetch the data
   //
@@ -81,7 +81,7 @@ export default async function registerUser(props) {
         admin: admin,
         dev: dev
       }
-      const URL = App_Settings_URL + URL_REGISTER
+      const URL = App_Set_URL + URL_REGISTER
       if (debugLog) console.log('URL ', URL)
       //
       //  SQL database

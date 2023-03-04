@@ -26,7 +26,6 @@ import SelectCountry from './SelectCountry'
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugFunStartSetting = false
 const debugModule = 'Register'
 //
 // Constants
@@ -56,7 +55,7 @@ const initialFValues = {
 //.  Main Line
 //...................................................................................
 function Register({ handlePage }) {
-  if (debugFunStartSetting) console.log(debugModule)
+  if (debugLog) console.log(debugModule)
   //
   // State
   //
@@ -74,7 +73,7 @@ function Register({ handlePage }) {
   //.  Input field validation
   //.............................................................................
   function validate(fieldValues = values) {
-    if (debugFunStartSetting) console.log('validate')
+    if (debugLog) console.log('validate')
     let temp = { ...errors }
     //
     //  name
@@ -121,7 +120,7 @@ function Register({ handlePage }) {
   //.  Form Submit
   //...................................................................................
   function FormSubmit(e) {
-    if (debugFunStartSetting) console.log('FormSubmit')
+    if (debugLog) console.log('FormSubmit')
     if (validate()) {
       FormUpdate()
     }
@@ -130,7 +129,7 @@ function Register({ handlePage }) {
   //.  Update
   //...................................................................................
   function FormUpdate() {
-    if (debugFunStartSetting) console.log('FormUpdate')
+    if (debugLog) console.log('FormUpdate')
     //
     //  User message
     //
@@ -180,7 +179,7 @@ function Register({ handlePage }) {
         const Usersrow = rtnObj.rtnRows[0]
         if (debugLog) console.log('Usersrow ', Usersrow)
         setForm_message(`Data updated in Database with ID(${Usersrow.u_id})`)
-        sessionStorage.setItem('User_Settings_User', JSON.stringify(Usersrow))
+        sessionStorage.setItem('User_Set_User', JSON.stringify(Usersrow))
         handlePage('Signin')
       } else {
         //

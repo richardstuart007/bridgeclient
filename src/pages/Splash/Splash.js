@@ -23,12 +23,12 @@ export default function Splash({ handlePage }) {
   //
   //  Screen Width
   //
-  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Set_ScreenSmall'))
   //
   //  Check if errors
   //
-  const App_Settings_Server = JSON.parse(sessionStorage.getItem('App_Settings_Server'))
-  const noErrors = App_Settings_Server !== 'Error'
+  const App_Set_Server = JSON.parse(sessionStorage.getItem('App_Set_Server'))
+  const noErrors = App_Set_Server !== 'Error'
 
   //...................................................................................
   //.  Render the form

@@ -62,7 +62,7 @@ export default function Layout({ handlePage, children }) {
   //
   //  Screen Width
   //
-  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Set_ScreenSmall'))
   //
   //  Title
   //
@@ -100,9 +100,9 @@ export default function Layout({ handlePage, children }) {
   //
   //  Add clientserver
   //
-  const App_Settings_Server = JSON.parse(sessionStorage.getItem('App_Settings_Server'))
-  const App_Settings_Database = JSON.parse(sessionStorage.getItem('App_Settings_Database'))
-  const clientserver = ` Server(${App_Settings_Server}) Database(${App_Settings_Database})`
+  const App_Set_Server = JSON.parse(sessionStorage.getItem('App_Set_Server'))
+  const App_Set_Database = JSON.parse(sessionStorage.getItem('App_Set_Database'))
+  const clientserver = ` Server(${App_Set_Server}) Database(${App_Set_Database})`
   //
   //  Default if not signed in
   //
@@ -114,14 +114,14 @@ export default function Layout({ handlePage, children }) {
   //  Signed in User
   //
   let ShowClientServer = true
-  const User_Settings_SignedIn = JSON.parse(sessionStorage.getItem('User_Settings_SignedIn'))
-  if (User_Settings_SignedIn) {
-    const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
-    const User_Settings_UserSwitch = JSON.parse(sessionStorage.getItem('User_Settings_UserSwitch'))
-    User_Name = User_Settings_User.u_name
-    User_Admin = User_Settings_User.u_admin
-    User_Dev = User_Settings_User.u_dev
-    User_Switched = User_Settings_UserSwitch
+  const User_Set_SignedIn = JSON.parse(sessionStorage.getItem('User_Set_SignedIn'))
+  if (User_Set_SignedIn) {
+    const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
+    const User_Set_UserSwitch = JSON.parse(sessionStorage.getItem('User_Set_UserSwitch'))
+    User_Name = User_Set_User.u_name
+    User_Admin = User_Set_User.u_admin
+    User_Dev = User_Set_User.u_dev
+    User_Switched = User_Set_UserSwitch
     //
     //  Do not show clientserver if not dev
     //
@@ -161,7 +161,7 @@ export default function Layout({ handlePage, children }) {
               </Typography>
             </Grid>
             {/* .......................................................................................... */}
-            {User_Settings_SignedIn ? (
+            {User_Set_SignedIn ? (
               <Grid item>
                 <Typography
                   className={classes.welcome}

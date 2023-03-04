@@ -4,10 +4,6 @@
 import { Avatar, TableCell, TableHead, TableRow } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Sub Components
 //
 import spade from '../../assets/images/spade.svg'
@@ -22,24 +18,14 @@ const useStyles = makeStyles({
     maxWidth: '100px'
   }
 })
-//.............................................................................
-//.  Initialisation
-//.............................................................................
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
-//===================================================================================
-const QuizHandsTableHeader = () => {
-  if (debugLog) console.log('spade ', spade)
+//...................................................................................
+//.  Main Line
+//...................................................................................
+export default function QuizHandsTableHeader() {
   //
   //  Styles
   //
   const classes = useStyles()
-  //...................................................................................
-  //.  Main Line
-  //...................................................................................
-
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -90,5 +76,3 @@ const QuizHandsTableHeader = () => {
     </>
   )
 }
-
-export default QuizHandsTableHeader

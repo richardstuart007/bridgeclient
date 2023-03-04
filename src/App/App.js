@@ -95,7 +95,7 @@ export default function App() {
   //
   const ScreenMedium = useMediaQuery(theme.breakpoints.up('sm'))
   const ScreenSmall = !ScreenMedium
-  sessionStorage.setItem('App_Settings_ScreenSmall', ScreenSmall)
+  sessionStorage.setItem('App_Set_ScreenSmall', ScreenSmall)
   //
   //  First Time Setup
   //
@@ -190,11 +190,11 @@ export default function App() {
     //
     //  Store Server, Database, URL
     //
-    sessionStorage.setItem('App_Settings_Server_Database', JSON.stringify(w_server_database))
-    sessionStorage.setItem('App_Settings_Node_Env', JSON.stringify(w_node_env))
-    sessionStorage.setItem('App_Settings_Server', JSON.stringify(w_Server))
-    sessionStorage.setItem('App_Settings_Database', JSON.stringify(w_Database))
-    sessionStorage.setItem('App_Settings_URL', JSON.stringify(w_URL))
+    sessionStorage.setItem('App_Set_Server_Database', JSON.stringify(w_server_database))
+    sessionStorage.setItem('App_Set_Node_Env', JSON.stringify(w_node_env))
+    sessionStorage.setItem('App_Set_Server', JSON.stringify(w_Server))
+    sessionStorage.setItem('App_Set_Database', JSON.stringify(w_Database))
+    sessionStorage.setItem('App_Set_URL', JSON.stringify(w_URL))
     //
     //  Navigation
     //
@@ -203,19 +203,18 @@ export default function App() {
     //
     //  SignedIn Status
     //
-    sessionStorage.setItem('User_Settings_SignedIn', false)
+    sessionStorage.setItem('User_Set_SignedIn', false)
     //
     //  Quiz
     //
-    sessionStorage.setItem('Pages_Quiz_Reset', true)
-    sessionStorage.setItem('Pages_Quiz_Owner', JSON.stringify(''))
-    sessionStorage.setItem('Pages_Quiz_OwnerGroup', JSON.stringify(''))
+    sessionStorage.setItem('Pg_Qz_Owner', JSON.stringify(''))
+    sessionStorage.setItem('Pg_Qz_OwnerGroup', JSON.stringify(''))
     //
     //  QuizHistory
     //
-    sessionStorage.setItem('Pages_QuizHistory_Reset', true)
-    sessionStorage.setItem('Pages_QuizHistory_SearchValue', JSON.stringify(''))
-    sessionStorage.setItem('Pages_QuizHistory_SearchType', JSON.stringify('ogtitle'))
+    sessionStorage.setItem('Pg_QH_Reset', true)
+    sessionStorage.setItem('Pg_QH_SearchValue', JSON.stringify(''))
+    sessionStorage.setItem('Pg_QH_SearchType', JSON.stringify('ogtitle'))
   }
   //.............................................................................
   //.  Handle Page Change
@@ -260,7 +259,7 @@ export default function App() {
     //  If SignIN, Update signed in info
     //
     if (PageNext === 'Signin') {
-      sessionStorage.setItem('User_Settings_SignedIn', false)
+      sessionStorage.setItem('User_Set_SignedIn', false)
     }
     //
     //  Update NEW Page

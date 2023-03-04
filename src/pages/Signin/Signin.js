@@ -21,7 +21,6 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugFunStart = false
 const debugModule = 'Signin'
 //
 //  Initial Values
@@ -51,12 +50,12 @@ let rtnObj = {
 //.  Main Line
 //...................................................................................
 export default function Signin({ handlePage }) {
-  if (debugFunStart) console.log('Signin')
+  if (debugLog) console.log('Signin')
   //
   //
   //
-  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
-  if (User_Settings_User) initialFValues.user = User_Settings_User.u_user
+  const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
+  if (User_Set_User) initialFValues.user = User_Set_User.u_user
   //
   // State
   //
@@ -70,7 +69,7 @@ export default function Signin({ handlePage }) {
   //.  Input field validation
   //.............................................................................
   function validate(fieldValues = values) {
-    if (debugFunStart) console.log('validate')
+    if (debugLog) console.log('validate')
     let temp = { ...errors }
     //
     //  user
@@ -96,7 +95,7 @@ export default function Signin({ handlePage }) {
   //.  Form Submit
   //...................................................................................
   function FormSubmit(e) {
-    if (debugFunStart) console.log('FormSubmit')
+    if (debugLog) console.log('FormSubmit')
     if (validate()) {
       FormUpdate()
     }
@@ -105,7 +104,7 @@ export default function Signin({ handlePage }) {
   //.  Update
   //...................................................................................
   function FormUpdate() {
-    if (debugFunStart) console.log('FormUpdate')
+    if (debugLog) console.log('FormUpdate')
     //
     //  Hide signin button
     //
@@ -155,8 +154,8 @@ export default function Signin({ handlePage }) {
     //
     //  Get the URL
     //
-    const App_Settings_URL = JSON.parse(sessionStorage.getItem('App_Settings_URL'))
-    if (debugLog) console.log('App_Settings_URL ', App_Settings_URL)
+    const App_Set_URL = JSON.parse(sessionStorage.getItem('App_Set_URL'))
+    if (debugLog) console.log('App_Set_URL ', App_Set_URL)
     //
     //  Initialise Values
     //
@@ -180,7 +179,7 @@ export default function Signin({ handlePage }) {
         user: user,
         password: password
       }
-      const URL = App_Settings_URL + URL_SIGNIN
+      const URL = App_Set_URL + URL_SIGNIN
       if (debugLog) console.log('URL ', URL)
       //
       //  SQL database
@@ -199,7 +198,7 @@ export default function Signin({ handlePage }) {
   //.  Process User Signin
   //...................................................................................
   function ProcessSignIn() {
-    if (debugFunStart) console.log('ProcessSignIn')
+    if (debugLog) console.log('ProcessSignIn')
     //
     //  Form Message
     //
@@ -215,9 +214,9 @@ export default function Signin({ handlePage }) {
     //
     //  User Info
     //
-    sessionStorage.setItem('User_Settings_User', JSON.stringify(userRow))
-    sessionStorage.setItem('User_Settings_UserSwitch', JSON.stringify(false))
-    sessionStorage.setItem('User_Settings_UserOwners', JSON.stringify(userownerRows))
+    sessionStorage.setItem('User_Set_User', JSON.stringify(userRow))
+    sessionStorage.setItem('User_Set_UserSwitch', JSON.stringify(false))
+    sessionStorage.setItem('User_Set_UserOwners', JSON.stringify(userownerRows))
     //
     //  Userowners string
     //
@@ -231,11 +230,11 @@ export default function Signin({ handlePage }) {
       }
     }
     if (debugLog) console.log('ownersString ', ownersString)
-    sessionStorage.setItem('User_Settings_UserOwnersString', JSON.stringify(ownersString))
+    sessionStorage.setItem('User_Set_UserOwnersString', JSON.stringify(ownersString))
     //
     //  Signed In
     //
-    sessionStorage.setItem('User_Settings_SignedIn', true)
+    sessionStorage.setItem('User_Set_SignedIn', true)
     //
     //  Start Page
     //
