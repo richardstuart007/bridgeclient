@@ -16,19 +16,19 @@ export default function QuizBidding({ qid }) {
   //
   //  Get Bidding
   //
-  const Pg_Qz_BiddingJSON = sessionStorage.getItem('Pg_Qz_Bidding')
+  const Pg_Qz_BidJSON = sessionStorage.getItem('Pg_Qz_Bid')
   //
   //  No Bidding, return
   //
-  if (Pg_Qz_BiddingJSON === []) return null
+  if (Pg_Qz_BidJSON === []) return null
   //
   //  Parse data
   //
-  const Pg_Qz_Bidding = JSON.parse(Pg_Qz_BiddingJSON)
+  const Pg_Qz_Bid = JSON.parse(Pg_Qz_BidJSON)
   //
   //  Find the BiddingRow
   //
-  let BiddingRow = Pg_Qz_Bidding.find(element => element.bid === testingQid)
+  let BiddingRow = Pg_Qz_Bid.find(element => element.bid === testingQid)
   //
   //  Has BiddingRow ?
   //

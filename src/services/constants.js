@@ -41,9 +41,9 @@ exports.DATABASE7 = 'LOCAL:bridge7'
 //------------------------------------------------------------------------
 //  Server details
 //------------------------------------------------------------------------
+exports.URL_HELLO = '/QuizHello'
 exports.URL_REGISTER = '/QuizRegister'
 exports.URL_SIGNIN = '/QuizSignin'
-exports.URL_PROFILE = '/QuizProfile/:id'
 exports.URL_TABLES = '/QuizTables'
 //------------------------------------------------------------------------
 //  Other Parameters

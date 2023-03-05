@@ -5,10 +5,6 @@ import { useState } from 'react'
 import { Box } from '@mui/material'
 import { Card } from '@mui/material'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Controls
 //
 import MyButton from '../../components/controls/MyButton'
@@ -20,13 +16,16 @@ import QuizHands from '../QuizHands/QuizHands'
 import QuizBidding from '../QuizBidding/QuizBidding'
 import QuizQuestion from './QuizQuestion'
 import QuizLinearProgress from './QuizLinearProgress'
+//
+//  Debug Settings
+//
+import debugSettings from '../../debug/debugSettings'
+import consoleLogTime from '../../debug/consoleLogTime'
+const debugLog = debugSettings()
+const debugModule = 'Quiz'
 //.............................................................................
 //.  Initialisation
 //.............................................................................
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //
 //  Global store variables
 //
@@ -39,7 +38,7 @@ let g_quizAns = []
 //.  Main Line
 //...................................................................................
 export default function Quiz({ handlePage }) {
-  if (debugLog) console.log('Start Quiz')
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
   //  Signed in User
   //
@@ -67,11 +66,11 @@ export default function Quiz({ handlePage }) {
   //  No data (Error)
   //
   if (g_questCount === 0) {
-    if (debugLog) console.log('No data')
+    if (debugLog) console.log(consoleLogTime(debugModule, 'No data'))
     return <p style={{ color: 'red' }}>No data</p>
   }
-  if (debugLog) console.log('g_quizRow ', g_quizRow)
-  if (debugLog) console.log('g_quizRow.qid ', g_quizRow.qid)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizRow'), g_quizRow)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizRow.qid'), g_quizRow.qid)
   //...................................................................................
   //.  Reset the Quiz
   //...................................................................................
@@ -79,17 +78,17 @@ export default function Quiz({ handlePage }) {
     //
     //  Reset flag
     //
-    if (debugLog) console.log('Pg_Qz_Reset')
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Reset'))
     sessionStorage.setItem('Pg_Qz_Reset', false)
     //
     //  Get store data & copy to State
     //
-    const Pg_Qz_Questions_QuizJSON = sessionStorage.getItem('Pg_Qz_Questions_Quiz')
-    const Pg_Qz_Questions_Quiz = JSON.parse(Pg_Qz_Questions_QuizJSON)
-    if (debugLog) console.log(Pg_Qz_Questions_Quiz)
+    const Pg_Qz_Q_AllJSON = sessionStorage.getItem('Pg_Qz_Q_All')
+    const Pg_Qz_Q_All = JSON.parse(Pg_Qz_Q_AllJSON)
+    if (debugLog) console.log(consoleLogTime(debugModule), Pg_Qz_Q_All)
 
     let quest = []
-    Pg_Qz_Questions_Quiz.forEach(row => {
+    Pg_Qz_Q_All.forEach(row => {
       const rowData = { ...row }
       quest.push(rowData)
     })
@@ -101,14 +100,14 @@ export default function Quiz({ handlePage }) {
     g_Idx = 0
     g_quizRow = g_quizQuest[g_Idx]
     setQuizRow(g_quizRow)
-    if (debugLog) console.log('g_quizQuest ', g_quizQuest)
-    if (debugLog) console.log('g_questCount ', g_questCount)
-    if (debugLog) console.log('g_quizRow ', g_quizRow)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizQuest '), g_quizQuest)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'g_questCount '), g_questCount)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizRow '), g_quizRow)
     //
     // Reset Answers
     //
     g_quizAns = []
-    sessionStorage.setItem('Pg_Qz_Answers', JSON.stringify(g_quizAns))
+    sessionStorage.setItem('Pg_Qz_A', JSON.stringify(g_quizAns))
     setAnsPass(0)
     setAnsCount(0)
   }
@@ -116,9 +115,9 @@ export default function Quiz({ handlePage }) {
   //.  Form Submit
   //...................................................................................
   function handleSubmit() {
-    if (debugLog) console.log(`Function: HandleSubmit`)
-    if (debugLog) console.log(`ID selected ${id}`)
-    if (debugLog) console.log('g_Idx ', g_Idx, 'qid ', g_quizRow.qid)
+    if (debugLog) console.log(consoleLogTime(debugModule, `Function: HandleSubmit`))
+    if (debugLog) console.log(consoleLogTime(debugModule, `ID selected ${id}`))
+    if (debugLog) console.log(consoleLogTime(debugModule, 'g_Idx ', g_Idx, 'qid '), g_quizRow.qid)
     //
     //  No selection
     //
@@ -128,7 +127,7 @@ export default function Quiz({ handlePage }) {
     //
     //  Update count
     //
-    if (debugLog) console.log('g_Idx ', g_Idx, 'id ', id)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'g_Idx ', g_Idx, 'id '), id)
     if (id === 1) {
       const nextAnsPass = ansPass + 1
       setAnsPass(nextAnsPass)
@@ -136,19 +135,19 @@ export default function Quiz({ handlePage }) {
     //
     //   Write Answers
     //
-    if (debugLog) console.log('g_Idx ', g_Idx, 'id ', id)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'g_Idx ', g_Idx, 'id '), id)
     g_quizAns[g_Idx] = id
-    if (debugLog) console.log('g_quizAns ', g_quizAns)
-    sessionStorage.setItem('Pg_Qz_Answers', JSON.stringify(g_quizAns))
+    if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizAns '), g_quizAns)
+    sessionStorage.setItem('Pg_Qz_A', JSON.stringify(g_quizAns))
 
     const nextAnsCount = ansCount + 1
     setAnsCount(nextAnsCount)
-    if (debugLog) console.log('nextAnsCount ', nextAnsCount)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'nextAnsCount '), nextAnsCount)
     //
     //  End of data
     //
     if (g_Idx + 1 >= g_questCount) {
-      if (debugLog) console.log('g_quizAns', g_quizAns)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizAns'), g_quizAns)
       //
       //  Review
       //
@@ -160,7 +159,7 @@ export default function Quiz({ handlePage }) {
     g_Idx++
     g_quizRow = g_quizQuest[g_Idx]
     setQuizRow(g_quizRow)
-    if (debugLog) console.log('g_quizRow', g_quizRow)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizRow'), g_quizRow)
   }
   //...................................................................................
   //.  Render the form

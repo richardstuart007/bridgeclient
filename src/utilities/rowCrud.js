@@ -6,91 +6,113 @@ import apiAxios from './apiAxios'
 //  Debug Settings
 //
 import debugSettings from '../debug/debugSettings'
+import consoleLogTime from '../debug/consoleLogTime'
+const debugLog = debugSettings()
+const debugModule = 'rowCrud'
 //
 // Constants
 //
-const moduleName = 'rowCrud'
 const { URL_TABLES } = require('../services/constants.js')
-//..............................................................................
-//.  Initialisation
-//.............................................................................
 //
-// Debug Settings
+//  Global Variables
 //
-const debugLog = debugSettings()
+let rtnObj = {
+  rtnValue: false,
+  rtnMessage: '',
+  rtnSqlFunction: debugModule,
+  rtnCatchFunction: '',
+  rtnCatch: false,
+  rtnCatchMsg: '',
+  rtnRows: []
+}
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------
 export default async function rowCrud(props) {
-  if (debugLog) console.log('Start rowCrud')
   //
-  //  Deconstruct
+  //  Try
   //
-  const {
-    sqlCaller,
-    axiosMethod = 'post',
-    sqlAction = 'SELECT',
-    sqlTable,
-    sqlString,
-    sqlWhere,
-    sqlRow,
-    sqlKeyName,
-    sqlOrderBy,
-    sqlOrderByRaw
-  } = props
-  if (debugLog) console.log('props: ', props)
-  let sqlClient = `${moduleName}/${sqlCaller}`
-  //
-  //  Object returned by this handler - as per server
-  //
-  let rtnObj = {
-    rtnValue: false,
-    rtnMessage: '',
-    rtnSqlFunction: moduleName,
-    rtnCatchFunction: '',
-    rtnCatch: false,
-    rtnCatchMsg: '',
-    rtnRows: []
-  }
-  //
-  //  Validate the parameters
-  //
-  const valid = validateProps()
-  if (!valid) {
-    console.log(
-      `sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) Error(${rtnObj.rtnMessage})`
-    )
-    return rtnObj
-  }
-  //
-  // Fetch the data
-  //
-  const rtnObjServer = sqlDatabase()
-  //
-  //  Server Returned null
-  //
-  if (!rtnObjServer) {
-    rtnObj.rtnMessage = `Server rejected request: sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) `
-    console.log(rtnObj.rtnMessage)
-    return rtnObj
-  }
-  //
-  //  Server returned no data
-  //
-  if (!rtnObjServer.rtnValue)
-    if (debugLog)
+  try {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+    //
+    //  Deconstruct
+    //
+    const {
+      sqlCaller,
+      axiosMethod = 'post',
+      sqlAction = 'SELECT',
+      sqlTable,
+      sqlString,
+      sqlWhere,
+      sqlRow,
+      sqlKeyName,
+      sqlOrderBy,
+      sqlOrderByRaw
+    } = props
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Props'), props)
+    const sqlClient = `${debugModule}/${sqlCaller}`
+    //
+    //  Validate the parameters
+    //
+    const valid = validateProps(sqlAction, sqlString, sqlTable)
+    if (!valid) {
       console.log(
-        `No data received: sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) `
+        consoleLogTime(
+          `sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) Error(${rtnObj.rtnMessage})`
+        )
       )
-  //
-  //  Return value from Server
-  //
-  if (debugLog) console.log('Server Object ', rtnObjServer)
-  return rtnObjServer
+      return rtnObj
+    }
+    //
+    // Fetch the data
+    //
+    const rtnObjServer = sqlDatabase(
+      sqlClient,
+      sqlTable,
+      sqlAction,
+      sqlString,
+      sqlWhere,
+      sqlRow,
+      sqlKeyName,
+      sqlOrderBy,
+      sqlOrderByRaw,
+      axiosMethod
+    )
+    //
+    //  Server Returned null
+    //
+    if (!rtnObjServer) {
+      rtnObj.rtnMessage = `Server rejected request: sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) `
+      console.log(consoleLogTime(debugModule, rtnObj.rtnMessage))
+      return rtnObj
+    }
+    //
+    //  Server returned no data
+    //
+    if (!rtnObjServer.rtnValue)
+      if (debugLog)
+        console.log(
+          consoleLogTime(
+            debugModule,
+            `No data received: sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) `
+          )
+        )
+
+    //
+    //  Return value from Server
+    //
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Server Object '), rtnObjServer)
+    return rtnObjServer
+  } catch (e) {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Catch'))
+    console.log(e)
+  } finally {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'End'))
+  }
   //--------------------------------------------------------------------
   //  Validate the parameters
   //--------------------------------------------------------------------
-  function validateProps() {
+  function validateProps(sqlAction, sqlString, sqlTable) {
     //
     // Check values sent
     //
@@ -135,7 +157,18 @@ export default async function rowCrud(props) {
   //--------------------------------------------------------------------
   //  Database SQL
   //--------------------------------------------------------------------
-  async function sqlDatabase() {
+  async function sqlDatabase(
+    sqlClient,
+    sqlTable,
+    sqlAction,
+    sqlString,
+    sqlWhere,
+    sqlRow,
+    sqlKeyName,
+    sqlOrderBy,
+    sqlOrderByRaw,
+    axiosMethod
+  ) {
     try {
       //
       //  Body
@@ -155,18 +188,21 @@ export default async function rowCrud(props) {
       //  Base URL
       //
       const App_Set_URL = JSON.parse(sessionStorage.getItem('App_Set_URL'))
-      if (debugLog) console.log('App_Set_URL ', App_Set_URL)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'App_Set_URL'), App_Set_URL)
       //
       //  Full URL
       //
       const URL = App_Set_URL + URL_TABLES
-      if (debugLog) console.log('URL ', URL)
-      if (debugLog) console.log(`sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) `)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
+      if (debugLog)
+        console.log(
+          consoleLogTime(`sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable})`)
+        )
       //
       //  SQL database
       //
       const rtnObjServer = await apiAxios(axiosMethod, URL, body)
-      if (debugLog) console.log('rtnObjServer ', rtnObjServer)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObjServer'), rtnObjServer)
       return rtnObjServer
       //
       // Errors

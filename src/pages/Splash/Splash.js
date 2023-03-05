@@ -1,35 +1,173 @@
 //
 //  Libraries
 //
+import { useState, useEffect } from 'react'
 import { Paper, Grid, Typography } from '@mui/material'
 //
-//  Debug Settings
+//  Utilities
 //
-import debugSettings from '../../debug/debugSettings'
+import apiAxios from '../../utilities/apiAxios'
 //
 //  Controls
 //
 import MyButton from '../../components/controls/MyButton'
-//..............................................................................
-//.  Initialisation
-//.............................................................................
 //
-// Debug Settings
+//  Debug Settings
 //
+import debugSettings from '../../debug/debugSettings'
+import consoleLogTime from '../../debug/consoleLogTime'
 const debugLog = debugSettings()
+const debugModule = 'Splash'
+//
+// Constants
+//
+const { URL_HELLO } = require('../../services/constants.js')
+//
+//  Object returned by this handler - as per server
+//
+let rtnObj = {
+  rtnValue: false,
+  rtnMessage: '',
+  rtnSqlFunction: debugModule,
+  rtnCatchFunction: '',
+  rtnCatch: false,
+  rtnCatchMsg: '',
+  rtnRows: []
+}
+
 //===================================================================================
 export default function Splash({ handlePage }) {
-  if (debugLog) console.log('Start Splash')
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //
+  // State
+  //
+  const [form_message, setForm_message] = useState('')
+  const [showButtons, setShowButtons] = useState(false)
   //
   //  Screen Width
   //
   const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Set_ScreenSmall'))
   //
-  //  Check if errors
+  //  Say Hello to server
   //
-  const App_Set_Server = JSON.parse(sessionStorage.getItem('App_Set_Server'))
-  const noErrors = App_Set_Server !== 'Error'
+  useEffect(() => {
+    sayHello()
+    // eslint-disable-next-line
+  }, [])
+  //...................................................................................
+  //.  Check Server is responding
+  //...................................................................................
+  function sayHello() {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'sayHello'))
+    //
+    //  Check if errors
+    //
+    const App_Set_Server = JSON.parse(sessionStorage.getItem('App_Set_Server'))
+    if (App_Set_Server === 'Error') {
+      setForm_message('Invalid Setup parameters')
+      return
+    }
+    //
+    //  Hide button
+    //
+    setShowButtons(false)
+    //
+    //  Check server
+    //
+    const myPromiseHelloServer = Hello('SERVER')
+    myPromiseHelloServer.then(function (rtnObj) {
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
+      const rtnValue = rtnObj.rtnValue
+      //
+      //  Error
+      //
+      if (!rtnValue) {
+        let message
+        rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
+        if (debugLog) console.log(consoleLogTime(debugModule, 'Error Message'), message)
+        setForm_message(message)
+        return
+      }
+      //
+      //  OK
+      //
+      setForm_message('Server Active')
+      //
+      //  Check Database
+      //
+      const myPromiseHelloDatabase = Hello('DATABASE')
+      myPromiseHelloDatabase.then(function (rtnObj) {
+        if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
+        const rtnValue = rtnObj.rtnValue
+        //
+        //  Error
+        //
+        if (!rtnValue) {
+          let message
+          rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
+          if (debugLog) console.log(consoleLogTime(debugModule, 'Error Message'), message)
+          setForm_message(message)
+          return
+        }
+        //
+        //  OK
+        //
+        setForm_message('Database Active')
+        setShowButtons(true)
+      })
+    })
+  }
 
+  //--------------------------------------------------------------------
+  //-  Check The Server/Database
+  //--------------------------------------------------------------------
+  async function Hello(helloType) {
+    //
+    //  User message
+    //
+    setForm_message(`Checking the ${helloType} please WAIT..`)
+    //
+    //  Initialise Values
+    //
+    rtnObj.rtnValue = false
+    rtnObj.rtnMessage = ''
+    rtnObj.rtnSqlFunction = debugModule
+    rtnObj.rtnCatchFunction = ''
+    rtnObj.rtnCatch = false
+    rtnObj.rtnCatchMsg = ''
+    rtnObj.rtnRows = []
+    //
+    //  Get the URL
+    //
+    const App_Set_URL = JSON.parse(sessionStorage.getItem('App_Set_URL'))
+    if (debugLog) console.log(consoleLogTime(debugModule, 'App_Set_URL'), App_Set_URL)
+    //
+    // Fetch the data
+    //
+    try {
+      //
+      //  Setup actions
+      //
+      const method = 'post'
+      let body = {
+        sqlClient: debugModule,
+        helloType: helloType
+      }
+      const URL = App_Set_URL + URL_HELLO
+      if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
+      //
+      //  SQL database
+      //
+      rtnObj = await apiAxios(method, URL, body)
+      return rtnObj
+      //
+      // Errors
+      //
+    } catch (err) {
+      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch err'), err)
+      return rtnObj
+    }
+  }
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -81,15 +219,17 @@ export default function Splash({ handlePage }) {
             <Typography variant='subtitle2'>Click below to REGISTER/SIGNIN</Typography>
           </Grid>
           {/*.................................................................................................*/}
-          {noErrors ? (
+          <Grid item xs={12}>
+            <Typography style={{ color: 'red' }}>{form_message}</Typography>
+          </Grid>
+          {/*.................................................................................................*/}
+          {showButtons ? (
             <Grid item xs={12}>
               <MyButton
                 type='submit'
                 text='Continue'
                 value='Submit'
-                onClick={() => {
-                  handlePage('Signin')
-                }}
+                onClick={() => handlePage('Signin')}
               />
             </Grid>
           ) : null}

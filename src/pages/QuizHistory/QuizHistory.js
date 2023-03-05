@@ -23,7 +23,6 @@ import MyActionButton from '../../components/controls/MyActionButton'
 //
 //  Services
 //
-
 import rowCrud from '../../utilities/rowCrud'
 import BuildQuizData from '../../services/BuildQuizData'
 import BuildHistoryDetail from '../../services/BuildHistoryDetail'
@@ -31,6 +30,7 @@ import BuildHistoryDetail from '../../services/BuildHistoryDetail'
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
+const debugLog = debugSettings()
 //
 //  Styles
 //
@@ -65,6 +65,7 @@ const useStyles = makeStyles(theme => ({
 const headCellsLarge = [
   { id: 'r_id', label: 'ID' },
   { id: 'yymmdd', label: 'Date' },
+  { id: 'r_uid', label: 'User Id' },
   { id: 'r_owner', label: 'Owner' },
   { id: 'ogtitle', label: 'Group' },
   { id: 'r_questions', label: 'Questions' },
@@ -89,11 +90,7 @@ const searchTypeOptionsSmall = [{ id: 'ogtitle', title: 'Group' }]
 //
 //  Constants
 //
-const functionName = 'QuizHistory'
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
+const debugModule = 'QuizHistory'
 //
 //  Global Variables
 //
@@ -106,7 +103,7 @@ export default function QuizHistory({ handlePage }) {
   //
   //  Start of function
   //
-  if (debugLog) console.log(`Function: ${functionName}`)
+  if (debugLog) console.log(`Function Start: ${debugModule}`)
   //
   //  Styles
   //
@@ -149,11 +146,6 @@ export default function QuizHistory({ handlePage }) {
   const u_id = User_Set_User.u_id
   const User_Admin = User_Set_User.u_admin
   //
-  //  Reset Quiz State
-  //
-  let Pg_QH_Reset = JSON.parse(sessionStorage.getItem('Pg_QH_Reset'))
-  if (debugLog) console.log('Pg_QH_Reset ', Pg_QH_Reset)
-  //
   //  Initial Data Load
   //
   useEffect(() => {
@@ -176,27 +168,26 @@ export default function QuizHistory({ handlePage }) {
   function handleQuizReset() {
     if (debugLog) console.log(`Function: handleQuizReset`)
     //
+    //  Session Storage ?
+    //
+    const Pg_Qh_Data = JSON.parse(sessionStorage.getItem('Pg_Qh_Data'))
+    if (Pg_Qh_Data) setRecords(Pg_Qh_Data)
+    //
     //  Restore saved search values & search
     //
-    if (!Pg_QH_Reset) {
-      const Pg_QH_SearchValue = JSON.parse(sessionStorage.getItem('Pg_QH_SearchValue'))
-      setSearchValue(Pg_QH_SearchValue)
-      if (debugLog) console.log('Pg_QH_SearchValue ', Pg_QH_SearchValue)
-
-      const Pg_QH_SearchType = JSON.parse(sessionStorage.getItem('Pg_QH_SearchType'))
-      setSearchType(Pg_QH_SearchType)
-      if (debugLog) console.log('Pg_QH_SearchType ', Pg_QH_SearchType)
+    const selection = JSON.parse(sessionStorage.getItem('Pg_Qh_Selection'))
+    if (debugLog) console.log('Pg_Qh_Selection', selection)
+    if (selection) {
+      const searchType = selection.searchType
+      const searchValue = selection.searchValue
+      setSearchType(searchType)
+      setSearchValue(searchValue)
+      handleSearch(searchType, searchValue)
     }
-    //
-    //  Reset flag
-    //
-    sessionStorage.setItem('Pg_QH_Reset', false)
-    Pg_QH_Reset = false
-    if (debugLog) console.log('Pg_QH_Reset ', false)
     //
     //  Get Data
     //
-    getRowAllData()
+    if (!Pg_Qh_Data) getRowAllData()
   }
   //.............................................................................
   //.  GET ALL
@@ -214,7 +205,7 @@ export default function QuizHistory({ handlePage }) {
     //
     const rowCrudparams = {
       axiosMethod: 'post',
-      sqlCaller: functionName,
+      sqlCaller: debugModule,
       sqlTable: 'usershistory',
       sqlAction: 'SELECTSQL',
       sqlString: sqlString
@@ -232,23 +223,23 @@ export default function QuizHistory({ handlePage }) {
       //
       //  Data
       //
-      const Pg_QH_Data = rtnObj.rtnRows
+      const Pg_Qh_Data = rtnObj.rtnRows
       //
       //  Data History add time stamp
       //
-      const Pg_QH_Data_Update = Pg_QH_Data.map(record => ({
+      const Pg_Qh_Data_Update = Pg_Qh_Data.map(record => ({
         ...record,
         yymmdd: format(parseISO(record.r_datetime), 'yy-MM-dd')
       }))
       //
       //  Session Storage
       //
-      sessionStorage.setItem('Pg_QH_Data', JSON.stringify(Pg_QH_Data_Update))
-      if (debugLog) console.log('Pg_QH_Data ', Pg_QH_Data_Update)
+      sessionStorage.setItem('Pg_Qh_Data', JSON.stringify(Pg_Qh_Data_Update))
+      if (debugLog) console.log('Pg_Qh_Data ', Pg_Qh_Data_Update)
       //
       //  Update Table
       //
-      setRecords(Pg_QH_Data_Update)
+      setRecords(Pg_Qh_Data_Update)
       //
       //  Filter
       //
@@ -271,7 +262,7 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Store Row
     //
-    sessionStorage.setItem('Pg_QH_Data_Row', JSON.stringify(row))
+    sessionStorage.setItem('Pg_Qh_Data_Row', JSON.stringify(row))
     //
     //  Get data
     //
@@ -280,7 +271,7 @@ export default function QuizHistory({ handlePage }) {
     //  Wait for data
     //
     const waitSessionStorageParams = {
-      sessionItem: 'Pg_QH_Data_R',
+      sessionItem: 'Pg_Qh_Data_R',
       handlePageValue: 'QuizHistoryDetail'
     }
     waitSessionStorage(waitSessionStorageParams, handlePage)
@@ -296,7 +287,8 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Store Row
     //
-    sessionStorage.setItem('Pg_QH_Data_Row', JSON.stringify(row))
+    sessionStorage.setItem('Pg_Qh_Data_Row', JSON.stringify(row))
+    sessionStorage.setItem('Pg_Qz_ogtitle', JSON.stringify(row.ogtitle))
     //
     //  BuildQuizData
     //
@@ -380,18 +372,21 @@ export default function QuizHistory({ handlePage }) {
   //.............................................................................
   //  Search/Filter
   //.............................................................................
-  function handleSearch() {
+  function handleSearch(p_searchType = searchType, p_searchValue = searchValue) {
     if (debugLog) console.log(`Function: handleSearch`)
     //
     //  Start at first page (0)
     //
     setStartPage0(true)
-    if (debugLog) console.log('setStartPage0(true)')
     //
     //  Save search values
     //
-    sessionStorage.setItem('Pg_QH_SearchValue', JSON.stringify(searchValue))
-    sessionStorage.setItem('Pg_QH_SearchType', JSON.stringify(searchType))
+    const selection = {
+      searchType: p_searchType,
+      searchValue: p_searchValue
+    }
+    sessionStorage.setItem('Pg_Qh_Selection', JSON.stringify(selection))
+    if (debugLog) console.log('Pg_Qh_Selection', selection)
     //
     //  Subtitle
     //
@@ -401,9 +396,6 @@ export default function QuizHistory({ handlePage }) {
     //
     setFilterFn({
       fn: items => {
-        if (debugLog) console.log('searchValue ', searchValue)
-        if (debugLog) console.log('searchType ', searchType)
-        if (debugLog) console.log('u_id ', u_id)
         //
         //  Filter by user ?
         //
@@ -418,35 +410,34 @@ export default function QuizHistory({ handlePage }) {
         //
         //  Nothing to search, return rows
         //
-        if (searchValue === '') {
+        if (p_searchValue === '') {
           if (debugLog) console.log('setFilterFn userFilter ', userFilter)
           return userFilter
         }
         //
         //  Numeric
         //
-        const searchValueInt = parseInt(searchValue)
-        if (debugLog) console.log('searchValueInt ', searchValueInt)
+        const p_searchValueInt = parseInt(p_searchValue)
         //
         //  Filter
         //
         let itemsFilter = userFilter
         if (debugLog) console.log('itemsFilter ', itemsFilter)
-        switch (searchType) {
+        switch (p_searchType) {
           case 'r_id':
-            itemsFilter = userFilter.filter(x => x.r_id === searchValueInt)
+            itemsFilter = userFilter.filter(x => x.r_id === p_searchValueInt)
             break
           case 'yymmdd':
-            itemsFilter = userFilter.filter(x => x.yymmdd === searchValue)
+            itemsFilter = userFilter.filter(x => x.yymmdd === p_searchValue)
             break
           case 'r_owner':
             itemsFilter = userFilter.filter(x =>
-              x.r_owner.toLowerCase().includes(searchValue.toLowerCase())
+              x.r_owner.toLowerCase().includes(p_searchValue.toLowerCase())
             )
             break
           case 'ogtitle':
             itemsFilter = userFilter.filter(x =>
-              x.ogtitle.toLowerCase().includes(searchValue.toLowerCase())
+              x.ogtitle.toLowerCase().includes(p_searchValue.toLowerCase())
             )
             break
           default:
@@ -550,6 +541,7 @@ export default function QuizHistory({ handlePage }) {
               <TableRow key={row.r_id}>
                 {ScreenSmall ? null : <TableCell>{row.r_id}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.yymmdd}</TableCell>}
+                {ScreenSmall ? null : <TableCell>{row.r_uid}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.r_owner}</TableCell>}
                 <TableCell>{row.ogtitle}</TableCell>
                 {ScreenSmall ? null : <TableCell>{row.r_questions}</TableCell>}

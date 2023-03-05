@@ -8,14 +8,17 @@ import makeStyles from '@mui/styles/makeStyles'
 //
 import Navigation from './Navigation'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Components
 //
 import cards from '../../assets/images/cards.svg'
 import Ukraine from '../../assets/images/Ukraine.svg'
+//
+//  Debug Settings
+//
+import debugSettings from '../../debug/debugSettings'
+import consoleLogTime from '../../debug/consoleLogTime'
+const debugLog = debugSettings()
+const debugModule = 'Layout'
 //
 //  Style overrides
 //
@@ -48,13 +51,9 @@ const useStyles = makeStyles(theme => {
     }
   }
 })
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //===================================================================================
 export default function Layout({ handlePage, children }) {
-  if (debugLog) console.log('Start Layout')
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
   //  Style overrides
   //
@@ -68,7 +67,7 @@ export default function Layout({ handlePage, children }) {
   //
   const PageCurrent = JSON.parse(sessionStorage.getItem('App_Nav_Page_Current'))
   let title
-  if (debugLog) console.log('PageCurrent ', PageCurrent)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'PageCurrent'), PageCurrent)
 
   switch (PageCurrent) {
     case 'UsersSettings':
@@ -96,7 +95,7 @@ export default function Layout({ handlePage, children }) {
       title = PageCurrent
       break
   }
-  if (debugLog) console.log('title ', title)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'title'), title)
   //
   //  Add clientserver
   //

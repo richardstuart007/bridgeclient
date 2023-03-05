@@ -6,10 +6,6 @@ import { CssBaseline } from '@mui/material'
 import { useState } from 'react'
 import useMediaQuery from '@mui/material/useMediaQuery'
 //
-//  Debug Settings
-//
-import debugSettings from '../debug/debugSettings'
-//
 //  Pages
 //
 import Control from '../pages/Control'
@@ -21,6 +17,13 @@ import writeHistory from '../services/writeHistory'
 //  Common Components
 //
 import Layout from '../components/Layout/Layout'
+//
+//  Debug Settings
+//
+import debugSettings from '../debug/debugSettings'
+import consoleLogTime from '../debug/consoleLogTime'
+const debugLog = debugSettings()
+const debugModule = 'App'
 //
 //  Layout Theme
 //
@@ -71,10 +74,6 @@ const { SERVERURL12 } = require('../services/constants.js')
 const { PAGESTART } = require('../services/constants.js')
 const { PAGESTARTAPP } = require('../services/constants.js')
 //
-// Debug Settings
-//
-const debugLog = debugSettings()
-//
 // Global
 //
 let g_firstTimeFlag = true
@@ -87,8 +86,6 @@ let w_URL = 'Error'
 //- Main Line
 //----------------------------------------------------------------------------
 export default function App() {
-  if (debugLog) console.log(`Start APP`)
-
   const [pageCurrent, setPageCurrent] = useState(PAGESTARTAPP)
   //
   //  Screen Width
@@ -97,17 +94,28 @@ export default function App() {
   const ScreenSmall = !ScreenMedium
   sessionStorage.setItem('App_Set_ScreenSmall', ScreenSmall)
   //
-  //  First Time Setup
+  //  Try
   //
-  if (g_firstTimeFlag) {
-    g_firstTimeFlag = false
-    firstTime()
+  try {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+    //
+    //  First Time Setup
+    //
+    if (g_firstTimeFlag) {
+      g_firstTimeFlag = false
+      firstTime()
+    }
+  } catch (e) {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Catch'))
+    console.log(e)
+  } finally {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'End'))
   }
   //.............................................................................
   //  First Time Setup
   //.............................................................................
   function firstTime() {
-    if (debugLog) console.log(`First Time APP Reset`)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'First Time APP Reset'))
     //
     //  Environment variables
     //
@@ -209,12 +217,6 @@ export default function App() {
     //
     sessionStorage.setItem('Pg_Qz_Owner', JSON.stringify(''))
     sessionStorage.setItem('Pg_Qz_OwnerGroup', JSON.stringify(''))
-    //
-    //  QuizHistory
-    //
-    sessionStorage.setItem('Pg_QH_Reset', true)
-    sessionStorage.setItem('Pg_QH_SearchValue', JSON.stringify(''))
-    sessionStorage.setItem('Pg_QH_SearchType', JSON.stringify('ogtitle'))
   }
   //.............................................................................
   //.  Handle Page Change
@@ -244,17 +246,16 @@ export default function App() {
     //
     //  Change of Page
     //
-    if (debugLog) console.log(`Current Page ${PageCurrent} ==> New Page ${PageNext}`)
+    if (debugLog)
+      console.log(
+        consoleLogTime(debugModule, `Current Page ${PageCurrent} ==> New Page ${PageNext}`)
+      )
     //
     //  Update Previous Page
     //
     sessionStorage.setItem('App_Nav_Page_Previous', JSON.stringify(PageCurrent))
     if (debugLog)
-      console.log(
-        `UPDATED App_Nav_Page_Previous ${JSON.parse(
-          sessionStorage.getItem('App_Nav_Page_Previous')
-        )}`
-      )
+      console.log(consoleLogTime(debugModule, `UPDATED App_Nav_Page_Previous ${PageCurrent}`))
     //
     //  If SignIN, Update signed in info
     //
@@ -266,9 +267,7 @@ export default function App() {
     //
     sessionStorage.setItem('App_Nav_Page_Current', JSON.stringify(PageNext))
     if (debugLog)
-      console.log(
-        `UPDATED App_Nav_Page_Current ${JSON.parse(sessionStorage.getItem('App_Nav_Page_Current'))}`
-      )
+      console.log(consoleLogTime(debugModule, `UPDATED App_Nav_Page_Current ${PageNext}`))
     //
     //  Update State
     //

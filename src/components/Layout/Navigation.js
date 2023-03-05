@@ -11,13 +11,16 @@ import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications'
 import LogoutIcon from '@mui/icons-material/Logout'
 import SwitchAccountIcon from '@mui/icons-material/SwitchAccount'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Components
 //
 import MyActionButton from '../controls/MyActionButton'
+//
+//  Debug Settings
+//
+import debugSettings from '../../debug/debugSettings'
+import consoleLogTime from '../../debug/consoleLogTime'
+const debugLog = debugSettings()
+const debugModule = 'Navigation'
 //
 //  Style overrides
 //
@@ -28,13 +31,9 @@ const useStyles = makeStyles(theme => {
     }
   }
 })
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //===================================================================================
 export default function Navigation({ handlePage }) {
-  if (debugLog) console.log('Start Navigation')
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   const classes = useStyles()
   //
   //  Define
@@ -108,9 +107,7 @@ export default function Navigation({ handlePage }) {
           <MyActionButton
             startIcon={<ScoreboardIcon fontSize='small' />}
             color='warning'
-            onClick={() => {
-              handlePage('Library')
-            }}
+            onClick={() => handlePage('Library')}
             text='Library'
           ></MyActionButton>
         ) : null}
@@ -120,10 +117,7 @@ export default function Navigation({ handlePage }) {
           <MyActionButton
             startIcon={<ScoreboardIcon fontSize='small' />}
             color='warning'
-            onClick={() => {
-              sessionStorage.setItem('Pg_QH_Reset', true)
-              handlePage('QuizHistory')
-            }}
+            onClick={() => handlePage('QuizHistory')}
             text='History'
           ></MyActionButton>
         ) : null}
@@ -132,9 +126,7 @@ export default function Navigation({ handlePage }) {
           <MyActionButton
             startIcon={<SettingsApplicationsIcon fontSize='small' />}
             color='warning'
-            onClick={() => {
-              handlePage('UsersSettings')
-            }}
+            onClick={() => handlePage('UsersSettings')}
             text={buttonTextSettings}
           ></MyActionButton>
         ) : null}
@@ -144,9 +136,7 @@ export default function Navigation({ handlePage }) {
           <MyActionButton
             startIcon={<SwitchAccountIcon fontSize='small' />}
             color='warning'
-            onClick={() => {
-              handlePage('SwitchUser')
-            }}
+            onClick={() => handlePage('SwitchUser')}
             text='Switch User'
           ></MyActionButton>
         ) : null}
@@ -155,9 +145,7 @@ export default function Navigation({ handlePage }) {
           <MyActionButton
             startIcon={<LogoutIcon fontSize='small' />}
             color='warning'
-            onClick={() => {
-              handlePage('Signin')
-            }}
+            onClick={() => handlePage('Signin')}
             text={buttonTextSignout}
           ></MyActionButton>
         ) : null}

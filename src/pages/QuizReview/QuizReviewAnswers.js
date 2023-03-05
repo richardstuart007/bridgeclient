@@ -31,22 +31,11 @@ export default function QuizReviewAnswers(props) {
   //
   const Answers = quizRow.qans
   const Points = quizRow.qpoints
-  //
-  //  Text - correct/incorrect
-  //
-  let correct
-  AnswerNum === 1 ? (correct = true) : (correct = false)
   //...................................................................................
   //  Format Panel
   //...................................................................................
   return (
     <>
-      {!correct ? (
-        <Typography variant='subtitle2' style={{ color: 'red' }} sx={{ marginTop: '8px' }}>
-          Incorrect(red). Correct(Green).
-        </Typography>
-      ) : null}
-
       <Card sx={{ maxWidth: 600, marginTop: '16px' }} style={{ backgroundColor: 'LightGray' }}>
         <Grid container sx={{ mt: 2, maxWidth: 600 }} alignItems='center'>
           <Grid item xs={11}>

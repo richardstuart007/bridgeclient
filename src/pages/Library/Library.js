@@ -36,6 +36,9 @@ import BuildQuizData from '../../services/BuildQuizData'
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
+import consoleLogTime from '../../debug/consoleLogTime'
+const debugLog = debugSettings()
+const debugModule = 'Library'
 //
 //  Styles
 //
@@ -94,20 +97,11 @@ const searchTypeOptionsLarge = [
   { id: 'lrtype', title: 'Type' }
 ]
 const searchTypeOptionsSmall = [{ id: 'lrdesc', title: 'Description' }]
-//
-//  Constants
-//
-const functionName = 'Library'
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
-const debugModule = 'Library'
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function Library({ handlePage }) {
-  if (debugLog) console.log(debugModule)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
   //  Styles
   //
@@ -152,11 +146,11 @@ export default function Library({ handlePage }) {
   //.  GET ALL
   //.............................................................................
   function getRowAllData() {
-    if (debugLog) console.log(`Function: getRowAllData`)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'getRowAllData'))
     //
     //  Do not refetch data if already exists
     //
-    if (debugLog) console.log('records', records)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'records', records))
     if (records.length !== 0) return
     //
     //  Same selection - take from Storage
@@ -169,7 +163,7 @@ export default function Library({ handlePage }) {
       //
       const Pg_Lib_Data = JSON.parse(sessionStorage.getItem('Pg_Lib_Data'))
       if (Pg_Lib_Data) {
-        if (debugLog) console.log('Pg_Lib_Data', Pg_Lib_Data)
+        if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Lib_Data', Pg_Lib_Data))
         //
         //  Update Table
         //
@@ -178,7 +172,7 @@ export default function Library({ handlePage }) {
         //  Form Saved Values - retrieve
         //
         const selection = JSON.parse(sessionStorage.getItem('Pg_Lib_Selection'))
-        if (debugLog) console.log('Pg_Lib_Selection', selection)
+        if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Lib_Selection', selection))
         //
         //  Filter
         //
@@ -196,13 +190,13 @@ export default function Library({ handlePage }) {
     //  Selection
     //
     const sqlString = `* from library join ownergroup on lrowner = ogowner and lrgroup = oggroup where lrowner in (${UserOwnersString}) order by lrid`
-    if (debugLog) console.log('sqlString', sqlString)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString', sqlString))
     //
     //  Process promise
     //
     const rowCrudparams = {
       axiosMethod: 'post',
-      sqlCaller: functionName,
+      sqlCaller: debugModule,
       sqlTable: 'library',
       sqlAction: 'SELECTSQL',
       sqlString: sqlString
@@ -212,7 +206,7 @@ export default function Library({ handlePage }) {
     //  Resolve Status
     //
     myPromiseGet.then(function (rtnObj) {
-      if (debugLog) console.log('rtnObj ', rtnObj)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj', rtnObj))
       //
       //  No data returned
       //
@@ -245,11 +239,12 @@ export default function Library({ handlePage }) {
   //.  Prepare Row before switching to Quiz
   //...................................................................................
   function LibraryRow(row) {
-    if (debugLog) console.log('LibraryRow ')
+    if (debugLog) console.log(consoleLogTime(debugModule, 'LibraryRow', row))
     //
     //  Store Row
     //
     sessionStorage.setItem('Pg_Lib_Data_Row', JSON.stringify(row))
+    sessionStorage.setItem('Pg_Qz_ogtitle', JSON.stringify(row.ogtitle))
     //
     //  BuildQuizData
     //
@@ -272,8 +267,7 @@ export default function Library({ handlePage }) {
   //-  Wait
   //--------------------------------------------------------------------
   function waitSessionStorage(props, handlePage) {
-    if (debugLog) console.log('Start waitSessionStorage')
-    if (debugLog) console.log('props ', props)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'waitSessionStorage', props))
     const timeStart = new Date()
     //
     //  Constants
@@ -284,9 +278,6 @@ export default function Library({ handlePage }) {
     //  Deconstruct props
     //
     const { sessionItem, dftWait = WAIT, dftMaxTry = WAIT_MAX_TRY, handlePageValue } = props
-    if (debugLog) console.log('sessionItem ', sessionItem)
-    if (debugLog) console.log('dftWait ', dftWait)
-    if (debugLog) console.log('dftMaxTry ', dftMaxTry)
     //
     //  Global
     //
@@ -307,18 +298,19 @@ export default function Library({ handlePage }) {
         const timeDiff = timeEnd - timeStart
         if (debugLog)
           console.log(
-            `waitSessionStorage sessionStorage(${sessionItem}) value(${completedFlag}) Elapsed Time(${timeDiff})`
+            consoleLogTime(
+              debugModule,
+              `waitSessionStorage sessionStorage(${sessionItem}) value(${completedFlag}) Elapsed Time(${timeDiff})`
+            )
           )
         clearInterval(myInterval)
         //
         //  Data ?
         //
-        const Pg_Qz_Questions_Quiz_Count = JSON.parse(
-          sessionStorage.getItem('Pg_Qz_Questions_Quiz_Count')
-        )
-        if (Pg_Qz_Questions_Quiz_Count === 0) {
+        const Pg_Qz_Q_AllC = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_AllC'))
+        if (Pg_Qz_Q_AllC === 0) {
           setForm_message('QuizSelect: No Questions found')
-          if (debugLog) console.log('No Quiz Questions found')
+          if (debugLog) console.log(consoleLogTime(debugModule, 'No Quiz Questions found'))
           return
         }
         //
@@ -331,7 +323,12 @@ export default function Library({ handlePage }) {
         //
         if (w_try >= dftMaxTry) {
           if (debugLog)
-            console.log(`waitSessionStorage sessionStorage(${sessionItem}) Timed out(${totalWAIT})`)
+            console.log(
+              consoleLogTime(
+                debugModule,
+                `waitSessionStorage sessionStorage(${sessionItem}) Timed out(${totalWAIT})`
+              )
+            )
           clearInterval(myInterval)
         }
         //
@@ -346,7 +343,7 @@ export default function Library({ handlePage }) {
   //  Search/Filter
   //.............................................................................
   function handleSearch(p_searchType = searchType, p_searchValue = searchValue) {
-    if (debugLog) console.log(`Function: handleSearch`)
+    if (debugLog) console.log(consoleLogTime(debugModule, `Function: handleSearch`))
     //
     //  Start at first page (0)
     //
@@ -359,7 +356,7 @@ export default function Library({ handlePage }) {
       searchValue: p_searchValue
     }
     sessionStorage.setItem('Pg_Lib_Selection', JSON.stringify(selection))
-    if (debugLog) console.log('Pg_Lib_Selection', selection)
+    if (debugLog) console.log(consoleLogTime(debugModule, `Pg_Lib_Selection`), selection)
     //
     //  Filter
     //
@@ -399,7 +396,6 @@ export default function Library({ handlePage }) {
             )
             break
           case 'lrdesc':
-            if (debugLog) console.log('lrdesc ')
             itemsFilter = items.filter(x =>
               x.lrdesc.toLowerCase().includes(p_searchValue.toLowerCase())
             )
@@ -416,7 +412,7 @@ export default function Library({ handlePage }) {
             break
           default:
         }
-        if (debugLog) console.log('itemsFilter ', itemsFilter)
+        if (debugLog) console.log(consoleLogTime(debugModule, `itemsFilter`), itemsFilter)
         return itemsFilter
       }
     })
@@ -426,7 +422,7 @@ export default function Library({ handlePage }) {
   //  Hyperlink open
   //
   const openHyperlink = hyperlink => {
-    if (debugLog) console.log('hyperlink ', hyperlink)
+    if (debugLog) console.log(consoleLogTime(debugModule, `hyperlink`), hyperlink)
     window.open(hyperlink, '_blank')
   }
   //.............................................................................

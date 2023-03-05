@@ -1,21 +1,13 @@
 //
-//  Debug Settings
-//
-import debugSettings from '../debug/debugSettings'
-//
 //  Services
 //
 import rowCrud from './../utilities/rowCrud'
 //
-//  Constants
+//  Debug Settings
 //
-const functionName = 'BuildHistoryDetail'
-//
-// Debug Settings
-//
+import debugSettings from '../debug/debugSettings'
 const debugLog = debugSettings()
 const debugModule = 'BuildHistoryDetail'
-
 //...................................................................................
 //.  Main Line
 //...................................................................................
@@ -34,13 +26,13 @@ export default function BuildHistoryDetail(row) {
     //
     //  Initialise
     //
-    sessionStorage.setItem('Pg_QH_Data_R', false)
-    sessionStorage.setItem('Pg_QH_Data_Row_Join', [])
-    sessionStorage.setItem('Pg_Qz_Questions_Quiz', [])
-    sessionStorage.setItem('Pg_Qz_Bidding', [])
+    sessionStorage.setItem('Pg_Qh_Data_R', false)
+    sessionStorage.setItem('Pg_Qh_Data_Row_Join', [])
+    sessionStorage.setItem('Pg_Qz_Q_All', [])
+    sessionStorage.setItem('Pg_Qz_Bid', [])
     sessionStorage.setItem('Pg_Qz_Hands', [])
     //
-    //  Load Pg_QH_Data_Row_Join
+    //  Load Pg_Qh_Data_Row_Join
     //
     let sqlString = ''
     sqlString =
@@ -61,7 +53,7 @@ export default function BuildHistoryDetail(row) {
     //
     const rowCrudparams = {
       axiosMethod: 'post',
-      sqlCaller: functionName,
+      sqlCaller: debugModule,
       sqlTable: 'questions',
       sqlAction: 'SELECTSQL',
       sqlString: sqlString
@@ -79,20 +71,20 @@ export default function BuildHistoryDetail(row) {
       //
       //  Data
       //
-      const Pg_QH_Data_Row_Join = rtnObj.rtnRows
+      const Pg_Qh_Data_Row_Join = rtnObj.rtnRows
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Pg_QH_Data_Row_Join RESOLVED', Pg_QH_Data_Row_Join)
-      sessionStorage.setItem('Pg_QH_Data_Row_Join', JSON.stringify(Pg_QH_Data_Row_Join))
+      if (debugLog) console.log('Pg_Qh_Data_Row_Join RESOLVED', Pg_Qh_Data_Row_Join)
+      sessionStorage.setItem('Pg_Qh_Data_Row_Join', JSON.stringify(Pg_Qh_Data_Row_Join))
       //
       //  Store separately
       //
-      let Pg_Qz_Questions_Quiz = []
-      let Pg_Qz_Bidding = []
+      let Pg_Qz_Q_All = []
+      let Pg_Qz_Bid = []
       let Pg_Qz_Hands = []
 
-      Pg_QH_Data_Row_Join.forEach(row => {
+      Pg_Qh_Data_Row_Join.forEach(row => {
         const {
           qid,
           qowner,
@@ -124,7 +116,7 @@ export default function BuildHistoryDetail(row) {
           qpoints: qpoints,
           qgroup: qgroup
         }
-        Pg_Qz_Questions_Quiz.push(rowQuestion)
+        Pg_Qz_Q_All.push(rowQuestion)
         //
         //  Bidding
         //
@@ -133,7 +125,7 @@ export default function BuildHistoryDetail(row) {
             bid: qid,
             brounds: brounds
           }
-          Pg_Qz_Bidding.push(rowBidding)
+          Pg_Qz_Bid.push(rowBidding)
         }
         //
         //  Hands
@@ -152,10 +144,10 @@ export default function BuildHistoryDetail(row) {
       //
       //  Completion
       //
-      sessionStorage.setItem('Pg_Qz_Questions_Quiz', JSON.stringify(Pg_Qz_Questions_Quiz))
-      sessionStorage.setItem('Pg_Qz_Bidding', JSON.stringify(Pg_Qz_Bidding))
+      sessionStorage.setItem('Pg_Qz_Q_All', JSON.stringify(Pg_Qz_Q_All))
+      sessionStorage.setItem('Pg_Qz_Bid', JSON.stringify(Pg_Qz_Bid))
       sessionStorage.setItem('Pg_Qz_Hands', JSON.stringify(Pg_Qz_Hands))
-      sessionStorage.setItem('Pg_QH_Data_R', true)
+      sessionStorage.setItem('Pg_Qh_Data_R', true)
     })
 
     return
@@ -195,7 +187,7 @@ export default function BuildHistoryDetail(row) {
     //
     const rowCrudparams = {
       axiosMethod: 'post',
-      sqlCaller: functionName,
+      sqlCaller: debugModule,
       sqlTable: 'library',
       sqlAction: 'SELECTSQL',
       sqlString: sqlString

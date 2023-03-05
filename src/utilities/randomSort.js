@@ -1,15 +1,3 @@
-//
-//  Debug Settings
-//
-import debugSettings from '../debug/debugSettings'
-//.............................................................................
-//.  Initialisation
-//.............................................................................
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
-//===================================================================================
 export default function randomSort(dataIn) {
   //
   //  Load the workArray
@@ -26,7 +14,6 @@ export default function randomSort(dataIn) {
   //  Sort the workArray
   //
   workArray.sort((a, b) => (a.random > b.random ? 1 : -1))
-  if (debugLog) console.log(workArray)
   //
   //  Strip out the random element
   //
@@ -36,6 +23,5 @@ export default function randomSort(dataIn) {
   //
   //  Return sorted array
   //
-  if (debugLog) console.log('dataSorted  ', dataSorted)
   return dataSorted
 }

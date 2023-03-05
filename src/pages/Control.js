@@ -1,8 +1,4 @@
 //
-//  Debug Settings
-//
-import debugSettings from '../debug/debugSettings'
-//
 //  Sub Components
 //
 import UsersSettings from './UsersSettings/UsersSettings'
@@ -16,12 +12,15 @@ import QuizHistoryDetail from './QuizHistory/QuizHistoryDetail'
 import Library from './Library/Library'
 import SwitchUser from './SwitchUser/SwitchUser'
 //
-// Debug Settings
+//  Debug Settings
 //
+import consoleLogTime from '../debug/consoleLogTime'
+import debugSettings from '../debug/debugSettings'
 const debugLog = debugSettings()
+const debugModule = 'Control'
 //===================================================================================
-function Control({ handlePage }) {
-  if (debugLog) console.log('Start Control')
+export default function Control({ handlePage }) {
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //.............................................................................
   //.  Main Line
   //.............................................................................
@@ -60,5 +59,3 @@ function Control({ handlePage }) {
     </>
   )
 }
-
-export default Control

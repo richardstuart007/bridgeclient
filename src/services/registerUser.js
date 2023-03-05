@@ -6,10 +6,12 @@ import apiAxios from './../utilities/apiAxios'
 //  Debug Settings
 //
 import debugSettings from '../debug/debugSettings'
+const debugLog = debugSettings()
+const debugModule = 'registerUser'
 //
 // Constants
 //
-const functionName = 'registerUser'
+
 const { URL_REGISTER } = require('./constants.js')
 //..............................................................................
 //.  Initialisation
@@ -17,7 +19,7 @@ const { URL_REGISTER } = require('./constants.js')
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------
@@ -44,7 +46,7 @@ export default async function registerUser(props) {
     admin,
     dev
   } = props
-  let sqlClient = `${functionName}/${sqlCaller}`
+  let sqlClient = `${debugModule}/${sqlCaller}`
   //
   //  Get the URL
   //

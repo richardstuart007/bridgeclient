@@ -4,20 +4,9 @@
 import { Typography } from '@mui/material'
 import { teal } from 'material-ui-colors'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Components
 //
 import MyButton from '../../components/controls/MyButton'
-//.............................................................................
-//.  Initialisation
-//.............................................................................
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //===================================================================================
 export default function QuizQuestion(params) {
   //...................................................................................
@@ -30,16 +19,13 @@ export default function QuizQuestion(params) {
   //
   //  Deconstruct row
   //
-  if (debugLog) console.log('quizRow ', quizRow)
   const { qowner, qgroup, qid, qdetail } = quizRow
   let hyperLink
   qdetail.substring(0, 8) === 'https://' ? (hyperLink = true) : (hyperLink = false)
-  if (debugLog) console.log('hyperLink ', hyperLink)
   //
   //  Hyperlink open
   //
   const openTab = hyperlink => () => {
-    if (debugLog) console.log('hyperlink ', hyperlink)
     window.open(hyperlink, '_blank')
   }
   //

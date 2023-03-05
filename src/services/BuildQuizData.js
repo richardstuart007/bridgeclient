@@ -1,78 +1,86 @@
 //
-//  Debug Settings
-//
-import debugSettings from '../debug/debugSettings'
-//
 //  Services
 //
 import rowCrud from './../utilities/rowCrud'
 import randomSort from './../utilities/randomSort'
 //
-//  Constants
+//  Debug Settings
 //
-const functionName = 'BuildQuizData'
-//
-// Debug Settings
-//
+import debugSettings from '../debug/debugSettings'
+import consoleLogTime from '../debug/consoleLogTime'
 const debugLog = debugSettings()
 const debugModule = 'BuildQuizData'
+//
+//  Global Variables
+//
+let MaxQuestions
+let Pg_Qz_Q_All = []
+let Pg_Qz_Q_qid = []
+let Pg_Qz_Q_qidString = ''
+let SqlString_Q
+let User_Set_User
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function BuildQuizData(props) {
-  if (debugLog) console.log(debugModule)
   //
-  //  Signed in User
+  //  Try
   //
-  const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
-  const MaxQuestions = User_Set_User.u_dftmaxquestions
-  //
-  //  Function Variables
-  //
-  let Pg_Qz_Questions_Quiz = []
-  let Pg_Qz_Questions_qid = []
-  let Pg_Qz_Questions_qidString = ''
-  //
-  //  Deconstruct props
-  //
-  if (debugLog) console.log('props', props)
-  const { SqlString_Q } = props
-  //
-  //  Reset the Data
-  //
-  sessionStorage.setItem('Pg_Qz_Reset', true)
-  sessionStorage.setItem('Pg_Qz_Questions_R', false)
-  sessionStorage.setItem('Pg_Qz_Bidding_R', false)
-  sessionStorage.setItem('Pg_Qz_Hands_R', false)
-  sessionStorage.setItem('Pg_Qz_All_R', false)
+  try {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+    //
+    //  Signed in User
+    //
+    User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
+    MaxQuestions = User_Set_User.u_dftmaxquestions
+    //
+    //  Deconstruct props
+    //
+    if (debugLog) console.log(consoleLogTime(debugModule, 'props'), props)
+    SqlString_Q = props.SqlString_Q
+    //
+    //  Reset the Data
+    //
+    sessionStorage.setItem('Pg_Qz_Reset', true)
+    sessionStorage.setItem('Pg_Qz_Q_R', false)
+    sessionStorage.setItem('Pg_Qz_Bid_R', false)
+    sessionStorage.setItem('Pg_Qz_Hands_R', false)
+    sessionStorage.setItem('Pg_Qz_All_R', false)
 
-  sessionStorage.setItem('Pg_Qz_Questions', [])
-  sessionStorage.setItem('Pg_Qz_Bidding', [])
-  sessionStorage.setItem('Pg_Qz_Hands', [])
+    sessionStorage.setItem('Pg_Qz_Q', [])
+    sessionStorage.setItem('Pg_Qz_Bid', [])
+    sessionStorage.setItem('Pg_Qz_Hands', [])
 
-  sessionStorage.setItem('Pg_Qz_Questions_Quiz', [])
-  sessionStorage.setItem('Pg_Qz_Questions_Quiz_Count', 0)
-  sessionStorage.setItem('Pg_Qz_Questions_qid', [])
-  //
-  //  Load data
-  //
-  LoadServerQuestions()
+    sessionStorage.setItem('Pg_Qz_Q_All', [])
+    sessionStorage.setItem('Pg_Qz_Q_AllC', 0)
+    sessionStorage.setItem('Pg_Qz_Q_qid', [])
+    //
+    //  Load data
+    //
+    LoadServerQuestions()
+  } catch (e) {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Catch'))
+
+    console.log(e)
+  } finally {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'End'))
+  }
   //...................................................................................
   //.  Load Server - Questions
   //...................................................................................
   function LoadServerQuestions() {
-    if (debugLog) console.log('LoadServerQuestions')
+    if (debugLog) console.log(consoleLogTime(debugModule, 'LoadServerQuestions'))
     //
     //  Selection
     //
     let sqlString = SqlString_Q
-    if (debugLog) console.log('sqlString ', sqlString)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString ', sqlString))
     //
     //  Process promise
     //
     const rowCrudparams = {
       axiosMethod: 'post',
-      sqlCaller: functionName,
+      sqlCaller: debugModule,
       sqlTable: 'questions',
       sqlAction: 'SELECTSQL',
       sqlString: sqlString
@@ -82,7 +90,7 @@ export default function BuildQuizData(props) {
     //  Resolve Status
     //
     myPromiseQuestions.then(function (rtnObj) {
-      if (debugLog) console.log('rtnObj ', rtnObj)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj ', rtnObj))
       //
       //  No data returned
       //
@@ -90,30 +98,30 @@ export default function BuildQuizData(props) {
       //
       //  Data
       //
-      const Pg_Qz_Questions = rtnObj.rtnRows
+      const Pg_Qz_Q = rtnObj.rtnRows
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Pg_Qz_Questions ', Pg_Qz_Questions)
-      sessionStorage.setItem('Pg_Qz_Questions', JSON.stringify(Pg_Qz_Questions))
-      sessionStorage.setItem('Pg_Qz_Questions_R', true)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Q ', Pg_Qz_Q))
+      sessionStorage.setItem('Pg_Qz_Q', JSON.stringify(Pg_Qz_Q))
+      sessionStorage.setItem('Pg_Qz_Q_R', true)
       //
       //  No Questions
       //
-      if (!Pg_Qz_Questions[0]) {
+      if (!Pg_Qz_Q[0]) {
         sessionStorage.setItem('Pg_Qz_All_R', true)
         return
       }
       //
       //  Store Owner/group
       //
-      const row1 = Pg_Qz_Questions[0]
+      const row1 = Pg_Qz_Q[0]
       sessionStorage.setItem('Pg_Qz_Owner', JSON.stringify(row1.qowner))
       sessionStorage.setItem('Pg_Qz_OwnerGroup', JSON.stringify(row1.qgroup))
       //
-      //  Output Pg_Qz_Questions_Quiz
+      //  Output Pg_Qz_Q_All
       //
-      QuestionsSortMax(Pg_Qz_Questions)
+      QuestionsSortMax(Pg_Qz_Q)
       //
       //  Load related
       //
@@ -122,68 +130,63 @@ export default function BuildQuizData(props) {
       return
     })
 
-    return
+    return myPromiseQuestions
   }
   //...................................................................................
-  //.  Output Pg_Qz_Questions_Quiz
+  //.  Output Pg_Qz_Q_All
   //...................................................................................
-  function QuestionsSortMax(Pg_Qz_Questions) {
-    if (debugLog) console.log('QuestionsSortMax')
+  function QuestionsSortMax(Pg_Qz_Q) {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'QuestionsSortMax'))
     //
     //  Random sort questions
     //
     const SortQuestions = User_Set_User.u_sortquestions
-    SortQuestions
-      ? (Pg_Qz_Questions_Quiz = randomSort(Pg_Qz_Questions))
-      : (Pg_Qz_Questions_Quiz = Pg_Qz_Questions)
+    SortQuestions ? (Pg_Qz_Q_All = randomSort(Pg_Qz_Q)) : (Pg_Qz_Q_All = Pg_Qz_Q)
     //
     //  Apply max number
     //
-    if (Pg_Qz_Questions_Quiz.length > MaxQuestions) {
-      let i = Pg_Qz_Questions_Quiz.length - 1
+    if (Pg_Qz_Q_All.length > MaxQuestions) {
+      let i = Pg_Qz_Q_All.length - 1
       for (i; i >= MaxQuestions; i--) {
-        Pg_Qz_Questions_Quiz.pop()
+        Pg_Qz_Q_All.pop()
       }
     }
     //
     //  Question IDs & Refs
     //
-    if (debugLog) console.log('Pg_Qz_Questions_Quiz ', Pg_Qz_Questions_Quiz)
-    for (let i = 0; i < Pg_Qz_Questions_Quiz.length; i++) {
-      Pg_Qz_Questions_qid.push(Pg_Qz_Questions_Quiz[i].qid)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Q_All ', Pg_Qz_Q_All))
+    for (let i = 0; i < Pg_Qz_Q_All.length; i++) {
+      Pg_Qz_Q_qid.push(Pg_Qz_Q_All[i].qid)
     }
-    if (debugLog) console.log('Pg_Qz_Questions_qid ', Pg_Qz_Questions_qid)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Q_qid ', Pg_Qz_Q_qid))
     //
     //  String version of ID
     //
-    Pg_Qz_Questions_qidString = Pg_Qz_Questions_qid.toString()
-    if (debugLog) console.log('Pg_Qz_Questions_qidString ', Pg_Qz_Questions_qidString)
+    Pg_Qz_Q_qidString = Pg_Qz_Q_qid.toString()
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Q_qidString ', Pg_Qz_Q_qidString))
     //
     //  Session Storage
     //
-    sessionStorage.setItem('Pg_Qz_Questions_Quiz', JSON.stringify(Pg_Qz_Questions_Quiz))
-    sessionStorage.setItem(
-      'Pg_Qz_Questions_Quiz_Count',
-      JSON.stringify(Pg_Qz_Questions_Quiz.length)
-    )
-    sessionStorage.setItem('Pg_Qz_Questions_qid', JSON.stringify(Pg_Qz_Questions_qid))
+    sessionStorage.setItem('Pg_Qz_Q_All', JSON.stringify(Pg_Qz_Q_All))
+    sessionStorage.setItem('Pg_Qz_Q_AllC', JSON.stringify(Pg_Qz_Q_All.length))
+    sessionStorage.setItem('Pg_Qz_Q_qid', JSON.stringify(Pg_Qz_Q_qid))
   }
   //...................................................................................
   //.  Load Server - Bidding
   //...................................................................................
   function LoadServerBidding() {
-    if (debugLog) console.log('LoadServerBidding')
+    if (debugLog) console.log(consoleLogTime(debugModule, 'LoadServerBidding'))
     //
     //  Selection
     //
-    let sqlString = `* from bidding where bid in (${Pg_Qz_Questions_qidString}) order by bid`
-    if (debugLog) console.log('sqlString', sqlString)
+    let sqlString = `* from bidding where bid in (${Pg_Qz_Q_qidString}) order by bid`
+    if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString', sqlString))
     //
     //  Process promise
     //
     const rowCrudparams = {
       axiosMethod: 'post',
-      sqlCaller: functionName,
+      sqlCaller: debugModule,
       sqlTable: 'bidding',
       sqlAction: 'SELECTSQL',
       sqlString: sqlString
@@ -193,7 +196,7 @@ export default function BuildQuizData(props) {
     //  Resolve Status
     //
     myPromiseBidding.then(function (rtnObj) {
-      if (debugLog) console.log('rtnObj ', rtnObj)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj ', rtnObj))
       //
       //  No data returned
       //
@@ -201,38 +204,37 @@ export default function BuildQuizData(props) {
       //
       //  Data
       //
-      const Pg_Qz_Bidding = rtnObj.rtnRows
+      const Pg_Qz_Bid = rtnObj.rtnRows
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Pg_Qz_Bidding ', Pg_Qz_Bidding)
-      sessionStorage.setItem('Pg_Qz_Bidding', JSON.stringify(Pg_Qz_Bidding))
-      sessionStorage.setItem('Pg_Qz_Bidding_R', true)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Bid ', Pg_Qz_Bid))
+      sessionStorage.setItem('Pg_Qz_Bid', JSON.stringify(Pg_Qz_Bid))
+      sessionStorage.setItem('Pg_Qz_Bid_R', true)
       //
       //  All Data Received ?
       //
       CheckAllData()
       return
     })
-
-    return
+    return myPromiseBidding
   }
   //...................................................................................
   //.  Load Server - Hands
   //...................................................................................
   function LoadServerHands() {
-    if (debugLog) console.log('LoadServerHands')
+    if (debugLog) console.log(consoleLogTime(debugModule, 'LoadServerHands'))
     //
     //  Selection
     //
-    let sqlString = `* from hands where hid in (${Pg_Qz_Questions_qidString}) order by hid`
-    if (debugLog) console.log('sqlString', sqlString)
+    let sqlString = `* from hands where hid in (${Pg_Qz_Q_qidString}) order by hid`
+    if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString', sqlString))
     //
     //  Process promise
     //
     const rowCrudparams = {
       axiosMethod: 'post',
-      sqlCaller: functionName,
+      sqlCaller: debugModule,
       sqlTable: 'hands',
       sqlAction: 'SELECTSQL',
       sqlString: sqlString
@@ -242,7 +244,7 @@ export default function BuildQuizData(props) {
     //  Resolve Status
     //
     myPromiseHands.then(function (rtnObj) {
-      if (debugLog) console.log('rtnObj ', rtnObj)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj ', rtnObj))
       //
       //  No data returned
       //
@@ -254,7 +256,7 @@ export default function BuildQuizData(props) {
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Pg_Qz_Hands ', Pg_Qz_Hands)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Hands ', Pg_Qz_Hands))
       sessionStorage.setItem('Pg_Qz_Hands', JSON.stringify(Pg_Qz_Hands))
       sessionStorage.setItem('Pg_Qz_Hands_R', true)
       //
@@ -264,24 +266,24 @@ export default function BuildQuizData(props) {
       return
     })
 
-    return
+    return myPromiseHands
   }
   //...................................................................................
   //.  All Data Received ?
   //...................................................................................
   function CheckAllData() {
-    if (debugLog) console.log('CheckAllData')
+    if (debugLog) console.log(consoleLogTime(debugModule, 'CheckAllData'))
     //
     //  Data received, end wait
     //
-    const Pg_Qz_Questions_R = JSON.parse(sessionStorage.getItem('Pg_Qz_Questions_R'))
-    const Pg_Qz_Bidding_R = JSON.parse(sessionStorage.getItem('Pg_Qz_Bidding_R'))
+    const Pg_Qz_Q_R = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_R'))
+    const Pg_Qz_Bid_R = JSON.parse(sessionStorage.getItem('Pg_Qz_Bid_R'))
     const Pg_Qz_Hands_R = JSON.parse(sessionStorage.getItem('Pg_Qz_Hands_R'))
     //
     //  All data received
     //
-    if (Pg_Qz_Questions_R && Pg_Qz_Bidding_R && Pg_Qz_Hands_R) {
-      if (debugLog) console.log('All DATA received')
+    if (Pg_Qz_Q_R && Pg_Qz_Bid_R && Pg_Qz_Hands_R) {
+      if (debugLog) console.log(consoleLogTime(debugModule, 'All DATA received'))
       sessionStorage.setItem('Pg_Qz_All_R', true)
     }
   }

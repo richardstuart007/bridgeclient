@@ -96,8 +96,8 @@ export default function QuizHistoryDetail({ handlePage }) {
     //
     //  Get Row Values
     //
-    const row = JSON.parse(sessionStorage.getItem('Pg_QH_Data_Row'))
-    if (debugLog) console.log('Pg_QH_Data_Row ', row)
+    const row = JSON.parse(sessionStorage.getItem('Pg_Qh_Data_Row'))
+    if (debugLog) console.log('Pg_Qh_Data_Row ', row)
     updateSelection(row)
   }
   //...................................................................................
@@ -108,16 +108,16 @@ export default function QuizHistoryDetail({ handlePage }) {
     //
     //  Get Stored Data
     //
-    const Pg_QH_Data_Row_Join = JSON.parse(sessionStorage.getItem('Pg_QH_Data_Row_Join'))
-    if (debugLog) console.log('Pg_QH_Data_Row_Join ', Pg_QH_Data_Row_Join)
+    const Pg_Qh_Data_Row_Join = JSON.parse(sessionStorage.getItem('Pg_Qh_Data_Row_Join'))
+    if (debugLog) console.log('Pg_Qh_Data_Row_Join ', Pg_Qh_Data_Row_Join)
 
-    const Pg_Qz_Questions_Quiz = JSON.parse(sessionStorage.getItem('Pg_Qz_Questions_Quiz'))
+    const Pg_Qz_Q_All = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_All'))
     const Hist_r_ans = row.r_ans
     //
     //  Questions
     //
     let ArrQuestions = []
-    Pg_Qz_Questions_Quiz.forEach(row => {
+    Pg_Qz_Q_All.forEach(row => {
       const rowData = { ...row }
       ArrQuestions.push(rowData)
     })

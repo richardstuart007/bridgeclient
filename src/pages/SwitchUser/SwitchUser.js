@@ -30,6 +30,8 @@ import rowCrud from '../../utilities/rowCrud'
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
+const debugLog = debugSettings()
+const debugModule = 'SwitchUser'
 //
 //  Styles
 //
@@ -74,15 +76,6 @@ const searchTypeOptions = [
   { id: 'u_name', title: 'Name' },
   { id: 'u_fedid', title: 'Bridge ID' }
 ]
-//
-//  Constants
-//
-const functionName = 'SwitchUser'
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
-const debugModule = 'SwitchUser'
 //...................................................................................
 //.  Main Line
 //...................................................................................
@@ -135,7 +128,7 @@ export default function SwitchUser({ handlePage }) {
     //
     const rowCrudparams = {
       axiosMethod: 'post',
-      sqlCaller: functionName,
+      sqlCaller: debugModule,
       sqlTable: 'users',
       sqlAction: 'SELECTSQL',
       sqlString: sqlString

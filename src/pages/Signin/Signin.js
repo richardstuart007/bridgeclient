@@ -8,18 +8,16 @@ import { Paper, Grid, Typography } from '@mui/material'
 //
 import apiAxios from '../../utilities/apiAxios'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Controls
 //
 import MyButton from '../../components/controls/MyButton'
 import MyInput from '../../components/controls/MyInput'
 import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
-// Debug Settings
+//  Debug Settings
 //
+import debugSettings from '../../debug/debugSettings'
+import consoleLogTime from '../../debug/consoleLogTime'
 const debugLog = debugSettings()
 const debugModule = 'Signin'
 //
@@ -50,12 +48,6 @@ let rtnObj = {
 //.  Main Line
 //...................................................................................
 export default function Signin({ handlePage }) {
-  if (debugLog) console.log('Signin')
-  //
-  //
-  //
-  const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
-  if (User_Set_User) initialFValues.user = User_Set_User.u_user
   //
   // State
   //
@@ -65,11 +57,27 @@ export default function Signin({ handlePage }) {
   //  Interface to Form
   //
   const { values, errors, setErrors, handleInputChange } = useMyForm(initialFValues, true, validate)
+  //
+  //  Try
+  //
+  try {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+    //
+    //  Restore previous signin info
+    //
+    const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
+    if (User_Set_User) initialFValues.user = User_Set_User.u_user
+  } catch (e) {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Catch'))
+    console.log(e)
+  } finally {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'End'))
+  }
   //.............................................................................
   //.  Input field validation
   //.............................................................................
   function validate(fieldValues = values) {
-    if (debugLog) console.log('validate')
+    if (debugLog) console.log(consoleLogTime(debugModule, 'validate'))
     let temp = { ...errors }
     //
     //  user
@@ -95,7 +103,7 @@ export default function Signin({ handlePage }) {
   //.  Form Submit
   //...................................................................................
   function FormSubmit(e) {
-    if (debugLog) console.log('FormSubmit')
+    if (debugLog) console.log(consoleLogTime(debugModule, 'FormSubmit'))
     if (validate()) {
       FormUpdate()
     }
@@ -104,7 +112,7 @@ export default function Signin({ handlePage }) {
   //.  Update
   //...................................................................................
   function FormUpdate() {
-    if (debugLog) console.log('FormUpdate')
+    if (debugLog) console.log(consoleLogTime(debugModule, 'FormUpdate'))
     //
     //  Hide signin button
     //
@@ -117,7 +125,7 @@ export default function Signin({ handlePage }) {
     //  Resolve Status
     //
     myPromiseSignin.then(function (rtnObj) {
-      if (debugLog) console.log('rtnObj ', rtnObj)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
       //
       //  Error
       //
@@ -125,7 +133,7 @@ export default function Signin({ handlePage }) {
       if (!rtnValue) {
         let message
         rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
-        if (debugLog) console.log('Error Message ', message)
+        if (debugLog) console.log(consoleLogTime(debugModule, 'Error Message'), message)
         setForm_message(message)
         //
         //  Show button
@@ -155,7 +163,7 @@ export default function Signin({ handlePage }) {
     //  Get the URL
     //
     const App_Set_URL = JSON.parse(sessionStorage.getItem('App_Set_URL'))
-    if (debugLog) console.log('App_Set_URL ', App_Set_URL)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'App_Set_URL'), App_Set_URL)
     //
     //  Initialise Values
     //
@@ -180,7 +188,7 @@ export default function Signin({ handlePage }) {
         password: password
       }
       const URL = App_Set_URL + URL_SIGNIN
-      if (debugLog) console.log('URL ', URL)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
       //
       //  SQL database
       //
@@ -190,7 +198,7 @@ export default function Signin({ handlePage }) {
       // Errors
       //
     } catch (err) {
-      console.log(err)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch err'), err)
       return rtnObj
     }
   }
@@ -198,7 +206,7 @@ export default function Signin({ handlePage }) {
   //.  Process User Signin
   //...................................................................................
   function ProcessSignIn() {
-    if (debugLog) console.log('ProcessSignIn')
+    if (debugLog) console.log(consoleLogTime(debugModule, 'ProcessSignIn'))
     //
     //  Form Message
     //
@@ -229,7 +237,7 @@ export default function Signin({ handlePage }) {
         ownersString = ownersString + `'${uoowner}'`
       }
     }
-    if (debugLog) console.log('ownersString ', ownersString)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'ownersString'), ownersString)
     sessionStorage.setItem('User_Set_UserOwnersString', JSON.stringify(ownersString))
     //
     //  Signed In
@@ -258,7 +266,7 @@ export default function Signin({ handlePage }) {
             {/*.................................................................................................*/}
             <Grid item xs={12} sx={{ mt: 2 }}>
               <Typography variant='h6' style={{ color: 'blue' }}>
-                SignIn Page
+                SignIn
               </Typography>
             </Grid>
             {/*.................................................................................................*/}

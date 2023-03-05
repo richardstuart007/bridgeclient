@@ -95,13 +95,13 @@ export default function QuizReview({ handlePage }) {
     //
     //  Get Store Values
     //
-    const Pg_Qz_Questions_Quiz = JSON.parse(sessionStorage.getItem('Pg_Qz_Questions_Quiz'))
-    const Pg_Qz_Answers = JSON.parse(sessionStorage.getItem('Pg_Qz_Answers'))
+    const Pg_Qz_Q_All = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_All'))
+    const Pg_Qz_A = JSON.parse(sessionStorage.getItem('Pg_Qz_A'))
     //
     //  Questions
     //
     let ArrQuestions = []
-    Pg_Qz_Questions_Quiz.forEach(row => {
+    Pg_Qz_Q_All.forEach(row => {
       const rowData = { ...row }
       ArrQuestions.push(rowData)
     })
@@ -117,7 +117,7 @@ export default function QuizReview({ handlePage }) {
     let AnsQuestIdx = -1
     let AnsReview = 0
 
-    Pg_Qz_Answers.forEach(id => {
+    Pg_Qz_A.forEach(id => {
       AnsCount++
       AnsQuestIdx++
       //

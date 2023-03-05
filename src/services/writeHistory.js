@@ -1,24 +1,23 @@
 //
+//  Libraries
+//
+import { format, parseISO } from 'date-fns'
+//
 //  Utilities
 //
 import rowCrud from './../utilities/rowCrud'
-
 //
 //  Debug Settings
 //
 import debugSettings from '../debug/debugSettings'
-//
-// Debug Settings
-//
 const debugLog = debugSettings()
-
-const functionName = 'writeHistory'
+const debugModule = 'writeHistory'
 //===================================================================================
 export default function writeHistory() {
   //
   //  Answers
   //
-  const r_ans = JSON.parse(sessionStorage.getItem('Pg_Qz_Answers'))
+  const r_ans = JSON.parse(sessionStorage.getItem('Pg_Qz_A'))
   const r_questions = r_ans.length
   //
   //  If no questions answered, do not write history
@@ -29,10 +28,19 @@ export default function writeHistory() {
   //
   const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
   //
+  //  Get History data
+  //
+  const Pg_Qh_Data = JSON.parse(sessionStorage.getItem('Pg_Qh_Data'))
+  //
+  //  Get group title
+  //
+  const Pg_Qz_ogtitle = JSON.parse(sessionStorage.getItem('Pg_Qz_ogtitle'))
+  //
   //  Key
   //
   const r_uid = User_Set_User.u_id
-  const r_datetime = new Date()
+  const r_datetime = new Date().toJSON()
+  const yymmdd = format(parseISO(r_datetime), 'yy-MM-dd')
   //
   //  Selection Data
   //
@@ -47,8 +55,8 @@ export default function writeHistory() {
   let r_totalpoints = 0
   let r_maxpoints = 0
   let r_correctpercent = 0
-  const Pg_Qz_Questions_Quiz = JSON.parse(sessionStorage.getItem('Pg_Qz_Questions_Quiz'))
-  Pg_Qz_Questions_Quiz.forEach(row => {
+  const Pg_Qz_Q_All = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_All'))
+  Pg_Qz_Q_All.forEach(row => {
     count++
     if (count <= r_questions) {
       r_qid.push(row.qid)
@@ -57,9 +65,6 @@ export default function writeHistory() {
       //
       const i = count - 1
       const p = r_ans[i] - 1
-      if (debugLog) console.log('i ', i)
-      if (debugLog) console.log('p ', p)
-      if (debugLog) console.log('row ', row)
       const points = row.qpoints[p]
       r_points.push(points)
       //
@@ -94,10 +99,25 @@ export default function writeHistory() {
   }
   if (debugLog) console.log('sqlRow ', sqlRow)
   //
+  //  Add record to storage (if history already exists)
+  //
+  if (Pg_Qh_Data) {
+    const template = Pg_Qh_Data[0]
+    const newQH = { ...template, ...sqlRow }
+    newQH.r_id = 0
+    newQH.ogtitle = Pg_Qz_ogtitle
+    newQH.yymmdd = yymmdd
+    if (debugLog) console.log(`newQH `, newQH)
+
+    Pg_Qh_Data.unshift(newQH)
+    sessionStorage.setItem('Pg_Qh_Data', JSON.stringify(Pg_Qh_Data))
+    if (debugLog) console.log(`Pg_Qh_Data `, Pg_Qh_Data)
+  }
+  //
   //  Build Props
   //
   const props = {
-    sqlCaller: functionName,
+    sqlCaller: debugModule,
     axiosMethod: 'post',
     sqlAction: 'INSERT',
     sqlTable: 'usershistory',
@@ -121,8 +141,16 @@ export default function writeHistory() {
     //  Data
     //
     const data = rtnObj.rtnRows
-    const rtn_r_id = data[0].r_id
-    if (debugLog) console.log(`Row (${rtn_r_id}) UPSERTED in Database`)
+    const newRow = data[0]
+    if (debugLog) console.log(`Row (${newRow.r_id}) INSERTED in Database`)
+    //
+    //  Update storage with r_id
+    //
+    if (Pg_Qh_Data) {
+      Pg_Qh_Data[0].r_id = newRow.r_id
+      sessionStorage.setItem('Pg_Qh_Data', JSON.stringify(Pg_Qh_Data))
+      if (debugLog) console.log(`Pg_Qh_Data `, Pg_Qh_Data)
+    }
     return
   })
   //
