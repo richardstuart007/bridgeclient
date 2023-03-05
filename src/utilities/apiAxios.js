@@ -25,12 +25,11 @@ const rtnObj = {
 //
 // methods - post(get), post(update), delete(delete), post(upsert)
 //
-export default async function apiAxios(method, url, data) {
+export default async function apiAxios(method, url, data, timeout = 2000) {
   //
   //  Try
   //
   try {
-    const timeout = 2000
     if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
     if (debugLog) console.log(consoleLogTime(debugModule, `url(${url}) method(${method})`))
     const response = await axios({

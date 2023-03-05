@@ -71,9 +71,9 @@ export default function Splash({ handlePage }) {
     //  Hide button
     //
     setShowButtons(false)
-    //
-    //  Check server
-    //
+    //-----------------
+    //  Check SERVER
+    //-----------------
     const myPromiseHelloServer = Hello('SERVER')
     myPromiseHelloServer.then(function (rtnObj) {
       if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
@@ -84,17 +84,14 @@ export default function Splash({ handlePage }) {
       if (!rtnValue) {
         let message
         rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
+        message = 'SERVER ' + message
         if (debugLog) console.log(consoleLogTime(debugModule, 'Error Message'), message)
         setForm_message(message)
         return
       }
-      //
-      //  OK
-      //
-      setForm_message('Server Active')
-      //
-      //  Check Database
-      //
+      //-----------------
+      //  Check DATABASE
+      //-----------------
       const myPromiseHelloDatabase = Hello('DATABASE')
       myPromiseHelloDatabase.then(function (rtnObj) {
         if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
@@ -105,14 +102,15 @@ export default function Splash({ handlePage }) {
         if (!rtnValue) {
           let message
           rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
+          message = 'DATABASE ' + message
           if (debugLog) console.log(consoleLogTime(debugModule, 'Error Message'), message)
           setForm_message(message)
           return
         }
-        //
+        //-----------------
         //  OK
-        //
-        setForm_message('Database Active')
+        //-----------------
+        setForm_message('Server and Database OK')
         setShowButtons(true)
       })
     })
@@ -154,11 +152,12 @@ export default function Splash({ handlePage }) {
         helloType: helloType
       }
       const URL = App_Set_URL + URL_HELLO
+      const timeout = 2000
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
       //
       //  SQL database
       //
-      rtnObj = await apiAxios(method, URL, body)
+      rtnObj = await apiAxios(method, URL, body, timeout)
       return rtnObj
       //
       // Errors
