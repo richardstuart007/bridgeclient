@@ -30,12 +30,14 @@ export default async function apiAxios(method, url, data) {
   //  Try
   //
   try {
+    const timeout = 500
     if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
     if (debugLog) console.log(consoleLogTime(debugModule, `url(${url}) method(${method})`))
     const response = await axios({
       method: method,
       url: url,
-      data: data
+      data: data,
+      timeout: timeout
     })
     if (debugLog) console.log(consoleLogTime(debugModule, 'respsonse'), response)
     //
