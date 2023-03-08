@@ -190,9 +190,17 @@ export default function Signin({ handlePage }) {
       const URL = App_Set_URL + URL_SIGNIN
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
       //
+      //  Timeout
+      //
+      let timeout = 2000
+      //
+      //  Info
+      //
+      const info = `Client(${debugModule}) Action(Signin)`
+      //
       //  SQL database
       //
-      rtnObj = await apiAxios(method, URL, body)
+      rtnObj = await apiAxios(method, URL, body, timeout, info)
       return rtnObj
       //
       // Errors

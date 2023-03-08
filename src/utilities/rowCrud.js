@@ -199,9 +199,17 @@ export default async function rowCrud(props) {
           consoleLogTime(`sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable})`)
         )
       //
+      //  Timeout
+      //
+      let timeout = 2000
+      //
+      //  Info
+      //
+      const info = `sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable})`
+      //
       //  SQL database
       //
-      const rtnObjServer = await apiAxios(axiosMethod, URL, body)
+      const rtnObjServer = await apiAxios(axiosMethod, URL, body, timeout, info)
       if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObjServer'), rtnObjServer)
       return rtnObjServer
       //

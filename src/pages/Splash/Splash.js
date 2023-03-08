@@ -42,7 +42,8 @@ export default function Splash({ handlePage }) {
   // State
   //
   const [form_message, setForm_message] = useState('')
-  const [showButtons, setShowButtons] = useState(false)
+  const [showContinue, setshowContinue] = useState(false)
+  const [showConnect, setshowConnect] = useState(false)
   //
   //  Screen Width
   //
@@ -68,9 +69,10 @@ export default function Splash({ handlePage }) {
       return
     }
     //
-    //  Hide button
+    //  Hide buttons
     //
-    setShowButtons(false)
+    setshowContinue(false)
+    setshowConnect(false)
     //-----------------
     //  Check SERVER
     //-----------------
@@ -87,6 +89,7 @@ export default function Splash({ handlePage }) {
         message = 'SERVER ' + message
         if (debugLog) console.log(consoleLogTime(debugModule, 'Error Message'), message)
         setForm_message(message)
+        setshowConnect(true)
         return
       }
       //-----------------
@@ -105,25 +108,21 @@ export default function Splash({ handlePage }) {
           message = 'DATABASE ' + message
           if (debugLog) console.log(consoleLogTime(debugModule, 'Error Message'), message)
           setForm_message(message)
+          setshowConnect(true)
           return
         }
         //-----------------
         //  OK
         //-----------------
-        setForm_message('Server and Database OK')
-        setShowButtons(true)
+        setForm_message('')
+        setshowContinue(true)
       })
     })
   }
-
   //--------------------------------------------------------------------
   //-  Check The Server/Database
   //--------------------------------------------------------------------
   async function Hello(helloType) {
-    //
-    //  User message
-    //
-    setForm_message(`Checking the ${helloType} please WAIT..`)
     //
     //  Initialise Values
     //
@@ -152,12 +151,20 @@ export default function Splash({ handlePage }) {
         helloType: helloType
       }
       const URL = App_Set_URL + URL_HELLO
-      const timeout = 2000
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
+      //
+      //  Timeout
+      //
+      let timeout
+      helloType === 'SERVER' ? (timeout = 800) : (timeout = 1200)
+      //
+      //  Info
+      //
+      const info = `Client(${debugModule}) Action(${helloType})`
       //
       //  SQL database
       //
-      rtnObj = await apiAxios(method, URL, body, timeout)
+      rtnObj = await apiAxios(method, URL, body, timeout, info)
       return rtnObj
       //
       // Errors
@@ -222,7 +229,13 @@ export default function Splash({ handlePage }) {
             <Typography style={{ color: 'red' }}>{form_message}</Typography>
           </Grid>
           {/*.................................................................................................*/}
-          {showButtons ? (
+          {showConnect ? (
+            <Grid item xs={12}>
+              <MyButton type='submit' text='Connect' value='Submit' onClick={() => sayHello()} />
+            </Grid>
+          ) : null}
+          {/*.................................................................................................*/}
+          {showContinue ? (
             <Grid item xs={12}>
               <MyButton
                 type='submit'

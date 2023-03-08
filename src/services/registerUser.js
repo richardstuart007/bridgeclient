@@ -11,15 +11,7 @@ const debugModule = 'registerUser'
 //
 // Constants
 //
-
 const { URL_REGISTER } = require('./constants.js')
-//..............................................................................
-//.  Initialisation
-//.............................................................................
-//
-// Debug Settings
-//
-
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------
@@ -55,7 +47,7 @@ export default async function registerUser(props) {
   //
   // Fetch the data
   //
-  const rtnObj = fetchItems()
+  let rtnObj = fetchItems()
   return rtnObj
   //--------------------------------------------------------------------
   //.  fetch data
@@ -86,11 +78,18 @@ export default async function registerUser(props) {
       const URL = App_Set_URL + URL_REGISTER
       if (debugLog) console.log('URL ', URL)
       //
+      //  Timeout
+      //
+      let timeout = 2000
+      //
+      //  Info
+      //
+      const info = `Client(${sqlClient}) Action(Register)`
+      //
       //  SQL database
       //
-      const resultData = await apiAxios(method, URL, body)
-      if (debugLog) console.log('resultData ', resultData)
-      return resultData
+      rtnObj = await apiAxios(method, URL, body, timeout, info)
+      return rtnObj
       //
       // Errors
       //

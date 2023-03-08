@@ -31,10 +31,7 @@ export default function QuizQuestion(params) {
   //
   //  Question Info
   //
-  const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
-  const User_Dev = User_Set_User.u_dev
-  let QuestionInfo = `${qowner}/${qgroup} ${quizQuestion}/${quizTotal}`
-  if (User_Dev) QuestionInfo = QuestionInfo + ` (${qid})`
+  let QuestionInfo = `${qowner}/${qgroup} ${quizQuestion}/${quizTotal} (${qid})`
   //...................................................................................
   //.  Render the form
   //...................................................................................
