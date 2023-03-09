@@ -125,9 +125,8 @@ export default function UsersSettings({ handlePage }) {
   //...................................................................................
   //.  Submit form
   //...................................................................................
-  const handleSubmit = e => {
+  const handleSubmit = () => {
     if (debugLog) console.log('handleSubmit')
-    e.preventDefault()
     //
     //  Validate & Update
     //
@@ -202,7 +201,7 @@ export default function UsersSettings({ handlePage }) {
   //...................................................................................
   return (
     <>
-      <MyForm onSubmit={handleSubmit}>
+      <MyForm>
         <Paper
           sx={{
             margin: 2,
@@ -319,7 +318,6 @@ export default function UsersSettings({ handlePage }) {
                 error={errors.u_skipcorrect}
               />
             </Grid>
-
             {/*------------------------------------------------------------------------------ */}
             <Grid item xs={12}>
               <MyButton
@@ -328,9 +326,7 @@ export default function UsersSettings({ handlePage }) {
                 text='Update'
                 color='primary'
                 variant='contained'
-                onClick={() => {
-                  handleSubmit()
-                }}
+                onClick={() => handleSubmit()}
               />
             </Grid>
           </Grid>

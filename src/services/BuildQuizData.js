@@ -155,6 +155,7 @@ export default function BuildQuizData(props) {
     //  Question IDs & Refs
     //
     if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Q_All ', Pg_Qz_Q_All))
+    Pg_Qz_Q_qid = []
     for (let i = 0; i < Pg_Qz_Q_All.length; i++) {
       Pg_Qz_Q_qid.push(Pg_Qz_Q_All[i].qid)
     }
@@ -179,7 +180,7 @@ export default function BuildQuizData(props) {
     //
     //  Selection
     //
-    let sqlString = `* from bidding where bid in (${Pg_Qz_Q_qidString}) order by bid`
+    let sqlString = `* from bidding where bid in (${Pg_Qz_Q_qidString})`
     if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString', sqlString))
     //
     //  Process promise
@@ -227,7 +228,7 @@ export default function BuildQuizData(props) {
     //
     //  Selection
     //
-    let sqlString = `* from hands where hid in (${Pg_Qz_Q_qidString}) order by hid`
+    let sqlString = `* from hands where hid in (${Pg_Qz_Q_qidString})`
     if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString', sqlString))
     //
     //  Process promise
