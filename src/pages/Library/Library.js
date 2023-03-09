@@ -307,8 +307,8 @@ export default function Library({ handlePage }) {
         //
         //  Data ?
         //
-        const Pg_Qz_Q_AllC = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_AllC'))
-        if (Pg_Qz_Q_AllC === 0) {
+        const Pg_Qz_Q_All_Cnt = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_All_Cnt'))
+        if (Pg_Qz_Q_All_Cnt === 0) {
           setForm_message('QuizSelect: No Questions found')
           if (debugLog) console.log(consoleLogTime(debugModule, 'No Quiz Questions found'))
           return

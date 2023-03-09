@@ -52,7 +52,7 @@ export default function BuildQuizData(props) {
     sessionStorage.setItem('Pg_Qz_Hands', [])
 
     sessionStorage.setItem('Pg_Qz_Q_All', [])
-    sessionStorage.setItem('Pg_Qz_Q_AllC', 0)
+    sessionStorage.setItem('Pg_Qz_Q_All_Cnt', 0)
     sessionStorage.setItem('Pg_Qz_Q_qid', [])
     //
     //  Load data
@@ -151,6 +151,7 @@ export default function BuildQuizData(props) {
         Pg_Qz_Q_All.pop()
       }
     }
+
     //
     //  Question IDs & Refs
     //
@@ -159,6 +160,10 @@ export default function BuildQuizData(props) {
     for (let i = 0; i < Pg_Qz_Q_All.length; i++) {
       Pg_Qz_Q_qid.push(Pg_Qz_Q_All[i].qid)
     }
+    //
+    //  Order by question id
+    //
+    Pg_Qz_Q_qid.sort()
     if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Q_qid ', Pg_Qz_Q_qid))
     //
     //  String version of ID
@@ -169,7 +174,7 @@ export default function BuildQuizData(props) {
     //  Session Storage
     //
     sessionStorage.setItem('Pg_Qz_Q_All', JSON.stringify(Pg_Qz_Q_All))
-    sessionStorage.setItem('Pg_Qz_Q_AllC', JSON.stringify(Pg_Qz_Q_All.length))
+    sessionStorage.setItem('Pg_Qz_Q_All_Cnt', JSON.stringify(Pg_Qz_Q_All.length))
     sessionStorage.setItem('Pg_Qz_Q_qid', JSON.stringify(Pg_Qz_Q_qid))
   }
   //...................................................................................
