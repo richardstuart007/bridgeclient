@@ -43,6 +43,18 @@ const { SERVERURL01 } = require('../services/constants.js')
 const { SERVER02 } = require('../services/constants.js')
 const { DATABASE02 } = require('../services/constants.js')
 const { SERVERURL02 } = require('../services/constants.js')
+//
+//  Remote Client --> Remote Server 3 --> Remote Database 3
+//
+const { SERVER03 } = require('../services/constants.js')
+const { DATABASE03 } = require('../services/constants.js')
+const { SERVERURL03 } = require('../services/constants.js')
+//
+//  Remote Client --> Remote Server 4 --> Remote Database 4
+//
+const { SERVER04 } = require('../services/constants.js')
+const { DATABASE04 } = require('../services/constants.js')
+const { SERVERURL04 } = require('../services/constants.js')
 //------------------------------------------------------------------------
 //  Local
 //------------------------------------------------------------------------
@@ -68,6 +80,16 @@ const { SERVERURL11 } = require('../services/constants.js')
 //
 const { SERVER12 } = require('../services/constants.js')
 const { SERVERURL12 } = require('../services/constants.js')
+//
+//  Local Client --> Local Server 3 --> Remote Database 3
+//
+const { SERVER13 } = require('../services/constants.js')
+const { SERVERURL13 } = require('../services/constants.js')
+//
+//  Local Client --> Local Server 4 --> Remote Database 4
+//
+const { SERVER14 } = require('../services/constants.js')
+const { SERVERURL14 } = require('../services/constants.js')
 //
 //  Start Pages
 //
@@ -153,6 +175,22 @@ export default function App() {
         w_URL = SERVERURL02
         break
       //------------------------------------------------------
+      //  Client(Local/Remote) --> Remote Server 3 --> Remote Database 3
+      //------------------------------------------------------
+      case '03':
+        w_Server = SERVER03
+        w_Database = DATABASE03
+        w_URL = SERVERURL03
+        break
+      //------------------------------------------------------
+      //  Client(Local/Remote) --> Remote Server 4 --> Remote Database 4
+      //------------------------------------------------------
+      case '04':
+        w_Server = SERVER04
+        w_Database = DATABASE04
+        w_URL = SERVERURL04
+        break
+      //------------------------------------------------------
       //  Local Client --> Local Server 1 --> Remote Database 1
       //------------------------------------------------------
       case '11':
@@ -167,6 +205,22 @@ export default function App() {
         w_Server = SERVER12
         w_Database = DATABASE02
         w_URL = SERVERURL12
+        break
+      //------------------------------------------------------
+      //  Local Client --> Local Server 3 --> Remote Database 3
+      //------------------------------------------------------
+      case '13':
+        w_Server = SERVER13
+        w_Database = DATABASE03
+        w_URL = SERVERURL13
+        break
+      //------------------------------------------------------
+      //  Local Client --> Local Server 4 --> Remote Database 4
+      //------------------------------------------------------
+      case '14':
+        w_Server = SERVER14
+        w_Database = DATABASE04
+        w_URL = SERVERURL14
         break
       //------------------------------------------------------
       //  Local Client --> Local Server --> Local Database 6
