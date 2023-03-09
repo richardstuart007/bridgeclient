@@ -59,10 +59,7 @@ export default async function apiAxios(method, url, data, timeout = 2000, info =
       timeout: timeout
     })
     if (debugLog) console.log(consoleLogTime(debugModule, 'Response..:'), response)
-    if (debugLog)
-      console.log(
-        consoleLogTime(debugModule, `Timing....: ${response.durationInMs} ${info} Success`)
-      )
+    console.log(consoleLogTime(debugModule, `Timing....: ${response.durationInMs} ${info} Success`))
     //
     //  Errors
     //
@@ -92,29 +89,28 @@ export default async function apiAxios(method, url, data, timeout = 2000, info =
         consoleLogTime(debugModule, 'Catch - Error.message.headers'),
         error.response.headers
       )
-      rtnObj.rtnCatchMsg = 'Catch - Error returned by server'
+      rtnObj.rtnCatchMsg = 'Error returned by server'
     } else if (error.request) {
       //
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of http.ClientRequest in node.js
       //
       console.log(consoleLogTime(debugModule, 'Catch - Error.request'), error.request)
-      rtnObj.rtnCatchMsg = 'Catch - No response from Server'
+      rtnObj.rtnCatchMsg = 'No response from Server'
     } else {
       //
       // Something happened in setting up the request that triggered an error
       //
       console.log(consoleLogTime(debugModule, 'Catch - Error.message'), error.message)
-      rtnObj.rtnCatchMsg = 'Catch - Request setup error'
+      rtnObj.rtnCatchMsg = 'Request setup error'
     }
     //
     //  Error logging - All
     //
     console.log(consoleLogTime(debugModule, 'Catch - Error.config'), error.config)
-    if (debugLog)
-      console.log(
-        consoleLogTime(debugModule, `Timing....: ${error.durationInMs} ${info} Catch Error`)
-      )
+    console.log(
+      consoleLogTime(debugModule, `Timing....: ${error.durationInMs} ${info} Catch Error`)
+    )
     return rtnObj
   }
 }

@@ -79,14 +79,13 @@ export default function Splash({ handlePage }) {
     const myPromiseHelloServer = Hello('SERVER')
     myPromiseHelloServer.then(function (rtnObj) {
       if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
-      const rtnValue = rtnObj.rtnValue
       //
       //  Error
       //
+      const rtnValue = rtnObj.rtnValue
       if (!rtnValue) {
         let message
         rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
-        message = 'SERVER ' + message
         if (debugLog) console.log(consoleLogTime(debugModule, 'Error Message'), message)
         setForm_message(message)
         setshowConnect(true)
@@ -98,14 +97,13 @@ export default function Splash({ handlePage }) {
       const myPromiseHelloDatabase = Hello('DATABASE')
       myPromiseHelloDatabase.then(function (rtnObj) {
         if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
-        const rtnValue = rtnObj.rtnValue
         //
         //  Error
         //
+        const rtnValue = rtnObj.rtnValue
         if (!rtnValue) {
           let message
           rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
-          message = 'DATABASE ' + message
           if (debugLog) console.log(consoleLogTime(debugModule, 'Error Message'), message)
           setForm_message(message)
           setshowConnect(true)
@@ -156,7 +154,7 @@ export default function Splash({ handlePage }) {
       //  Timeout
       //
       let timeout
-      helloType === 'SERVER' ? (timeout = 800) : (timeout = 1200)
+      helloType === 'SERVER' ? (timeout = 2000) : (timeout = 1200)
       //
       //  Info
       //
