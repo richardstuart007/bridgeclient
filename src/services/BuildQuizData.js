@@ -8,7 +8,7 @@ import randomSort from './../utilities/randomSort'
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 const debugModule = 'BuildQuizData'
 //
 //  Global Variables
@@ -41,6 +41,7 @@ export default function BuildQuizData(props) {
     //
     //  Reset the Data
     //
+    sessionStorage.setItem('Pg_Qz_CatchMessage', '')
     sessionStorage.setItem('Pg_Qz_Reset', true)
     sessionStorage.setItem('Pg_Qz_Q_R', false)
     sessionStorage.setItem('Pg_Qz_Bid_R', false)
@@ -90,7 +91,15 @@ export default function BuildQuizData(props) {
     //  Resolve Status
     //
     myPromiseQuestions.then(function (rtnObj) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj ', rtnObj))
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj '), rtnObj)
+      //
+      //  Catch Error
+      //
+      if (rtnObj.rtnCatch) {
+        const rtnCatchMsg = rtnObj.rtnCatchMsg
+        sessionStorage.setItem('Pg_Qz_CatchMessage', JSON.stringify(rtnCatchMsg))
+        return
+      }
       //
       //  No data returned
       //
@@ -151,7 +160,6 @@ export default function BuildQuizData(props) {
         Pg_Qz_Q_All.pop()
       }
     }
-
     //
     //  Question IDs & Refs
     //
@@ -202,7 +210,15 @@ export default function BuildQuizData(props) {
     //  Resolve Status
     //
     myPromiseBidding.then(function (rtnObj) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj ', rtnObj))
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj '), rtnObj)
+      //
+      //  Catch Error
+      //
+      if (rtnObj.rtnCatch) {
+        const rtnCatchMsg = rtnObj.rtnCatchMsg
+        sessionStorage.setItem('Pg_Qz_CatchMessage', JSON.stringify(rtnCatchMsg))
+        return
+      }
       //
       //  No data returned
       //
@@ -250,7 +266,15 @@ export default function BuildQuizData(props) {
     //  Resolve Status
     //
     myPromiseHands.then(function (rtnObj) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj ', rtnObj))
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj '), rtnObj)
+      //
+      //  Catch Error
+      //
+      if (rtnObj.rtnCatch) {
+        const rtnCatchMsg = rtnObj.rtnCatchMsg
+        sessionStorage.setItem('Pg_Qz_CatchMessage', JSON.stringify(rtnCatchMsg))
+        return
+      }
       //
       //  No data returned
       //

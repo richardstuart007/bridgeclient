@@ -6,6 +6,7 @@ import rowCrud from './../utilities/rowCrud'
 //  Debug Settings
 //
 import debugSettings from '../debug/debugSettings'
+import consoleLogTime from '../debug/consoleLogTime'
 const debugLog = debugSettings()
 const debugModule = 'BuildHistoryDetail'
 //...................................................................................
@@ -24,8 +25,9 @@ export default function BuildHistoryDetail(row) {
   function LoadServerQuestions() {
     if (debugLog) console.log('LoadServerQuestions')
     //
-    //  Initialise
+    //  Reset the Data
     //
+    sessionStorage.setItem('Pg_Qz_CatchMessage', '')
     sessionStorage.setItem('Pg_Qh_Data_R', false)
     sessionStorage.setItem('Pg_Qh_Data_Row_Join', [])
     sessionStorage.setItem('Pg_Qz_Q_All', [])
@@ -63,7 +65,15 @@ export default function BuildHistoryDetail(row) {
     //  Resolve Status
     //
     myPromiseQuestions.then(function (rtnObj) {
-      if (debugLog) console.log('rtnObj ', rtnObj)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj '), rtnObj)
+      //
+      //  Catch Error
+      //
+      if (rtnObj.rtnCatch) {
+        const rtnCatchMsg = rtnObj.rtnCatchMsg
+        sessionStorage.setItem('Pg_Qz_CatchMessage', JSON.stringify(rtnCatchMsg))
+        return
+      }
       //
       //  No data returned
       //
@@ -197,7 +207,15 @@ export default function BuildHistoryDetail(row) {
     //  Resolve Status
     //
     myPromiseLibrary.then(function (rtnObj) {
-      if (debugLog) console.log('rtnObj ', rtnObj)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj '), rtnObj)
+      //
+      //  Catch Error
+      //
+      if (rtnObj.rtnCatch) {
+        const rtnCatchMsg = rtnObj.rtnCatchMsg
+        sessionStorage.setItem('Pg_Qz_CatchMessage', JSON.stringify(rtnCatchMsg))
+        return
+      }
       //
       //  No data returned
       //

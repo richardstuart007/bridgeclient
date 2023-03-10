@@ -3,7 +3,16 @@
 //
 import { useState, useEffect } from 'react'
 import PeopleOutlineTwoToneIcon from '@mui/icons-material/PeopleOutlineTwoTone'
-import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Box } from '@mui/material'
+import {
+  Paper,
+  TableBody,
+  TableRow,
+  TableCell,
+  Toolbar,
+  InputAdornment,
+  Box,
+  Typography
+} from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import SearchIcon from '@mui/icons-material/Search'
 import FilterListIcon from '@mui/icons-material/FilterList'
@@ -57,6 +66,9 @@ const useStyles = makeStyles(theme => ({
   myButton: {
     margin: `0 0 0 ${theme.spacing(4)}`,
     backgroundColor: 'azure'
+  },
+  messages: {
+    margin: `0 0 0 ${theme.spacing(4)}`
   }
 }))
 //
@@ -122,6 +134,7 @@ export default function QuizHistory({ handlePage }) {
   const [startPage0, setStartPage0] = useState(false)
   const [allUsersText, setAllUsersText] = useState('ALL')
   const [subtitle, setSubtitle] = useState('')
+  const [form_message, setForm_message] = useState('')
   //
   //  Small Screen overrides
   //
@@ -266,6 +279,7 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Get data
     //
+    setForm_message('QuizHistory: Building data....wait')
     BuildHistoryDetail(row)
     //
     //  Wait for data
@@ -296,6 +310,7 @@ export default function QuizHistory({ handlePage }) {
     const params = {
       SqlString_Q: SqlString_Q
     }
+    setForm_message('Quiz: Building data....wait')
     BuildQuizData(params)
     //
     //  Wait for data
@@ -337,6 +352,16 @@ export default function QuizHistory({ handlePage }) {
     const myInterval = setInterval(myTimer, dftWait)
     function myTimer() {
       //
+      //  Catch Error
+      //
+      const rtnCatchMsgJson = sessionStorage.getItem('Pg_Qz_CatchMessage')
+      if (rtnCatchMsgJson) {
+        const rtnCatchMsg = JSON.parse(rtnCatchMsgJson)
+        setForm_message(rtnCatchMsg)
+        clearInterval(myInterval)
+        return
+      }
+      //
       //  Data received, end wait
       //
       completedFlag = JSON.parse(sessionStorage.getItem(sessionItem))
@@ -359,6 +384,7 @@ export default function QuizHistory({ handlePage }) {
         if (w_try >= dftMaxTry) {
           if (debugLog)
             console.log(`waitSessionStorage sessionStorage(${sessionItem}) Timed out(${totalWAIT})`)
+          setForm_message(`Waited too long for data from server`)
           clearInterval(myInterval)
         }
         //
@@ -531,6 +557,10 @@ export default function QuizHistory({ handlePage }) {
               className={classes.myButton}
             />
           ) : null}
+          {/*.................................................................................................*/}
+          <Box className={classes.messages}>
+            <Typography style={{ color: 'red' }}>{form_message}</Typography>
+          </Box>
           {/* .......................................................................................... */}
         </Toolbar>
         {/* .......................................................................................... */}

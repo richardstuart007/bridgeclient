@@ -7,7 +7,7 @@ import apiAxios from './apiAxios'
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 const debugModule = 'rowCrud'
 //
 // Constants
@@ -29,6 +29,16 @@ let rtnObj = {
 //-  Main Line
 //--------------------------------------------------------------------
 export default async function rowCrud(props) {
+  //
+  //  Reset rtnObj
+  //
+  rtnObj.rtnValue = false
+  rtnObj.rtnMessage = ''
+  rtnObj.rtnSqlFunction = debugModule
+  rtnObj.rtnCatchFunction = ''
+  rtnObj.rtnCatch = false
+  rtnObj.rtnCatchMsg = ''
+  rtnObj.rtnRows = []
   //
   //  Try
   //
@@ -61,6 +71,7 @@ export default async function rowCrud(props) {
           `sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) Error(${rtnObj.rtnMessage})`
         )
       )
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
       return rtnObj
     }
     //
@@ -79,35 +90,21 @@ export default async function rowCrud(props) {
       axiosMethod
     )
     //
-    //  Server Returned null
-    //
-    if (!rtnObjServer) {
-      rtnObj.rtnMessage = `Server rejected request: sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) `
-      console.log(consoleLogTime(debugModule, rtnObj.rtnMessage))
-      return rtnObj
-    }
-    //
-    //  Server returned no data
-    //
-    if (!rtnObjServer.rtnValue)
-      if (debugLog)
-        console.log(
-          consoleLogTime(
-            debugModule,
-            `No data received: sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) `
-          )
-        )
-
-    //
     //  Return value from Server
     //
     if (debugLog) console.log(consoleLogTime(debugModule, 'Server Object '), rtnObjServer)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObjServer'), rtnObjServer)
     return rtnObjServer
+    //
+    //  Catch Errors
+    //
   } catch (e) {
     if (debugLog) console.log(consoleLogTime(debugModule, 'Catch'))
     console.log(e)
-  } finally {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'End'))
+    rtnObj.rtnCatch = true
+    rtnObj.rtnCatchMsg = 'rowCrud catch error'
+    if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
+    return rtnObj
   }
   //--------------------------------------------------------------------
   //  Validate the parameters
@@ -215,9 +212,12 @@ export default async function rowCrud(props) {
       //
       // Errors
       //
-    } catch (err) {
-      console.log(err)
-      return []
+    } catch (e) {
+      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch'))
+      console.log(e)
+      rtnObj.rtnCatch = true
+      rtnObj.rtnCatchMsg = 'rowCrud catch error'
+      return rtnObj
     }
   }
 }

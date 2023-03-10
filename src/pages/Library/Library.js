@@ -65,6 +65,9 @@ const useStyles = makeStyles(theme => ({
   myButton: {
     margin: `0 0 0 ${theme.spacing(4)}`,
     backgroundColor: 'azure'
+  },
+  messages: {
+    margin: `0 0 0 ${theme.spacing(4)}`
   }
 }))
 //
@@ -290,6 +293,16 @@ export default function Library({ handlePage }) {
     const myInterval = setInterval(myTimer, dftWait)
     function myTimer() {
       //
+      //  Catch Error
+      //
+      const rtnCatchMsgJson = sessionStorage.getItem('Pg_Qz_CatchMessage')
+      if (rtnCatchMsgJson) {
+        const rtnCatchMsg = JSON.parse(rtnCatchMsgJson)
+        setForm_message(rtnCatchMsg)
+        clearInterval(myInterval)
+        return
+      }
+      //
       //  Data received, end wait
       //
       completedFlag = JSON.parse(sessionStorage.getItem(sessionItem))
@@ -324,11 +337,9 @@ export default function Library({ handlePage }) {
         if (w_try >= dftMaxTry) {
           if (debugLog)
             console.log(
-              consoleLogTime(
-                debugModule,
-                `waitSessionStorage sessionStorage(${sessionItem}) Timed out(${totalWAIT})`
-              )
+              consoleLogTime(debugModule, `sessionStorage(${sessionItem}) Timed out(${totalWAIT})`)
             )
+          setForm_message(`Waited too long for data from server`)
           clearInterval(myInterval)
         }
         //
@@ -488,6 +499,10 @@ export default function Library({ handlePage }) {
             onClick={() => handleSearch()}
             className={classes.myButton}
           />
+          {/*.................................................................................................*/}
+          <Box className={classes.messages}>
+            <Typography style={{ color: 'red' }}>{form_message}</Typography>
+          </Box>
           {/* .......................................................................................... */}
         </Toolbar>
         {/* .......................................................................................... */}
@@ -519,9 +534,7 @@ export default function Library({ handlePage }) {
                       startIcon={<QuizIcon fontSize='small' />}
                       text={buttonTextQuiz}
                       color='warning'
-                      onClick={() => {
-                        LibraryRow(row)
-                      }}
+                      onClick={() => LibraryRow(row)}
                     ></MyActionButton>
                   ) : null}
                 </TableCell>
@@ -530,10 +543,7 @@ export default function Library({ handlePage }) {
           </TableBody>
         </TblContainer>
         <TblPagination />
-        {/*.................................................................................................*/}
-        <Box sx={{ mt: 2, maxWidth: 600 }}>
-          <Typography style={{ color: 'red' }}>{form_message}</Typography>
-        </Box>
+
         {/*.................................................................................................*/}
       </Paper>
     </>
