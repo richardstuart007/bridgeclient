@@ -30,6 +30,7 @@ import rowCrud from '../../utilities/rowCrud'
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
+import consoleLogTime from '../../debug/consoleLogTime'
 const debugLog = debugSettings()
 const debugModule = 'SwitchUser'
 //
@@ -80,7 +81,7 @@ const searchTypeOptions = [
 //.  Main Line
 //...................................................................................
 export default function SwitchUser({ handlePage }) {
-  if (debugLog) console.log(debugModule)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //.............................................................................
   //
   //  Styles
@@ -117,12 +118,10 @@ export default function SwitchUser({ handlePage }) {
   //.  GET ALL
   //.............................................................................
   function getRowAllData() {
-    if (debugLog) console.log('getRowAllData')
     //
     //  Selection
     //
     const sqlString = `* from users order by u_id`
-    if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise
     //
@@ -138,7 +137,6 @@ export default function SwitchUser({ handlePage }) {
     //  Resolve Status
     //
     myPromiseGet.then(function (rtnObj) {
-      if (debugLog) console.log('rtnObj ', rtnObj)
       //
       //  No data returned
       //
@@ -163,7 +161,6 @@ export default function SwitchUser({ handlePage }) {
   //  Search/Filter
   //.............................................................................
   function handleSearch() {
-    if (debugLog) console.log('handleSearch')
     setFilterFn({
       fn: items => {
         //
@@ -203,8 +200,6 @@ export default function SwitchUser({ handlePage }) {
 
           default:
         }
-        if (debugLog) console.log('itemsFilter ', itemsFilter)
-
         return itemsFilter
       }
     })
@@ -213,8 +208,8 @@ export default function SwitchUser({ handlePage }) {
   //  Switch User
   //.............................................................................
   function submitSwitchUser(row) {
-    sessionStorage.setItem('User_Set_User', JSON.stringify(row))
-    sessionStorage.setItem('User_Set_UserSwitch', JSON.stringify(true))
+    sessionStorage.setItem('User_User', JSON.stringify(row))
+    sessionStorage.setItem('User_UserSwitch', JSON.stringify(true))
     handlePage('PAGEBACK')
   }
   //...................................................................................

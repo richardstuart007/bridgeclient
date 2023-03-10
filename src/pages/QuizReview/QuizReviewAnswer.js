@@ -3,24 +3,12 @@
 //
 import { Card, CardContent, CardActionArea, Typography, Grid } from '@mui/material'
 import { green, red } from 'material-ui-colors'
-//
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//..............................................................................
-//.  Initialisation
-//.............................................................................
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //===================================================================================
 export default function QuizAnswer(props) {
   //
   // Deconstruct Props
   //
   const { answer, points, AnswerNum, FieldNum } = props
-  if (debugLog) console.log('props ', props)
   //
   //  Set Colour
   //

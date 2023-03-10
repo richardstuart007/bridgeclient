@@ -65,8 +65,8 @@ export default function Signin({ handlePage }) {
     //
     //  Restore previous signin info
     //
-    const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
-    if (User_Set_User) initialFValues.user = User_Set_User.u_user
+    const User_User = JSON.parse(sessionStorage.getItem('User_User'))
+    if (User_User) initialFValues.user = User_User.u_user
   } catch (e) {
     if (debugLog) console.log(consoleLogTime(debugModule, 'Catch'))
     console.log(e)
@@ -162,8 +162,8 @@ export default function Signin({ handlePage }) {
     //
     //  Get the URL
     //
-    const App_Set_URL = JSON.parse(sessionStorage.getItem('App_Set_URL'))
-    if (debugLog) console.log(consoleLogTime(debugModule, 'App_Set_URL'), App_Set_URL)
+    const App_URL = JSON.parse(sessionStorage.getItem('App_URL'))
+    if (debugLog) console.log(consoleLogTime(debugModule, 'App_URL'), App_URL)
     //
     //  Initialise Values
     //
@@ -187,7 +187,7 @@ export default function Signin({ handlePage }) {
         user: user,
         password: password
       }
-      const URL = App_Set_URL + URL_SIGNIN
+      const URL = App_URL + URL_SIGNIN
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
       //
       //  Timeout
@@ -230,9 +230,9 @@ export default function Signin({ handlePage }) {
     //
     //  User Info
     //
-    sessionStorage.setItem('User_Set_User', JSON.stringify(userRow))
-    sessionStorage.setItem('User_Set_UserSwitch', JSON.stringify(false))
-    sessionStorage.setItem('User_Set_UserOwners', JSON.stringify(userownerRows))
+    sessionStorage.setItem('User_User', JSON.stringify(userRow))
+    sessionStorage.setItem('User_UserSwitch', JSON.stringify(false))
+    sessionStorage.setItem('User_Owners', JSON.stringify(userownerRows))
     //
     //  Userowners string
     //
@@ -246,11 +246,11 @@ export default function Signin({ handlePage }) {
       }
     }
     if (debugLog) console.log(consoleLogTime(debugModule, 'ownersString'), ownersString)
-    sessionStorage.setItem('User_Set_UserOwnersString', JSON.stringify(ownersString))
+    sessionStorage.setItem('User_OwnersString', JSON.stringify(ownersString))
     //
     //  Signed In
     //
-    sessionStorage.setItem('User_Set_SignedIn', true)
+    sessionStorage.setItem('User_SignedIn', true)
     //
     //  Start Page
     //

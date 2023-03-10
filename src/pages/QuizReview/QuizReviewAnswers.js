@@ -3,29 +3,15 @@
 //
 import { Typography, Grid, Card } from '@mui/material'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Sub Components
 //
 import QuizReviewAnswer from './QuizReviewAnswer'
-//..............................................................................
-//.  Initialisation
-//.............................................................................
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
 //===================================================================================
 export default function QuizReviewAnswers(props) {
-  if (debugLog) console.log('Start QuizReviewAnswers')
   //
   // Deconstruct Props
   //
   const { quizRow, AnswerNum } = props
-  if (debugLog) console.log('quizRow ', quizRow)
-  if (debugLog) console.log('AnswerNum ', AnswerNum)
   //
   //  Load answers to array
   //

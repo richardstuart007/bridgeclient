@@ -27,7 +27,7 @@ export default function Control({ handlePage }) {
   //
   //  Retrieve the state
   //
-  const PageCurrent = JSON.parse(sessionStorage.getItem('App_Nav_Page_Current'))
+  const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
   //
   //  Present the selected component
   //

@@ -13,28 +13,26 @@ const debugModule = 'BuildHistoryDetail'
 //.  Main Line
 //...................................................................................
 export default function BuildHistoryDetail(row) {
-  if (debugLog) console.log(debugModule)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
   //  Load data
   //
   LoadServerQuestions()
-  LoadServerLibrary()
   //...................................................................................
   //.  Load Server - Questions
   //...................................................................................
   function LoadServerQuestions() {
-    if (debugLog) console.log('LoadServerQuestions')
     //
     //  Reset the Data
     //
     sessionStorage.setItem('Pg_Qz_CatchMessage', '')
-    sessionStorage.setItem('Pg_Qh_Data_R', false)
-    sessionStorage.setItem('Pg_Qh_Data_Row_Join', [])
+    sessionStorage.setItem('Pg_Qd_Join_Rcv', false)
+    sessionStorage.setItem('Pg_Qd_Join', [])
     sessionStorage.setItem('Pg_Qz_Q_All', [])
     sessionStorage.setItem('Pg_Qz_Bid', [])
     sessionStorage.setItem('Pg_Qz_Hands', [])
     //
-    //  Load Pg_Qh_Data_Row_Join
+    //  Load Pg_Qd_Join
     //
     let sqlString = ''
     sqlString =
@@ -49,7 +47,6 @@ export default function BuildHistoryDetail(row) {
     sqlString =
       sqlString +
       ' r_id, r_qid, r_ans, qid, qowner, qseq, qdetail, qans, qpoints, qgroup, hnorth, heast, hsouth, hwest, brounds'
-    if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise
     //
@@ -65,7 +62,6 @@ export default function BuildHistoryDetail(row) {
     //  Resolve Status
     //
     myPromiseQuestions.then(function (rtnObj) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj '), rtnObj)
       //
       //  Catch Error
       //
@@ -81,12 +77,11 @@ export default function BuildHistoryDetail(row) {
       //
       //  Data
       //
-      const Pg_Qh_Data_Row_Join = rtnObj.rtnRows
+      const Pg_Qd_Join = rtnObj.rtnRows
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Pg_Qh_Data_Row_Join RESOLVED', Pg_Qh_Data_Row_Join)
-      sessionStorage.setItem('Pg_Qh_Data_Row_Join', JSON.stringify(Pg_Qh_Data_Row_Join))
+      sessionStorage.setItem('Pg_Qd_Join', JSON.stringify(Pg_Qd_Join))
       //
       //  Store separately
       //
@@ -94,7 +89,7 @@ export default function BuildHistoryDetail(row) {
       let Pg_Qz_Bid = []
       let Pg_Qz_Hands = []
 
-      Pg_Qh_Data_Row_Join.forEach(row => {
+      Pg_Qd_Join.forEach(row => {
         const {
           qid,
           qowner,
@@ -109,11 +104,6 @@ export default function BuildHistoryDetail(row) {
           hsouth,
           hwest
         } = row
-        if (debugLog) console.log('row ', row)
-        //
-        //  Index of current question
-        //
-        if (debugLog) console.log('row.r_qid.indexOf ', row.r_qid.indexOf(qid))
         //
         //  Questions
         //
@@ -157,84 +147,9 @@ export default function BuildHistoryDetail(row) {
       sessionStorage.setItem('Pg_Qz_Q_All', JSON.stringify(Pg_Qz_Q_All))
       sessionStorage.setItem('Pg_Qz_Bid', JSON.stringify(Pg_Qz_Bid))
       sessionStorage.setItem('Pg_Qz_Hands', JSON.stringify(Pg_Qz_Hands))
-      sessionStorage.setItem('Pg_Qh_Data_R', true)
+      sessionStorage.setItem('Pg_Qd_Join_Rcv', true)
     })
 
     return
   }
-  //...................................................................................
-  //.  Load Server - Library
-  //...................................................................................
-  function LoadServerLibrary() {
-    if (debugLog) console.log('LoadServerLibrary')
-    //
-    //  Initialise
-    //
-    sessionStorage.setItem('Pg_Lib_Data_R', false)
-    sessionStorage.setItem('Pg_Lib_Data', [])
-    //
-    //  List of Questions in a string
-    //
-    let qidList = ''
-    let firstElem = true
-    row.r_qid.forEach(qid => {
-      firstElem ? (qidList = qidList + `${qid}`) : (qidList = qidList + `, ${qid}`)
-      firstElem = false
-    })
-    if (debugLog) console.log('qidList ', qidList)
-    //
-    //  Build SqlString
-    //
-    let sqlString = ''
-    sqlString = sqlString + 'lrid, lrref, lrdesc, lrlink, lrwho, lrtype from library'
-    sqlString = sqlString + ' JOIN questions on lrgroup = qgroup'
-    sqlString = sqlString + ` where qid in (${qidList})`
-    sqlString = sqlString + ` group by lrid, lrref, lrdesc, lrlink, lrwho, lrtype`
-    sqlString = sqlString + ` order by lrid`
-    if (debugLog) console.log('sqlString', sqlString)
-    //
-    //  Process promise
-    //
-    const rowCrudparams = {
-      axiosMethod: 'post',
-      sqlCaller: debugModule,
-      sqlTable: 'library',
-      sqlAction: 'SELECTSQL',
-      sqlString: sqlString
-    }
-    const myPromiseLibrary = rowCrud(rowCrudparams)
-    //
-    //  Resolve Status
-    //
-    myPromiseLibrary.then(function (rtnObj) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj '), rtnObj)
-      //
-      //  Catch Error
-      //
-      if (rtnObj.rtnCatch) {
-        const rtnCatchMsg = rtnObj.rtnCatchMsg
-        sessionStorage.setItem('Pg_Qz_CatchMessage', JSON.stringify(rtnCatchMsg))
-        return
-      }
-      //
-      //  No data returned
-      //
-      if (!rtnObj.rtnValue) return
-      //
-      //  Data
-      //
-      const Pg_Lib_Data = rtnObj.rtnRows
-      //
-      //  Session Storage
-      //
-      if (debugLog) console.log('Pg_Lib_Data RESOLVED', Pg_Lib_Data)
-      sessionStorage.setItem('Pg_Lib_Data', JSON.stringify(Pg_Lib_Data))
-      sessionStorage.setItem('Pg_Lib_Data_R', true)
-
-      return
-    })
-
-    return myPromiseLibrary
-  }
-  //...................................................................................
 }

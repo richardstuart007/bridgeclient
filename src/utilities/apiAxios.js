@@ -61,15 +61,15 @@ export default async function apiAxios(method, url, data, timeout = 2000, info =
   //  Try
   //
   try {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Request...:'), data)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Request--->'), data)
     const response = await axios({
       method: method,
       url: url,
       data: data,
       timeout: timeout
     })
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Response..:'), response)
-    console.log(consoleLogTime(debugModule, `Timing....: ${response.durationInMs} ${info} Success`))
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Response-->'), response)
+    console.log(consoleLogTime(debugModule, `<--Timing-> ${response.durationInMs} ${info} SUCCESS`))
     //
     //  Errors
     //
@@ -98,9 +98,7 @@ export default async function apiAxios(method, url, data, timeout = 2000, info =
     //  Error logging - All
     //
     console.log(consoleLogTime(debugModule, 'Catch - rtnObj'), rtnObj)
-    console.log(
-      consoleLogTime(debugModule, `Timing....: ${error.durationInMs} ${info} Catch Error`)
-    )
+    console.log(consoleLogTime(debugModule, `<--Timing-> ${error.durationInMs} ${info} ERROR`))
     return rtnObj
   }
 }

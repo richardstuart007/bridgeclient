@@ -8,16 +8,14 @@ import { TextField } from '@mui/material'
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
-//
-// Debug Settings
-//
+import consoleLogTime from '../../debug/consoleLogTime'
 const debugLog = debugSettings()
+const debugModule = 'MyDatePicker'
 //=====================================================================================
 export default function MyDatePicker(props) {
-  if (debugLog) console.log('Start MyDatePicker')
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
 
   const { name, label, value, onChange, ...other } = props
-  if (debugLog) console.log(name, label, value)
   //
   //  Convert the parameters to name, value parameters needed for onChange function
   //
@@ -27,7 +25,6 @@ export default function MyDatePicker(props) {
       value
     }
   })
-  if (debugLog) console.log(convertToDefEventPara(name, value))
 
   return (
     <LocalizationProvider utils={DateFnsUtils}>

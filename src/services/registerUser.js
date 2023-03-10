@@ -6,6 +6,7 @@ import apiAxios from './../utilities/apiAxios'
 //  Debug Settings
 //
 import debugSettings from '../debug/debugSettings'
+import consoleLogTime from '../debug/consoleLogTime'
 const debugLog = debugSettings()
 const debugModule = 'registerUser'
 //
@@ -16,8 +17,8 @@ const { URL_REGISTER } = require('./constants.js')
 //-  Main Line
 //--------------------------------------------------------------------
 export default async function registerUser(props) {
-  if (debugLog) console.log('Start registerUser')
-  if (debugLog) console.log('props ', props)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //
   //
   //  Deconstruct props
   //
@@ -42,8 +43,7 @@ export default async function registerUser(props) {
   //
   //  Get the URL
   //
-  const App_Set_URL = JSON.parse(sessionStorage.getItem('App_Set_URL'))
-  if (debugLog) console.log('App_Set_URL ', App_Set_URL)
+  const App_URL = JSON.parse(sessionStorage.getItem('App_URL'))
   //
   // Fetch the data
   //
@@ -75,8 +75,7 @@ export default async function registerUser(props) {
         admin: admin,
         dev: dev
       }
-      const URL = App_Set_URL + URL_REGISTER
-      if (debugLog) console.log('URL ', URL)
+      const URL = App_URL + URL_REGISTER
       //
       //  Timeout
       //

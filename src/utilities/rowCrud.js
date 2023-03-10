@@ -7,7 +7,7 @@ import apiAxios from './apiAxios'
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugModule = 'rowCrud'
 //
 // Constants
@@ -184,16 +184,18 @@ export default async function rowCrud(props) {
       //
       //  Base URL
       //
-      const App_Set_URL = JSON.parse(sessionStorage.getItem('App_Set_URL'))
-      if (debugLog) console.log(consoleLogTime(debugModule, 'App_Set_URL'), App_Set_URL)
+      const App_URL = JSON.parse(sessionStorage.getItem('App_URL'))
       //
       //  Full URL
       //
-      const URL = App_Set_URL + URL_TABLES
+      const URL = App_URL + URL_TABLES
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
       if (debugLog)
         console.log(
-          consoleLogTime(`sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable})`)
+          consoleLogTime(
+            debugModule,
+            `sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable})`
+          )
         )
       //
       //  Timeout

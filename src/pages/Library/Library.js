@@ -125,7 +125,7 @@ export default function Library({ handlePage }) {
   //
   //  Small Screen overrides
   //
-  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Set_ScreenSmall'))
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_ScreenSmall'))
   let headCells = headCellsLarge
   let searchTypeOptions = searchTypeOptionsLarge
   let searchInput = classes.searchInputLarge
@@ -153,20 +153,20 @@ export default function Library({ handlePage }) {
     //
     //  Do not refetch data if already exists
     //
-    if (debugLog) console.log(consoleLogTime(debugModule, 'records', records))
+    if (debugLog) console.log(consoleLogTime(debugModule, 'records'), records)
     if (records.length !== 0) return
     //
     //  Same selection - take from Storage
     //
-    const UserOwnersString = JSON.parse(sessionStorage.getItem('User_Set_UserOwnersString'))
-    const UserOwnersString_S = JSON.parse(sessionStorage.getItem('User_Set_UserOwnersString_S'))
-    if (UserOwnersString === UserOwnersString_S) {
+    const OwnersString = JSON.parse(sessionStorage.getItem('User_OwnersString'))
+    const OwnersString_Prev = JSON.parse(sessionStorage.getItem('User_OwnersString_Prev'))
+    if (OwnersString === OwnersString_Prev) {
       //
       //  Session Storage
       //
       const Pg_Lib_Data = JSON.parse(sessionStorage.getItem('Pg_Lib_Data'))
       if (Pg_Lib_Data) {
-        if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Lib_Data', Pg_Lib_Data))
+        if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Lib_Data'), Pg_Lib_Data)
         //
         //  Update Table
         //
@@ -175,7 +175,7 @@ export default function Library({ handlePage }) {
         //  Form Saved Values - retrieve
         //
         const selection = JSON.parse(sessionStorage.getItem('Pg_Lib_Selection'))
-        if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Lib_Selection', selection))
+        if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Lib_Selection'), selection)
         //
         //  Filter
         //
@@ -192,8 +192,8 @@ export default function Library({ handlePage }) {
     //
     //  Selection
     //
-    const sqlString = `* from library join ownergroup on lrowner = ogowner and lrgroup = oggroup where lrowner in (${UserOwnersString}) order by lrid`
-    if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString', sqlString))
+    const sqlString = `* from library join ownergroup on lrowner = ogowner and lrgroup = oggroup where lrowner in (${OwnersString}) order by lrid`
+    if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString'), sqlString)
     //
     //  Process promise
     //
@@ -209,7 +209,7 @@ export default function Library({ handlePage }) {
     //  Resolve Status
     //
     myPromiseGet.then(function (rtnObj) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj', rtnObj))
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
       //
       //  No data returned
       //
@@ -222,7 +222,7 @@ export default function Library({ handlePage }) {
       //  Session Storage
       //
       sessionStorage.setItem('Pg_Lib_Data', JSON.stringify(Pg_Lib_Data))
-      sessionStorage.setItem('User_Set_UserOwnersString_S', JSON.stringify(UserOwnersString))
+      sessionStorage.setItem('User_OwnersString_Prev', JSON.stringify(OwnersString))
       //
       //  Update Table
       //
@@ -242,7 +242,7 @@ export default function Library({ handlePage }) {
   //.  Prepare Row before switching to Quiz
   //...................................................................................
   function LibraryRow(row) {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'LibraryRow', row))
+    if (debugLog) console.log(consoleLogTime(debugModule, 'LibraryRow'), row)
     //
     //  Store Row
     //
@@ -261,7 +261,7 @@ export default function Library({ handlePage }) {
     //  Wait for data
     //
     const waitSessionStorageParams = {
-      sessionItem: 'Pg_Qz_All_R',
+      sessionItem: 'Pg_Qz_All_Rcv',
       handlePageValue: 'Quiz'
     }
     waitSessionStorage(waitSessionStorageParams, handlePage)
@@ -270,7 +270,7 @@ export default function Library({ handlePage }) {
   //-  Wait
   //--------------------------------------------------------------------
   function waitSessionStorage(props, handlePage) {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'waitSessionStorage', props))
+    if (debugLog) console.log(consoleLogTime(debugModule, 'waitSessionStorage'), props)
     const timeStart = new Date()
     //
     //  Constants

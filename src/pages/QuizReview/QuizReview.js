@@ -4,10 +4,6 @@
 import { useState, useEffect } from 'react'
 import { Typography, Box } from '@mui/material'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Controls
 //
 import MyButton from '../../components/controls/MyButton'
@@ -18,18 +14,18 @@ import QuizReviewAnswers from './QuizReviewAnswers'
 import QuizHands from '../QuizHands/QuizHands'
 import QuizBidding from '../QuizBidding/QuizBidding'
 import QuizQuestion from '../Quiz/QuizQuestion'
-//.............................................................................
-//.  Initialisation
-//.............................................................................
 //
-// Debug Settings
+//  Debug Settings
 //
+import debugSettings from '../../debug/debugSettings'
+import consoleLogTime from '../../debug/consoleLogTime'
 const debugLog = debugSettings()
+const debugModule = 'QuizReview'
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function QuizReview({ handlePage }) {
-  if (debugLog) console.log('Start QuizReview')
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
   //  Counts
   //
@@ -48,7 +44,7 @@ export default function QuizReview({ handlePage }) {
   //
   //  Signed in User
   //
-  const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
+  const User_User = JSON.parse(sessionStorage.getItem('User_User'))
   //
   //  Load the data array from the store
   //
@@ -66,7 +62,6 @@ export default function QuizReview({ handlePage }) {
   //
   if (!quizRow) {
     nothingToReview = true
-
     countAns === 0
       ? (reviewMessage = 'No questions answered, nothing to review')
       : (reviewMessage = `Result (${mark}%) ${countPass} out of ${countAns}.  WELL DONE!!`)
@@ -78,20 +73,10 @@ export default function QuizReview({ handlePage }) {
   ansIdx + 1 === 1 ? (hidePreviousButton = true) : (hidePreviousButton = false)
   let hideNextButton
   ansIdx + 1 === countReview ? (hideNextButton = true) : (hideNextButton = false)
-
-  if (debugLog) console.log('quizRow ', quizRow)
-  if (debugLog) console.log('ansIdx ', ansIdx)
-  if (debugLog) console.log('arrAnsNum ', arrAnsNum)
-  if (debugLog) console.log('arrAns ', arrAns)
   //...................................................................................
   //.  First time data received
   //...................................................................................
   const firstLoad = () => {
-    if (debugLog) console.log('firstLoad ')
-    //
-    //  Initialise global variables
-    //
-    if (debugLog) console.log('Initialise global variables')
     //
     //  Get Store Values
     //
@@ -105,7 +90,6 @@ export default function QuizReview({ handlePage }) {
       const rowData = { ...row }
       ArrQuestions.push(rowData)
     })
-    if (debugLog) console.log('ArrQuestions ', ArrQuestions)
     setArrQuest(ArrQuestions)
     //
     //  Answers
@@ -123,7 +107,7 @@ export default function QuizReview({ handlePage }) {
       //
       //  Only show failed answers ?
       //
-      const ReviewSkipPass = User_Set_User.u_skipcorrect
+      const ReviewSkipPass = User_User.u_skipcorrect
       if (id !== 1 || !ReviewSkipPass) {
         Ans.push(id)
         AnsNum.push(AnsQuestIdx)
@@ -131,10 +115,6 @@ export default function QuizReview({ handlePage }) {
       }
       if (id === 1) AnsPass++
     })
-    if (debugLog) console.log('AnsReview ', AnsReview)
-    if (debugLog) console.log('AnsCount ', AnsCount)
-    if (debugLog) console.log('AnsPass ', AnsPass)
-    if (debugLog) console.log('Ans ', Ans)
     //
     //  Set State
     //
@@ -163,10 +143,6 @@ export default function QuizReview({ handlePage }) {
   //.  Next Question
   //...................................................................................
   const nextQuestion = () => {
-    if (debugLog) console.log('nextQuestion ')
-    if (debugLog) console.log('arrQuest ', arrQuest)
-    if (debugLog) console.log('ansIdx ', ansIdx)
-    if (debugLog) console.log('countReview ', countReview)
     //
     //  More rows
     //
@@ -181,7 +157,6 @@ export default function QuizReview({ handlePage }) {
   //.  Previous Question
   //...................................................................................
   const handlePrevious = () => {
-    if (debugLog) console.log('Previous Question ')
     //
     //  More rows
     //

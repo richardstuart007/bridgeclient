@@ -39,7 +39,9 @@ import BuildHistoryDetail from '../../services/BuildHistoryDetail'
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
+import consoleLogTime from '../../debug/consoleLogTime'
 const debugLog = debugSettings()
+const debugModule = 'QuizHistory'
 //
 //  Styles
 //
@@ -100,10 +102,6 @@ const searchTypeOptionsLarge = [
 ]
 const searchTypeOptionsSmall = [{ id: 'ogtitle', title: 'Group' }]
 //
-//  Constants
-//
-const debugModule = 'QuizHistory'
-//
 //  Global Variables
 //
 let g_allUsers = false
@@ -112,10 +110,6 @@ let g_allUsersText = 'ALL'
 //.  Main Line
 //...................................................................................
 export default function QuizHistory({ handlePage }) {
-  //
-  //  Start of function
-  //
-  if (debugLog) console.log(`Function Start: ${debugModule}`)
   //
   //  Styles
   //
@@ -138,7 +132,7 @@ export default function QuizHistory({ handlePage }) {
   //
   //  Small Screen overrides
   //
-  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Set_ScreenSmall'))
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_ScreenSmall'))
   let headCells = headCellsLarge
   let searchTypeOptions = searchTypeOptionsLarge
   let searchInput = classes.searchInputLarge
@@ -154,10 +148,10 @@ export default function QuizHistory({ handlePage }) {
   //
   //  Get User
   //
-  const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
-  const u_name = User_Set_User.u_name
-  const u_id = User_Set_User.u_id
-  const User_Admin = User_Set_User.u_admin
+  const User_User = JSON.parse(sessionStorage.getItem('User_User'))
+  const u_name = User_User.u_name
+  const u_id = User_User.u_id
+  const User_Admin = User_User.u_admin
   //
   //  Initial Data Load
   //
@@ -179,7 +173,6 @@ export default function QuizHistory({ handlePage }) {
   //.  Reset the Quiz
   //...................................................................................
   function handleQuizReset() {
-    if (debugLog) console.log(`Function: handleQuizReset`)
     //
     //  Session Storage ?
     //
@@ -189,7 +182,7 @@ export default function QuizHistory({ handlePage }) {
     //  Restore saved search values & search
     //
     const selection = JSON.parse(sessionStorage.getItem('Pg_Qh_Selection'))
-    if (debugLog) console.log('Pg_Qh_Selection', selection)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qh_Selection'), selection)
     if (selection) {
       const searchType = selection.searchType
       const searchValue = selection.searchValue
@@ -206,13 +199,12 @@ export default function QuizHistory({ handlePage }) {
   //.  GET ALL
   //.............................................................................
   function getRowAllData() {
-    if (debugLog) console.log(`Function: getRowAllData`)
     //
     //  Selection
     //
     let sqlString = `r_id, r_uid, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_totalpoints, r_maxpoints, r_correctpercent from usershistory join ownergroup on r_owner = ogowner and r_group = oggroup`
     sqlString = sqlString + ` order by r_id desc`
-    if (debugLog) console.log('sqlString', sqlString)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString'), sqlString)
     //
     //  Process promise
     //
@@ -228,7 +220,7 @@ export default function QuizHistory({ handlePage }) {
     //  Resolve Status
     //
     myPromiseGet.then(function (rtnObj) {
-      if (debugLog) console.log('rtnObj ', rtnObj)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
       //
       //  No data returned
       //
@@ -248,7 +240,7 @@ export default function QuizHistory({ handlePage }) {
       //  Session Storage
       //
       sessionStorage.setItem('Pg_Qh_Data', JSON.stringify(Pg_Qh_Data_Update))
-      if (debugLog) console.log('Pg_Qh_Data ', Pg_Qh_Data_Update)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qh_Data'), Pg_Qh_Data_Update)
       //
       //  Update Table
       //
@@ -269,13 +261,9 @@ export default function QuizHistory({ handlePage }) {
   //...................................................................................
   function QuizHistoryRow(row) {
     //
-    //  Start of function
-    //
-    if (debugLog) console.log(`Function: QuizHistoryRow`)
-    //
     //  Store Row
     //
-    sessionStorage.setItem('Pg_Qh_Data_Row', JSON.stringify(row))
+    sessionStorage.setItem('Pg_Qd_Row', JSON.stringify(row))
     //
     //  Get data
     //
@@ -285,7 +273,7 @@ export default function QuizHistory({ handlePage }) {
     //  Wait for data
     //
     const waitSessionStorageParams = {
-      sessionItem: 'Pg_Qh_Data_R',
+      sessionItem: 'Pg_Qd_Join_Rcv',
       handlePageValue: 'QuizHistoryDetail'
     }
     waitSessionStorage(waitSessionStorageParams, handlePage)
@@ -295,13 +283,9 @@ export default function QuizHistory({ handlePage }) {
   //...................................................................................
   function QuizBuild(row) {
     //
-    //  Start of function
-    //
-    if (debugLog) console.log(`Function: QuizBuild`)
-    //
     //  Store Row
     //
-    sessionStorage.setItem('Pg_Qh_Data_Row', JSON.stringify(row))
+    sessionStorage.setItem('Pg_Qd_Row', JSON.stringify(row))
     sessionStorage.setItem('Pg_Qz_ogtitle', JSON.stringify(row.ogtitle))
     //
     //  BuildQuizData
@@ -316,7 +300,7 @@ export default function QuizHistory({ handlePage }) {
     //  Wait for data
     //
     const waitSessionStorageParams = {
-      sessionItem: 'Pg_Qz_All_R',
+      sessionItem: 'Pg_Qz_All_Rcv',
       handlePageValue: 'Quiz'
     }
     waitSessionStorage(waitSessionStorageParams, handlePage)
@@ -325,9 +309,6 @@ export default function QuizHistory({ handlePage }) {
   //-  Wait
   //--------------------------------------------------------------------
   function waitSessionStorage(props, handlePage) {
-    if (debugLog) console.log(`Function: waitSessionStorage`)
-    if (debugLog) console.log('props ', props)
-    const timeStart = new Date()
     //
     //  Constants
     //
@@ -337,9 +318,6 @@ export default function QuizHistory({ handlePage }) {
     //  Deconstruct props
     //
     const { sessionItem, dftWait = WAIT, dftMaxTry = WAIT_MAX_TRY, handlePageValue } = props
-    if (debugLog) console.log('sessionItem ', sessionItem)
-    if (debugLog) console.log('dftWait ', dftWait)
-    if (debugLog) console.log('dftMaxTry ', dftMaxTry)
     //
     //  Global
     //
@@ -366,12 +344,6 @@ export default function QuizHistory({ handlePage }) {
       //
       completedFlag = JSON.parse(sessionStorage.getItem(sessionItem))
       if (completedFlag) {
-        const timeEnd = new Date()
-        const timeDiff = timeEnd - timeStart
-        if (debugLog)
-          console.log(
-            `waitSessionStorage sessionStorage(${sessionItem}) value(${completedFlag}) Elapsed Time(${timeDiff})`
-          )
         clearInterval(myInterval)
         //
         //  Page change
@@ -382,8 +354,6 @@ export default function QuizHistory({ handlePage }) {
         //  Waited enough
         //
         if (w_try >= dftMaxTry) {
-          if (debugLog)
-            console.log(`waitSessionStorage sessionStorage(${sessionItem}) Timed out(${totalWAIT})`)
           setForm_message(`Waited too long for data from server`)
           clearInterval(myInterval)
         }
@@ -399,7 +369,6 @@ export default function QuizHistory({ handlePage }) {
   //  Search/Filter
   //.............................................................................
   function handleSearch(p_searchType = searchType, p_searchValue = searchValue) {
-    if (debugLog) console.log(`Function: handleSearch`)
     //
     //  Start at first page (0)
     //
@@ -412,7 +381,6 @@ export default function QuizHistory({ handlePage }) {
       searchValue: p_searchValue
     }
     sessionStorage.setItem('Pg_Qh_Selection', JSON.stringify(selection))
-    if (debugLog) console.log('Pg_Qh_Selection', selection)
     //
     //  Subtitle
     //
@@ -426,18 +394,13 @@ export default function QuizHistory({ handlePage }) {
         //  Filter by user ?
         //
         let userFilter = items
-        if (debugLog) console.log('userFilter ', userFilter)
-        if (debugLog) console.log('g_allUsers ', g_allUsers)
         if (!g_allUsers) {
-          if (debugLog) console.log('Filter by user ')
           userFilter = items.filter(x => x.r_uid === u_id)
         }
-        if (debugLog) console.log('userFilter ', userFilter)
         //
         //  Nothing to search, return rows
         //
         if (p_searchValue === '') {
-          if (debugLog) console.log('setFilterFn userFilter ', userFilter)
           return userFilter
         }
         //
@@ -448,7 +411,6 @@ export default function QuizHistory({ handlePage }) {
         //  Filter
         //
         let itemsFilter = userFilter
-        if (debugLog) console.log('itemsFilter ', itemsFilter)
         switch (p_searchType) {
           case 'r_id':
             itemsFilter = userFilter.filter(x => x.r_id === p_searchValueInt)
@@ -468,7 +430,8 @@ export default function QuizHistory({ handlePage }) {
             break
           default:
         }
-        if (debugLog) console.log('setFilterFn itemsFilter ', itemsFilter)
+        if (debugLog)
+          console.log(consoleLogTime(debugModule, 'setFilterFn itemsFilter'), itemsFilter)
         return itemsFilter
       }
     })
@@ -484,8 +447,6 @@ export default function QuizHistory({ handlePage }) {
       g_allUsers = true
       g_allUsersText = 'Users'
     }
-    if (debugLog) console.log('g_allUsers ', g_allUsers)
-    if (debugLog) console.log('g_allUsersText ', g_allUsersText)
     //
     //  Button Text
     //

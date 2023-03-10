@@ -4,10 +4,6 @@
 import { useState, useEffect } from 'react'
 import { Typography, Box } from '@mui/material'
 //
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
-//
 //  Controls
 //
 import MyButton from '../../components/controls/MyButton'
@@ -19,9 +15,12 @@ import QuizHands from '../QuizHands/QuizHands'
 import QuizBidding from '../QuizBidding/QuizBidding'
 import QuizQuestion from '../Quiz/QuizQuestion'
 //
-// Debug Settings
+//  Debug Settings
 //
+import debugSettings from '../../debug/debugSettings'
+import consoleLogTime from '../../debug/consoleLogTime'
 const debugLog = debugSettings()
+const debugModule = 'QuizHistoryDetail'
 //...................................................................................
 //.  Main Line
 //...................................................................................
@@ -41,11 +40,11 @@ export default function QuizHistoryDetail({ handlePage }) {
   const [arrAns, setArrAns] = useState([])
   const [arrAnsNum, setArrAnsNum] = useState([])
   const [ansIdx, setAnsIdx] = useState(0)
-  if (debugLog) console.log('Start QuizHistoryDetail')
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
   //  Signed in User
   //
-  const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
+  const User_User = JSON.parse(sessionStorage.getItem('User_User'))
   //
   //  Load the data array from the store
   //
@@ -57,7 +56,6 @@ export default function QuizHistoryDetail({ handlePage }) {
   //  No data to review
   //
   if (!quizRow) {
-    if (debugLog) console.log('Waiting for data')
     if (countAns === 0) {
       return (
         <>
@@ -83,34 +81,23 @@ export default function QuizHistoryDetail({ handlePage }) {
   ansIdx + 1 === 1 ? (hidePreviousButton = true) : (hidePreviousButton = false)
   let hideNextButton
   ansIdx + 1 === countReview ? (hideNextButton = true) : (hideNextButton = false)
-
-  if (debugLog) console.log('quizRow ', quizRow)
-  if (debugLog) console.log('ansIdx ', ansIdx)
-  if (debugLog) console.log('arrAnsNum ', arrAnsNum)
-  if (debugLog) console.log('arrAns ', arrAns)
   //...................................................................................
   //.  First time data received
   //...................................................................................
   function firstLoad() {
-    if (debugLog) console.log('firstLoad ')
     //
     //  Get Row Values
     //
-    const row = JSON.parse(sessionStorage.getItem('Pg_Qh_Data_Row'))
-    if (debugLog) console.log('Pg_Qh_Data_Row ', row)
+    const row = JSON.parse(sessionStorage.getItem('Pg_Qd_Row'))
     updateSelection(row)
   }
   //...................................................................................
   //.  Update Selection
   //...................................................................................
   function updateSelection(row) {
-    if (debugLog) console.log('updateSelection')
     //
     //  Get Stored Data
     //
-    const Pg_Qh_Data_Row_Join = JSON.parse(sessionStorage.getItem('Pg_Qh_Data_Row_Join'))
-    if (debugLog) console.log('Pg_Qh_Data_Row_Join ', Pg_Qh_Data_Row_Join)
-
     const Pg_Qz_Q_All = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_All'))
     const Hist_r_ans = row.r_ans
     //
@@ -121,7 +108,6 @@ export default function QuizHistoryDetail({ handlePage }) {
       const rowData = { ...row }
       ArrQuestions.push(rowData)
     })
-    if (debugLog) console.log('ArrQuestions ', ArrQuestions)
     setArrQuest(ArrQuestions)
     //
     //  Answers
@@ -139,7 +125,7 @@ export default function QuizHistoryDetail({ handlePage }) {
       //
       //  Only show failed answers ?
       //
-      let ReviewSkipPass = User_Set_User.u_skipcorrect
+      let ReviewSkipPass = User_User.u_skipcorrect
       //
       //  BUGS!
       //
@@ -151,10 +137,6 @@ export default function QuizHistoryDetail({ handlePage }) {
       }
       if (id === 1) AnsPass++
     })
-    if (debugLog) console.log('AnsReview ', AnsReview)
-    if (debugLog) console.log('AnsCount ', AnsCount)
-    if (debugLog) console.log('AnsPass ', AnsPass)
-    if (debugLog) console.log('Ans ', Ans)
     //
     //  Set State
     //
@@ -183,10 +165,6 @@ export default function QuizHistoryDetail({ handlePage }) {
   //.  Next Question
   //...................................................................................
   function nextQuestion() {
-    if (debugLog) console.log('nextQuestion ')
-    if (debugLog) console.log('arrQuest ', arrQuest)
-    if (debugLog) console.log('ansIdx ', ansIdx)
-    if (debugLog) console.log('countReview ', countReview)
     //
     //  More rows
     //
@@ -201,7 +179,6 @@ export default function QuizHistoryDetail({ handlePage }) {
   //.  Previous Question
   //...................................................................................
   function handlePrevious() {
-    if (debugLog) console.log('Previous Question ')
     //
     //  More rows
     //

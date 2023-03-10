@@ -114,7 +114,7 @@ export default function App() {
   //
   const ScreenMedium = useMediaQuery(theme.breakpoints.up('sm'))
   const ScreenSmall = !ScreenMedium
-  sessionStorage.setItem('App_Set_ScreenSmall', ScreenSmall)
+  sessionStorage.setItem('App_ScreenSmall', ScreenSmall)
   //
   //  Try
   //
@@ -130,8 +130,6 @@ export default function App() {
   } catch (e) {
     if (debugLog) console.log(consoleLogTime(debugModule, 'Catch'))
     console.log(e)
-  } finally {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'End'))
   }
   //.............................................................................
   //  First Time Setup
@@ -252,20 +250,20 @@ export default function App() {
     //
     //  Store Server, Database, URL
     //
-    sessionStorage.setItem('App_Set_Server_Database', JSON.stringify(w_server_database))
-    sessionStorage.setItem('App_Set_Node_Env', JSON.stringify(w_node_env))
-    sessionStorage.setItem('App_Set_Server', JSON.stringify(w_Server))
-    sessionStorage.setItem('App_Set_Database', JSON.stringify(w_Database))
-    sessionStorage.setItem('App_Set_URL', JSON.stringify(w_URL))
+    sessionStorage.setItem('App_Server_Database', JSON.stringify(w_server_database))
+    sessionStorage.setItem('App_Node_Env', JSON.stringify(w_node_env))
+    sessionStorage.setItem('App_Server', JSON.stringify(w_Server))
+    sessionStorage.setItem('App_Database', JSON.stringify(w_Database))
+    sessionStorage.setItem('App_URL', JSON.stringify(w_URL))
     //
     //  Navigation
     //
-    sessionStorage.setItem('App_Nav_Page_Current', JSON.stringify(PAGESTARTAPP))
-    sessionStorage.setItem('App_Nav_Page_Previous', JSON.stringify(''))
+    sessionStorage.setItem('Nav_Page_Current', JSON.stringify(PAGESTARTAPP))
+    sessionStorage.setItem('Nav_Page_Previous', JSON.stringify(''))
     //
     //  SignedIn Status
     //
-    sessionStorage.setItem('User_Set_SignedIn', false)
+    sessionStorage.setItem('User_SignedIn', false)
     //
     //  Quiz
     //
@@ -279,8 +277,8 @@ export default function App() {
     //
     //  Retrieve the state
     //
-    let PageCurrent = JSON.parse(sessionStorage.getItem('App_Nav_Page_Current'))
-    const PagePrevious = JSON.parse(sessionStorage.getItem('App_Nav_Page_Previous'))
+    let PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
+    const PagePrevious = JSON.parse(sessionStorage.getItem('Nav_Page_Previous'))
     //
     //  If no change of Page, return
     //
@@ -288,7 +286,6 @@ export default function App() {
     //
     //  Back/Start ?
     //
-
     const PageNext =
       nextPage === 'PAGEBACK' ? PagePrevious : nextPage === 'PAGESTART' ? PAGESTART : nextPage
     //
@@ -307,21 +304,20 @@ export default function App() {
     //
     //  Update Previous Page
     //
-    sessionStorage.setItem('App_Nav_Page_Previous', JSON.stringify(PageCurrent))
+    sessionStorage.setItem('Nav_Page_Previous', JSON.stringify(PageCurrent))
     if (debugLog)
-      console.log(consoleLogTime(debugModule, `UPDATED App_Nav_Page_Previous ${PageCurrent}`))
+      console.log(consoleLogTime(debugModule, `UPDATED Nav_Page_Previous ${PageCurrent}`))
     //
     //  If SignIN, Update signed in info
     //
     if (PageNext === 'Signin') {
-      sessionStorage.setItem('User_Set_SignedIn', false)
+      sessionStorage.setItem('User_SignedIn', false)
     }
     //
     //  Update NEW Page
     //
-    sessionStorage.setItem('App_Nav_Page_Current', JSON.stringify(PageNext))
-    if (debugLog)
-      console.log(consoleLogTime(debugModule, `UPDATED App_Nav_Page_Current ${PageNext}`))
+    sessionStorage.setItem('Nav_Page_Current', JSON.stringify(PageNext))
+    if (debugLog) console.log(consoleLogTime(debugModule, `UPDATED Nav_Page_Current ${PageNext}`))
     //
     //  Update State
     //

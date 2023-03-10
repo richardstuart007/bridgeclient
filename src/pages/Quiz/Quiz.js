@@ -42,12 +42,12 @@ export default function Quiz({ handlePage }) {
   //
   //  Signed in User
   //
-  const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
+  const User_User = JSON.parse(sessionStorage.getItem('User_User'))
   //
   //  Show Linear Bars ?
   //
-  const showLinearProgress = User_Set_User.u_showprogress
-  const showLinearScore = User_Set_User.u_showscore
+  const showLinearProgress = User_User.u_showprogress
+  const showLinearScore = User_User.u_showscore
   //
   //  Define the State variables
   //
@@ -66,11 +66,8 @@ export default function Quiz({ handlePage }) {
   //  No data (Error)
   //
   if (g_questCount === 0) {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'No data'))
     return <p style={{ color: 'red' }}>No data</p>
   }
-  if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizRow'), g_quizRow)
-  if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizRow.qid'), g_quizRow.qid)
   //...................................................................................
   //.  Reset the Quiz
   //...................................................................................
@@ -78,15 +75,12 @@ export default function Quiz({ handlePage }) {
     //
     //  Reset flag
     //
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Reset'))
     sessionStorage.setItem('Pg_Qz_Reset', false)
     //
     //  Get store data & copy to State
     //
     const Pg_Qz_Q_AllJSON = sessionStorage.getItem('Pg_Qz_Q_All')
     const Pg_Qz_Q_All = JSON.parse(Pg_Qz_Q_AllJSON)
-    if (debugLog) console.log(consoleLogTime(debugModule), Pg_Qz_Q_All)
-
     let quest = []
     Pg_Qz_Q_All.forEach(row => {
       const rowData = { ...row }
@@ -100,9 +94,6 @@ export default function Quiz({ handlePage }) {
     g_Idx = 0
     g_quizRow = g_quizQuest[g_Idx]
     setQuizRow(g_quizRow)
-    if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizQuest '), g_quizQuest)
-    if (debugLog) console.log(consoleLogTime(debugModule, 'g_questCount '), g_questCount)
-    if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizRow '), g_quizRow)
     //
     // Reset Answers
     //
@@ -115,9 +106,6 @@ export default function Quiz({ handlePage }) {
   //.  Form Submit
   //...................................................................................
   function handleSubmit() {
-    if (debugLog) console.log(consoleLogTime(debugModule, `Function: HandleSubmit`))
-    if (debugLog) console.log(consoleLogTime(debugModule, `ID selected ${id}`))
-    if (debugLog) console.log(consoleLogTime(debugModule, 'g_Idx ', g_Idx, 'qid '), g_quizRow.qid)
     //
     //  No selection
     //
@@ -127,7 +115,6 @@ export default function Quiz({ handlePage }) {
     //
     //  Update count
     //
-    if (debugLog) console.log(consoleLogTime(debugModule, 'g_Idx ', g_Idx, 'id '), id)
     if (id === 1) {
       const nextAnsPass = ansPass + 1
       setAnsPass(nextAnsPass)
@@ -135,22 +122,14 @@ export default function Quiz({ handlePage }) {
     //
     //   Write Answers
     //
-    if (debugLog) console.log(consoleLogTime(debugModule, 'g_Idx ', g_Idx, 'id '), id)
     g_quizAns[g_Idx] = id
-    if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizAns '), g_quizAns)
     sessionStorage.setItem('Pg_Qz_A', JSON.stringify(g_quizAns))
-
     const nextAnsCount = ansCount + 1
     setAnsCount(nextAnsCount)
-    if (debugLog) console.log(consoleLogTime(debugModule, 'nextAnsCount '), nextAnsCount)
     //
     //  End of data
     //
     if (g_Idx + 1 >= g_questCount) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizAns'), g_quizAns)
-      //
-      //  Review
-      //
       handlePage('QuizReview')
     }
     //
@@ -159,7 +138,6 @@ export default function Quiz({ handlePage }) {
     g_Idx++
     g_quizRow = g_quizQuest[g_Idx]
     setQuizRow(g_quizRow)
-    if (debugLog) console.log(consoleLogTime(debugModule, 'g_quizRow'), g_quizRow)
   }
   //...................................................................................
   //.  Render the form
@@ -204,9 +182,7 @@ export default function Quiz({ handlePage }) {
           text='Back'
           color='warning'
           variant='contained'
-          onClick={() => {
-            handlePage('PAGEBACK')
-          }}
+          onClick={() => handlePage('PAGEBACK')}
         />
         {/* .......................................................................................... */}
         {g_Idx > 0 ? (
@@ -216,9 +192,7 @@ export default function Quiz({ handlePage }) {
             color='warning'
             variant='contained'
             sx={{ float: 'right' }}
-            onClick={() => {
-              handlePage('QuizReview')
-            }}
+            onClick={() => handlePage('QuizReview')}
           />
         ) : null}
       </Box>

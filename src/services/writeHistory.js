@@ -10,10 +10,12 @@ import rowCrud from './../utilities/rowCrud'
 //  Debug Settings
 //
 import debugSettings from '../debug/debugSettings'
+import consoleLogTime from '../debug/consoleLogTime'
 const debugLog = debugSettings()
 const debugModule = 'writeHistory'
 //===================================================================================
 export default function writeHistory() {
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
   //  Answers
   //
@@ -26,7 +28,7 @@ export default function writeHistory() {
   //
   //  Get User
   //
-  const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
+  const User_User = JSON.parse(sessionStorage.getItem('User_User'))
   //
   //  Get History data
   //
@@ -38,7 +40,7 @@ export default function writeHistory() {
   //
   //  Key
   //
-  const r_uid = User_Set_User.u_id
+  const r_uid = User_User.u_id
   const r_datetime = new Date().toJSON()
   const yymmdd = format(parseISO(r_datetime), 'yy-MM-dd')
   //
@@ -97,7 +99,7 @@ export default function writeHistory() {
     r_totalpoints: r_totalpoints,
     r_correctpercent: r_correctpercent
   }
-  if (debugLog) console.log('sqlRow ', sqlRow)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'sqlRow'), sqlRow)
   //
   //  Add record to storage (if history already exists)
   //
@@ -107,11 +109,11 @@ export default function writeHistory() {
     newQH.r_id = 0
     newQH.ogtitle = Pg_Qz_ogtitle
     newQH.yymmdd = yymmdd
-    if (debugLog) console.log(`newQH `, newQH)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'newQH'), newQH)
 
     Pg_Qh_Data.unshift(newQH)
     sessionStorage.setItem('Pg_Qh_Data', JSON.stringify(Pg_Qh_Data))
-    if (debugLog) console.log(`Pg_Qh_Data `, Pg_Qh_Data)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qh_Data'), Pg_Qh_Data)
   }
   //
   //  Build Props
@@ -126,13 +128,12 @@ export default function writeHistory() {
   //
   //  Process promise
   //
-  if (debugLog) console.log('rowCrud')
   const myPromiseInsert = rowCrud(props)
   //
   //  Resolve Status
   //
   myPromiseInsert.then(function (rtnObj) {
-    if (debugLog) console.log('rtnObj ', rtnObj)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
     //
     //  No data returned
     //
@@ -142,14 +143,15 @@ export default function writeHistory() {
     //
     const data = rtnObj.rtnRows
     const newRow = data[0]
-    if (debugLog) console.log(`Row (${newRow.r_id}) INSERTED in Database`)
+    if (debugLog)
+      console.log(consoleLogTime(debugModule, `Row (${newRow.r_id}) INSERTED in Database`))
     //
     //  Update storage with r_id
     //
     if (Pg_Qh_Data) {
       Pg_Qh_Data[0].r_id = newRow.r_id
       sessionStorage.setItem('Pg_Qh_Data', JSON.stringify(Pg_Qh_Data))
-      if (debugLog) console.log(`Pg_Qh_Data `, Pg_Qh_Data)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qh_Data'), Pg_Qh_Data)
     }
     return
   })

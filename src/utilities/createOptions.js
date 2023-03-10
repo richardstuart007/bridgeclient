@@ -1,20 +1,19 @@
 //
-//  Debug Settings
-//
-import debugSettings from '../debug/debugSettings'
-//
 //  Utilities
 //
 import rowCrud from './rowCrud'
 //
-// Debug Settings
+//  Debug Settings
 //
+import debugSettings from '../debug/debugSettings'
+import consoleLogTime from '../../debug/consoleLogTime'
 const debugLog = debugSettings()
 const debugModule = 'createOptions'
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function createOptions(props) {
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   const {
     cop_sqlTable,
     cop_sqlWhere = null,
@@ -24,7 +23,6 @@ export default function createOptions(props) {
     cop_store,
     cop_R
   } = props
-  if (debugLog) console.log(props)
   //
   //  Received flag
   //
@@ -34,7 +32,6 @@ export default function createOptions(props) {
   //
   let sqlString = `* from ${cop_sqlTable} `
   if (cop_sqlWhere) sqlString = sqlString + cop_sqlWhere
-  if (debugLog) console.log('sqlString ', sqlString)
   const rowCrudparams = {
     axiosMethod: 'post',
     sqlCaller: debugModule,
@@ -47,7 +44,6 @@ export default function createOptions(props) {
   //  Resolve Status
   //
   myPromiseGet.then(function (rtnObj) {
-    if (debugLog) console.log('myPromiseGet rtnObj ', rtnObj)
     //
     //  No data returned
     //

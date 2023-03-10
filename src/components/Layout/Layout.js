@@ -61,11 +61,11 @@ export default function Layout({ handlePage, children }) {
   //
   //  Screen Width
   //
-  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Set_ScreenSmall'))
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_ScreenSmall'))
   //
   //  Title
   //
-  const PageCurrent = JSON.parse(sessionStorage.getItem('App_Nav_Page_Current'))
+  const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
   let title
   if (debugLog) console.log(consoleLogTime(debugModule, 'PageCurrent'), PageCurrent)
 
@@ -95,13 +95,12 @@ export default function Layout({ handlePage, children }) {
       title = PageCurrent
       break
   }
-  if (debugLog) console.log(consoleLogTime(debugModule, 'title'), title)
   //
   //  Add clientserver
   //
-  const App_Set_Server = JSON.parse(sessionStorage.getItem('App_Set_Server'))
-  const App_Set_Database = JSON.parse(sessionStorage.getItem('App_Set_Database'))
-  const clientserver = ` Server(${App_Set_Server}) Database(${App_Set_Database})`
+  const App_Server = JSON.parse(sessionStorage.getItem('App_Server'))
+  const App_Database = JSON.parse(sessionStorage.getItem('App_Database'))
+  const clientserver = ` Server(${App_Server}) Database(${App_Database})`
   //
   //  Default if not signed in
   //
@@ -113,14 +112,14 @@ export default function Layout({ handlePage, children }) {
   //  Signed in User
   //
   let ShowClientServer = true
-  const User_Set_SignedIn = JSON.parse(sessionStorage.getItem('User_Set_SignedIn'))
-  if (User_Set_SignedIn) {
-    const User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
-    const User_Set_UserSwitch = JSON.parse(sessionStorage.getItem('User_Set_UserSwitch'))
-    User_Name = User_Set_User.u_name
-    User_Admin = User_Set_User.u_admin
-    User_Dev = User_Set_User.u_dev
-    User_Switched = User_Set_UserSwitch
+  const User_SignedIn = JSON.parse(sessionStorage.getItem('User_SignedIn'))
+  if (User_SignedIn) {
+    const User_User = JSON.parse(sessionStorage.getItem('User_User'))
+    const User_UserSwitch = JSON.parse(sessionStorage.getItem('User_UserSwitch'))
+    User_Name = User_User.u_name
+    User_Admin = User_User.u_admin
+    User_Dev = User_User.u_dev
+    User_Switched = User_UserSwitch
     //
     //  Do not show clientserver if not dev
     //
@@ -160,7 +159,7 @@ export default function Layout({ handlePage, children }) {
               </Typography>
             </Grid>
             {/* .......................................................................................... */}
-            {User_Set_SignedIn ? (
+            {User_SignedIn ? (
               <Grid item>
                 <Typography
                   className={classes.welcome}

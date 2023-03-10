@@ -47,7 +47,7 @@ export default function Splash({ handlePage }) {
   //
   //  Screen Width
   //
-  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Set_ScreenSmall'))
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_ScreenSmall'))
   //
   //  Say Hello to server
   //
@@ -63,8 +63,8 @@ export default function Splash({ handlePage }) {
     //
     //  Check if errors
     //
-    const App_Set_Server = JSON.parse(sessionStorage.getItem('App_Set_Server'))
-    if (App_Set_Server === 'Error') {
+    const App_Server = JSON.parse(sessionStorage.getItem('App_Server'))
+    if (App_Server === 'Error') {
       setForm_message('Invalid Setup parameters')
       return
     }
@@ -134,8 +134,8 @@ export default function Splash({ handlePage }) {
     //
     //  Get the URL
     //
-    const App_Set_URL = JSON.parse(sessionStorage.getItem('App_Set_URL'))
-    if (debugLog) console.log(consoleLogTime(debugModule, 'App_Set_URL'), App_Set_URL)
+    const App_URL = JSON.parse(sessionStorage.getItem('App_URL'))
+    if (debugLog) console.log(consoleLogTime(debugModule, 'App_URL'), App_URL)
     //
     // Fetch the data
     //
@@ -148,7 +148,7 @@ export default function Splash({ handlePage }) {
         sqlClient: debugModule,
         helloType: helloType
       }
-      const URL = App_Set_URL + URL_HELLO
+      const URL = App_URL + URL_HELLO
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
       //
       //  Timeout

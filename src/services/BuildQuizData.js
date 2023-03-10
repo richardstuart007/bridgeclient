@@ -8,7 +8,7 @@ import randomSort from './../utilities/randomSort'
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugModule = 'BuildQuizData'
 //
 //  Global Variables
@@ -18,7 +18,7 @@ let Pg_Qz_Q_All = []
 let Pg_Qz_Q_qid = []
 let Pg_Qz_Q_qidString = ''
 let SqlString_Q
-let User_Set_User
+let User_User
 //...................................................................................
 //.  Main Line
 //...................................................................................
@@ -31,8 +31,8 @@ export default function BuildQuizData(props) {
     //
     //  Signed in User
     //
-    User_Set_User = JSON.parse(sessionStorage.getItem('User_Set_User'))
-    MaxQuestions = User_Set_User.u_dftmaxquestions
+    User_User = JSON.parse(sessionStorage.getItem('User_User'))
+    MaxQuestions = User_User.u_dftmaxquestions
     //
     //  Deconstruct props
     //
@@ -44,9 +44,9 @@ export default function BuildQuizData(props) {
     sessionStorage.setItem('Pg_Qz_CatchMessage', '')
     sessionStorage.setItem('Pg_Qz_Reset', true)
     sessionStorage.setItem('Pg_Qz_Q_R', false)
-    sessionStorage.setItem('Pg_Qz_Bid_R', false)
-    sessionStorage.setItem('Pg_Qz_Hands_R', false)
-    sessionStorage.setItem('Pg_Qz_All_R', false)
+    sessionStorage.setItem('Pg_Qz_Bid_Rcv', false)
+    sessionStorage.setItem('Pg_Qz_Hands_Rcv', false)
+    sessionStorage.setItem('Pg_Qz_All_Rcv', false)
 
     sessionStorage.setItem('Pg_Qz_Q', [])
     sessionStorage.setItem('Pg_Qz_Bid', [])
@@ -118,7 +118,7 @@ export default function BuildQuizData(props) {
       //  No Questions
       //
       if (!Pg_Qz_Q[0]) {
-        sessionStorage.setItem('Pg_Qz_All_R', true)
+        sessionStorage.setItem('Pg_Qz_All_Rcv', true)
         return
       }
       //
@@ -149,7 +149,7 @@ export default function BuildQuizData(props) {
     //
     //  Random sort questions
     //
-    const SortQuestions = User_Set_User.u_sortquestions
+    const SortQuestions = User_User.u_sortquestions
     SortQuestions ? (Pg_Qz_Q_All = randomSort(Pg_Qz_Q)) : (Pg_Qz_Q_All = Pg_Qz_Q)
     //
     //  Apply max number
@@ -232,7 +232,7 @@ export default function BuildQuizData(props) {
       //
       if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Bid ', Pg_Qz_Bid))
       sessionStorage.setItem('Pg_Qz_Bid', JSON.stringify(Pg_Qz_Bid))
-      sessionStorage.setItem('Pg_Qz_Bid_R', true)
+      sessionStorage.setItem('Pg_Qz_Bid_Rcv', true)
       //
       //  All Data Received ?
       //
@@ -288,7 +288,7 @@ export default function BuildQuizData(props) {
       //
       if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Hands ', Pg_Qz_Hands))
       sessionStorage.setItem('Pg_Qz_Hands', JSON.stringify(Pg_Qz_Hands))
-      sessionStorage.setItem('Pg_Qz_Hands_R', true)
+      sessionStorage.setItem('Pg_Qz_Hands_Rcv', true)
       //
       //  All Data Received ?
       //
@@ -307,14 +307,14 @@ export default function BuildQuizData(props) {
     //  Data received, end wait
     //
     const Pg_Qz_Q_R = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_R'))
-    const Pg_Qz_Bid_R = JSON.parse(sessionStorage.getItem('Pg_Qz_Bid_R'))
-    const Pg_Qz_Hands_R = JSON.parse(sessionStorage.getItem('Pg_Qz_Hands_R'))
+    const Pg_Qz_Bid_Rcv = JSON.parse(sessionStorage.getItem('Pg_Qz_Bid_Rcv'))
+    const Pg_Qz_Hands_Rcv = JSON.parse(sessionStorage.getItem('Pg_Qz_Hands_Rcv'))
     //
     //  All data received
     //
-    if (Pg_Qz_Q_R && Pg_Qz_Bid_R && Pg_Qz_Hands_R) {
+    if (Pg_Qz_Q_R && Pg_Qz_Bid_Rcv && Pg_Qz_Hands_Rcv) {
       if (debugLog) console.log(consoleLogTime(debugModule, 'All DATA received'))
-      sessionStorage.setItem('Pg_Qz_All_R', true)
+      sessionStorage.setItem('Pg_Qz_All_Rcv', true)
     }
   }
   //...................................................................................

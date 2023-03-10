@@ -3,10 +3,7 @@
 //
 import { useEffect } from 'react'
 import { Paper, Grid } from '@mui/material'
-//
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
+
 //
 //  Controls
 //
@@ -19,6 +16,13 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 
 import rowCrud from '../../utilities/rowCrud'
+//
+//  Debug Settings
+//
+import debugSettings from '../../debug/debugSettings'
+import consoleLogTime from '../../debug/consoleLogTime'
+const debugLog = debugSettings()
+const debugModule = 'UsersSettings'
 //
 //  Form Initial Values
 //
@@ -33,16 +37,12 @@ const initialFValues = {
   u_fedcountry: '',
   u_fedid: ''
 }
-//
-// Debug Settings
-//
-const debugLog = debugSettings()
-const debugModule = 'UsersSettings'
+
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function UsersSettings({ handlePage }) {
-  if (debugLog) console.log(debugModule)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
   //  On change of record, set State
   //
@@ -50,16 +50,13 @@ export default function UsersSettings({ handlePage }) {
     //
     //  Get User
     //
-    const recordForEdit = JSON.parse(sessionStorage.getItem('User_Set_User'))
-    if (debugLog) console.log('useEffect')
-    if (debugLog) console.log('recordForEdit ', recordForEdit)
+    const recordForEdit = JSON.parse(sessionStorage.getItem('User_User'))
     //
     //  Update form values
     //
     setValues({
       ...recordForEdit
     })
-
     // eslint-disable-next-line
   }, [])
   //...................................................................................
@@ -67,8 +64,6 @@ export default function UsersSettings({ handlePage }) {
   // Validate the fields
   //
   const validate = (fieldValues = values) => {
-    if (debugLog) console.log('validate')
-    if (debugLog) console.log(fieldValues)
     //
     //  Load previous errors
     //
@@ -126,18 +121,15 @@ export default function UsersSettings({ handlePage }) {
   //.  Submit form
   //...................................................................................
   const handleSubmit = () => {
-    if (debugLog) console.log('handleSubmit')
     //
     //  Validate & Update
     //
     if (validate()) {
-      if (debugLog) console.log('values ', values)
       const { ...UpdateValues } = { ...values }
-      if (debugLog) console.log('UpdateValues ', UpdateValues)
       //
       //  Store
       //
-      sessionStorage.setItem('User_Set_User', JSON.stringify(UpdateValues))
+      sessionStorage.setItem('User_User', JSON.stringify(UpdateValues))
       //
       //  Update database
       //
@@ -152,16 +144,10 @@ export default function UsersSettings({ handlePage }) {
   //.  UPDATE
   //.............................................................................
   const updateRowData = data => {
-    if (debugLog) console.log('updateRowData')
-    //
-    //  Data Received
-    //
-    if (debugLog) console.log('updateRowData Row ', data)
     //
     //  Strip out KEY as it is not updated
     //
     let { u_user, ...nokeyData } = data
-    if (debugLog) console.log('Upsert Database nokeyData ', nokeyData)
     //
     //  Process promise
     //
@@ -178,7 +164,6 @@ export default function UsersSettings({ handlePage }) {
     //  Resolve Status
     //
     myPromiseUpdate.then(function (rtnObj) {
-      if (debugLog) console.log('rtnObj ', rtnObj)
       //
       //  No data returned
       //
@@ -191,7 +176,8 @@ export default function UsersSettings({ handlePage }) {
       //  Get u_user
       //
       const rtn_u_user = data[0].u_user
-      if (debugLog) console.log(`Row (${rtn_u_user}) UPDATED in Database`)
+      if (debugLog)
+        console.log(consoleLogTime(debugModule, `Row (${rtn_u_user}) UPDATED in Database`))
       return
     })
     return myPromiseUpdate
@@ -338,9 +324,7 @@ export default function UsersSettings({ handlePage }) {
             text='Back'
             color='warning'
             variant='contained'
-            onClick={() => {
-              handlePage('PAGEBACK')
-            }}
+            onClick={() => handlePage('PAGEBACK')}
           />
         </Grid>
         {/* .......................................................................................... */}

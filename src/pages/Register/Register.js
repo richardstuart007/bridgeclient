@@ -7,11 +7,6 @@ import { Paper, Grid, Typography } from '@mui/material'
 //  Utilities
 //
 import registerUser from '../../services/registerUser'
-
-//
-//  Debug Settings
-//
-import debugSettings from '../../debug/debugSettings'
 //
 //  Controls
 //
@@ -19,18 +14,19 @@ import MyButton from '../../components/controls/MyButton'
 import MyInput from '../../components/controls/MyInput'
 import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 import SelectCountry from './SelectCountry'
+//
+//  Debug Settings
+//
+import debugSettings from '../../debug/debugSettings'
+import consoleLogTime from '../../debug/consoleLogTime'
+const debugLog = debugSettings()
+const debugModule = 'Register'
 //..............................................................................
 //.  Initialisation
 //.............................................................................
 //
-// Debug Settings
-//
-const debugLog = debugSettings()
-const debugModule = 'Register'
-//
 // Constants
 //
-const sqlClient = 'Register'
 const { DFT_USER_MAXQUESTIONS } = require('../../services/constants.js')
 const { DFT_USER_OWNER } = require('../../services/constants.js')
 const { DFT_USER_SHOWPROGRESS } = require('../../services/constants.js')
@@ -55,7 +51,7 @@ const initialFValues = {
 //.  Main Line
 //...................................................................................
 function Register({ handlePage }) {
-  if (debugLog) console.log(debugModule)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
   // State
   //
@@ -73,7 +69,6 @@ function Register({ handlePage }) {
   //.  Input field validation
   //.............................................................................
   function validate(fieldValues = values) {
-    if (debugLog) console.log('validate')
     let temp = { ...errors }
     //
     //  name
@@ -120,7 +115,6 @@ function Register({ handlePage }) {
   //.  Form Submit
   //...................................................................................
   function FormSubmit(e) {
-    if (debugLog) console.log('FormSubmit')
     if (validate()) {
       FormUpdate()
     }
@@ -129,7 +123,6 @@ function Register({ handlePage }) {
   //.  Update
   //...................................................................................
   function FormUpdate() {
-    if (debugLog) console.log('FormUpdate')
     //
     //  User message
     //
@@ -142,12 +135,11 @@ function Register({ handlePage }) {
     //  Deconstruct values
     //
     const { name, user, email, password, fedid, fedcountry } = values
-    if (debugLog) console.log('values ', values)
     //
     //  Process promise
     //
     const params = {
-      sqlCaller: sqlClient,
+      sqlCaller: debugModule,
       user: user,
       email: email,
       password: password,
@@ -163,23 +155,19 @@ function Register({ handlePage }) {
       admin: false,
       dev: false
     }
-    if (debugLog) console.log('params ', params)
     const myPromiseRegister = registerUser(params)
     //
     //  Resolve Status
     //
     myPromiseRegister.then(function (rtnObj) {
-      if (debugLog) console.log('rtnObj ', rtnObj)
       //
       //  Valid ?
       //
       const rtnValue = rtnObj.rtnValue
-      if (debugLog) console.log('rtnValue ', rtnValue)
       if (rtnValue) {
         const Usersrow = rtnObj.rtnRows[0]
-        if (debugLog) console.log('Usersrow ', Usersrow)
         setForm_message(`Data updated in Database with ID(${Usersrow.u_id})`)
-        sessionStorage.setItem('User_Set_User', JSON.stringify(Usersrow))
+        sessionStorage.setItem('User_User', JSON.stringify(Usersrow))
         handlePage('Signin')
       } else {
         //
@@ -187,7 +175,6 @@ function Register({ handlePage }) {
         //
         let message
         rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
-        if (debugLog) console.log(message)
         setForm_message(message)
         //
         //  Show button
@@ -202,14 +189,11 @@ function Register({ handlePage }) {
   //.  Select Country
   //...................................................................................
   function handleSelectCountry(CountryCode) {
-    if (debugLog) console.log('handleSelectCountry')
-    if (debugLog) console.log('CountryCode ', CountryCode)
     //
     //  Populate Country Object & change country code
     //
     const updValues = { ...values }
     updValues.u_fedcountry = CountryCode
-    if (debugLog) console.log('updValues ', updValues)
     //
     //  Update values
     //

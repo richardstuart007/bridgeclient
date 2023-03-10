@@ -7,10 +7,9 @@ import makeStyles from '@mui/styles/makeStyles'
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
-//
-// Debug Settings
-//
+import consoleLogTime from '../../debug/consoleLogTime'
 const debugLog = debugSettings()
+const debugModule = 'MyAutocomplete'
 //
 //  Styles
 //
@@ -28,7 +27,7 @@ export default function MyAutocomplete(props) {
   //
   const { searchLable, onChange, fieldname, optionId, options, required, fullWidth, className } =
     props
-  if (debugLog) console.log(props)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
   //  Styles
   //
@@ -46,7 +45,6 @@ export default function MyAutocomplete(props) {
     const NoSelect = [{ id: '', title: '' }]
     w_options = NoSelect.concat(options)
   }
-  if (debugLog) console.log('w_options ', w_options)
   //
   //  Object
   //
@@ -54,7 +52,6 @@ export default function MyAutocomplete(props) {
   if (optionId) {
     Obj = w_options.find(obj => obj.id === optionId)
   }
-  if (debugLog) console.log('Obj ', Obj)
   //
   //  State
   //
@@ -68,8 +65,6 @@ export default function MyAutocomplete(props) {
     setInputValue(Obj.title)
     // eslint-disable-next-line
   }, [optionId])
-  if (debugLog) console.log('selectedObj ', selectedObj)
-  if (debugLog) console.log('inputValue ', inputValue)
   //...................................................................................
   //  Render
   //...................................................................................
@@ -79,14 +74,12 @@ export default function MyAutocomplete(props) {
       onChange={(event, newSelected) => {
         setSelectedObj(newSelected)
         if (newSelected) {
-          if (debugLog) console.log('newSelected ', newSelected)
           onChange(newSelected.id, fieldname)
         }
       }}
       inputValue={inputValue}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue)
-        if (debugLog) console.log('newInputValue ', newInputValue)
       }}
       id='myAutocomplete'
       // sx={{ width: 300 }}
