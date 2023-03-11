@@ -7,7 +7,7 @@ import axios from 'axios'
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 const debugModule = 'apiAxios'
 //
 //  Returned values
@@ -69,7 +69,10 @@ export default async function apiAxios(method, url, data, timeout = 2000, info =
       timeout: timeout
     })
     if (debugLog) console.log(consoleLogTime(debugModule, 'Response-->'), response)
-    console.log(consoleLogTime(debugModule, `<--Timing-> ${response.durationInMs} ${info} SUCCESS`))
+    if (debugLog)
+      console.log(
+        consoleLogTime(debugModule, `<--Timing-> ${response.durationInMs} ${info} SUCCESS`)
+      )
     //
     //  Errors
     //
@@ -83,7 +86,7 @@ export default async function apiAxios(method, url, data, timeout = 2000, info =
     //  Catch Error
     //
   } catch (error) {
-    rtnObj.rtnCatchFunction = 'apiAxios'
+    rtnObj.rtnCatchFunction = debugModule
     rtnObj.rtnValue = false
     rtnObj.rtnCatch = true
     //
