@@ -28,68 +28,6 @@ const debugModule = 'App'
 //  Layout Theme
 //
 const theme = createTheme({})
-//------------------------------------------------------------------------
-//  Remote - Production
-//------------------------------------------------------------------------
-//
-//  Remote Client --> Remote Server 1 --> Remote Database 1
-//
-const { SERVER01 } = require('../services/constants.js')
-const { DATABASE01 } = require('../services/constants.js')
-const { SERVERURL01 } = require('../services/constants.js')
-//
-//  Remote Client --> Remote Server 2 --> Remote Database 2
-//
-const { SERVER02 } = require('../services/constants.js')
-const { DATABASE02 } = require('../services/constants.js')
-const { SERVERURL02 } = require('../services/constants.js')
-//
-//  Remote Client --> Remote Server 3 --> Remote Database 3
-//
-const { SERVER03 } = require('../services/constants.js')
-const { DATABASE03 } = require('../services/constants.js')
-const { SERVERURL03 } = require('../services/constants.js')
-//
-//  Remote Client --> Remote Server 4 --> Remote Database 4
-//
-const { SERVER04 } = require('../services/constants.js')
-const { DATABASE04 } = require('../services/constants.js')
-const { SERVERURL04 } = require('../services/constants.js')
-//------------------------------------------------------------------------
-//  Local
-//------------------------------------------------------------------------
-//
-//  Local Client --> Local Server --> Local Database 6
-//
-const { SERVER16 } = require('../services/constants.js')
-const { DATABASE6 } = require('../services/constants.js')
-const { SERVERURL16 } = require('../services/constants.js')
-//
-//  Local Client --> Local Server --> Local Database 7
-//
-const { SERVER17 } = require('../services/constants.js')
-const { DATABASE7 } = require('../services/constants.js')
-const { SERVERURL17 } = require('../services/constants.js')
-//
-//  Local Client --> Local Server 1 --> Remote Database 1
-//
-const { SERVER11 } = require('../services/constants.js')
-const { SERVERURL11 } = require('../services/constants.js')
-//
-//  Local Client --> Local Server 2 --> Remote Database 2
-//
-const { SERVER12 } = require('../services/constants.js')
-const { SERVERURL12 } = require('../services/constants.js')
-//
-//  Local Client --> Local Server 3 --> Remote Database 3
-//
-const { SERVER13 } = require('../services/constants.js')
-const { SERVERURL13 } = require('../services/constants.js')
-//
-//  Local Client --> Local Server 4 --> Remote Database 4
-//
-const { SERVER14 } = require('../services/constants.js')
-const { SERVERURL14 } = require('../services/constants.js')
 //
 //  Start Pages
 //
@@ -155,6 +93,73 @@ export default function App() {
   //.  Local Port Overridden - Update Constants
   //.............................................................................
   function Set_ServerDatabase() {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'w_server_database'), w_server_database)
+    //------------------------------------------------------------------------
+    //  Remote - Client/Server/Database (Production)
+    //------------------------------------------------------------------------
+    //
+    //  Remote Client --> Remote Server 1 --> Remote Database 1
+    //
+    const { SERVER01 } = require('../services/constants.js')
+    const { DATABASE01 } = require('../services/constants.js')
+    const { SERVERURL01 } = require('../services/constants.js')
+    //
+    //  Remote Client --> Remote Server 2 --> Remote Database 2
+    //
+    const { SERVER02 } = require('../services/constants.js')
+    const { DATABASE02 } = require('../services/constants.js')
+    const { SERVERURL02 } = require('../services/constants.js')
+    //
+    //  Remote Client --> Remote Server 3 --> Remote Database 3
+    //
+    const { SERVER03 } = require('../services/constants.js')
+    const { DATABASE03 } = require('../services/constants.js')
+    const { SERVERURL03 } = require('../services/constants.js')
+    //
+    //  Remote Client --> Remote Server 4 --> Remote Database 4
+    //
+    const { SERVER04 } = require('../services/constants.js')
+    const { DATABASE04 } = require('../services/constants.js')
+    const { SERVERURL04 } = require('../services/constants.js')
+    //------------------------------------------------------------------------
+    //  Local - Client/Server - Remote Database
+    //------------------------------------------------------------------------
+    //
+    //  Local Client --> Local Server 1 --> Remote Database 1
+    //
+    const { SERVER11 } = require('../services/constants.js')
+    const { SERVERURL11 } = require('../services/constants.js')
+    //
+    //  Local Client --> Local Server 2 --> Remote Database 2
+    //
+    const { SERVER12 } = require('../services/constants.js')
+    const { SERVERURL12 } = require('../services/constants.js')
+    //
+    //  Local Client --> Local Server 3 --> Remote Database 3
+    //
+    const { SERVER13 } = require('../services/constants.js')
+    const { SERVERURL13 } = require('../services/constants.js')
+    //
+    //  Local Client --> Local Server 4 --> Remote Database 4
+    //
+    const { SERVER14 } = require('../services/constants.js')
+    const { SERVERURL14 } = require('../services/constants.js')
+    //------------------------------------------------------------------------
+    //  Local - Client/Server/Database
+    //------------------------------------------------------------------------
+    //
+    //  Local Client --> Local Server --> Local Database 6
+    //
+    const { SERVER16 } = require('../services/constants.js')
+    const { DATABASE6 } = require('../services/constants.js')
+    const { SERVERURL16 } = require('../services/constants.js')
+    //
+    //  Local Client --> Local Server --> Local Database 7
+    //
+    const { SERVER17 } = require('../services/constants.js')
+    const { DATABASE7 } = require('../services/constants.js')
+    const { SERVERURL17 } = require('../services/constants.js')
+    //------------------------------------------------------------------------
     switch (w_server_database) {
       //------------------------------------------------------
       //  Client(Local/Remote) --> Remote Server 1 --> Remote Database 1
@@ -240,8 +245,14 @@ export default function App() {
       //  Error
       //------------------------------------------------------
       default:
+        w_Server = 'Error'
+        w_Database = 'Error'
+        w_URL = 'Error'
         break
     }
+    if (debugLog) console.log(consoleLogTime(debugModule, 'w_Server'), w_Server)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'w_Database'), w_Database)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'w_URL'), w_URL)
   }
   //.............................................................................
   //.  Initialise Storage

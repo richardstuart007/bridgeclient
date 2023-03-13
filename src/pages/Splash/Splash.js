@@ -52,13 +52,13 @@ export default function Splash({ handlePage }) {
   //  Say Hello to server
   //
   useEffect(() => {
-    sayHello()
+    sayHello(false)
     // eslint-disable-next-line
   }, [])
   //...................................................................................
   //.  Check Server is responding
   //...................................................................................
-  function sayHello() {
+  function sayHello(signin) {
     if (debugLog) console.log(consoleLogTime(debugModule, 'sayHello'))
     //
     //  Check if errors
@@ -112,8 +112,11 @@ export default function Splash({ handlePage }) {
         //-----------------
         //  OK
         //-----------------
-        setForm_message('')
-        setshowContinue(true)
+        if (signin) handlePage('Signin')
+        else {
+          setForm_message('')
+          setshowContinue(true)
+        }
       })
     })
   }
@@ -229,7 +232,12 @@ export default function Splash({ handlePage }) {
           {/*.................................................................................................*/}
           {showConnect ? (
             <Grid item xs={12}>
-              <MyButton type='submit' text='Connect' value='Submit' onClick={() => sayHello()} />
+              <MyButton
+                type='submit'
+                text='Connect'
+                value='Submit'
+                onClick={() => sayHello(true)}
+              />
             </Grid>
           ) : null}
           {/*.................................................................................................*/}

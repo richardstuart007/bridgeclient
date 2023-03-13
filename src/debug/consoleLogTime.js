@@ -4,7 +4,7 @@
 export default function consoleLogTime(debugModule, message = '') {
   try {
     let timeCurrent = new Date().getTime()
-    let counter = 0
+    let counter = 1
     let timelog = timeCurrent
     //
     //  Store log values
