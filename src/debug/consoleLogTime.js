@@ -1,46 +1,58 @@
+const storeName = 'App_consoleLogTime'
 //...................................................................................
 //.  Try/Catch/Finally logging
 //...................................................................................
 export default function consoleLogTime(debugModule, message = '') {
   try {
+    //
+    //  Define Object
+    //
+    let storeObj = {
+      prevModule: null,
+      prevCounter: null,
+      prevTime: null
+    }
+    //
+    //  Default current values if no previous
+    //
     let timeCurrent = new Date().getTime()
-    let counter = 1
-    let timelog = timeCurrent
+    let prevCounter = 0
+    let prevTime = timeCurrent
+    let prevModule = ''
     //
-    //  Store log values
+    //  Retrieve Previous
     //
-    let App_Log_Time = {
-      counter: counter,
-      timelog: timelog
+    const storeObj_Prev = sessionStorage.getItem(storeName)
+    if (storeObj_Prev) {
+      storeObj = JSON.parse(storeObj_Prev)
+      prevModule = storeObj.prevModule
+      prevCounter = storeObj.prevCounter
+      prevTime = storeObj.prevTime
     }
     //
-    //  Get stored values
+    //  End log group
     //
-    const App_Log_Time_Prev = sessionStorage.getItem('App_Log_Time')
-    if (App_Log_Time_Prev) {
-      App_Log_Time = JSON.parse(App_Log_Time_Prev)
-      counter = App_Log_Time.counter
-      timelog = App_Log_Time.timelog
-    }
+    if (prevModule !== debugModule && prevModule !== '') console.groupEnd()
     //
-    //  Update values
+    //  Start log group
     //
-    const duration = timeCurrent - timelog
-    App_Log_Time.counter++
-    App_Log_Time.timelog = timeCurrent
-    sessionStorage.setItem('App_Log_Time', JSON.stringify(App_Log_Time))
+    if (prevModule !== debugModule) console.group(debugModule)
     //
-    //  Format module to length
+    //  Calculate duration (current - previous)
     //
-    const debugModuleDots = '...................:'
-    let debugModuleText = debugModule
-    if (debugModule.length < 20) {
-      debugModuleText = debugModuleText + debugModuleDots.substring(debugModule.length)
-    }
+    const duration = timeCurrent - prevTime
+    //
+    //  Update stored values
+    //
+    storeObj.prevModule = debugModule
+    prevCounter++
+    storeObj.prevCounter = prevCounter
+    storeObj.prevTime = timeCurrent
+    sessionStorage.setItem(storeName, JSON.stringify(storeObj))
     //
     //  Build return string
     //
-    const consoleLogTimemessage = `${counter} ${duration} ${debugModuleText} ${message} `
+    const consoleLogTimemessage = `${prevCounter} ${duration} ${message}`
     return consoleLogTimemessage
   } catch (error) {
     console.log(error)

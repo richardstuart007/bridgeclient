@@ -223,10 +223,6 @@ export default function Splash({ handlePage }) {
           ) : null}
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <Typography variant='subtitle2'>Click below to REGISTER/SIGNIN</Typography>
-          </Grid>
-          {/*.................................................................................................*/}
-          <Grid item xs={12}>
             <Typography style={{ color: 'red' }}>{form_message}</Typography>
           </Grid>
           {/*.................................................................................................*/}
@@ -234,7 +230,7 @@ export default function Splash({ handlePage }) {
             <Grid item xs={12}>
               <MyButton
                 type='submit'
-                text='Connect'
+                text='Retry Connection'
                 value='Submit'
                 onClick={() => sayHello(true)}
               />
@@ -245,7 +241,7 @@ export default function Splash({ handlePage }) {
             <Grid item xs={12}>
               <MyButton
                 type='submit'
-                text='Continue'
+                text='Register/Signin'
                 value='Submit'
                 onClick={() => handlePage('Signin')}
               />

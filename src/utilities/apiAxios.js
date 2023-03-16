@@ -7,7 +7,7 @@ import axios from 'axios'
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugModule = 'apiAxios'
 //
 //  Returned values
@@ -21,46 +21,49 @@ const rtnObj = {
   rtnCatchMsg: '',
   rtnRows: []
 }
+if (debugLog) console.log(consoleLogTime(debugModule, 'Start Global'))
 //===================================================================================
 //
 // methods - post(get), post(update), delete(delete), post(upsert)
 //
 export default async function apiAxios(method, url, data, timeout = 2000, info = 'SqlDatabase') {
   //
-  //  Reset rtnObj
-  //
-  rtnObj.rtnValue = false
-  rtnObj.rtnMessage = ''
-  rtnObj.rtnSqlFunction = debugModule
-  rtnObj.rtnCatchFunction = ''
-  rtnObj.rtnCatch = false
-  rtnObj.rtnCatchMsg = ''
-  rtnObj.rtnRows = []
-  //
-  //  Inceptor - req start time
-  //
-  axios.interceptors.request.use(req => {
-    req.meta = req.meta || {}
-    req.meta.requestStartedAt = new Date().getTime()
-    return req
-  })
-  //
-  //  Inceptor - res duration (response - start time)
-  //
-  axios.interceptors.response.use(
-    res => {
-      res.durationInMs = new Date().getTime() - res.config.meta.requestStartedAt
-      return res
-    },
-    res => {
-      res.durationInMs = new Date().getTime() - res.config.meta.requestStartedAt
-      throw res
-    }
-  )
-  //
   //  Try
   //
   try {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Start Module'))
+    //
+    //  Reset rtnObj
+    //
+    rtnObj.rtnValue = false
+    rtnObj.rtnMessage = ''
+    rtnObj.rtnSqlFunction = debugModule
+    rtnObj.rtnCatchFunction = ''
+    rtnObj.rtnCatch = false
+    rtnObj.rtnCatchMsg = ''
+    rtnObj.rtnRows = []
+    //
+    //  Inceptor - req start time
+    //
+    axios.interceptors.request.use(req => {
+      req.meta = req.meta || {}
+      req.meta.requestStartedAt = new Date().getTime()
+      return req
+    })
+    //
+    //  Inceptor - res duration (response - start time)
+    //
+    axios.interceptors.response.use(
+      res => {
+        res.durationInMs = new Date().getTime() - res.config.meta.requestStartedAt
+        return res
+      },
+      res => {
+        res.durationInMs = new Date().getTime() - res.config.meta.requestStartedAt
+        throw res
+      }
+    )
+
     if (debugLog) console.log(consoleLogTime(debugModule, 'Request--->'), data)
     const response = await axios({
       method: method,
