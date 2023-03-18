@@ -23,7 +23,7 @@ exports.SERVERURL03 = 'https://bridgeserver03.cyclic.app'
 //  Remote Server 4 --> Remote Database 4
 //
 exports.SERVER04 = 'REMOTE:Cyclic/3904'
-exports.DATABASE04 = 'REMOTE-4:Railway'
+exports.DATABASE04 = 'REMOTE-4:Railway04'
 exports.SERVERURL04 = 'https://bridgeserver04.cyclic.app'
 //------------------------------------------------------------------------
 //  Local Server
@@ -78,8 +78,8 @@ exports.WAIT_MAX_TRY = 15
 //------------------------------------------------------------------------
 exports.DFT_USER_MAXQUESTIONS = 20
 exports.DFT_USER_OWNER = 'NZBridge'
-exports.DFT_USER_SHOWPROGRESS = false
-exports.DFT_USER_SHOWSCORE = false
+exports.DFT_USER_SHOWPROGRESS = true
+exports.DFT_USER_SHOWSCORE = true
 exports.DFT_USER_SORTQUESTIONS = true
 exports.DFT_USER_SKIPCORRECT = true
 //------------------------------------------------------------------------

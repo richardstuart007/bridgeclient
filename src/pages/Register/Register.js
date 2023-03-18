@@ -6,7 +6,7 @@ import { Paper, Grid, Typography } from '@mui/material'
 //
 //  Utilities
 //
-import registerUser from '../../services/registerUser'
+import registerUser from './registerUser'
 //
 //  Controls
 //
