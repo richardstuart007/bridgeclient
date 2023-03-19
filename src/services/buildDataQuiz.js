@@ -8,7 +8,7 @@ import randomSort from '../utilities/randomSort'
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
 const debugLog = debugSettings()
-const debugModule = 'buildQuizData'
+const debugModule = 'buildDataQuiz'
 //
 //  Global Variables
 //
@@ -21,7 +21,7 @@ let Pg_Qz_Hands
 //...................................................................................
 //.  Main Line
 //...................................................................................
-export default function buildQuizData(props) {
+export default function buildDataQuiz(props) {
   //
   //  Try
   //

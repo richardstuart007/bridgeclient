@@ -31,7 +31,7 @@ import MyActionButton from '../../components/controls/MyActionButton'
 //  Services
 //
 import rowCrud from '../../utilities/rowCrud'
-import buildQuizData from '../../services/buildQuizData'
+import buildDataQuiz from '../../services/buildDataQuiz'
 //
 //  Debug Settings
 //
@@ -256,13 +256,13 @@ export default function Library({ handlePage }) {
     //
     sessionStorage.setItem('Pg_Qz_ogtitle', JSON.stringify(row.ogtitle))
     //
-    //  buildQuizData
+    //  buildDataQuiz
     //
     const params = {
       p_owner: row.lrowner,
       p_group: row.lrgroup
     }
-    buildQuizData(params)
+    buildDataQuiz(params)
     handlePage('Quiz')
   }
   //.............................................................................

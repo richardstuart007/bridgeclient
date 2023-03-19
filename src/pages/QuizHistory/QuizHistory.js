@@ -24,7 +24,7 @@ import MyActionButton from '../../components/controls/MyActionButton'
 //  Services
 //
 import rowCrud from '../../utilities/rowCrud'
-import buildQuizData from '../../services/buildQuizData'
+import buildDataQuiz from '../../services/buildDataQuiz'
 import buildHistoryDetail from '../../services/buildHistoryDetail'
 //
 //  Debug Settings
@@ -270,13 +270,13 @@ export default function QuizHistory({ handlePage }) {
     sessionStorage.setItem('Pg_Qd_Row', JSON.stringify(row))
     sessionStorage.setItem('Pg_Qz_ogtitle', JSON.stringify(row.ogtitle))
     //
-    //  buildQuizData
+    //  buildDataQuiz
     //
     const params = {
       p_owner: row.r_owner,
       p_group: row.r_group
     }
-    buildQuizData(params)
+    buildDataQuiz(params)
     handlePage('Quiz')
   }
 

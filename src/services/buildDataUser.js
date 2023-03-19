@@ -8,7 +8,7 @@ import rowCrud from '../utilities/rowCrud'
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
 const debugLog = debugSettings()
-const debugModule = 'buildUserData'
+const debugModule = 'buildDataUser'
 //
 //  Global Variables
 //
@@ -20,7 +20,7 @@ let User_Hands = []
 //...................................................................................
 //.  Main Line
 //...................................................................................
-export default function buildUserData() {
+export default function buildDataUser() {
   //
   //  Try
   //
