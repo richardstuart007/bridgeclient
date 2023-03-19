@@ -7,6 +7,7 @@ import { Paper, Grid, Typography } from '@mui/material'
 //  Utilities
 //
 import apiAxios from '../../utilities/apiAxios'
+import buildUserData from '../../services/buildUserData'
 //
 //  Controls
 //
@@ -70,8 +71,6 @@ export default function Signin({ handlePage }) {
   } catch (e) {
     if (debugLog) console.log(consoleLogTime(debugModule, 'Catch'))
     console.log(e)
-  } finally {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'End'))
   }
   //.............................................................................
   //.  Input field validation
@@ -251,6 +250,10 @@ export default function Signin({ handlePage }) {
     //  Signed In
     //
     sessionStorage.setItem('User_SignedIn', true)
+    //
+    //  Build User Data into Storage
+    //
+    buildUserData()
     //
     //  Start Page
     //

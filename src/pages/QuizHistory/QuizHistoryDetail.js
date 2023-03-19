@@ -98,13 +98,13 @@ export default function QuizHistoryDetail({ handlePage }) {
     //
     //  Get Stored Data
     //
-    const Pg_Qz_Q_All = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_All'))
+    const Pg_Qz_Q_Flt = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_Flt'))
     const Hist_r_ans = row.r_ans
     //
     //  Questions
     //
     let ArrQuestions = []
-    Pg_Qz_Q_All.forEach(row => {
+    Pg_Qz_Q_Flt.forEach(row => {
       const rowData = { ...row }
       ArrQuestions.push(rowData)
     })

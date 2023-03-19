@@ -57,8 +57,8 @@ export default function writeHistory() {
   let r_totalpoints = 0
   let r_maxpoints = 0
   let r_correctpercent = 0
-  const Pg_Qz_Q_All = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_All'))
-  Pg_Qz_Q_All.forEach(row => {
+  const Pg_Qz_Q_Flt = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_Flt'))
+  Pg_Qz_Q_Flt.forEach(row => {
     count++
     if (count <= r_questions) {
       r_qid.push(row.qid)

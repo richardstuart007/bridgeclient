@@ -31,13 +31,13 @@ import MyActionButton from '../../components/controls/MyActionButton'
 //  Services
 //
 import rowCrud from '../../utilities/rowCrud'
-import BuildQuizData from '../../services/BuildQuizData'
+import buildQuizData from '../../services/buildQuizData'
 //
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 const debugModule = 'Library'
 //
 //  Styles
@@ -142,56 +142,64 @@ export default function Library({ handlePage }) {
   //  Initial Data Load
   //
   useEffect(() => {
-    getRowAllData()
+    loadData()
     // eslint-disable-next-line
   }, [])
   //.............................................................................
   //.  GET ALL
   //.............................................................................
-  function getRowAllData() {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'getRowAllData'))
+  function loadData() {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'loadData'))
     //
     //  Do not refetch data if already exists
     //
     if (debugLog) console.log(consoleLogTime(debugModule, 'records'), records)
     if (records.length !== 0) return
     //
-    //  Same selection - take from Storage
+    //  Session Storage ?
     //
-    const OwnersString = JSON.parse(sessionStorage.getItem('User_OwnersString'))
-    const OwnersString_Prev = JSON.parse(sessionStorage.getItem('User_OwnersString_Prev'))
-    if (OwnersString === OwnersString_Prev) {
-      //
-      //  Session Storage
-      //
-      const Pg_Lib_Data = JSON.parse(sessionStorage.getItem('Pg_Lib_Data'))
-      if (Pg_Lib_Data) {
-        if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Lib_Data'), Pg_Lib_Data)
-        //
-        //  Update Table
-        //
-        setRecords(Pg_Lib_Data)
-        //
-        //  Form Saved Values - retrieve
-        //
-        const selection = JSON.parse(sessionStorage.getItem('Pg_Lib_Selection'))
-        if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Lib_Selection'), selection)
-        //
-        //  Filter
-        //
-        if (selection) {
-          const searchType = selection.searchType
-          const searchValue = selection.searchValue
-          setSearchType(searchType)
-          setSearchValue(searchValue)
-          handleSearch(searchType, searchValue)
-        }
-        return
-      }
+    const Pg_Lib_Data_JSON = sessionStorage.getItem('Pg_Lib_Data')
+    Pg_Lib_Data_JSON ? getStoreData(Pg_Lib_Data_JSON) : getLibraryData()
+  }
+  //...................................................................................
+  //.  Data from store
+  //...................................................................................
+  function getStoreData(Pg_Lib_Data_JSON) {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'getStoreData'))
+    //
+    //  Update Table
+    //
+    const Pg_Lib_Data = JSON.parse(Pg_Lib_Data_JSON)
+    setRecords(Pg_Lib_Data)
+    //
+    //  Form Saved Values - retrieve
+    //
+    const selection = JSON.parse(sessionStorage.getItem('Pg_Lib_Selection'))
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Lib_Selection'), selection)
+    //
+    //  Filter
+    //
+    if (selection) {
+      const searchType = selection.searchType
+      const searchValue = selection.searchValue
+      setSearchType(searchType)
+      setSearchValue(searchValue)
+      handleSearch(searchType, searchValue)
     }
+  }
+  //...................................................................................
+  //.  Get Library data
+  //...................................................................................
+  function getLibraryData() {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'getLibraryData'))
+    //
+    //  User Message
+    //
+    setForm_message('Retrieving Data....wait')
     //
     //  Selection
     //
+    const OwnersString = JSON.parse(sessionStorage.getItem('User_OwnersString'))
     const sqlString = `* from library join ownergroup on lrowner = ogowner and lrgroup = oggroup where lrowner in (${OwnersString}) order by lrid`
     if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString'), sqlString)
     //
@@ -222,10 +230,10 @@ export default function Library({ handlePage }) {
       //  Session Storage
       //
       sessionStorage.setItem('Pg_Lib_Data', JSON.stringify(Pg_Lib_Data))
-      sessionStorage.setItem('User_OwnersString_Prev', JSON.stringify(OwnersString))
       //
       //  Update Table
       //
+      setForm_message('')
       setRecords(Pg_Lib_Data)
       //
       //  Filter
@@ -244,111 +252,18 @@ export default function Library({ handlePage }) {
   function LibraryRow(row) {
     if (debugLog) console.log(consoleLogTime(debugModule, 'LibraryRow'), row)
     //
-    //  Store Row
+    //  Store title
     //
-    sessionStorage.setItem('Pg_Lib_Data_Row', JSON.stringify(row))
     sessionStorage.setItem('Pg_Qz_ogtitle', JSON.stringify(row.ogtitle))
     //
-    //  BuildQuizData
+    //  buildQuizData
     //
-    const SqlString_Q = `* from questions where qowner = '${row.lrowner}' and qgroup = '${row.lrgroup}'`
     const params = {
-      SqlString_Q: SqlString_Q
+      p_owner: row.lrowner,
+      p_group: row.lrgroup
     }
-    setForm_message('Quiz: Building data....wait')
-    BuildQuizData(params)
-    //
-    //  Wait for data
-    //
-    const waitSessionStorageParams = {
-      sessionItem: 'Pg_Qz_All_Rcv',
-      handlePageValue: 'Quiz'
-    }
-    waitSessionStorage(waitSessionStorageParams, handlePage)
-  }
-  //--------------------------------------------------------------------
-  //-  Wait
-  //--------------------------------------------------------------------
-  function waitSessionStorage(props, handlePage) {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'waitSessionStorage'), props)
-    const timeStart = new Date()
-    //
-    //  Constants
-    //
-    const { WAIT } = require('../../services/constants')
-    const { WAIT_MAX_TRY } = require('../../services/constants')
-    //
-    //  Deconstruct props
-    //
-    const { sessionItem, dftWait = WAIT, dftMaxTry = WAIT_MAX_TRY, handlePageValue } = props
-    //
-    //  Global
-    //
-    let completedFlag = false
-    let totalWAIT = 0
-    //
-    //  Wait for data
-    //
-    let w_try = 0
-    const myInterval = setInterval(myTimer, dftWait)
-    function myTimer() {
-      //
-      //  Catch Error
-      //
-      const rtnCatchMsgJson = sessionStorage.getItem('Pg_Qz_CatchMessage')
-      if (rtnCatchMsgJson) {
-        const rtnCatchMsg = JSON.parse(rtnCatchMsgJson)
-        setForm_message(rtnCatchMsg)
-        clearInterval(myInterval)
-        return
-      }
-      //
-      //  Data received, end wait
-      //
-      completedFlag = JSON.parse(sessionStorage.getItem(sessionItem))
-      if (completedFlag) {
-        const timeEnd = new Date()
-        const timeDiff = timeEnd - timeStart
-        if (debugLog)
-          console.log(
-            consoleLogTime(
-              debugModule,
-              `waitSessionStorage sessionStorage(${sessionItem}) value(${completedFlag}) Elapsed Time(${timeDiff})`
-            )
-          )
-        clearInterval(myInterval)
-        //
-        //  Data ?
-        //
-        const Pg_Qz_Q_All_Cnt = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_All_Cnt'))
-        if (Pg_Qz_Q_All_Cnt === 0) {
-          setForm_message('QuizSelect: No Questions found')
-          if (debugLog) console.log(consoleLogTime(debugModule, 'No Quiz Questions found'))
-          return
-        }
-        //
-        //  Questions found - page change
-        //
-        handlePage(handlePageValue)
-      } else {
-        //
-        //  Waited enough
-        //
-        if (w_try >= dftMaxTry) {
-          if (debugLog)
-            console.log(
-              consoleLogTime(debugModule, `sessionStorage(${sessionItem}) Timed out(${totalWAIT})`)
-            )
-          setForm_message(`Waited too long for data from server`)
-          clearInterval(myInterval)
-        }
-        //
-        //  Update counters
-        //
-        totalWAIT = totalWAIT + dftWait
-        w_try++
-      }
-    }
+    buildQuizData(params)
+    handlePage('Quiz')
   }
   //.............................................................................
   //  Search/Filter
@@ -376,9 +291,7 @@ export default function Library({ handlePage }) {
         //
         //  Nothing to search, return rows
         //
-        if (p_searchValue === '') {
-          return items
-        }
+        if (p_searchValue === '') return items
         //
         //  Numeric
         //
@@ -423,7 +336,6 @@ export default function Library({ handlePage }) {
             break
           default:
         }
-        if (debugLog) console.log(consoleLogTime(debugModule, `itemsFilter`), itemsFilter)
         return itemsFilter
       }
     })
@@ -506,6 +418,7 @@ export default function Library({ handlePage }) {
           {/* .......................................................................................... */}
         </Toolbar>
         {/* .......................................................................................... */}
+
         <TblContainer>
           <TblHead />
           <TableBody>
@@ -518,7 +431,6 @@ export default function Library({ handlePage }) {
                 <TableCell>{row.lrdesc}</TableCell>
                 {ScreenSmall ? null : <TableCell>{row.lrwho}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.lrtype}</TableCell>}
-
                 <TableCell>
                   <MyActionButton
                     startIcon={<PreviewIcon fontSize='small' />}
@@ -543,7 +455,6 @@ export default function Library({ handlePage }) {
           </TableBody>
         </TblContainer>
         <TblPagination />
-
         {/*.................................................................................................*/}
       </Paper>
     </>

@@ -1,155 +1,69 @@
 //
-//  Services
-//
-import rowCrud from './../utilities/rowCrud'
-//
 //  Debug Settings
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
-const debugLog = debugSettings()
-const debugModule = 'BuildHistoryDetail'
+const debugLog = debugSettings(true)
+const debugModule = 'buildHistoryDetail'
+//
+//  Global Variables
+//
+let Pg_Qz_Q_Flt_qid = []
+let Pg_Qz_Bid = []
+let Pg_Qz_Hands = []
 //...................................................................................
 //.  Main Line
 //...................................................................................
-export default function BuildHistoryDetail(row) {
-  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+export default function buildHistoryDetail(row) {
   //
-  //  Load data
+  //  Try
   //
-  LoadServerQuestions()
-  //...................................................................................
-  //.  Load Server - Questions
-  //...................................................................................
-  function LoadServerQuestions() {
+  try {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
     //
     //  Reset the Data
     //
     sessionStorage.setItem('Pg_Qz_CatchMessage', '')
-    sessionStorage.setItem('Pg_Qd_Join_Rcv', false)
-    sessionStorage.setItem('Pg_Qd_Join', [])
-    sessionStorage.setItem('Pg_Qz_Q_All', [])
+    sessionStorage.setItem('Pg_Qz_Q_Flt', [])
     sessionStorage.setItem('Pg_Qz_Bid', [])
     sessionStorage.setItem('Pg_Qz_Hands', [])
     //
-    //  Load Pg_Qd_Join
+    //  Question Data
     //
-    let sqlString = ''
-    sqlString =
-      sqlString +
-      `r_id, r_qid, r_ans, qid, qowner, qseq, qdetail, qans, qpoints, qgroup, hnorth, heast, hsouth, hwest, brounds`
-    sqlString = sqlString + ' from usershistory'
-    sqlString = sqlString + ' FULL OUTER JOIN questions on qid = ANY (r_qid)'
-    sqlString = sqlString + ' FULL OUTER JOIN bidding on bid = qid'
-    sqlString = sqlString + ' FULL OUTER JOIN hands on hid = qid'
-    sqlString = sqlString + ` where r_id = ${row.r_id}`
-    sqlString = sqlString + ' group by'
-    sqlString =
-      sqlString +
-      ' r_id, r_qid, r_ans, qid, qowner, qseq, qdetail, qans, qpoints, qgroup, hnorth, heast, hsouth, hwest, brounds'
+    const User_Q = JSON.parse(sessionStorage.getItem('User_Q'))
     //
-    //  Process promise
+    //  Filter QIDs
     //
-    const rowCrudparams = {
-      axiosMethod: 'post',
-      sqlCaller: debugModule,
-      sqlTable: 'questions',
-      sqlAction: 'SELECTSQL',
-      sqlString: sqlString
+    const p_qid = row.r_qid
+    const Pg_Qz_Q_Flt = User_Q.filter(x => p_qid.includes(x.qid))
+    //
+    //  Question IDs
+    //
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Q_Flt '), Pg_Qz_Q_Flt)
+    Pg_Qz_Q_Flt_qid = []
+    for (let i = 0; i < Pg_Qz_Q_Flt.length; i++) {
+      Pg_Qz_Q_Flt_qid.push(Pg_Qz_Q_Flt[i].qid)
     }
-    const myPromiseQuestions = rowCrud(rowCrudparams)
     //
-    //  Resolve Status
+    //  Load related Bids
     //
-    myPromiseQuestions.then(function (rtnObj) {
-      //
-      //  Catch Error
-      //
-      if (rtnObj.rtnCatch) {
-        const rtnCatchMsg = rtnObj.rtnCatchMsg
-        sessionStorage.setItem('Pg_Qz_CatchMessage', JSON.stringify(rtnCatchMsg))
-        return
-      }
-      //
-      //  No data returned
-      //
-      if (!rtnObj.rtnValue) return
-      //
-      //  Data
-      //
-      const Pg_Qd_Join = rtnObj.rtnRows
-      //
-      //  Session Storage
-      //
-      sessionStorage.setItem('Pg_Qd_Join', JSON.stringify(Pg_Qd_Join))
-      //
-      //  Store separately
-      //
-      let Pg_Qz_Q_All = []
-      let Pg_Qz_Bid = []
-      let Pg_Qz_Hands = []
-
-      Pg_Qd_Join.forEach(row => {
-        const {
-          qid,
-          qowner,
-          qseq,
-          qdetail,
-          qans,
-          qpoints,
-          qgroup,
-          brounds,
-          hnorth,
-          heast,
-          hsouth,
-          hwest
-        } = row
-        //
-        //  Questions
-        //
-        const rowQuestion = {
-          qid: qid,
-          qowner: qowner,
-          qseq: qseq,
-          qdetail: qdetail,
-          qans: qans,
-          qpoints: qpoints,
-          qgroup: qgroup
-        }
-        Pg_Qz_Q_All.push(rowQuestion)
-        //
-        //  Bidding
-        //
-        if (brounds !== null) {
-          const rowBidding = {
-            bid: qid,
-            brounds: brounds
-          }
-          Pg_Qz_Bid.push(rowBidding)
-        }
-        //
-        //  Hands
-        //
-        if (hnorth !== null || heast !== null || hsouth !== null || hwest !== null) {
-          const rowHands = {
-            hid: qid,
-            hnorth: hnorth,
-            heast: heast,
-            hsouth: hsouth,
-            hwest: hwest
-          }
-          Pg_Qz_Hands.push(rowHands)
-        }
-      })
-      //
-      //  Completion
-      //
-      sessionStorage.setItem('Pg_Qz_Q_All', JSON.stringify(Pg_Qz_Q_All))
-      sessionStorage.setItem('Pg_Qz_Bid', JSON.stringify(Pg_Qz_Bid))
-      sessionStorage.setItem('Pg_Qz_Hands', JSON.stringify(Pg_Qz_Hands))
-      sessionStorage.setItem('Pg_Qd_Join_Rcv', true)
-    })
-
-    return
+    const User_Bid = JSON.parse(sessionStorage.getItem('User_Bid'))
+    Pg_Qz_Bid = User_Bid.filter(x => Pg_Qz_Q_Flt_qid.includes(x.bid))
+    sessionStorage.setItem('Pg_Qz_Bid', JSON.stringify(Pg_Qz_Bid))
+    //
+    //  Load related Hands
+    //
+    const User_Hands = JSON.parse(sessionStorage.getItem('User_Hands'))
+    Pg_Qz_Hands = User_Hands.filter(x => Pg_Qz_Q_Flt_qid.includes(x.hid))
+    sessionStorage.setItem('Pg_Qz_Hands', JSON.stringify(Pg_Qz_Hands))
+    //
+    //  Completion
+    //
+    sessionStorage.setItem('Pg_Qz_Q_Flt', JSON.stringify(Pg_Qz_Q_Flt))
+    sessionStorage.setItem('Pg_Qz_Bid', JSON.stringify(Pg_Qz_Bid))
+    sessionStorage.setItem('Pg_Qz_Hands', JSON.stringify(Pg_Qz_Hands))
+  } catch (e) {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Catch'))
+    console.log(e)
   }
 }

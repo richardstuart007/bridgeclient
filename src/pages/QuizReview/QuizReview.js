@@ -80,13 +80,13 @@ export default function QuizReview({ handlePage }) {
     //
     //  Get Store Values
     //
-    const Pg_Qz_Q_All = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_All'))
+    const Pg_Qz_Q_Flt = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_Flt'))
     const Pg_Qz_A = JSON.parse(sessionStorage.getItem('Pg_Qz_A'))
     //
     //  Questions
     //
     let ArrQuestions = []
-    Pg_Qz_Q_All.forEach(row => {
+    Pg_Qz_Q_Flt.forEach(row => {
       const rowData = { ...row }
       ArrQuestions.push(rowData)
     })

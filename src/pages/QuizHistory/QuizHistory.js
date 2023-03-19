@@ -3,16 +3,7 @@
 //
 import { useState, useEffect } from 'react'
 import PeopleOutlineTwoToneIcon from '@mui/icons-material/PeopleOutlineTwoTone'
-import {
-  Paper,
-  TableBody,
-  TableRow,
-  TableCell,
-  Toolbar,
-  InputAdornment,
-  Box,
-  Typography
-} from '@mui/material'
+import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Box } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import SearchIcon from '@mui/icons-material/Search'
 import FilterListIcon from '@mui/icons-material/FilterList'
@@ -33,14 +24,14 @@ import MyActionButton from '../../components/controls/MyActionButton'
 //  Services
 //
 import rowCrud from '../../utilities/rowCrud'
-import BuildQuizData from '../../services/BuildQuizData'
-import BuildHistoryDetail from '../../services/BuildHistoryDetail'
+import buildQuizData from '../../services/buildQuizData'
+import buildHistoryDetail from '../../services/buildHistoryDetail'
 //
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 const debugModule = 'QuizHistory'
 //
 //  Styles
@@ -128,7 +119,6 @@ export default function QuizHistory({ handlePage }) {
   const [startPage0, setStartPage0] = useState(false)
   const [allUsersText, setAllUsersText] = useState('ALL')
   const [subtitle, setSubtitle] = useState('')
-  const [form_message, setForm_message] = useState('')
   //
   //  Small Screen overrides
   //
@@ -267,16 +257,8 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Get data
     //
-    setForm_message('QuizHistory: Building data....wait')
-    BuildHistoryDetail(row)
-    //
-    //  Wait for data
-    //
-    const waitSessionStorageParams = {
-      sessionItem: 'Pg_Qd_Join_Rcv',
-      handlePageValue: 'QuizHistoryDetail'
-    }
-    waitSessionStorage(waitSessionStorageParams, handlePage)
+    buildHistoryDetail(row)
+    handlePage('QuizHistoryDetail')
   }
   //...................................................................................
   //.  Prepare Row before switching to Quiz
@@ -288,83 +270,16 @@ export default function QuizHistory({ handlePage }) {
     sessionStorage.setItem('Pg_Qd_Row', JSON.stringify(row))
     sessionStorage.setItem('Pg_Qz_ogtitle', JSON.stringify(row.ogtitle))
     //
-    //  BuildQuizData
+    //  buildQuizData
     //
-    const SqlString_Q = `* from questions where qowner = '${row.r_owner}' and qgroup = '${row.r_group}'`
     const params = {
-      SqlString_Q: SqlString_Q
+      p_owner: row.r_owner,
+      p_group: row.r_group
     }
-    setForm_message('Quiz: Building data....wait')
-    BuildQuizData(params)
-    //
-    //  Wait for data
-    //
-    const waitSessionStorageParams = {
-      sessionItem: 'Pg_Qz_All_Rcv',
-      handlePageValue: 'Quiz'
-    }
-    waitSessionStorage(waitSessionStorageParams, handlePage)
+    buildQuizData(params)
+    handlePage('Quiz')
   }
-  //--------------------------------------------------------------------
-  //-  Wait
-  //--------------------------------------------------------------------
-  function waitSessionStorage(props, handlePage) {
-    //
-    //  Constants
-    //
-    const { WAIT } = require('../../services/constants')
-    const { WAIT_MAX_TRY } = require('../../services/constants')
-    //
-    //  Deconstruct props
-    //
-    const { sessionItem, dftWait = WAIT, dftMaxTry = WAIT_MAX_TRY, handlePageValue } = props
-    //
-    //  Global
-    //
-    let completedFlag = false
-    let totalWAIT = 0
-    //
-    //  Wait for data
-    //
-    let w_try = 0
-    const myInterval = setInterval(myTimer, dftWait)
-    function myTimer() {
-      //
-      //  Catch Error
-      //
-      const rtnCatchMsgJson = sessionStorage.getItem('Pg_Qz_CatchMessage')
-      if (rtnCatchMsgJson) {
-        const rtnCatchMsg = JSON.parse(rtnCatchMsgJson)
-        setForm_message(rtnCatchMsg)
-        clearInterval(myInterval)
-        return
-      }
-      //
-      //  Data received, end wait
-      //
-      completedFlag = JSON.parse(sessionStorage.getItem(sessionItem))
-      if (completedFlag) {
-        clearInterval(myInterval)
-        //
-        //  Page change
-        //
-        handlePage(handlePageValue)
-      } else {
-        //
-        //  Waited enough
-        //
-        if (w_try >= dftMaxTry) {
-          setForm_message(`Waited too long for data from server`)
-          clearInterval(myInterval)
-        }
-        //
-        //  Update counters
-        //
-        totalWAIT = totalWAIT + dftWait
-        w_try++
-      }
-    }
-  }
+
   //.............................................................................
   //  Search/Filter
   //.............................................................................
@@ -518,10 +433,6 @@ export default function QuizHistory({ handlePage }) {
               className={classes.myButton}
             />
           ) : null}
-          {/*.................................................................................................*/}
-          <Box className={classes.messages}>
-            <Typography style={{ color: 'red' }}>{form_message}</Typography>
-          </Box>
           {/* .......................................................................................... */}
         </Toolbar>
         {/* .......................................................................................... */}

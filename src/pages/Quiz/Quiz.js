@@ -79,10 +79,10 @@ export default function Quiz({ handlePage }) {
     //
     //  Get store data & copy to State
     //
-    const Pg_Qz_Q_AllJSON = sessionStorage.getItem('Pg_Qz_Q_All')
-    const Pg_Qz_Q_All = JSON.parse(Pg_Qz_Q_AllJSON)
+    const Pg_Qz_Q_FltJSON = sessionStorage.getItem('Pg_Qz_Q_Flt')
+    const Pg_Qz_Q_Flt = JSON.parse(Pg_Qz_Q_FltJSON)
     let quest = []
-    Pg_Qz_Q_All.forEach(row => {
+    Pg_Qz_Q_Flt.forEach(row => {
       const rowData = { ...row }
       quest.push(rowData)
     })
