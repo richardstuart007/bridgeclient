@@ -31,7 +31,7 @@ import buildHistoryDetail from '../../services/buildHistoryDetail'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugModule = 'QuizHistory'
 //
 //  Styles
