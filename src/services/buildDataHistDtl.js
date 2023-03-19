@@ -4,7 +4,7 @@
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
 const debugLog = debugSettings()
-const debugModule = 'buildHistoryDetail'
+const debugModule = 'buildDataHistDtl'
 //
 //  Global Variables
 //
@@ -14,7 +14,7 @@ let Pg_Qz_Hands = []
 //...................................................................................
 //.  Main Line
 //...................................................................................
-export default function buildHistoryDetail(row) {
+export default function buildDataHistDtl(row) {
   //
   //  Try
   //

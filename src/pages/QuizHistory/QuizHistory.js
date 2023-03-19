@@ -25,7 +25,7 @@ import MyActionButton from '../../components/controls/MyActionButton'
 //
 import rowCrud from '../../utilities/rowCrud'
 import buildDataQuiz from '../../services/buildDataQuiz'
-import buildHistoryDetail from '../../services/buildHistoryDetail'
+import buildDataHistDtl from '../../services/buildDataHistDtl'
 //
 //  Debug Settings
 //
@@ -257,7 +257,7 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Get data
     //
-    buildHistoryDetail(row)
+    buildDataHistDtl(row)
     handlePage('QuizHistoryDetail')
   }
   //...................................................................................
