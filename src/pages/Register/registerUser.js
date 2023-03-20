@@ -53,12 +53,13 @@ export default async function registerUser(props) {
   //.  fetch data
   //--------------------------------------------------------------------
   async function fetchItems() {
+    let body
     try {
       //
       //  Setup actions
       //
       const method = 'post'
-      let body = {
+      body = {
         sqlClient: sqlClient,
         user: user,
         email: email,
@@ -93,8 +94,18 @@ export default async function registerUser(props) {
       // Errors
       //
     } catch (err) {
-      console.log(err)
-      return []
+      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch err'), err)
+      const rtnObj = {
+        rtnBodyParms: body,
+        rtnValue: false,
+        rtnMessage: '',
+        rtnSqlFunction: debugModule,
+        rtnCatchFunction: debugModule,
+        rtnCatch: true,
+        rtnCatchMsg: 'Catch calling apiAxios',
+        rtnRows: []
+      }
+      return rtnObj
     }
   }
   //--------------------------------------------------------------------

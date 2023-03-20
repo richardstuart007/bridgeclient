@@ -22,19 +22,6 @@ const debugModule = 'Splash'
 // Constants
 //
 const { URL_HELLO } = require('../../services/constants.js')
-//
-//  Object returned by this handler - as per server
-//
-let rtnObj = {
-  rtnValue: false,
-  rtnMessage: '',
-  rtnSqlFunction: debugModule,
-  rtnCatchFunction: '',
-  rtnCatch: false,
-  rtnCatchMsg: '',
-  rtnRows: []
-}
-
 //===================================================================================
 export default function Splash({ handlePage }) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
@@ -106,20 +93,11 @@ export default function Splash({ handlePage }) {
   //--------------------------------------------------------------------
   async function Hello() {
     //
-    //  Initialise Values
-    //
-    rtnObj.rtnValue = false
-    rtnObj.rtnMessage = ''
-    rtnObj.rtnSqlFunction = debugModule
-    rtnObj.rtnCatchFunction = ''
-    rtnObj.rtnCatch = false
-    rtnObj.rtnCatchMsg = ''
-    rtnObj.rtnRows = []
-    //
     //  Get the URL
     //
     const App_URL = JSON.parse(sessionStorage.getItem('App_URL'))
     if (debugLog) console.log(consoleLogTime(debugModule, 'App_URL'), App_URL)
+    let body
     //
     // Fetch the data
     //
@@ -128,7 +106,7 @@ export default function Splash({ handlePage }) {
       //  Setup actions
       //
       const method = 'post'
-      let body = {
+      body = {
         sqlClient: debugModule
       }
       const URL = App_URL + URL_HELLO
@@ -144,13 +122,23 @@ export default function Splash({ handlePage }) {
       //
       //  SQL database
       //
-      rtnObj = await apiAxios(method, URL, body, timeout, info)
+      const rtnObj = await apiAxios(method, URL, body, timeout, info)
       return rtnObj
       //
       // Errors
       //
     } catch (err) {
       if (debugLog) console.log(consoleLogTime(debugModule, 'Catch err'), err)
+      const rtnObj = {
+        rtnBodyParms: body,
+        rtnValue: false,
+        rtnMessage: '',
+        rtnSqlFunction: debugModule,
+        rtnCatchFunction: debugModule,
+        rtnCatch: true,
+        rtnCatchMsg: 'Catch calling apiAxios',
+        rtnRows: []
+      }
       return rtnObj
     }
   }

@@ -16,15 +16,7 @@ const { URL_TABLES } = require('../services/constants.js')
 //
 //  Global Variables
 //
-let rtnObj = {
-  rtnValue: false,
-  rtnMessage: '',
-  rtnSqlFunction: debugModule,
-  rtnCatchFunction: '',
-  rtnCatch: false,
-  rtnCatchMsg: '',
-  rtnRows: []
-}
+let rtnObj = {}
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------
@@ -32,6 +24,7 @@ export default async function rowCrud(props) {
   //
   //  Reset rtnObj
   //
+  rtnObj.rtnBodyParms = ''
   rtnObj.rtnValue = false
   rtnObj.rtnMessage = ''
   rtnObj.rtnSqlFunction = debugModule
@@ -65,6 +58,9 @@ export default async function rowCrud(props) {
     //  Validate the parameters
     //
     const valid = validateProps(sqlAction, sqlString, sqlTable)
+    //
+    //  Invalid
+    //
     if (!valid) {
       console.log(
         consoleLogTime(
@@ -166,11 +162,12 @@ export default async function rowCrud(props) {
     sqlOrderByRaw,
     axiosMethod
   ) {
+    let body
     try {
       //
       //  Body
       //
-      const body = {
+      body = {
         sqlClient: sqlClient,
         sqlTable: sqlTable,
         sqlAction: sqlAction,
@@ -217,8 +214,16 @@ export default async function rowCrud(props) {
     } catch (e) {
       if (debugLog) console.log(consoleLogTime(debugModule, 'Catch'))
       console.log(e)
-      rtnObj.rtnCatch = true
-      rtnObj.rtnCatchMsg = 'rowCrud catch error'
+      const rtnObj = {
+        rtnBodyParms: body,
+        rtnValue: false,
+        rtnMessage: '',
+        rtnSqlFunction: debugModule,
+        rtnCatchFunction: debugModule,
+        rtnCatch: true,
+        rtnCatchMsg: 'Catch calling apiAxios',
+        rtnRows: []
+      }
       return rtnObj
     }
   }

@@ -13,6 +13,7 @@ const debugModule = 'apiAxios'
 //  Returned values
 //
 const rtnObj = {
+  rtnBodyParms: '',
   rtnValue: false,
   rtnMessage: '',
   rtnSqlFunction: '',
@@ -35,6 +36,7 @@ export default async function apiAxios(method, url, data, timeout = 2000, info =
     //
     //  Reset rtnObj
     //
+    rtnObj.rtnBodyParms = data
     rtnObj.rtnValue = false
     rtnObj.rtnMessage = ''
     rtnObj.rtnSqlFunction = debugModule
@@ -82,7 +84,7 @@ export default async function apiAxios(method, url, data, timeout = 2000, info =
     if (response.status < 200 || response.status >= 300)
       throw Error('Did not receive expected data')
     //
-    //  Return rows
+    //  Return Object
     //
     return response.data
     //
