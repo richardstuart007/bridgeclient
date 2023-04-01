@@ -37,7 +37,7 @@ import buildDataQuiz from '../../services/buildDataQuiz'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugModule = 'Library'
 //
 //  Styles
