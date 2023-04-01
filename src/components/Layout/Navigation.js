@@ -53,8 +53,8 @@ export default function Navigation({ handlePage }) {
   //
   //  Show SignOut Button ?
   //
-  let showButton_Signin
-  User_SignedIn ? (showButton_Signin = true) : (showButton_Signin = false)
+  let showButton_Signout
+  User_SignedIn ? (showButton_Signout = true) : (showButton_Signout = false)
   //
   //  Show Settings Button ?
   //
@@ -141,11 +141,15 @@ export default function Navigation({ handlePage }) {
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}
-        {showButton_Signin ? (
+        {showButton_Signout ? (
           <MyActionButton
             startIcon={<LogoutIcon fontSize='small' />}
             color='warning'
-            onClick={() => handlePage('Signin')}
+            onClick={() => {
+              const OwnersString = JSON.parse(sessionStorage.getItem('User_OwnersString'))
+              sessionStorage.setItem('User_OwnersString_Prev', JSON.stringify(OwnersString))
+              handlePage('Signin')
+            }}
             text={buttonTextSignout}
           ></MyActionButton>
         ) : null}

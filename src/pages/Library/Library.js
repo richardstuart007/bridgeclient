@@ -37,7 +37,7 @@ import buildDataQuiz from '../../services/buildDataQuiz'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 const debugModule = 'Library'
 //
 //  Styles
@@ -158,17 +158,22 @@ export default function Library({ handlePage }) {
     //
     //  Session Storage ?
     //
-    const Pg_Lib_Data_JSON = sessionStorage.getItem('Pg_Lib_Data')
-    Pg_Lib_Data_JSON ? getStoreData(Pg_Lib_Data_JSON) : getLibraryData()
+    const OwnersString = JSON.parse(sessionStorage.getItem('User_OwnersString'))
+    const OwnersStringPrevJSON = sessionStorage.getItem('User_OwnersString_Prev')
+
+    let OwnersStringPrev = null
+    if (OwnersStringPrevJSON) OwnersStringPrev = JSON.parse(OwnersStringPrevJSON)
+    OwnersString === OwnersStringPrev ? getStoreData() : getLibraryData()
   }
   //...................................................................................
   //.  Data from store
   //...................................................................................
-  function getStoreData(Pg_Lib_Data_JSON) {
+  function getStoreData() {
     if (debugLog) console.log(consoleLogTime(debugModule, 'getStoreData'))
     //
     //  Update Table
     //
+    const Pg_Lib_Data_JSON = sessionStorage.getItem('Pg_Lib_Data')
     const Pg_Lib_Data = JSON.parse(Pg_Lib_Data_JSON)
     setRecords(Pg_Lib_Data)
     //
