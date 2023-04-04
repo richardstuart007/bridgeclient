@@ -153,7 +153,7 @@ export default function Library({ handlePage }) {
     //
     //  Do not refetch data if already exists
     //
-    if (debugLog) console.log(consoleLogTime(debugModule, 'records'), records)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'records'), [...records])
     if (records.length !== 0) return
     //
     //  Session Storage ?
@@ -161,8 +161,12 @@ export default function Library({ handlePage }) {
     const OwnersString = JSON.parse(sessionStorage.getItem('User_OwnersString'))
     const OwnersStringPrevJSON = sessionStorage.getItem('User_OwnersString_Prev')
 
-    let OwnersStringPrev = null
+    let OwnersStringPrev
     if (OwnersStringPrevJSON) OwnersStringPrev = JSON.parse(OwnersStringPrevJSON)
+    sessionStorage.setItem('User_OwnersString_Prev', JSON.stringify(OwnersString))
+    //
+    //  Change in owners string get from database, else store
+    //
     OwnersString === OwnersStringPrev ? getStoreData() : getLibraryData()
   }
   //...................................................................................
@@ -222,7 +226,7 @@ export default function Library({ handlePage }) {
     //  Resolve Status
     //
     myPromiseGet.then(function (rtnObj) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), { ...rtnObj })
       //
       //  No data returned
       //
@@ -255,7 +259,7 @@ export default function Library({ handlePage }) {
   //.  Prepare Row before switching to Quiz
   //...................................................................................
   function LibraryRow(row) {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'LibraryRow'), row)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'LibraryRow'), ...row)
     //
     //  Store title
     //

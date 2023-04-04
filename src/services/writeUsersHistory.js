@@ -5,16 +5,16 @@ import { format, parseISO } from 'date-fns'
 //
 //  Utilities
 //
-import rowCrud from './../utilities/rowCrud'
+import rowCrud from '../utilities/rowCrud'
 //
 //  Debug Settings
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
 const debugLog = debugSettings()
-const debugModule = 'writeHistory'
+const debugModule = 'writeUsersHistory'
 //===================================================================================
-export default function writeHistory() {
+export default function writeUsersHistory() {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
   //  Answers
@@ -99,7 +99,7 @@ export default function writeHistory() {
     r_totalpoints: r_totalpoints,
     r_correctpercent: r_correctpercent
   }
-  if (debugLog) console.log(consoleLogTime(debugModule, 'sqlRow'), sqlRow)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'sqlRow'), { ...sqlRow })
   //
   //  Add record to storage (if history already exists)
   //
@@ -109,11 +109,9 @@ export default function writeHistory() {
     newQH.r_id = 0
     newQH.ogtitle = Pg_Qz_ogtitle
     newQH.yymmdd = yymmdd
-    if (debugLog) console.log(consoleLogTime(debugModule, 'newQH'), newQH)
 
     Pg_Qh_Data.unshift(newQH)
     sessionStorage.setItem('Pg_Qh_Data', JSON.stringify(Pg_Qh_Data))
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qh_Data'), Pg_Qh_Data)
   }
   //
   //  Build Props
@@ -133,7 +131,7 @@ export default function writeHistory() {
   //  Resolve Status
   //
   myPromiseInsert.then(function (rtnObj) {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), { ...rtnObj })
     //
     //  No data returned
     //
@@ -151,7 +149,6 @@ export default function writeHistory() {
     if (Pg_Qh_Data) {
       Pg_Qh_Data[0].r_id = newRow.r_id
       sessionStorage.setItem('Pg_Qh_Data', JSON.stringify(Pg_Qh_Data))
-      if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qh_Data'), Pg_Qh_Data)
     }
     return
   })

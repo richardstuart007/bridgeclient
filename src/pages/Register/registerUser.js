@@ -13,6 +13,7 @@ const debugModule = 'registerUser'
 // Constants
 //
 const { URL_REGISTER } = require('../../services/constants.js')
+const { DFT_TIMEOUT } = require('../../services/constants.js')
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------
@@ -61,6 +62,7 @@ export default async function registerUser(props) {
       const method = 'post'
       body = {
         sqlClient: sqlClient,
+        sqlTable: 'users',
         user: user,
         email: email,
         password: password,
@@ -80,7 +82,7 @@ export default async function registerUser(props) {
       //
       //  Timeout
       //
-      let timeout = 2000
+      let timeout = DFT_TIMEOUT
       //
       //  Info
       //
@@ -94,7 +96,7 @@ export default async function registerUser(props) {
       // Errors
       //
     } catch (err) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch err'), err)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch err'), { ...err })
       const rtnObj = {
         rtnBodyParms: body,
         rtnValue: false,

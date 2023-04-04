@@ -39,7 +39,6 @@ export default function buildDataHistDtl(row) {
     //
     //  Question IDs
     //
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Q_Flt '), Pg_Qz_Q_Flt)
     Pg_Qz_Q_Flt_qid = []
     for (let i = 0; i < Pg_Qz_Q_Flt.length; i++) {
       Pg_Qz_Q_Flt_qid.push(Pg_Qz_Q_Flt[i].qid)

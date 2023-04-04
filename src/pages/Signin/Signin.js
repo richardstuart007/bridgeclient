@@ -33,7 +33,7 @@ const initialFValues = {
 //
 const { URL_SIGNIN } = require('../../services/constants.js')
 const { DFT_USER_OWNER } = require('../../services/constants.js')
-
+const { DFT_TIMEOUT } = require('../../services/constants.js')
 //...................................................................................
 //.  Main Line
 //...................................................................................
@@ -163,6 +163,7 @@ export default function Signin({ handlePage }) {
       const method = 'post'
       body = {
         sqlClient: debugModule,
+        sqlTable: 'users',
         user: user,
         password: password
       }
@@ -171,7 +172,7 @@ export default function Signin({ handlePage }) {
       //
       //  Timeout
       //
-      let timeout = 2000
+      let timeout = DFT_TIMEOUT
       //
       //  Info
       //
@@ -185,7 +186,7 @@ export default function Signin({ handlePage }) {
       // Errors
       //
     } catch (err) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch err'), err)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch err'), { ...err })
       const rtnObj = {
         rtnBodyParms: body,
         rtnValue: false,

@@ -112,7 +112,6 @@ export default function buildDataQuiz(props) {
     //
     //  Question IDs
     //
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Q_Flt '), Pg_Qz_Q_Flt)
     Pg_Qz_Q_Flt_qid = []
     for (let i = 0; i < Pg_Qz_Q_Flt.length; i++) {
       Pg_Qz_Q_Flt_qid.push(Pg_Qz_Q_Flt[i].qid)
@@ -121,7 +120,6 @@ export default function buildDataQuiz(props) {
     //  Order by question id
     //
     Pg_Qz_Q_Flt_qid.sort()
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qz_Q_Flt_qid '), Pg_Qz_Q_Flt_qid)
     //
     //  Session Storage
     //

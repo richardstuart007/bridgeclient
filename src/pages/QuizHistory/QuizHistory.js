@@ -172,7 +172,7 @@ export default function QuizHistory({ handlePage }) {
     //  Restore saved search values & search
     //
     const selection = JSON.parse(sessionStorage.getItem('Pg_Qh_Selection'))
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qh_Selection'), selection)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qh_Selection'), { ...selection })
     if (selection) {
       const searchType = selection.searchType
       const searchValue = selection.searchValue
@@ -210,7 +210,7 @@ export default function QuizHistory({ handlePage }) {
     //  Resolve Status
     //
     myPromiseGet.then(function (rtnObj) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), { ...rtnObj })
       //
       //  No data returned
       //
@@ -230,7 +230,6 @@ export default function QuizHistory({ handlePage }) {
       //  Session Storage
       //
       sessionStorage.setItem('Pg_Qh_Data', JSON.stringify(Pg_Qh_Data_Update))
-      if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qh_Data'), Pg_Qh_Data_Update)
       //
       //  Update Table
       //

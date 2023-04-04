@@ -7,6 +7,7 @@ import { Paper, Grid, Typography } from '@mui/material'
 //  Utilities
 //
 import apiAxios from '../../utilities/apiAxios'
+import writeSession from '../../services/writeSession'
 //
 //  Controls
 //
@@ -65,7 +66,7 @@ export default function Splash({ handlePage }) {
     //-----------------
     const myPromiseHelloServer = Hello()
     myPromiseHelloServer.then(function (rtnObj) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), { ...rtnObj })
       //
       //  Error
       //
@@ -107,14 +108,15 @@ export default function Splash({ handlePage }) {
       //
       const method = 'post'
       body = {
-        sqlClient: debugModule
+        sqlClient: debugModule,
+        sqlTable: 'session'
       }
       const URL = App_URL + URL_HELLO
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
       //
       //  Timeout
       //
-      let timeout = 2000
+      let timeout = 500
       //
       //  Info
       //
@@ -210,7 +212,10 @@ export default function Splash({ handlePage }) {
                 type='submit'
                 text='Register/Signin'
                 value='Submit'
-                onClick={() => handlePage('Signin')}
+                onClick={() => {
+                  writeSession()
+                  handlePage('Signin')
+                }}
               />
             </Grid>
           ) : null}

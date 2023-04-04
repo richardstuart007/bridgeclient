@@ -12,7 +12,7 @@ import Control from '../pages/Control'
 //
 //  Utilities
 //
-import writeHistory from '../services/writeHistory'
+import writeUsersHistory from '../services/writeUsersHistory'
 //
 //  Common Components
 //
@@ -303,7 +303,7 @@ export default function App() {
     //  Quiz End, write history
     //
     if (PageCurrent === 'Quiz') {
-      writeHistory()
+      writeUsersHistory()
     }
     //
     //  Change of Page

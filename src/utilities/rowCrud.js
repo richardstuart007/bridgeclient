@@ -13,6 +13,7 @@ const debugModule = 'rowCrud'
 // Constants
 //
 const { URL_TABLES } = require('../services/constants.js')
+const { DFT_TIMEOUT } = require('../services/constants.js')
 //
 //  Global Variables
 //
@@ -50,9 +51,10 @@ export default async function rowCrud(props) {
       sqlRow,
       sqlKeyName,
       sqlOrderBy,
-      sqlOrderByRaw
+      sqlOrderByRaw,
+      timeout = DFT_TIMEOUT
     } = props
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Props'), props)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Props'), { ...props })
     const sqlClient = `${debugModule}/${sqlCaller}`
     //
     //  Validate the parameters
@@ -83,13 +85,13 @@ export default async function rowCrud(props) {
       sqlKeyName,
       sqlOrderBy,
       sqlOrderByRaw,
-      axiosMethod
+      axiosMethod,
+      timeout
     )
     //
     //  Return value from Server
     //
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Server Object '), rtnObjServer)
-    if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObjServer'), rtnObjServer)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObjServer'), { ...rtnObjServer })
     return rtnObjServer
     //
     //  Catch Errors
@@ -99,7 +101,7 @@ export default async function rowCrud(props) {
     console.log(e)
     rtnObj.rtnCatch = true
     rtnObj.rtnCatchMsg = 'rowCrud catch error'
-    if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), rtnObj)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), { ...rtnObj })
     return rtnObj
   }
   //--------------------------------------------------------------------
@@ -160,7 +162,8 @@ export default async function rowCrud(props) {
     sqlKeyName,
     sqlOrderBy,
     sqlOrderByRaw,
-    axiosMethod
+    axiosMethod,
+    timeout
   ) {
     let body
     try {
@@ -195,10 +198,6 @@ export default async function rowCrud(props) {
           )
         )
       //
-      //  Timeout
-      //
-      let timeout = 2000
-      //
       //  Info
       //
       const info = `sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable})`
@@ -206,7 +205,7 @@ export default async function rowCrud(props) {
       //  SQL database
       //
       const rtnObjServer = await apiAxios(axiosMethod, URL, body, timeout, info)
-      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObjServer'), rtnObjServer)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObjServer'), { ...rtnObjServer })
       return rtnObjServer
       //
       // Errors

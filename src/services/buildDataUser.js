@@ -2,6 +2,7 @@
 //  Services
 //
 import rowCrud from '../utilities/rowCrud'
+import writeUsersSessions from '../services/writeUsersSessions'
 //
 //  Debug Settings
 //
@@ -17,6 +18,7 @@ let User_Qid = []
 let User_QidString = ''
 let User_Bid = []
 let User_Hands = []
+const { DFT_TIMEOUT } = require('../services/constants.js')
 //...................................................................................
 //.  Main Line
 //...................................................................................
@@ -26,6 +28,10 @@ export default function buildDataUser() {
   //
   try {
     if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+    //
+    //  Allocate a new session
+    //
+    writeUsersSessions()
     //
     //  Reset the Data
     //
@@ -158,7 +164,7 @@ export default function buildDataUser() {
     //  Resolve Status
     //
     myPromiseBidding.then(function (rtnObj) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj '), rtnObj)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj '), { ...rtnObj })
       //
       //  Catch Error
       //
@@ -173,11 +179,12 @@ export default function buildDataUser() {
       //  Data
       //
       User_Bid = rtnObj.rtnRows
+      if (debugLog) console.log(consoleLogTime(debugModule, 'User_Bid '), [...User_Bid])
       User_Bid.sort()
       //
       //  Session Storage
       //
-      if (debugLog) console.log(consoleLogTime(debugModule, 'User_Bid ', User_Bid))
+      if (debugLog) console.log(consoleLogTime(debugModule, 'User_Bid '), [...User_Bid])
       sessionStorage.setItem('User_Bid', JSON.stringify(User_Bid))
       return
     })
@@ -201,14 +208,15 @@ export default function buildDataUser() {
       sqlCaller: debugModule,
       sqlTable: 'hands',
       sqlAction: 'SELECTSQL',
-      sqlString: sqlString
+      sqlString: sqlString,
+      timeout: DFT_TIMEOUT
     }
     const myPromiseHands = rowCrud(rowCrudparams)
     //
     //  Resolve Status
     //
     myPromiseHands.then(function (rtnObj) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj '), rtnObj)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj '), { ...rtnObj })
       //
       //  Catch Error
       //
@@ -223,11 +231,12 @@ export default function buildDataUser() {
       //  Data
       //
       User_Hands = rtnObj.rtnRows
+      if (debugLog) console.log(consoleLogTime(debugModule, 'User_Hands '), [...User_Hands])
       User_Hands.sort()
       //
       //  Session Storage
       //
-      if (debugLog) console.log(consoleLogTime(debugModule, 'User_Hands ', User_Hands))
+      if (debugLog) console.log(consoleLogTime(debugModule, 'User_Hands '), [...User_Hands])
       sessionStorage.setItem('User_Hands', JSON.stringify(User_Hands))
       return
     })
