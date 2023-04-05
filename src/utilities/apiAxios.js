@@ -49,7 +49,7 @@ export default async function apiAxios(
   // apiRetry
   //--------------------------------------------------------------------------------------------
   async function apiRetry(asyncFunction, n) {
-    let lastError
+    let last_apiRetryRtn
     for (let index = 1; index < n + 1; index++) {
       try {
         const timeoutAlt = timeout + (index - 1) * DFT_TIMEOUT_EXTRA
@@ -64,11 +64,18 @@ export default async function apiAxios(
         //  No catch then return
         //
         if (!apiRetryRtn.rtnCatch) return apiRetryRtn
-      } catch (e) {
-        lastError = e
+        //
+        //  Update last return value
+        //
+        last_apiRetryRtn = apiRetryRtn
+      } catch (error) {
+        console.log(consoleLogTime(debugModule, 'CATCH Error'), { ...error })
       }
     }
-    throw lastError
+    //
+    //  Return last error
+    //
+    return last_apiRetryRtn
   }
   //--------------------------------------------------------------------------------------------
   // Try request

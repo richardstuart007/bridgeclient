@@ -109,7 +109,7 @@ export default function Splash({ handlePage }) {
       const method = 'post'
       body = {
         sqlClient: debugModule,
-        sqlTable: 'session'
+        sqlTable: 'dbstats'
       }
       const URL = App_URL + URL_HELLO
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
@@ -130,7 +130,7 @@ export default function Splash({ handlePage }) {
       // Errors
       //
     } catch (err) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch err'), err)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch err'), { ...err })
       const rtnObj = {
         rtnBodyParms: body,
         rtnValue: false,
