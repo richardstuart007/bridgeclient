@@ -37,6 +37,12 @@ import buildDataQuiz from '../../services/buildDataQuiz'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
+//...........................................................................
+// Global CONSTANTS
+//...........................................................................
+//
+//  Debug Settings
+//
 const debugLog = debugSettings()
 const debugModule = 'Library'
 //
@@ -100,11 +106,14 @@ const searchTypeOptionsLarge = [
   { id: 'lrtype', title: 'Type' }
 ]
 const searchTypeOptionsSmall = [{ id: 'lrdesc', title: 'Description' }]
-//...................................................................................
-//.  Main Line
-//...................................................................................
+//============================================================================
+//= Exported Module
+//============================================================================
 export default function Library({ handlePage }) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //...........................................................................
+  // Module STATE
+  //...........................................................................
   //
   //  Styles
   //
@@ -122,6 +131,9 @@ export default function Library({ handlePage }) {
   const [searchValue, setSearchValue] = useState('')
   const [startPage0, setStartPage0] = useState(false)
   const [form_message, setForm_message] = useState('')
+  //...........................................................................
+  // Module Main Line
+  //...........................................................................
   //
   //  Small Screen overrides
   //
@@ -146,7 +158,7 @@ export default function Library({ handlePage }) {
     // eslint-disable-next-line
   }, [])
   //.............................................................................
-  //.  GET ALL
+  //.  Load data from sessionStorage or Database
   //.............................................................................
   function loadData() {
     if (debugLog) console.log(consoleLogTime(debugModule, 'loadData'))

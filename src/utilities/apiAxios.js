@@ -155,11 +155,13 @@ export default async function apiAxios(
       //
       //  Update store - Return
       //
-      StoreRes(response.data)
+      const apiAxiosObj = Object.assign(response.data)
+      apiAxiosObj.durationInMs = response.durationInMs
+      StoreRes(apiAxiosObj)
       //
       //  Return Object
       //
-      return response.data
+      return apiAxiosObj
       //
       //  Catch Error
       //
@@ -167,7 +169,7 @@ export default async function apiAxios(
       //
       //  Returned values
       //
-      const rtnObj = {
+      const apiAxiosObj = {
         rtnBodyParms: '',
         rtnValue: false,
         rtnMessage: error.message,
@@ -180,27 +182,26 @@ export default async function apiAxios(
       //
       //  Update body parms
       //
-      rtnObj.rtnBodyParms = JSON.parse(error.config.data)
+      apiAxiosObj.rtnBodyParms = JSON.parse(error.config.data)
       //
       //  No response
       //
       if (!error.response) {
         error.request
-          ? (rtnObj.rtnCatchMsg = 'No response from Server')
-          : (rtnObj.rtnCatchMsg = 'Request setup error')
+          ? (apiAxiosObj.rtnCatchMsg = 'No response from Server')
+          : (apiAxiosObj.rtnCatchMsg = 'Request setup error')
       }
       //
       //  Error logging - All
       //
-      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch - Message'), error.message)
-      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch - error'), error)
-      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch - rtnObj'), rtnObj)
+      console.log(consoleLogTime(debugModule, 'Catch - error'), { ...error })
       console.log(consoleLogTime(debugModule, `<--Timing-> ${error.durationInMs} ${info} ERROR`))
       //
       //  Update store
       //
-      StoreRes(rtnObj)
-      return rtnObj
+      apiAxiosObj.durationInMs = error.durationInMs
+      StoreRes(apiAxiosObj)
+      return apiAxiosObj
     }
   }
   //--------------------------------------------------------------------------------------------
@@ -247,8 +248,8 @@ export default async function apiAxios(
   //--------------------------------------------------------------------------------------------
   // Store the Return values
   //--------------------------------------------------------------------------------------------
-  function StoreRes(rtnObj) {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), { ...rtnObj })
+  function StoreRes(apiAxiosObj) {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'apiAxiosObj'), { ...apiAxiosObj })
     //
     //  Get the store
     //
@@ -260,15 +261,15 @@ export default async function apiAxios(
     //  Populate the store object
     //
     const objRes = {
-      Sess: rtnObj.rtnBodyParms.Sess,
-      AxId: rtnObj.rtnBodyParms.AxId,
-      AxTry: rtnObj.rtnBodyParms.AxTry,
-      rtnValue: rtnObj.rtnValue,
-      AxTimeout: rtnObj.rtnBodyParms.AxTimeout,
-      sqlTable: rtnObj.rtnBodyParms.sqlTable,
-      sqlClient: rtnObj.rtnBodyParms.sqlClient,
-      rtnMessage: rtnObj.rtnMessage,
-      rtnObj: rtnObj
+      Sess: apiAxiosObj.rtnBodyParms.Sess,
+      AxId: apiAxiosObj.rtnBodyParms.AxId,
+      AxTry: apiAxiosObj.rtnBodyParms.AxTry,
+      rtnValue: apiAxiosObj.rtnValue,
+      AxTimeout: apiAxiosObj.rtnBodyParms.AxTimeout,
+      sqlTable: apiAxiosObj.rtnBodyParms.sqlTable,
+      sqlClient: apiAxiosObj.rtnBodyParms.sqlClient,
+      rtnMessage: apiAxiosObj.rtnMessage,
+      apiAxiosObj: apiAxiosObj
     }
     if (debugLog) console.log(consoleLogTime(debugModule, 'objRes'), { ...objRes })
     //

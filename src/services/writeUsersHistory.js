@@ -121,7 +121,8 @@ export default function writeUsersHistory() {
     axiosMethod: 'post',
     sqlAction: 'INSERT',
     sqlTable: 'usershistory',
-    sqlRow: sqlRow
+    sqlRow: sqlRow,
+    timeout: 1500
   }
   //
   //  Process promise

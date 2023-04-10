@@ -22,6 +22,12 @@ import Layout from '../components/Layout/Layout'
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
+//...........................................................................
+// Global CONSTANTS
+//...........................................................................
+//
+//  Debug Settings
+//
 const debugLog = debugSettings()
 const debugModule = 'App'
 //
@@ -33,19 +39,23 @@ const theme = createTheme({})
 //
 const { PAGESTART } = require('../services/constants.js')
 const { PAGESTARTAPP } = require('../services/constants.js')
-//
-// Global
-//
+//...........................................................................
+// Global VARIABLES
+//...........................................................................
 let g_firstTimeFlag = true
-let w_server_database
-let w_node_env
-let w_Database = 'Error'
-let w_Server = 'Error'
-let w_URL = 'Error'
-//----------------------------------------------------------------------------
-//- Main Line
-//----------------------------------------------------------------------------
+let g_server_database
+let g_node_env
+let g_Database = 'Error'
+let g_Server = 'Error'
+let g_URL = 'Error'
+//============================================================================
+//= Exported Module
+//============================================================================
 export default function App() {
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //...........................................................................
+  // Module STATE
+  //...........................................................................
   const [pageCurrent, setPageCurrent] = useState(PAGESTARTAPP)
   //
   //  Screen Width
@@ -53,11 +63,13 @@ export default function App() {
   const ScreenMedium = useMediaQuery(theme.breakpoints.up('sm'))
   const ScreenSmall = !ScreenMedium
   sessionStorage.setItem('App_ScreenSmall', ScreenSmall)
+  //...........................................................................
+  // Module Main Line
+  //...........................................................................
   //
   //  Try
   //
   try {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
     //
     //  First Time Setup
     //
@@ -77,9 +89,9 @@ export default function App() {
     //
     //  Environment variables
     //
-    w_server_database = process.env.REACT_APP_SERVER_DATABASE
-    w_server_database = w_server_database.trim()
-    w_node_env = process.env.NODE_ENV
+    g_server_database = process.env.REACT_APP_SERVER_DATABASE
+    g_server_database = g_server_database.trim()
+    g_node_env = process.env.NODE_ENV
     //
     //  Server & Database
     //
@@ -93,7 +105,7 @@ export default function App() {
   //.  Local Port Overridden - Update Constants
   //.............................................................................
   function Set_ServerDatabase() {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'w_server_database'), w_server_database)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'g_server_database'), g_server_database)
     //------------------------------------------------------------------------
     //  Remote - Client/Server/Database (Production)
     //------------------------------------------------------------------------
@@ -160,99 +172,99 @@ export default function App() {
     const { DATABASE7 } = require('../services/constants.js')
     const { SERVERURL17 } = require('../services/constants.js')
     //------------------------------------------------------------------------
-    switch (w_server_database) {
+    switch (g_server_database) {
       //------------------------------------------------------
       //  Client(Local/Remote) --> Remote Server 1 --> Remote Database 1
       //------------------------------------------------------
       case '01':
-        w_Server = SERVER01
-        w_Database = DATABASE01
-        w_URL = SERVERURL01
+        g_Server = SERVER01
+        g_Database = DATABASE01
+        g_URL = SERVERURL01
         break
       //------------------------------------------------------
       //  Client(Local/Remote) --> Remote Server 2 --> Remote Database 2
       //------------------------------------------------------
       case '02':
-        w_Server = SERVER02
-        w_Database = DATABASE02
-        w_URL = SERVERURL02
+        g_Server = SERVER02
+        g_Database = DATABASE02
+        g_URL = SERVERURL02
         break
       //------------------------------------------------------
       //  Client(Local/Remote) --> Remote Server 3 --> Remote Database 3
       //------------------------------------------------------
       case '03':
-        w_Server = SERVER03
-        w_Database = DATABASE03
-        w_URL = SERVERURL03
+        g_Server = SERVER03
+        g_Database = DATABASE03
+        g_URL = SERVERURL03
         break
       //------------------------------------------------------
       //  Client(Local/Remote) --> Remote Server 4 --> Remote Database 4
       //------------------------------------------------------
       case '04':
-        w_Server = SERVER04
-        w_Database = DATABASE04
-        w_URL = SERVERURL04
+        g_Server = SERVER04
+        g_Database = DATABASE04
+        g_URL = SERVERURL04
         break
       //------------------------------------------------------
       //  Local Client --> Local Server 1 --> Remote Database 1
       //------------------------------------------------------
       case '11':
-        w_Server = SERVER11
-        w_Database = DATABASE01
-        w_URL = SERVERURL11
+        g_Server = SERVER11
+        g_Database = DATABASE01
+        g_URL = SERVERURL11
         break
       //------------------------------------------------------
       //  Local Client --> Local Server 2 --> Remote Database 2
       //------------------------------------------------------
       case '12':
-        w_Server = SERVER12
-        w_Database = DATABASE02
-        w_URL = SERVERURL12
+        g_Server = SERVER12
+        g_Database = DATABASE02
+        g_URL = SERVERURL12
         break
       //------------------------------------------------------
       //  Local Client --> Local Server 3 --> Remote Database 3
       //------------------------------------------------------
       case '13':
-        w_Server = SERVER13
-        w_Database = DATABASE03
-        w_URL = SERVERURL13
+        g_Server = SERVER13
+        g_Database = DATABASE03
+        g_URL = SERVERURL13
         break
       //------------------------------------------------------
       //  Local Client --> Local Server 4 --> Remote Database 4
       //------------------------------------------------------
       case '14':
-        w_Server = SERVER14
-        w_Database = DATABASE04
-        w_URL = SERVERURL14
+        g_Server = SERVER14
+        g_Database = DATABASE04
+        g_URL = SERVERURL14
         break
       //------------------------------------------------------
       //  Local Client --> Local Server --> Local Database 6
       //------------------------------------------------------
       case '16':
-        w_Server = SERVER16
-        w_Database = DATABASE6
-        w_URL = SERVERURL16
+        g_Server = SERVER16
+        g_Database = DATABASE6
+        g_URL = SERVERURL16
         break
       //------------------------------------------------------
       //  Local Client --> Local Server --> Local Database 7
       //------------------------------------------------------
       case '17':
-        w_Server = SERVER17
-        w_Database = DATABASE7
-        w_URL = SERVERURL17
+        g_Server = SERVER17
+        g_Database = DATABASE7
+        g_URL = SERVERURL17
         break
       //------------------------------------------------------
       //  Error
       //------------------------------------------------------
       default:
-        w_Server = 'Error'
-        w_Database = 'Error'
-        w_URL = 'Error'
+        g_Server = 'Error'
+        g_Database = 'Error'
+        g_URL = 'Error'
         break
     }
-    if (debugLog) console.log(consoleLogTime(debugModule, 'w_Server'), w_Server)
-    if (debugLog) console.log(consoleLogTime(debugModule, 'w_Database'), w_Database)
-    if (debugLog) console.log(consoleLogTime(debugModule, 'w_URL'), w_URL)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'g_Server'), g_Server)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'g_Database'), g_Database)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'g_URL'), g_URL)
   }
   //.............................................................................
   //.  Initialise Storage
@@ -261,11 +273,11 @@ export default function App() {
     //
     //  Store Server, Database, URL
     //
-    sessionStorage.setItem('App_Server_Database', JSON.stringify(w_server_database))
-    sessionStorage.setItem('App_Node_Env', JSON.stringify(w_node_env))
-    sessionStorage.setItem('App_Server', JSON.stringify(w_Server))
-    sessionStorage.setItem('App_Database', JSON.stringify(w_Database))
-    sessionStorage.setItem('App_URL', JSON.stringify(w_URL))
+    sessionStorage.setItem('App_Server_Database', JSON.stringify(g_server_database))
+    sessionStorage.setItem('App_Node_Env', JSON.stringify(g_node_env))
+    sessionStorage.setItem('App_Server', JSON.stringify(g_Server))
+    sessionStorage.setItem('App_Database', JSON.stringify(g_Database))
+    sessionStorage.setItem('App_URL', JSON.stringify(g_URL))
     //
     //  Navigation
     //
@@ -334,7 +346,9 @@ export default function App() {
     //
     setPageCurrent(PageNext)
   }
-  //.............................................................................
+  //...................................................................................
+  //.  Render the component
+  //...................................................................................
   return (
     <div>
       <StyledEngineProvider injectFirst>

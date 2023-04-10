@@ -19,6 +19,12 @@ import MyActionButton from '../controls/MyActionButton'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
+//...........................................................................
+// Global CONSTANTS
+//...........................................................................
+//
+//  Debug Settings
+//
 const debugLog = debugSettings()
 const debugModule = 'Navigation'
 //
@@ -31,70 +37,86 @@ const useStyles = makeStyles(theme => {
     }
   }
 })
-//===================================================================================
+//============================================================================
+//= Exported Module
+//============================================================================
 export default function Navigation({ handlePage }) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //...........................................................................
+  // Module STATE
+  //...........................................................................
   const classes = useStyles()
-  //
-  //  Define
-  //
-  const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
-  const User_SignedIn = JSON.parse(sessionStorage.getItem('User_SignedIn'))
-  //
-  //  Screen Width
-  //
-  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_ScreenSmall'))
+  let showButton_Library
   let buttonTextSignout = 'Signout'
   let buttonTextSettings = 'Settings'
-  if (ScreenSmall) {
-    buttonTextSignout = null
-    buttonTextSettings = null
-  }
-  //
-  //  Show SignOut Button ?
-  //
-  let showButton_Signout
-  User_SignedIn ? (showButton_Signout = true) : (showButton_Signout = false)
-  //
-  //  Show Settings Button ?
-  //
   let showButton_UsersSettings
-  User_SignedIn && (PageCurrent === 'QuizHistory' || PageCurrent === 'Library')
-    ? (showButton_UsersSettings = true)
-    : (showButton_UsersSettings = false)
-  //
-  //  Show History Button ?
-  //
   let showButton_QuizHistory
-  User_SignedIn &&
-  PageCurrent !== 'QuizHistory' &&
-  PageCurrent !== 'QuizHistoryDetail' &&
-  PageCurrent !== 'UsersSettings' &&
-  PageCurrent !== 'Quiz'
-    ? (showButton_QuizHistory = true)
-    : (showButton_QuizHistory = false)
-  //
-  //  Show Library Button ?
-  //
-  let showButton_Library
-  User_SignedIn &&
-  PageCurrent !== 'Library' &&
-  PageCurrent !== 'Quiz' &&
-  PageCurrent !== 'UsersSettings'
-    ? (showButton_Library = true)
-    : (showButton_Library = false)
-  //
-  //  Show SwitchUser Button ?
-  //
   let User_Admin = false
-  if (User_SignedIn) {
-    const User_User = JSON.parse(sessionStorage.getItem('User_User'))
-    User_Admin = User_User.u_admin
-  }
   let showButton_SwitchUser
-  User_SignedIn && !ScreenSmall && User_Admin
-    ? (showButton_SwitchUser = true)
-    : (showButton_SwitchUser = false)
+  let showButton_Signout
+  //...........................................................................
+  // Module Main Line
+  //...........................................................................
+  //
+  //  Try
+  //
+  try {
+    //
+    //  Get State
+    //
+    const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
+    const User_SignedIn = JSON.parse(sessionStorage.getItem('User_SignedIn'))
+    //
+    //  Small screen
+    //
+    const ScreenSmall = JSON.parse(sessionStorage.getItem('App_ScreenSmall'))
+    if (ScreenSmall) {
+      buttonTextSignout = null
+      buttonTextSettings = null
+    }
+    //
+    //  Show SignOut Button ?
+    //
+    User_SignedIn ? (showButton_Signout = true) : (showButton_Signout = false)
+    //
+    //  Show Settings Button ?
+    //
+    User_SignedIn && (PageCurrent === 'QuizHistory' || PageCurrent === 'Library')
+      ? (showButton_UsersSettings = true)
+      : (showButton_UsersSettings = false)
+    //
+    //  Show History Button ?
+    //
+    User_SignedIn &&
+    PageCurrent !== 'QuizHistory' &&
+    PageCurrent !== 'QuizHistoryDetail' &&
+    PageCurrent !== 'UsersSettings' &&
+    PageCurrent !== 'Quiz'
+      ? (showButton_QuizHistory = true)
+      : (showButton_QuizHistory = false)
+    //
+    //  Show Library Button ?
+    //
+    User_SignedIn &&
+    PageCurrent !== 'Library' &&
+    PageCurrent !== 'Quiz' &&
+    PageCurrent !== 'UsersSettings'
+      ? (showButton_Library = true)
+      : (showButton_Library = false)
+    //
+    //  Show SwitchUser Button ?
+    //
+    if (User_SignedIn) {
+      const User_User = JSON.parse(sessionStorage.getItem('User_User'))
+      User_Admin = User_User.u_admin
+    }
+    User_SignedIn && !ScreenSmall && User_Admin
+      ? (showButton_SwitchUser = true)
+      : (showButton_SwitchUser = false)
+  } catch (e) {
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Catch'))
+    console.log(e)
+  }
   //...................................................................................
   //.  Render the component
   //...................................................................................

@@ -17,6 +17,12 @@ import Ukraine from '../../assets/images/Ukraine.svg'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
+//...........................................................................
+// Global CONSTANTS
+//...........................................................................
+//
+//  Debug Settings
+//
 const debugLog = debugSettings()
 const debugModule = 'Layout'
 //
@@ -51,9 +57,14 @@ const useStyles = makeStyles(theme => {
     }
   }
 })
-//===================================================================================
+//============================================================================
+//= Exported Module
+//============================================================================
 export default function Layout({ handlePage, children }) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //...........................................................................
+  // Module STATE
+  //...........................................................................
   //
   //  Style overrides
   //
@@ -63,12 +74,17 @@ export default function Layout({ handlePage, children }) {
   //
   const ScreenSmall = JSON.parse(sessionStorage.getItem('App_ScreenSmall'))
   //
-  //  Title
+  //  Current Page
   //
   const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
-  let title
   if (debugLog) console.log(consoleLogTime(debugModule, 'PageCurrent'), PageCurrent)
-
+  //...........................................................................
+  // Module Main Line
+  //...........................................................................
+  //
+  //  Title
+  //
+  let title
   switch (PageCurrent) {
     case 'UsersSettings':
       title = 'Settings'

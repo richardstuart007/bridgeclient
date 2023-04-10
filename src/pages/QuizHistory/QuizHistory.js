@@ -31,7 +31,13 @@ import buildDataHistDtl from '../../services/buildDataHistDtl'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+//...........................................................................
+// Global CONSTANTS
+//...........................................................................
+//
+//  Debug Settings
+//
+const debugLog = debugSettings(true)
 const debugModule = 'QuizHistory'
 //
 //  Styles
@@ -71,6 +77,7 @@ const headCellsLarge = [
   { id: 'r_id', label: 'ID' },
   { id: 'yymmdd', label: 'Date' },
   { id: 'r_uid', label: 'User Id' },
+  { id: 'u_name', label: 'User Name' },
   { id: 'r_owner', label: 'Owner' },
   { id: 'ogtitle', label: 'Group' },
   { id: 'r_questions', label: 'Questions' },
@@ -92,15 +99,18 @@ const searchTypeOptionsLarge = [
   { id: 'ogtitle', title: 'Group' }
 ]
 const searchTypeOptionsSmall = [{ id: 'ogtitle', title: 'Group' }]
-//
+//...........................................................................
 //  Global Variables
-//
+//...........................................................................
 let g_allUsers = false
 let g_allUsersText = 'ALL'
-//...................................................................................
-//.  Main Line
-//...................................................................................
+//============================================================================
+//= Exported Module
+//============================================================================
 export default function QuizHistory({ handlePage }) {
+  //...........................................................................
+  // Module STATE
+  //...........................................................................
   //
   //  Styles
   //
@@ -119,6 +129,9 @@ export default function QuizHistory({ handlePage }) {
   const [startPage0, setStartPage0] = useState(false)
   const [allUsersText, setAllUsersText] = useState('ALL')
   const [subtitle, setSubtitle] = useState('')
+  //...........................................................................
+  // Module Main Line
+  //...........................................................................
   //
   //  Small Screen overrides
   //
@@ -192,7 +205,9 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Selection
     //
-    let sqlString = `r_id, r_uid, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_totalpoints, r_maxpoints, r_correctpercent from usershistory join ownergroup on r_owner = ogowner and r_group = oggroup`
+    let sqlString = `r_id, r_uid, u_name, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_totalpoints, r_maxpoints, r_correctpercent from usershistory`
+    sqlString = sqlString + ` join ownergroup on r_owner = ogowner and r_group = oggroup`
+    sqlString = sqlString + ` join users on r_uid = u_id`
     sqlString = sqlString + ` order by r_id desc`
     if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString'), sqlString)
     //
@@ -443,6 +458,7 @@ export default function QuizHistory({ handlePage }) {
                 {ScreenSmall ? null : <TableCell>{row.r_id}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.yymmdd}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.r_uid}</TableCell>}
+                {ScreenSmall ? null : <TableCell>{row.u_name}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.r_owner}</TableCell>}
                 <TableCell>{row.ogtitle}</TableCell>
                 {ScreenSmall ? null : <TableCell>{row.r_questions}</TableCell>}

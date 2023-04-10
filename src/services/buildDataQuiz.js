@@ -1,8 +1,4 @@
 //
-//  Services
-//
-import randomSort from '../utilities/randomSort'
-//
 //  Debug Settings
 //
 import debugSettings from '../debug/debugSettings'
@@ -99,7 +95,9 @@ export default function buildDataQuiz(props) {
     //  Random sort questions
     //
     const SortQuestions = User_User.u_sortquestions
-    SortQuestions ? (Pg_Qz_Q_Flt = randomSort(User_Q_Flt)) : (Pg_Qz_Q_Flt = User_Q_Flt)
+    SortQuestions
+      ? (Pg_Qz_Q_Flt = User_Q_Flt.sort(() => Math.random() - 0.5))
+      : (Pg_Qz_Q_Flt = User_Q_Flt)
     //
     //  Apply max number
     //

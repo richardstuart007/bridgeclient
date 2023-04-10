@@ -125,6 +125,7 @@ export default async function rowCrud(props) {
       sqlAction !== 'SELECT' &&
       sqlAction !== 'INSERT' &&
       sqlAction !== 'UPDATE' &&
+      sqlAction !== 'UPDATERAW' &&
       sqlAction !== 'UPSERT'
     ) {
       rtnObj.rtnMessage = `SqlAction ${sqlAction}: SqlAction not valid`
@@ -133,7 +134,7 @@ export default async function rowCrud(props) {
     //
     //  SELECTSQL needs sqlString
     //
-    if (sqlAction === 'SELECTSQL' && !sqlString) {
+    if ((sqlAction === 'SELECTSQL' || sqlAction === 'UPDATERAW') && !sqlString) {
       rtnObj.rtnMessage = `SqlAction ${sqlAction}: sqlString not passed`
       return false
     }
