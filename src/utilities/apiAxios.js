@@ -11,12 +11,7 @@ const debugLog = debugSettings()
 const debugModule = 'apiAxios'
 
 if (debugLog) console.log(consoleLogTime(debugModule, 'Start Global'))
-//
-//  Constants
-//
-const { DFT_TIMEOUT } = require('../services/constants.js')
-const { DFT_TIMEOUT_EXTRA } = require('../services/constants.js')
-const { DFT_TIMEOUT_RETRY } = require('../services/constants.js')
+
 //
 //  Global
 //
@@ -27,15 +22,24 @@ let g_Sess = 0
 // methods - post(get), post(update), delete(delete), post(upsert)
 //
 export default async function apiAxios(props) {
-  if (debugLog) console.log(consoleLogTime(debugModule, 'Start Module'))
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  if (debugLog) console.log(consoleLogTime(debugModule, 'props'), { ...props })
+  //
+  //  Constants
+  //
+  const AppTimeout = JSON.parse(sessionStorage.getItem('App_Timeout'))
+  if (debugLog) console.log(consoleLogTime(debugModule, 'AppTimeout'), AppTimeout)
   const {
     method,
     url,
     data,
-    timeout = DFT_TIMEOUT,
+    timeout = AppTimeout.timeout,
     info = 'SqlDatabase',
-    retry = DFT_TIMEOUT_RETRY
+    retry = AppTimeout.retry
   } = props
+  if (debugLog) console.log(consoleLogTime(debugModule, 'timeout'), timeout)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'retry'), retry)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'info'), info)
   //
   //  retry on Fail
   //
@@ -53,7 +57,7 @@ export default async function apiAxios(props) {
     let last_apiRetryRtn
     for (let index = 1; index < n + 1; index++) {
       try {
-        const timeoutAlt = timeout + (index - 1) * DFT_TIMEOUT_EXTRA
+        const timeoutAlt = timeout + (index - 1) * AppTimeout.extra
         const apiRetryRtn = await asyncFunction(index, timeoutAlt)
         if (debugLog)
           console.log(consoleLogTime(debugModule, 'RETURN apiRetryRtn'), { ...apiRetryRtn })
@@ -70,7 +74,7 @@ export default async function apiAxios(props) {
         //
         last_apiRetryRtn = apiRetryRtn
       } catch (error) {
-        console.log(consoleLogTime(debugModule, 'CATCH Error'), { ...error })
+        console.log(consoleLogTime(debugModule, 'CATCH Error'), error)
       }
     }
     //
@@ -133,7 +137,6 @@ export default async function apiAxios(props) {
       //  Invoke Axios fetch
       //
       if (debugLog) console.log(consoleLogTime(debugModule, 'Request--->'), { ...dataApiAxios })
-
       const response = await axios({
         method: method,
         url: url,
@@ -195,7 +198,7 @@ export default async function apiAxios(props) {
       //
       //  Error logging - All
       //
-      console.log(consoleLogTime(debugModule, 'Catch - error'), { ...error })
+      console.log(consoleLogTime(debugModule, 'Catch - error'), error)
       console.log(consoleLogTime(debugModule, `<--Timing-> ${error.durationInMs} ${info} ERROR`))
       //
       //  Update store

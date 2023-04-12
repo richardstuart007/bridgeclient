@@ -126,13 +126,14 @@ export default function Splash({ handlePage }) {
         data: body,
         info: info
       }
+      if (debugLog) console.log(consoleLogTime(debugModule, 'apiAxiosProps'), { ...apiAxiosProps })
       const rtnObj = await apiAxios(apiAxiosProps)
       return rtnObj
       //
       // Errors
       //
     } catch (err) {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch err'), { ...err })
+      if (debugLog) console.log(consoleLogTime(debugModule, 'Catch err'), err)
       const rtnObj = {
         rtnBodyParms: body,
         rtnValue: false,

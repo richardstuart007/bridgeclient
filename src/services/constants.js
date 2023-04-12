@@ -91,6 +91,9 @@ exports.STATIC_URL = 'https://quizclient021renderstatic.onrender.com/'
 //------------------------------------------------------------------------
 exports.PAGESTART = 'Library'
 exports.PAGESTARTAPP = 'Splash'
-exports.DFT_TIMEOUT = 500
-exports.DFT_TIMEOUT_EXTRA = 1000
-exports.DFT_TIMEOUT_RETRY = 3
+//------------------------------------------------------------------------
+//  Environmental Variables
+//------------------------------------------------------------------------
+exports.REACT_APP_ENV_TIMEOUT = 1000
+exports.REACT_APP_ENV_TIMEOUT_EXTRA = 1000
+exports.REACT_APP_ENV_TIMEOUT_RETRY = 3
