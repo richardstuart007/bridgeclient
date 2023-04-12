@@ -26,15 +26,16 @@ let g_Sess = 0
 //
 // methods - post(get), post(update), delete(delete), post(upsert)
 //
-export default async function apiAxios(
-  method,
-  url,
-  data,
-  timeout = DFT_TIMEOUT,
-  info = 'SqlDatabase',
-  retry = DFT_TIMEOUT_RETRY
-) {
+export default async function apiAxios(props) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start Module'))
+  const {
+    method,
+    url,
+    data,
+    timeout = DFT_TIMEOUT,
+    info = 'SqlDatabase',
+    retry = DFT_TIMEOUT_RETRY
+  } = props
   //
   //  retry on Fail
   //

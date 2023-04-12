@@ -13,7 +13,6 @@ const debugModule = 'registerUser'
 // Constants
 //
 const { URL_REGISTER } = require('../../services/constants.js')
-const { DFT_TIMEOUT } = require('../../services/constants.js')
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------
@@ -80,17 +79,20 @@ export default async function registerUser(props) {
       }
       const URL = App_URL + URL_REGISTER
       //
-      //  Timeout
-      //
-      let timeout = DFT_TIMEOUT
-      //
       //  Info
       //
       const info = `Client(${sqlClient}) Action(Register)`
       //
       //  SQL database
       //
-      rtnObj = await apiAxios(method, URL, body, timeout, info)
+      const apiAxiosProps = {
+        method: method,
+        url: URL,
+        data: body,
+        timeout: 2500,
+        info: info
+      }
+      rtnObj = await apiAxios(apiAxiosProps)
       return rtnObj
       //
       // Errors

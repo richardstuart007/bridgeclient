@@ -114,17 +114,19 @@ export default function Splash({ handlePage }) {
       const URL = App_URL + URL_HELLO
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
       //
-      //  Timeout
-      //
-      let timeout = 500
-      //
       //  Info
       //
       const info = `Client(${debugModule}) Action(Hello)`
       //
       //  SQL database
       //
-      const rtnObj = await apiAxios(method, URL, body, timeout, info)
+      const apiAxiosProps = {
+        method: method,
+        url: URL,
+        data: body,
+        info: info
+      }
+      const rtnObj = await apiAxios(apiAxiosProps)
       return rtnObj
       //
       // Errors

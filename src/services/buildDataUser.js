@@ -18,7 +18,6 @@ let User_Qid = []
 let User_QidString = ''
 let User_Bid = []
 let User_Hands = []
-const { DFT_TIMEOUT } = require('../services/constants.js')
 //...................................................................................
 //.  Main Line
 //...................................................................................
@@ -209,7 +208,7 @@ export default function buildDataUser() {
       sqlTable: 'hands',
       sqlAction: 'SELECTSQL',
       sqlString: sqlString,
-      timeout: DFT_TIMEOUT
+      timeout: null
     }
     const myPromiseHands = rowCrud(rowCrudparams)
     //

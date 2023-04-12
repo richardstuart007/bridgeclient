@@ -33,7 +33,6 @@ const initialFValues = {
 //
 const { URL_SIGNIN } = require('../../services/constants.js')
 const { DFT_USER_OWNER } = require('../../services/constants.js')
-const { DFT_TIMEOUT } = require('../../services/constants.js')
 //...................................................................................
 //.  Main Line
 //...................................................................................
@@ -170,17 +169,19 @@ export default function Signin({ handlePage }) {
       const URL = App_URL + URL_SIGNIN
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
       //
-      //  Timeout
-      //
-      let timeout = DFT_TIMEOUT
-      //
       //  Info
       //
       const info = `Client(${debugModule}) Action(Signin)`
       //
       //  SQL database
       //
-      const rtnObj = await apiAxios(method, URL, body, timeout, info)
+      const apiAxiosProps = {
+        method: method,
+        url: URL,
+        data: body,
+        info: info
+      }
+      const rtnObj = await apiAxios(apiAxiosProps)
       return rtnObj
       //
       // Errors

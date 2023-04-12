@@ -13,7 +13,6 @@ const debugModule = 'rowCrud'
 // Constants
 //
 const { URL_TABLES } = require('../services/constants.js')
-const { DFT_TIMEOUT } = require('../services/constants.js')
 //
 //  Global Variables
 //
@@ -52,7 +51,7 @@ export default async function rowCrud(props) {
       sqlKeyName,
       sqlOrderBy,
       sqlOrderByRaw,
-      timeout = DFT_TIMEOUT
+      timeout
     } = props
     if (debugLog) console.log(consoleLogTime(debugModule, 'Props'), { ...props })
     const sqlClient = `${debugModule}/${sqlCaller}`
@@ -205,7 +204,14 @@ export default async function rowCrud(props) {
       //
       //  SQL database
       //
-      const rtnObjServer = await apiAxios(axiosMethod, URL, body, timeout, info)
+      const apiAxiosProps = {
+        method: axiosMethod,
+        url: URL,
+        data: body,
+        timeout: timeout,
+        info: info
+      }
+      const rtnObjServer = await apiAxios(apiAxiosProps)
       if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObjServer'), { ...rtnObjServer })
       return rtnObjServer
       //
