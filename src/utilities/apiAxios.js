@@ -35,10 +35,12 @@ export default async function apiAxios(props) {
     data,
     timeout = AppTimeout.timeout,
     info = 'SqlDatabase',
-    retry = AppTimeout.retry
+    retry = AppTimeout.retry,
+    extra = AppTimeout.extra
   } = props
   if (debugLog) console.log(consoleLogTime(debugModule, 'timeout'), timeout)
   if (debugLog) console.log(consoleLogTime(debugModule, 'retry'), retry)
+  if (debugLog) console.log(consoleLogTime(debugModule, 'extra'), extra)
   if (debugLog) console.log(consoleLogTime(debugModule, 'info'), info)
   //
   //  retry on Fail
@@ -53,12 +55,16 @@ export default async function apiAxios(props) {
   //--------------------------------------------------------------------------------------------
   // apiRetry
   //--------------------------------------------------------------------------------------------
-  async function apiRetry(asyncFunction, n) {
+  async function apiRetry(asyncFunction, retry) {
     let last_apiRetryRtn
-    for (let index = 1; index < n + 1; index++) {
+    for (let AxTry = 1; AxTry < retry + 1; AxTry++) {
       try {
-        const timeoutAlt = timeout + (index - 1) * AppTimeout.extra
-        const apiRetryRtn = await asyncFunction(index, timeoutAlt)
+        if (debugLog) console.log(consoleLogTime(debugModule, 'timeout'), timeout)
+        if (debugLog) console.log(consoleLogTime(debugModule, 'AxTry'), AxTry)
+        if (debugLog) console.log(consoleLogTime(debugModule, 'extra'), extra)
+        const timeoutAlt = timeout + (AxTry - 1) * extra
+        if (debugLog) console.log(consoleLogTime(debugModule, 'timeoutAlt'), timeoutAlt)
+        const apiRetryRtn = await asyncFunction(AxTry, timeoutAlt)
         if (debugLog)
           console.log(consoleLogTime(debugModule, 'RETURN apiRetryRtn'), { ...apiRetryRtn })
         //
@@ -85,12 +91,13 @@ export default async function apiAxios(props) {
   //--------------------------------------------------------------------------------------------
   // Try request
   //--------------------------------------------------------------------------------------------
-  async function TryReq(AxTry = 0, timeoutAlt) {
+  async function TryReq(AxTry, timeoutAlt) {
     //
     //  Try
     //
     try {
-      if (debugLog) console.log(consoleLogTime(debugModule, 'TryReq AxTry'), AxTry)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'AxTry'), AxTry)
+      if (debugLog) console.log(consoleLogTime(debugModule, 'timeoutAlt'), timeoutAlt)
       //
       //  Sess
       //
@@ -184,6 +191,10 @@ export default async function apiAxios(props) {
         rtnRows: []
       }
       //
+      //  Error logging - Error
+      //
+      console.log(consoleLogTime(debugModule, 'Catch - error'), error)
+      //
       //  Update body parms
       //
       apiAxiosObj.rtnBodyParms = JSON.parse(error.config.data)
@@ -196,9 +207,8 @@ export default async function apiAxios(props) {
           : (apiAxiosObj.rtnCatchMsg = 'Request setup error')
       }
       //
-      //  Error logging - All
+      //  Error logging - Timing
       //
-      console.log(consoleLogTime(debugModule, 'Catch - error'), error)
       console.log(consoleLogTime(debugModule, `<--Timing-> ${error.durationInMs} ${info} ERROR`))
       //
       //  Update store
@@ -228,10 +238,10 @@ export default async function apiAxios(props) {
     //
     const objReq = {
       Sess: g_Sess,
+      sqlTable: data.sqlTable,
       AxId: g_AxId,
       AxTry: AxTry,
       AxTimeout: timeoutAlt,
-      sqlTable: data.sqlTable,
       sqlClient: data.sqlClient,
       info: info,
       data: data,
@@ -265,14 +275,14 @@ export default async function apiAxios(props) {
     //  Populate the store object
     //
     const objRes = {
-      Sess: apiAxiosObj.rtnBodyParms.Sess,
       AxId: apiAxiosObj.rtnBodyParms.AxId,
-      AxTry: apiAxiosObj.rtnBodyParms.AxTry,
-      rtnValue: apiAxiosObj.rtnValue,
-      AxTimeout: apiAxiosObj.rtnBodyParms.AxTimeout,
       sqlTable: apiAxiosObj.rtnBodyParms.sqlTable,
-      sqlClient: apiAxiosObj.rtnBodyParms.sqlClient,
+      rtnSts: apiAxiosObj.rtnSts,
+      rtnValue: apiAxiosObj.rtnValue,
       rtnMessage: apiAxiosObj.rtnMessage,
+      AxTry: apiAxiosObj.rtnBodyParms.AxTry,
+      AxTimeout: apiAxiosObj.rtnBodyParms.AxTimeout,
+      sqlClient: apiAxiosObj.rtnBodyParms.sqlClient,
       apiAxiosObj: apiAxiosObj
     }
     if (debugLog) console.log(consoleLogTime(debugModule, 'objRes'), { ...objRes })

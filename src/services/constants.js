@@ -94,6 +94,6 @@ exports.PAGESTARTAPP = 'Splash'
 //------------------------------------------------------------------------
 //  Environmental Variables
 //------------------------------------------------------------------------
-exports.REACT_APP_ENV_TIMEOUT = 1000
-exports.REACT_APP_ENV_TIMEOUT_EXTRA = 1000
+exports.REACT_APP_ENV_TIMEOUT = 1001
+exports.REACT_APP_ENV_TIMEOUT_EXTRA = 1002
 exports.REACT_APP_ENV_TIMEOUT_RETRY = 3

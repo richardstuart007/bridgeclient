@@ -103,18 +103,20 @@ export default function App() {
     const { REACT_APP_ENV_TIMEOUT } = require('../services/constants.js')
     const env_timeout = process.env.REACT_APP_ENV_TIMEOUT
     if (debugLog) console.log(consoleLogTime(debugModule, 'env_timeout'), env_timeout)
-    env_timeout ? (AppTimeout.timeout = env_timeout) : (AppTimeout.timeout = REACT_APP_ENV_TIMEOUT)
+    env_timeout
+      ? (AppTimeout.timeout = parseInt(env_timeout))
+      : (AppTimeout.timeout = REACT_APP_ENV_TIMEOUT)
 
     const { REACT_APP_ENV_TIMEOUT_EXTRA } = require('../services/constants.js')
     const env_timeout_extra = process.env.REACT_APP_ENV_TIMEOUT_EXTRA
     env_timeout_extra
-      ? (AppTimeout.extra = env_timeout_extra)
+      ? (AppTimeout.extra = parseInt(env_timeout_extra))
       : (AppTimeout.extra = REACT_APP_ENV_TIMEOUT_EXTRA)
 
     const { REACT_APP_ENV_TIMEOUT_RETRY } = require('../services/constants.js')
     const env_timeout_retry = process.env.REACT_APP_ENV_TIMEOUT_RETRY
     env_timeout_retry
-      ? (AppTimeout.retry = env_timeout_retry)
+      ? (AppTimeout.retry = parseInt(env_timeout_retry))
       : (AppTimeout.retry = REACT_APP_ENV_TIMEOUT_RETRY)
     //
     //  Save in session storage
