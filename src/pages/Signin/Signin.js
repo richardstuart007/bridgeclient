@@ -159,10 +159,9 @@ export default function Signin({ handlePage }) {
       //
       //  Setup actions
       //
-      const method = 'post'
       body = {
-        sqlClient: debugModule,
-        sqlTable: 'users',
+        AxClient: debugModule,
+        AxTable: 'users',
         user: user,
         password: password
       }
@@ -176,10 +175,9 @@ export default function Signin({ handlePage }) {
       //  SQL database
       //
       const apiAxiosProps = {
-        method: method,
-        url: URL,
-        data: body,
-        info: info
+        AxUrl: URL,
+        AxData: body,
+        AxInfo: info
       }
       const rtnObj = await apiAxios(apiAxiosProps)
       return rtnObj

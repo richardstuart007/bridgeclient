@@ -61,11 +61,11 @@ export default function buildDataUser() {
     //  Process promise
     //
     const rowCrudparams = {
-      axiosMethod: 'post',
-      sqlCaller: debugModule,
-      sqlTable: 'questions',
-      sqlAction: 'SELECTSQL',
-      sqlString: SqlString
+      AxMethod: 'post',
+      AxCaller: debugModule,
+      AxTable: 'questions',
+      AxAction: 'SELECTSQL',
+      AxString: SqlString
     }
     const myPromiseQuestions = rowCrud(rowCrudparams)
     //
@@ -146,17 +146,17 @@ export default function buildDataUser() {
     //
     //  Selection
     //
-    let sqlString = `* from bidding where bid in (${User_QidString})`
-    if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString', sqlString))
+    let AxString = `* from bidding where bid in (${User_QidString})`
+    if (debugLog) console.log(consoleLogTime(debugModule, 'AxString', AxString))
     //
     //  Process promise
     //
     const rowCrudparams = {
-      axiosMethod: 'post',
-      sqlCaller: debugModule,
-      sqlTable: 'bidding',
-      sqlAction: 'SELECTSQL',
-      sqlString: sqlString
+      AxMethod: 'post',
+      AxCaller: debugModule,
+      AxTable: 'bidding',
+      AxAction: 'SELECTSQL',
+      AxString: AxString
     }
     const myPromiseBidding = rowCrud(rowCrudparams)
     //
@@ -197,17 +197,17 @@ export default function buildDataUser() {
     //
     //  Selection
     //
-    let sqlString = `* from hands where hid in (${User_QidString})`
-    if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString', sqlString))
+    let AxString = `* from hands where hid in (${User_QidString})`
+    if (debugLog) console.log(consoleLogTime(debugModule, 'AxString', AxString))
     //
     //  Process promise
     //
     const rowCrudparams = {
-      axiosMethod: 'post',
-      sqlCaller: debugModule,
-      sqlTable: 'hands',
-      sqlAction: 'SELECTSQL',
-      sqlString: sqlString,
+      AxMethod: 'post',
+      AxCaller: debugModule,
+      AxTable: 'hands',
+      AxAction: 'SELECTSQL',
+      AxString: AxString,
       timeout: null
     }
     const myPromiseHands = rowCrud(rowCrudparams)

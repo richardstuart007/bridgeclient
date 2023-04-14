@@ -121,16 +121,16 @@ export default function SwitchUser({ handlePage }) {
     //
     //  Selection
     //
-    const sqlString = `* from users order by u_id`
+    const AxString = `* from users order by u_id`
     //
     //  Process promise
     //
     const rowCrudparams = {
-      axiosMethod: 'post',
-      sqlCaller: debugModule,
-      sqlTable: 'users',
-      sqlAction: 'SELECTSQL',
-      sqlString: sqlString
+      AxMethod: 'post',
+      AxCaller: debugModule,
+      AxTable: 'users',
+      AxAction: 'SELECTSQL',
+      AxString: AxString
     }
     var myPromiseGet = rowCrud(rowCrudparams)
     //

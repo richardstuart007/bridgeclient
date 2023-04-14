@@ -106,10 +106,9 @@ export default function Splash({ handlePage }) {
       //
       //  Setup actions
       //
-      const method = 'post'
       body = {
-        sqlClient: debugModule,
-        sqlTable: 'dbstats'
+        AxClient: debugModule,
+        AxTable: 'dbstats'
       }
       const URL = App_URL + URL_HELLO
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
@@ -121,12 +120,10 @@ export default function Splash({ handlePage }) {
       //  SQL database
       //
       const apiAxiosProps = {
-        method: method,
-        url: URL,
-        data: body,
-        info: info
+        AxUrl: URL,
+        AxData: body,
+        AxInfo: info
       }
-      if (debugLog) console.log(consoleLogTime(debugModule, 'apiAxiosProps'), { ...apiAxiosProps })
       const rtnObj = await apiAxios(apiAxiosProps)
       return rtnObj
       //

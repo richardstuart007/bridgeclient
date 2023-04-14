@@ -205,20 +205,20 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Selection
     //
-    let sqlString = `r_id, r_uid, u_name, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_totalpoints, r_maxpoints, r_correctpercent from usershistory`
-    sqlString = sqlString + ` join ownergroup on r_owner = ogowner and r_group = oggroup`
-    sqlString = sqlString + ` join users on r_uid = u_id`
-    sqlString = sqlString + ` order by r_id desc`
-    if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString'), sqlString)
+    let AxString = `r_id, r_uid, u_name, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_totalpoints, r_maxpoints, r_correctpercent from usershistory`
+    AxString = AxString + ` join ownergroup on r_owner = ogowner and r_group = oggroup`
+    AxString = AxString + ` join users on r_uid = u_id`
+    AxString = AxString + ` order by r_id desc`
+    if (debugLog) console.log(consoleLogTime(debugModule, 'AxString'), AxString)
     //
     //  Process promise
     //
     const rowCrudparams = {
-      axiosMethod: 'post',
-      sqlCaller: debugModule,
-      sqlTable: 'usershistory',
-      sqlAction: 'SELECTSQL',
-      sqlString: sqlString
+      AxMethod: 'post',
+      AxCaller: debugModule,
+      AxTable: 'usershistory',
+      AxAction: 'SELECTSQL',
+      AxString: AxString
     }
     const myPromiseGet = rowCrud(rowCrudparams)
     //

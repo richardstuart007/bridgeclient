@@ -152,12 +152,12 @@ export default function UsersSettings({ handlePage }) {
     //  Process promise
     //
     const rowCrudparams = {
-      axiosMethod: 'post',
-      sqlCaller: debugModule,
-      sqlTable: 'users',
-      sqlAction: 'UPDATE',
-      sqlWhere: `u_user = '${u_user}'`,
-      sqlRow: nokeyData
+      AxMethod: 'post',
+      AxCaller: debugModule,
+      AxTable: 'users',
+      AxAction: 'UPDATE',
+      AxWhere: `u_user = '${u_user}'`,
+      AxRow: nokeyData
     }
     const myPromiseUpdate = rowCrud(rowCrudparams)
     //

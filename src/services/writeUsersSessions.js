@@ -22,21 +22,21 @@ export default function writeUsersSessions() {
   const usuid = User_User.u_id
   const ususer = User_User.u_user
   const usdatetime = new Date().toJSON()
-  const sqlRow = {
+  const AxRow = {
     usuid: usuid,
     usdatetime: usdatetime,
     ususer: ususer
   }
-  if (debugLog) console.log(consoleLogTime(debugModule, 'sqlRow'), { ...sqlRow })
+  if (debugLog) console.log(consoleLogTime(debugModule, 'AxRow'), { ...AxRow })
   //
   //  Build Props
   //
   const props = {
-    sqlCaller: debugModule,
-    axiosMethod: 'post',
-    sqlAction: 'INSERT',
-    sqlTable: 'userssessions',
-    sqlRow: sqlRow
+    AxCaller: debugModule,
+    AxMethod: 'post',
+    AxAction: 'INSERT',
+    AxTable: 'userssessions',
+    AxRow: AxRow
   }
   //
   //  Process promise

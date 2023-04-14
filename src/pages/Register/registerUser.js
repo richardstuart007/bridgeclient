@@ -23,7 +23,7 @@ export default async function registerUser(props) {
   //  Deconstruct props
   //
   const {
-    sqlCaller,
+    AxCaller,
     user,
     email,
     password,
@@ -39,7 +39,7 @@ export default async function registerUser(props) {
     admin,
     dev
   } = props
-  let sqlClient = `${debugModule}/${sqlCaller}`
+  let AxClient = `${debugModule}/${AxCaller}`
   //
   //  Get the URL
   //
@@ -58,10 +58,9 @@ export default async function registerUser(props) {
       //
       //  Setup actions
       //
-      const method = 'post'
       body = {
-        sqlClient: sqlClient,
-        sqlTable: 'users',
+        AxClient: AxClient,
+        AxTable: 'users',
         user: user,
         email: email,
         password: password,
@@ -81,16 +80,15 @@ export default async function registerUser(props) {
       //
       //  Info
       //
-      const info = `Client(${sqlClient}) Action(Register)`
+      const info = `Client(${AxClient}) Action(Register)`
       //
       //  SQL database
       //
       const apiAxiosProps = {
-        method: method,
-        url: URL,
-        data: body,
-        timeout: 2500,
-        info: info
+        AxUrl: URL,
+        AxData: body,
+        AxTimeout: 2500,
+        AxInfo: info
       }
       rtnObj = await apiAxios(apiAxiosProps)
       return rtnObj

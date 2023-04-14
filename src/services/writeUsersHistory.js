@@ -86,7 +86,7 @@ export default function writeUsersHistory() {
   //
   //  Build row
   //
-  const sqlRow = {
+  const AxRow = {
     r_uid: r_uid,
     r_datetime: r_datetime,
     r_owner: r_owner,
@@ -99,13 +99,13 @@ export default function writeUsersHistory() {
     r_totalpoints: r_totalpoints,
     r_correctpercent: r_correctpercent
   }
-  if (debugLog) console.log(consoleLogTime(debugModule, 'sqlRow'), { ...sqlRow })
+  if (debugLog) console.log(consoleLogTime(debugModule, 'AxRow'), { ...AxRow })
   //
   //  Add record to storage (if history already exists)
   //
   if (Pg_Qh_Data) {
     const template = Pg_Qh_Data[0]
-    const newQH = { ...template, ...sqlRow }
+    const newQH = { ...template, ...AxRow }
     newQH.r_id = 0
     newQH.ogtitle = Pg_Qz_ogtitle
     newQH.yymmdd = yymmdd
@@ -117,11 +117,11 @@ export default function writeUsersHistory() {
   //  Build Props
   //
   const props = {
-    sqlCaller: debugModule,
-    axiosMethod: 'post',
-    sqlAction: 'INSERT',
-    sqlTable: 'usershistory',
-    sqlRow: sqlRow,
+    AxCaller: debugModule,
+    AxMethod: 'post',
+    AxAction: 'INSERT',
+    AxTable: 'usershistory',
+    AxRow: AxRow,
     timeout: 1500
   }
   //

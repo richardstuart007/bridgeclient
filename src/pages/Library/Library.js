@@ -221,17 +221,17 @@ export default function Library({ handlePage }) {
     //  Selection
     //
     const OwnersString = JSON.parse(sessionStorage.getItem('User_OwnersString'))
-    const sqlString = `* from library join ownergroup on lrowner = ogowner and lrgroup = oggroup where lrowner in (${OwnersString}) order by lrid`
-    if (debugLog) console.log(consoleLogTime(debugModule, 'sqlString'), sqlString)
+    const AxString = `* from library join ownergroup on lrowner = ogowner and lrgroup = oggroup where lrowner in (${OwnersString}) order by lrid`
+    if (debugLog) console.log(consoleLogTime(debugModule, 'AxString'), AxString)
     //
     //  Process promise
     //
     const rowCrudparams = {
-      axiosMethod: 'post',
-      sqlCaller: debugModule,
-      sqlTable: 'library',
-      sqlAction: 'SELECTSQL',
-      sqlString: sqlString
+      AxMethod: 'post',
+      AxCaller: debugModule,
+      AxTable: 'library',
+      AxAction: 'SELECTSQL',
+      AxString: AxString
     }
     const myPromiseGet = rowCrud(rowCrudparams)
     //
