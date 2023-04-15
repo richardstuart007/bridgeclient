@@ -8,7 +8,7 @@ const debugModule = 'buildDataHistDtl'
 //
 //  Global Variables
 //
-let Pg_Qz_Q_Flt_qid = []
+let Pg_Qz_Q_Flt_qqid = []
 let Pg_Qz_Bid = []
 let Pg_Qz_Hands = []
 //...................................................................................
@@ -34,26 +34,26 @@ export default function buildDataHistDtl(row) {
     //
     //  Filter QIDs
     //
-    const p_qid = row.r_qid
-    const Pg_Qz_Q_Flt = User_Q.filter(x => p_qid.includes(x.qid))
+    const p_qqid = row.r_qid
+    const Pg_Qz_Q_Flt = User_Q.filter(x => p_qqid.includes(x.qqid))
     //
     //  Question IDs
     //
-    Pg_Qz_Q_Flt_qid = []
+    Pg_Qz_Q_Flt_qqid = []
     for (let i = 0; i < Pg_Qz_Q_Flt.length; i++) {
-      Pg_Qz_Q_Flt_qid.push(Pg_Qz_Q_Flt[i].qid)
+      Pg_Qz_Q_Flt_qqid.push(Pg_Qz_Q_Flt[i].qqid)
     }
     //
     //  Load related Bids
     //
     const User_Bid = JSON.parse(sessionStorage.getItem('User_Bid'))
-    Pg_Qz_Bid = User_Bid.filter(x => Pg_Qz_Q_Flt_qid.includes(x.bid))
+    Pg_Qz_Bid = User_Bid.filter(x => Pg_Qz_Q_Flt_qqid.includes(x.bqid))
     sessionStorage.setItem('Pg_Qz_Bid', JSON.stringify(Pg_Qz_Bid))
     //
     //  Load related Hands
     //
     const User_Hands = JSON.parse(sessionStorage.getItem('User_Hands'))
-    Pg_Qz_Hands = User_Hands.filter(x => Pg_Qz_Q_Flt_qid.includes(x.hid))
+    Pg_Qz_Hands = User_Hands.filter(x => Pg_Qz_Q_Flt_qqid.includes(x.hqid))
     sessionStorage.setItem('Pg_Qz_Hands', JSON.stringify(Pg_Qz_Hands))
     //
     //  Completion

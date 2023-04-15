@@ -40,7 +40,7 @@ export default function writeUsersHistory() {
   //
   //  Key
   //
-  const r_uid = User_User.u_id
+  const r_uid = User_User.u_uid
   const r_datetime = new Date().toJSON()
   const yymmdd = format(parseISO(r_datetime), 'yy-MM-dd')
   //
@@ -61,7 +61,7 @@ export default function writeUsersHistory() {
   Pg_Qz_Q_Flt.forEach(row => {
     count++
     if (count <= r_questions) {
-      r_qid.push(row.qid)
+      r_qid.push(row.qqid)
       //
       //  Points for each answer (start at 0 not 1)
       //
@@ -106,7 +106,7 @@ export default function writeUsersHistory() {
   if (Pg_Qh_Data) {
     const template = Pg_Qh_Data[0]
     const newQH = { ...template, ...AxRow }
-    newQH.r_id = 0
+    newQH.r_hid = 0
     newQH.ogtitle = Pg_Qz_ogtitle
     newQH.yymmdd = yymmdd
 
@@ -143,12 +143,12 @@ export default function writeUsersHistory() {
     const data = rtnObj.rtnRows
     const newRow = data[0]
     if (debugLog)
-      console.log(consoleLogTime(debugModule, `Row (${newRow.r_id}) INSERTED in Database`))
+      console.log(consoleLogTime(debugModule, `Row (${newRow.r_hid}) INSERTED in Database`))
     //
-    //  Update storage with r_id
+    //  Update storage with r_hid
     //
     if (Pg_Qh_Data) {
-      Pg_Qh_Data[0].r_id = newRow.r_id
+      Pg_Qh_Data[0].r_hid = newRow.r_hid
       sessionStorage.setItem('Pg_Qh_Data', JSON.stringify(Pg_Qh_Data))
     }
     return

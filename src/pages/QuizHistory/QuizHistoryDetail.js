@@ -200,8 +200,8 @@ export default function QuizHistoryDetail({ handlePage }) {
         </Typography>
       </Box>
       <QuizQuestion quizRow={quizRow} quizQuestion={arrAnsNum[ansIdx] + 1} quizTotal={countAns} />
-      <QuizBidding qid={quizRow.qid} />
-      <QuizHands qid={quizRow.qid} />
+      <QuizBidding qqid={quizRow.qqid} />
+      <QuizHands qqid={quizRow.qqid} />
       <QuizReviewAnswers quizRow={quizRow} AnswerNum={arrAns[ansIdx]} />
 
       <Box sx={{ mt: 2, maxWidth: 600 }}>

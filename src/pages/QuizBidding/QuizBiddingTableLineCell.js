@@ -17,7 +17,7 @@ export default function QuizBiddingTableLineCell(props) {
   //
   //  Destructure props
   //
-  const { bid, suit, cell } = props
+  const { bqid, suit, cell } = props
   //
   //  Source svg
   //
@@ -53,7 +53,7 @@ export default function QuizBiddingTableLineCell(props) {
           {/*  Bid                                                                               */}
           {/* .......................................................................................... */}
           <Grid item>
-            <Typography variant='body2'>{bid}</Typography>
+            <Typography variant='body2'>{bqid}</Typography>
           </Grid>
           {/* .......................................................................................... */}
           {/*  Suit Symbol                                                                               */}

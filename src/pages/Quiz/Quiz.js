@@ -145,8 +145,8 @@ export default function Quiz({ handlePage }) {
   return (
     <>
       <QuizQuestion quizRow={quizRow} quizQuestion={g_Idx + 1} quizTotal={g_questCount} />
-      <QuizBidding qid={quizRow.qid} />
-      <QuizHands qid={quizRow.qid} />
+      <QuizBidding qqid={quizRow.qqid} />
+      <QuizHands qqid={quizRow.qqid} />
       <Card sx={{ maxWidth: 600, marginTop: '16px' }} style={{ backgroundColor: 'LightGray' }}>
         <QuizPanel
           quizRow={quizRow}

@@ -19,7 +19,7 @@ export default function writeUsersSessions() {
   //
   //  Build row
   //
-  const usuid = User_User.u_id
+  const usuid = User_User.u_uid
   const ususer = User_User.u_user
   const usdatetime = new Date().toJSON()
   const AxRow = {

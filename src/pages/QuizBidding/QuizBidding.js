@@ -8,11 +8,11 @@ import { Table, TableBody, Card } from '@mui/material'
 import QuizBiddingTableHeader from './QuizBiddingTableHeader'
 import QuizBiddingTableLine from './QuizBiddingTableLine'
 //===================================================================================
-export default function QuizBidding({ qid }) {
+export default function QuizBidding({ qqid }) {
   //...................................................................................
   //.  Main Line
   //...................................................................................
-  let testingQid = qid
+  let testingQid = qqid
   //
   //  Get Bidding
   //
@@ -28,7 +28,7 @@ export default function QuizBidding({ qid }) {
   //
   //  Find the BiddingRow
   //
-  let BiddingRow = Pg_Qz_Bid.find(element => element.bid === testingQid)
+  let BiddingRow = Pg_Qz_Bid.find(element => element.bqid === testingQid)
   //
   //  Has BiddingRow ?
   //
@@ -49,59 +49,59 @@ export default function QuizBidding({ qid }) {
   let roundsbidObjArray = []
   Rounds.forEach(round => {
     //
-    //  Process each bid for a round - Create roundBidsArray
+    //  Process each bqid for a round - Create roundBidsArray
     //
     let bidObjArray = []
-    round.forEach(bid => {
+    round.forEach(bqid => {
       //
-      //  Fill bidObj (bid/suit)
+      //  Fill bidObj (bqid/suit)
       //
       const bidObj = {
-        bid: '',
+        bqid: '',
         suit: ''
       }
-      const level = bid.substr(0, 1)
+      const level = bqid.substr(0, 1)
       switch (level) {
         // Pass
         case 'P':
-          bidObj.bid = 'Pass'
+          bidObj.bqid = 'Pass'
           bidObj.suit = null
           break
         // Question
         case '?':
-          bidObj.bid = bid
+          bidObj.bqid = bqid
           bidObj.suit = null
           break
         // Double
         case 'X':
-          bidObj.bid = bid
+          bidObj.bqid = bqid
           bidObj.suit = null
           break
         //  Nothing
         case ' ':
-          bidObj.bid = null
+          bidObj.bqid = null
           bidObj.suit = null
           break
         //  Nothing
         case 'n':
-          bidObj.bid = null
+          bidObj.bqid = null
           bidObj.suit = null
           break
         //  Nothing
         case 'N':
-          bidObj.bid = null
+          bidObj.bqid = null
           bidObj.suit = null
           break
         default:
           //  No Trump
-          if (bid.substr(1, 1) === 'N') {
-            bidObj.bid = bid
+          if (bqid.substr(1, 1) === 'N') {
+            bidObj.bqid = bqid
             bidObj.suit = null
           }
           //  Suit
           else {
-            bidObj.bid = level
-            bidObj.suit = bid.substr(1, 1)
+            bidObj.bqid = level
+            bidObj.suit = bqid.substr(1, 1)
           }
           break
       }

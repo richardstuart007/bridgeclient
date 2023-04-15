@@ -10,8 +10,8 @@ import QuizHandsTableLine from './QuizHandsTableLine'
 //...................................................................................
 //.  Main Line
 //...................................................................................
-export default function QuizHands({ qid }) {
-  let testingQid = qid
+export default function QuizHands({ qqid }) {
+  let testingQid = qqid
   //
   //  Get hands
   //
@@ -27,7 +27,7 @@ export default function QuizHands({ qid }) {
   //
   //  Find the HandsRow for this ID
   //
-  let HandsRow = Pg_Qz_Hands.find(element => element.hid === testingQid)
+  let HandsRow = Pg_Qz_Hands.find(element => element.hqid === testingQid)
   //
   //  Has HandsRow ?
   //

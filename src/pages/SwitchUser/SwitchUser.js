@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
 //  Table Heading
 //
 const headCells = [
-  { id: 'u_id', label: 'ID' },
+  { id: 'u_uid', label: 'ID' },
   { id: 'u_user', label: 'User' },
   { id: 'u_email', label: 'Email' },
   { id: 'u_name', label: 'Name' },
@@ -73,7 +73,7 @@ const headCells = [
 const searchTypeOptions = [
   { id: 'u_email', title: 'Email' },
   { id: 'u_user', title: 'User' },
-  { id: 'u_id', title: 'ID' },
+  { id: 'u_uid', title: 'ID' },
   { id: 'u_name', title: 'Name' },
   { id: 'u_fedid', title: 'Bridge ID' }
 ]
@@ -121,7 +121,7 @@ export default function SwitchUser({ handlePage }) {
     //
     //  Selection
     //
-    const AxString = `* from users order by u_id`
+    const AxString = `* from users order by u_uid`
     //
     //  Process promise
     //
@@ -189,8 +189,8 @@ export default function SwitchUser({ handlePage }) {
               x.u_user.toLowerCase().includes(searchValue.toLowerCase())
             )
             break
-          case 'u_id':
-            itemsFilter = items.filter(x => x.u_id === parseInt(searchValue))
+          case 'u_uid':
+            itemsFilter = items.filter(x => x.u_uid === parseInt(searchValue))
             break
           case 'u_fedid':
             itemsFilter = items.filter(x =>
@@ -271,8 +271,8 @@ export default function SwitchUser({ handlePage }) {
           <TblHead />
           <TableBody>
             {recordsAfterPagingAndSorting().map(row => (
-              <TableRow key={row.u_id}>
-                <TableCell>{row.u_id}</TableCell>
+              <TableRow key={row.u_uid}>
+                <TableCell>{row.u_uid}</TableCell>
                 <TableCell>{row.u_user}</TableCell>
                 <TableCell>{row.u_email}</TableCell>
                 <TableCell>{row.u_name}</TableCell>
@@ -284,9 +284,7 @@ export default function SwitchUser({ handlePage }) {
                     startIcon={<SwitchAccountIcon fontSize='small' />}
                     text='Switch'
                     color='warning'
-                    onClick={() => {
-                      submitSwitchUser(row)
-                    }}
+                    onClick={() => submitSwitchUser(row)}
                   ></MyActionButton>
                 </TableCell>
               </TableRow>

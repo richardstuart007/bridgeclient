@@ -74,7 +74,7 @@ const useStyles = makeStyles(theme => ({
 //  Table Heading
 //
 const headCellsLarge = [
-  { id: 'r_id', label: 'ID' },
+  { id: 'r_hid', label: 'ID' },
   { id: 'yymmdd', label: 'Date' },
   { id: 'r_uid', label: 'User Id' },
   { id: 'u_name', label: 'User Name' },
@@ -93,7 +93,7 @@ const headCellsSmall = [
   { id: 'quiz', label: 'Quiz', disableSorting: true }
 ]
 const searchTypeOptionsLarge = [
-  { id: 'r_id', title: 'ID' },
+  { id: 'r_hid', title: 'ID' },
   { id: 'yymmdd', title: 'Date' },
   { id: 'r_owner', title: 'Owner' },
   { id: 'ogtitle', title: 'Group' }
@@ -153,7 +153,7 @@ export default function QuizHistory({ handlePage }) {
   //
   const User_User = JSON.parse(sessionStorage.getItem('User_User'))
   const u_name = User_User.u_name
-  const u_id = User_User.u_id
+  const u_uid = User_User.u_uid
   const User_Admin = User_User.u_admin
   //
   //  Initial Data Load
@@ -205,10 +205,14 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Selection
     //
-    let AxString = `r_id, r_uid, u_name, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_totalpoints, r_maxpoints, r_correctpercent from usershistory`
+    let AxString = `r_hid, r_uid, u_name, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_totalpoints, r_maxpoints, r_correctpercent from usershistory`
     AxString = AxString + ` join ownergroup on r_owner = ogowner and r_group = oggroup`
-    AxString = AxString + ` join users on r_uid = u_id`
-    AxString = AxString + ` order by r_id desc`
+    AxString = AxString + ` join users on r_uid = u_uid`
+    //
+    //  Select User (if not ALL)
+    //
+    if (!g_allUsers) AxString = AxString + ` where r_uid = ${u_uid}`
+    AxString = AxString + ` order by r_hid desc`
     if (debugLog) console.log(consoleLogTime(debugModule, 'AxString'), AxString)
     //
     //  Process promise
@@ -313,7 +317,7 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Subtitle
     //
-    g_allUsers ? setSubtitle('ALL USERS') : setSubtitle(`${u_name} (${u_id})`)
+    g_allUsers ? setSubtitle('ALL USERS') : setSubtitle(`${u_name} (${u_uid})`)
     //
     //  Filter
     //
@@ -324,7 +328,7 @@ export default function QuizHistory({ handlePage }) {
         //
         let userFilter = items
         if (!g_allUsers) {
-          userFilter = items.filter(x => x.r_uid === u_id)
+          userFilter = items.filter(x => x.r_uid === u_uid)
         }
         //
         //  Nothing to search, return rows
@@ -341,8 +345,8 @@ export default function QuizHistory({ handlePage }) {
         //
         let itemsFilter = userFilter
         switch (p_searchType) {
-          case 'r_id':
-            itemsFilter = userFilter.filter(x => x.r_id === p_searchValueInt)
+          case 'r_hid':
+            itemsFilter = userFilter.filter(x => x.r_hid === p_searchValueInt)
             break
           case 'yymmdd':
             itemsFilter = userFilter.filter(x => x.yymmdd === p_searchValue)
@@ -369,6 +373,9 @@ export default function QuizHistory({ handlePage }) {
   //  Switch to All/Users
   //.............................................................................
   function handleAllUsers() {
+    //
+    //  Switch All/Selected User
+    //
     if (g_allUsers) {
       g_allUsers = false
       g_allUsersText = 'ALL'
@@ -383,7 +390,7 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Subtitle
     //
-    g_allUsers ? setSubtitle('ALL USERS') : setSubtitle(`${u_name} (${u_id})`)
+    g_allUsers ? setSubtitle('ALL USERS') : setSubtitle(`${u_name} (${u_uid})`)
   }
   //...................................................................................
   //.  Render the form
@@ -448,14 +455,24 @@ export default function QuizHistory({ handlePage }) {
             />
           ) : null}
           {/* .......................................................................................... */}
+          {User_Admin & !ScreenSmall ? (
+            <MyButton
+              text='Refresh'
+              variant='outlined'
+              startIcon={<PeopleIcon />}
+              onClick={() => getRowAllData()}
+              className={classes.myButton}
+            />
+          ) : null}
+          {/* .......................................................................................... */}
         </Toolbar>
         {/* .......................................................................................... */}
         <TblContainer>
           <TblHead />
           <TableBody>
             {recordsAfterPagingAndSorting().map(row => (
-              <TableRow key={row.r_id}>
-                {ScreenSmall ? null : <TableCell>{row.r_id}</TableCell>}
+              <TableRow key={row.r_hid}>
+                {ScreenSmall ? null : <TableCell>{row.r_hid}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.yymmdd}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.r_uid}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.u_name}</TableCell>}

@@ -182,8 +182,8 @@ export default function QuizReview({ handlePage }) {
       {nothingToReview ? null : (
         <QuizQuestion quizRow={quizRow} quizQuestion={arrAnsNum[ansIdx] + 1} quizTotal={countAns} />
       )}
-      {nothingToReview ? null : <QuizBidding qid={quizRow.qid} />}
-      {nothingToReview ? null : <QuizHands qid={quizRow.qid} />}
+      {nothingToReview ? null : <QuizBidding qqid={quizRow.qqid} />}
+      {nothingToReview ? null : <QuizHands qqid={quizRow.qqid} />}
       {nothingToReview ? null : <QuizReviewAnswers quizRow={quizRow} AnswerNum={arrAns[ansIdx]} />}
 
       {/* .......................................................................................... */}

@@ -19,7 +19,7 @@ export default function QuizQuestion(params) {
   //
   //  Deconstruct row
   //
-  const { qowner, qgroup, qid, qdetail } = quizRow
+  const { qowner, qgroup, qqid, qdetail } = quizRow
   let hyperLink
   qdetail.substring(0, 8) === 'https://' ? (hyperLink = true) : (hyperLink = false)
   //
@@ -31,7 +31,7 @@ export default function QuizQuestion(params) {
   //
   //  Question Info
   //
-  let QuestionInfo = `${qowner}/${qgroup} ${quizQuestion}/${quizTotal} (${qid})`
+  let QuestionInfo = `${qowner}/${qgroup} ${quizQuestion}/${quizTotal} (${qqid})`
   //...................................................................................
   //.  Render the form
   //...................................................................................

@@ -80,7 +80,7 @@ const useStyles = makeStyles(theme => ({
 //  Table Heading
 //
 const headCellsLarge = [
-  { id: 'lrid', label: 'ID' },
+  { id: 'lrlid', label: 'ID' },
   { id: 'lrowner', label: 'Owner' },
   { id: 'lrgroup', label: 'Group' },
   { id: 'lrref', label: 'Reference' },
@@ -97,7 +97,7 @@ const headCellsSmall = [
   { id: 'quiz', label: 'Quiz', disableSorting: true }
 ]
 const searchTypeOptionsLarge = [
-  { id: 'lrid', title: 'ID' },
+  { id: 'lrlid', title: 'ID' },
   { id: 'lrowner', title: 'Owner' },
   { id: 'lrgroup', title: 'Group' },
   { id: 'lrref', title: 'Reference' },
@@ -221,7 +221,7 @@ export default function Library({ handlePage }) {
     //  Selection
     //
     const OwnersString = JSON.parse(sessionStorage.getItem('User_OwnersString'))
-    const AxString = `* from library join ownergroup on lrowner = ogowner and lrgroup = oggroup where lrowner in (${OwnersString}) order by lrid`
+    const AxString = `* from library join ownergroup on lrowner = ogowner and lrgroup = oggroup where lrowner in (${OwnersString}) order by lrlid`
     if (debugLog) console.log(consoleLogTime(debugModule, 'AxString'), AxString)
     //
     //  Process promise
@@ -322,8 +322,8 @@ export default function Library({ handlePage }) {
         //
         let itemsFilter = items
         switch (p_searchType) {
-          case 'lrid':
-            itemsFilter = items.filter(x => x.lrid === p_searchValueInt)
+          case 'lrlid':
+            itemsFilter = items.filter(x => x.lrlid === p_searchValueInt)
             break
           case 'lrowner':
             itemsFilter = items.filter(x =>
@@ -444,8 +444,8 @@ export default function Library({ handlePage }) {
           <TblHead />
           <TableBody>
             {recordsAfterPagingAndSorting().map(row => (
-              <TableRow key={row.lrid}>
-                {ScreenSmall ? null : <TableCell>{row.lrid}</TableCell>}
+              <TableRow key={row.lrlid}>
+                {ScreenSmall ? null : <TableCell>{row.lrlid}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.lrowner}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.lrgroup}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.lrref}</TableCell>}

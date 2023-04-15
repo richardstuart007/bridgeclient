@@ -121,7 +121,7 @@ export default function buildDataUser() {
     //
     User_Qid = []
     for (let i = 0; i < User_Q.length; i++) {
-      User_Qid.push(User_Q[i].qid)
+      User_Qid.push(User_Q[i].qqid)
     }
     //
     //  Order by question id
@@ -146,7 +146,7 @@ export default function buildDataUser() {
     //
     //  Selection
     //
-    let AxString = `* from bidding where bid in (${User_QidString})`
+    let AxString = `* from bidding where bqid in (${User_QidString})`
     if (debugLog) console.log(consoleLogTime(debugModule, 'AxString', AxString))
     //
     //  Process promise
@@ -197,7 +197,7 @@ export default function buildDataUser() {
     //
     //  Selection
     //
-    let AxString = `* from hands where hid in (${User_QidString})`
+    let AxString = `* from hands where hqid in (${User_QidString})`
     if (debugLog) console.log(consoleLogTime(debugModule, 'AxString', AxString))
     //
     //  Process promise

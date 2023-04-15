@@ -20,10 +20,10 @@ export default function QuizBiddingTableLine(props) {
     south: null,
     west: null
   }
-  if (round[0]) roundBid.north = round[0].bid
-  if (round[1]) roundBid.east = round[1].bid
-  if (round[2]) roundBid.south = round[2].bid
-  if (round[3]) roundBid.west = round[3].bid
+  if (round[0]) roundBid.north = round[0].bqid
+  if (round[1]) roundBid.east = round[1].bqid
+  if (round[2]) roundBid.south = round[2].bqid
+  if (round[3]) roundBid.west = round[3].bqid
   //
   //  round into Object
   //
@@ -45,17 +45,17 @@ export default function QuizBiddingTableLine(props) {
       <QuizBiddingTableLineCell
         key='north'
         cell='north'
-        bid={roundBid.north}
+        bqid={roundBid.north}
         suit={roundSuit.north}
       />
-      <QuizBiddingTableLineCell key='east' cell='east' bid={roundBid.east} suit={roundSuit.east} />
+      <QuizBiddingTableLineCell key='east' cell='east' bqid={roundBid.east} suit={roundSuit.east} />
       <QuizBiddingTableLineCell
         key='south'
         cell='south'
-        bid={roundBid.south}
+        bqid={roundBid.south}
         suit={roundSuit.south}
       />
-      <QuizBiddingTableLineCell key='west' cell='west' bid={roundBid.west} suit={roundSuit.west} />
+      <QuizBiddingTableLineCell key='west' cell='west' bqid={roundBid.west} suit={roundSuit.west} />
     </TableRow>
   )
 }
