@@ -37,7 +37,7 @@ import consoleLogTime from '../../debug/consoleLogTime'
 //
 //  Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 const debugModule = 'QuizHistory'
 //
 //  Styles
@@ -104,6 +104,19 @@ const searchTypeOptionsSmall = [{ id: 'ogtitle', title: 'Group' }]
 //...........................................................................
 let g_allUsers = false
 let g_allUsersText = 'ALL'
+let g_handleQuizReset = true
+export function QuizHistoryReset() {
+  if (debugLog) console.log(consoleLogTime(debugModule, 'QuizHistoryReset'))
+  g_allUsers = false
+  g_allUsersText = 'ALL'
+  if (debugLog) console.log(consoleLogTime(debugModule, 'g_allUsers'), g_allUsers)
+  //
+  //  Rebuild data
+  //
+  sessionStorage.removeItem('Pg_Qh_Data')
+  sessionStorage.removeItem('Pg_Qh_Selection')
+  g_handleQuizReset = true
+}
 //============================================================================
 //= Exported Module
 //============================================================================
@@ -161,7 +174,7 @@ export default function QuizHistory({ handlePage }) {
   useEffect(() => {
     handleQuizReset()
     // eslint-disable-next-line
-  }, [])
+  }, [g_handleQuizReset])
   //
   //  Populate the Table
   //
@@ -176,6 +189,11 @@ export default function QuizHistory({ handlePage }) {
   //.  Reset the Quiz
   //...................................................................................
   function handleQuizReset() {
+    //
+    //  No reset
+    //
+    if (!g_handleQuizReset) return
+    g_handleQuizReset = false
     //
     //  Session Storage ?
     //
@@ -391,6 +409,10 @@ export default function QuizHistory({ handlePage }) {
     //  Subtitle
     //
     g_allUsers ? setSubtitle('ALL USERS') : setSubtitle(`${u_name} (${u_uid})`)
+    //
+    //  Refresh data
+    //
+    getRowAllData()
   }
   //...................................................................................
   //.  Render the form

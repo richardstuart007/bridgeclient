@@ -16,16 +16,16 @@ import MyActionButton from '../../components/controls/MyActionButton'
 import MyButton from '../../components/controls/MyButton'
 import MyInput from '../../components/controls/MyInput'
 import MySelect from '../../components/controls/MySelect'
-//
-//  Components
-//
 import PageHeader from '../../components/controls/PageHeader'
 import useMyTable from '../../components/controls/useMyTable'
 //
 //  Services
 //
-
 import rowCrud from '../../utilities/rowCrud'
+//
+//  Resets
+//
+import { QuizHistoryReset } from '../QuizHistory/QuizHistory'
 //
 //  Debug Settings
 //
@@ -210,6 +210,7 @@ export default function SwitchUser({ handlePage }) {
   function submitSwitchUser(row) {
     sessionStorage.setItem('User_User', JSON.stringify(row))
     sessionStorage.setItem('User_UserSwitch', JSON.stringify(true))
+    QuizHistoryReset()
     handlePage('PAGEBACK')
   }
   //...................................................................................

@@ -110,7 +110,11 @@ export default function Navigation({ handlePage }) {
       const User_User = JSON.parse(sessionStorage.getItem('User_User'))
       User_Admin = User_User.u_admin
     }
-    User_SignedIn && !ScreenSmall && User_Admin
+    let User_UserSwitch = false
+    const User_UserSwitchJSON = sessionStorage.getItem('User_UserSwitch')
+    if (User_UserSwitchJSON) User_UserSwitch = JSON.parse(User_UserSwitchJSON)
+
+    User_SignedIn && !ScreenSmall && (User_Admin || User_UserSwitch)
       ? (showButton_SwitchUser = true)
       : (showButton_SwitchUser = false)
   } catch (e) {
