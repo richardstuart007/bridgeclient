@@ -31,8 +31,8 @@ const initialFValues = {
 //
 // Constants
 //
-const { URL_SIGNIN } = require('../../services/constants.js')
-const { DFT_USER_OWNER } = require('../../services/constants.js')
+const URL_SIGNIN = process.env.REACT_APP_URL_SIGNIN
+const DFT_USER_OWNER = process.env.REACT_APP_DFT_USER_OWNER
 //...................................................................................
 //.  Main Line
 //...................................................................................

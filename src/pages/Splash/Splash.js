@@ -22,7 +22,7 @@ const debugModule = 'Splash'
 //
 // Constants
 //
-const { URL_HELLO } = require('../../services/constants.js')
+const URL_HELLO = process.env.REACT_APP_URL_HELLO
 //===================================================================================
 export default function Splash({ handlePage }) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))

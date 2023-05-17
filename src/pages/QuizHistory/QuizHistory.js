@@ -37,7 +37,7 @@ import consoleLogTime from '../../debug/consoleLogTime'
 //
 //  Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugModule = 'QuizHistory'
 //
 //  Styles

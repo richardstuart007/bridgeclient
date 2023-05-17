@@ -12,7 +12,7 @@ const debugModule = 'rowCrud'
 //
 // Constants
 //
-const { URL_TABLES } = require('../services/constants.js')
+const URL_TABLES = process.env.REACT_APP_URL_TABLES
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------

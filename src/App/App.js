@@ -37,8 +37,8 @@ const theme = createTheme({})
 //
 //  Start Pages
 //
-const { PAGESTART } = require('../services/constants.js')
-const { PAGESTARTAPP } = require('../services/constants.js')
+const PAGESTART = process.env.REACT_APP_PAGESTART
+const PAGESTARTAPP = process.env.REACT_APP_PAGESTARTAPP
 //...........................................................................
 // Global VARIABLES
 //...........................................................................
@@ -100,24 +100,15 @@ export default function App() {
       extra: null,
       retry: null
     }
-    const { REACT_APP_ENV_TIMEOUT } = require('../services/constants.js')
-    const env_timeout = process.env.REACT_APP_ENV_TIMEOUT
-    if (debugLog) console.log(consoleLogTime(debugModule, 'env_timeout'), env_timeout)
-    env_timeout
-      ? (AppTimeout.timeout = parseInt(env_timeout))
-      : (AppTimeout.timeout = REACT_APP_ENV_TIMEOUT)
 
-    const { REACT_APP_ENV_TIMEOUT_EXTRA } = require('../services/constants.js')
-    const env_timeout_extra = process.env.REACT_APP_ENV_TIMEOUT_EXTRA
-    env_timeout_extra
-      ? (AppTimeout.extra = parseInt(env_timeout_extra))
-      : (AppTimeout.extra = REACT_APP_ENV_TIMEOUT_EXTRA)
+    const env_timeout = process.env.REACT_APP_TIMEOUT
+    AppTimeout.timeout = parseInt(env_timeout)
 
-    const { REACT_APP_ENV_TIMEOUT_RETRY } = require('../services/constants.js')
-    const env_timeout_retry = process.env.REACT_APP_ENV_TIMEOUT_RETRY
-    env_timeout_retry
-      ? (AppTimeout.retry = parseInt(env_timeout_retry))
-      : (AppTimeout.retry = REACT_APP_ENV_TIMEOUT_RETRY)
+    const env_timeout_extra = process.env.REACT_APP_TIMEOUT_EXTRA
+    AppTimeout.extra = parseInt(env_timeout_extra)
+
+    const env_timeout_retry = process.env.REACT_APP_TIMEOUT_RETRY
+    AppTimeout.retry = parseInt(env_timeout_retry)
     //
     //  Save in session storage
     //
@@ -142,65 +133,65 @@ export default function App() {
     //
     //  Remote Client --> Remote Server 1 --> Remote Database 1
     //
-    const { SERVER01 } = require('../services/constants.js')
-    const { DATABASE01 } = require('../services/constants.js')
-    const { SERVERURL01 } = require('../services/constants.js')
+    const SERVER01 = process.env.REACT_APP_SERVER01
+    const DATABASE01 = process.env.REACT_APP_DATABASE01
+    const SERVERURL01 = process.env.REACT_APP_SERVERURL01
     //
     //  Remote Client --> Remote Server 2 --> Remote Database 2
     //
-    const { SERVER02 } = require('../services/constants.js')
-    const { DATABASE02 } = require('../services/constants.js')
-    const { SERVERURL02 } = require('../services/constants.js')
+    const SERVER02 = process.env.REACT_APP_SERVER02
+    const DATABASE02 = process.env.REACT_APP_DATABASE02
+    const SERVERURL02 = process.env.REACT_APP_SERVERURL02
     //
     //  Remote Client --> Remote Server 3 --> Remote Database 3
     //
-    const { SERVER03 } = require('../services/constants.js')
-    const { DATABASE03 } = require('../services/constants.js')
-    const { SERVERURL03 } = require('../services/constants.js')
+    const SERVER03 = process.env.REACT_APP_SERVER03
+    const DATABASE03 = process.env.REACT_APP_DATABASE03
+    const SERVERURL03 = process.env.REACT_APP_SERVERURL03
     //
     //  Remote Client --> Remote Server 4 --> Remote Database 4
     //
-    const { SERVER04 } = require('../services/constants.js')
-    const { DATABASE04 } = require('../services/constants.js')
-    const { SERVERURL04 } = require('../services/constants.js')
+    const SERVER04 = process.env.REACT_APP_SERVER04
+    const DATABASE04 = process.env.REACT_APP_DATABASE04
+    const SERVERURL04 = process.env.REACT_APP_SERVERURL04
     //------------------------------------------------------------------------
     //  Local - Client/Server - Remote Database
     //------------------------------------------------------------------------
     //
     //  Local Client --> Local Server 1 --> Remote Database 1
     //
-    const { SERVER11 } = require('../services/constants.js')
-    const { SERVERURL11 } = require('../services/constants.js')
+    const SERVER11 = process.env.REACT_APP_SERVER11
+    const SERVERURL11 = process.env.REACT_APP_SERVERURL11
     //
     //  Local Client --> Local Server 2 --> Remote Database 2
     //
-    const { SERVER12 } = require('../services/constants.js')
-    const { SERVERURL12 } = require('../services/constants.js')
+    const SERVER12 = process.env.REACT_APP_SERVER12
+    const SERVERURL12 = process.env.REACT_APP_SERVERURL12
     //
     //  Local Client --> Local Server 3 --> Remote Database 3
     //
-    const { SERVER13 } = require('../services/constants.js')
-    const { SERVERURL13 } = require('../services/constants.js')
+    const SERVER13 = process.env.REACT_APP_SERVER13
+    const SERVERURL13 = process.env.REACT_APP_SERVERURL13
     //
     //  Local Client --> Local Server 4 --> Remote Database 4
     //
-    const { SERVER14 } = require('../services/constants.js')
-    const { SERVERURL14 } = require('../services/constants.js')
+    const SERVER14 = process.env.REACT_APP_SERVER14
+    const SERVERURL14 = process.env.REACT_APP_SERVERURL14
     //------------------------------------------------------------------------
     //  Local - Client/Server/Database
     //------------------------------------------------------------------------
     //
     //  Local Client --> Local Server --> Local Database 6
     //
-    const { SERVER16 } = require('../services/constants.js')
-    const { DATABASE6 } = require('../services/constants.js')
-    const { SERVERURL16 } = require('../services/constants.js')
+    const SERVER16 = process.env.REACT_APP_SERVER16
+    const DATABASE6 = process.env.REACT_APP_DATABASE6
+    const SERVERURL16 = process.env.REACT_APP_SERVERURL16
     //
     //  Local Client --> Local Server --> Local Database 7
     //
-    const { SERVER17 } = require('../services/constants.js')
-    const { DATABASE7 } = require('../services/constants.js')
-    const { SERVERURL17 } = require('../services/constants.js')
+    const SERVER17 = process.env.REACT_APP_SERVER17
+    const DATABASE7 = process.env.REACT_APP_DATABASE7
+    const SERVERURL17 = process.env.REACT_APP_SERVERURL17
     //------------------------------------------------------------------------
     switch (g_server_database) {
       //------------------------------------------------------

@@ -12,7 +12,7 @@ const debugModule = 'registerUser'
 //
 // Constants
 //
-const { URL_REGISTER } = require('../../services/constants.js')
+const URL_REGISTER = process.env.REACT_APP_URL_REGISTER
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------
