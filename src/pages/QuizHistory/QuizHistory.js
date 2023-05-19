@@ -37,7 +37,7 @@ import consoleLogTime from '../../debug/consoleLogTime'
 //
 //  Debug Settings
 //
-const debugLog = debugSettings()
+let debugLog = false
 const debugModule = 'QuizHistory'
 //
 //  Styles
@@ -121,6 +121,10 @@ export function QuizHistoryReset() {
 //= Exported Module
 //============================================================================
 export default function QuizHistory({ handlePage }) {
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
   //...........................................................................
   // Module STATE
   //...........................................................................

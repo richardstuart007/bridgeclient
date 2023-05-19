@@ -21,7 +21,7 @@ import QuizLinearProgress from './QuizLinearProgress'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+let debugLog
 const debugModule = 'Quiz'
 //.............................................................................
 //.  Initialisation
@@ -39,6 +39,10 @@ let g_quizAns = []
 //...................................................................................
 export default function Quiz({ handlePage }) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
   //
   //  Signed in User
   //

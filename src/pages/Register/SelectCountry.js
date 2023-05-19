@@ -7,13 +7,17 @@ import Autocomplete from '@mui/material/Autocomplete'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+let debugLog
 const debugModule = 'SelectCountry'
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function SelectCountry(props) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
   //
   //  Deconstruct
   //

@@ -8,7 +8,7 @@ import makeStyles from '@mui/styles/makeStyles'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+let debugLog
 const debugModule = 'MyAutocomplete'
 //
 //  Styles
@@ -22,6 +22,10 @@ const useStyles = makeStyles(theme => ({
 //.  Main Line
 //...................................................................................
 export default function MyAutocomplete(props) {
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
   //
   //  Deconstruct
   //

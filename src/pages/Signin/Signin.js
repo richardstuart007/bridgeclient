@@ -28,15 +28,14 @@ const initialFValues = {
   user: '',
   password: ''
 }
-//
-// Constants
-//
-const URL_SIGNIN = process.env.REACT_APP_URL_SIGNIN
-const DFT_USER_OWNER = process.env.REACT_APP_DFT_USER_OWNER
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function Signin({ handlePage }) {
+  //
+  //  Application Environment Variables
+  //
+  const App_Env = JSON.parse(sessionStorage.getItem('App_Env'))
   //
   // State
   //
@@ -165,7 +164,7 @@ export default function Signin({ handlePage }) {
         user: user,
         password: password
       }
-      const URL = App_URL + URL_SIGNIN
+      const URL = App_URL + App_Env.URL_SIGNIN
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
       //
       //  Info
@@ -225,7 +224,7 @@ export default function Signin({ handlePage }) {
     //
     //  Userowners string
     //
-    let ownersString = `'${DFT_USER_OWNER}'`
+    let ownersString = `'${App_Env.DFT_USER_OWNER}'`
     if (userownerRows && userownerRows.length > 0) {
       ownersString = ''
       for (let i = 0; i < userownerRows.length; i++) {

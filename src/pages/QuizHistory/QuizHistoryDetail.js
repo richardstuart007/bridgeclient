@@ -19,12 +19,16 @@ import QuizQuestion from '../Quiz/QuizQuestion'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+let debugLog
 const debugModule = 'QuizHistoryDetail'
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function QuizHistoryDetail({ handlePage }) {
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
   //
   //  Counts
   //

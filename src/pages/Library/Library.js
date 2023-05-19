@@ -271,7 +271,7 @@ export default function Library({ handlePage }) {
   //.  Prepare Row before switching to Quiz
   //...................................................................................
   function LibraryRow(row) {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'LibraryRow'), ...row)
+    if (debugLog) console.log(consoleLogTime(debugModule, 'LibraryRow'), { ...row })
     //
     //  Store title
     //

@@ -11,11 +11,15 @@ import rowCrud from '../utilities/rowCrud'
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
-const debugLog = debugSettings()
+let debugLog
 const debugModule = 'writeUsersHistory'
 //===================================================================================
 export default function writeUsersHistory() {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
   //
   //  Answers
   //

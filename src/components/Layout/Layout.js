@@ -23,7 +23,7 @@ import consoleLogTime from '../../debug/consoleLogTime'
 //
 //  Debug Settings
 //
-const debugLog = debugSettings()
+let debugLog
 const debugModule = 'Layout'
 //
 //  Style overrides
@@ -62,6 +62,10 @@ const useStyles = makeStyles(theme => {
 //============================================================================
 export default function Layout({ handlePage, children }) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
   //...........................................................................
   // Module STATE
   //...........................................................................

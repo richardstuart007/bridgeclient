@@ -21,7 +21,7 @@ import rowCrud from '../../utilities/rowCrud'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+let debugLog
 const debugModule = 'UsersSettings'
 //
 //  Form Initial Values
@@ -43,6 +43,10 @@ const initialFValues = {
 //...................................................................................
 export default function UsersSettings({ handlePage }) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
   //
   //  On change of record, set State
   //

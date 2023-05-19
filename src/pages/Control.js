@@ -16,11 +16,15 @@ import SwitchUser from './SwitchUser/SwitchUser'
 //
 import consoleLogTime from '../debug/consoleLogTime'
 import debugSettings from '../debug/debugSettings'
-const debugLog = debugSettings()
+let debugLog
 const debugModule = 'Control'
 //===================================================================================
 export default function Control({ handlePage }) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
   //.............................................................................
   //.  Main Line
   //.............................................................................

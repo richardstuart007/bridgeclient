@@ -13,6 +13,7 @@ import Control from '../pages/Control'
 //  Utilities
 //
 import writeUsersHistory from '../services/writeUsersHistory'
+import writeApp_Env from '../utilities/writeApp_Env'
 //
 //  Common Components
 //
@@ -26,9 +27,13 @@ import consoleLogTime from '../debug/consoleLogTime'
 // Global CONSTANTS
 //...........................................................................
 //
+//  Save Process.env variables
+//
+let App_Env
+//
 //  Debug Settings
 //
-const debugLog = debugSettings()
+let debugLog
 const debugModule = 'App'
 //
 //  Layout Theme
@@ -37,14 +42,12 @@ const theme = createTheme({})
 //
 //  Start Pages
 //
-const PAGESTART = process.env.REACT_APP_PAGESTART
-const PAGESTARTAPP = process.env.REACT_APP_PAGESTARTAPP
+let PAGESTART
+let PAGESTARTAPP
 //...........................................................................
 // Global VARIABLES
 //...........................................................................
 let g_firstTimeFlag = true
-let g_server_database
-let g_node_env
 let g_Database = 'Error'
 let g_Server = 'Error'
 let g_URL = 'Error'
@@ -53,6 +56,10 @@ let g_URL = 'Error'
 //============================================================================
 export default function App() {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
   //...........................................................................
   // Module STATE
   //...........................................................................
@@ -87,32 +94,21 @@ export default function App() {
   function firstTime() {
     if (debugLog) console.log(consoleLogTime(debugModule, 'First Time APP Reset'))
     //
-    //  Environment variables
+    //  Write Environment Variables
     //
-    g_server_database = process.env.REACT_APP_SERVER_DATABASE
-    g_server_database = g_server_database.trim()
-    g_node_env = process.env.NODE_ENV
+    writeApp_Env()
     //
-    //  Timeouts
+    //  Application Environment Variables
     //
-    const AppTimeout = {
-      timeout: null,
-      extra: null,
-      retry: null
-    }
-
-    const env_timeout = process.env.REACT_APP_TIMEOUT
-    AppTimeout.timeout = parseInt(env_timeout)
-
-    const env_timeout_extra = process.env.REACT_APP_TIMEOUT_EXTRA
-    AppTimeout.extra = parseInt(env_timeout_extra)
-
-    const env_timeout_retry = process.env.REACT_APP_TIMEOUT_RETRY
-    AppTimeout.retry = parseInt(env_timeout_retry)
+    const App_EnvJSON = sessionStorage.getItem('App_Env')
+    App_EnvJSON
+      ? (App_Env = JSON.parse(App_EnvJSON))
+      : console.log(consoleLogTime(debugModule, 'App_Env not written'))
     //
-    //  Save in session storage
+    //  Start Pages
     //
-    sessionStorage.setItem('App_Timeout', JSON.stringify(AppTimeout))
+    PAGESTART = App_Env.PAGESTART
+    PAGESTARTAPP = App_Env.PAGESTARTAPP
     //
     //  Server & Database
     //
@@ -126,74 +122,73 @@ export default function App() {
   //.  Local Port Overridden - Update Constants
   //.............................................................................
   function Set_ServerDatabase() {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'g_server_database'), g_server_database)
     //------------------------------------------------------------------------
     //  Remote - Client/Server/Database (Production)
     //------------------------------------------------------------------------
     //
     //  Remote Client --> Remote Server 1 --> Remote Database 1
     //
-    const SERVER01 = process.env.REACT_APP_SERVER01
-    const DATABASE01 = process.env.REACT_APP_DATABASE01
-    const SERVERURL01 = process.env.REACT_APP_SERVERURL01
+    const SERVER01 = App_Env.SERVER01
+    const DATABASE01 = App_Env.DATABASE01
+    const SERVERURL01 = App_Env.SERVERURL01
     //
     //  Remote Client --> Remote Server 2 --> Remote Database 2
     //
-    const SERVER02 = process.env.REACT_APP_SERVER02
-    const DATABASE02 = process.env.REACT_APP_DATABASE02
-    const SERVERURL02 = process.env.REACT_APP_SERVERURL02
+    const SERVER02 = App_Env.SERVER02
+    const DATABASE02 = App_Env.DATABASE02
+    const SERVERURL02 = App_Env.SERVERURL02
     //
     //  Remote Client --> Remote Server 3 --> Remote Database 3
     //
-    const SERVER03 = process.env.REACT_APP_SERVER03
-    const DATABASE03 = process.env.REACT_APP_DATABASE03
-    const SERVERURL03 = process.env.REACT_APP_SERVERURL03
+    const SERVER03 = App_Env.SERVER03
+    const DATABASE03 = App_Env.DATABASE03
+    const SERVERURL03 = App_Env.SERVERURL03
     //
     //  Remote Client --> Remote Server 4 --> Remote Database 4
     //
-    const SERVER04 = process.env.REACT_APP_SERVER04
-    const DATABASE04 = process.env.REACT_APP_DATABASE04
-    const SERVERURL04 = process.env.REACT_APP_SERVERURL04
+    const SERVER04 = App_Env.SERVER04
+    const DATABASE04 = App_Env.DATABASE04
+    const SERVERURL04 = App_Env.SERVERURL04
     //------------------------------------------------------------------------
     //  Local - Client/Server - Remote Database
     //------------------------------------------------------------------------
     //
     //  Local Client --> Local Server 1 --> Remote Database 1
     //
-    const SERVER11 = process.env.REACT_APP_SERVER11
-    const SERVERURL11 = process.env.REACT_APP_SERVERURL11
+    const SERVER11 = App_Env.SERVER11
+    const SERVERURL11 = App_Env.SERVERURL11
     //
     //  Local Client --> Local Server 2 --> Remote Database 2
     //
-    const SERVER12 = process.env.REACT_APP_SERVER12
-    const SERVERURL12 = process.env.REACT_APP_SERVERURL12
+    const SERVER12 = App_Env.SERVER12
+    const SERVERURL12 = App_Env.SERVERURL12
     //
     //  Local Client --> Local Server 3 --> Remote Database 3
     //
-    const SERVER13 = process.env.REACT_APP_SERVER13
-    const SERVERURL13 = process.env.REACT_APP_SERVERURL13
+    const SERVER13 = App_Env.SERVER13
+    const SERVERURL13 = App_Env.SERVERURL13
     //
     //  Local Client --> Local Server 4 --> Remote Database 4
     //
-    const SERVER14 = process.env.REACT_APP_SERVER14
-    const SERVERURL14 = process.env.REACT_APP_SERVERURL14
+    const SERVER14 = App_Env.SERVER14
+    const SERVERURL14 = App_Env.SERVERURL14
     //------------------------------------------------------------------------
     //  Local - Client/Server/Database
     //------------------------------------------------------------------------
     //
     //  Local Client --> Local Server --> Local Database 6
     //
-    const SERVER16 = process.env.REACT_APP_SERVER16
-    const DATABASE6 = process.env.REACT_APP_DATABASE6
-    const SERVERURL16 = process.env.REACT_APP_SERVERURL16
+    const SERVER16 = App_Env.SERVER16
+    const DATABASE6 = App_Env.DATABASE6
+    const SERVERURL16 = App_Env.SERVERURL16
     //
     //  Local Client --> Local Server --> Local Database 7
     //
-    const SERVER17 = process.env.REACT_APP_SERVER17
-    const DATABASE7 = process.env.REACT_APP_DATABASE7
-    const SERVERURL17 = process.env.REACT_APP_SERVERURL17
+    const SERVER17 = App_Env.SERVER17
+    const DATABASE7 = App_Env.DATABASE7
+    const SERVERURL17 = App_Env.SERVERURL17
     //------------------------------------------------------------------------
-    switch (g_server_database) {
+    switch (App_Env.SERVER_DATABASE) {
       //------------------------------------------------------
       //  Client(Local/Remote) --> Remote Server 1 --> Remote Database 1
       //------------------------------------------------------
@@ -294,8 +289,6 @@ export default function App() {
     //
     //  Store Server, Database, URL
     //
-    sessionStorage.setItem('App_Server_Database', JSON.stringify(g_server_database))
-    sessionStorage.setItem('App_Node_Env', JSON.stringify(g_node_env))
     sessionStorage.setItem('App_Server', JSON.stringify(g_Server))
     sessionStorage.setItem('App_Database', JSON.stringify(g_Database))
     sessionStorage.setItem('App_URL', JSON.stringify(g_URL))

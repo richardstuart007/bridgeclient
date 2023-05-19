@@ -9,15 +9,15 @@ import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
 const debugLog = debugSettings()
 const debugModule = 'registerUser'
-//
-// Constants
-//
-const URL_REGISTER = process.env.REACT_APP_URL_REGISTER
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------
 export default async function registerUser(props) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //
+  //  Application Environment Variables
+  //
+  const App_Env = JSON.parse(sessionStorage.getItem('App_Env'))
   //
   //
   //  Deconstruct props
@@ -76,7 +76,7 @@ export default async function registerUser(props) {
         admin: admin,
         dev: dev
       }
-      const URL = App_URL + URL_REGISTER
+      const URL = App_URL + App_Env.URL_REGISTER
       //
       //  Info
       //

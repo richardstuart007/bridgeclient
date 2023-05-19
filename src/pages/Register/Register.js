@@ -19,30 +19,8 @@ import SelectCountry from './SelectCountry'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+let debugLog
 const debugModule = 'Register'
-//..............................................................................
-//.  Initialisation
-//.............................................................................
-//
-// Constants
-//
-const DFT_USER_MAXQUESTIONS = process.env.REACT_APP_DFT_USER_MAXQUESTIONS
-const DFT_USER_OWNER = process.env.REACT_APP_DFT_USER_OWNER
-//
-// Booleans
-//
-let DFT_USER_SHOWPROGRESS = false
-if (process.env.REACT_APP_DFT_USER_SHOWPROGRESS === 'true') DFT_USER_SHOWPROGRESS = true
-
-let DFT_USER_SHOWSCORE = false
-if (process.env.REACT_APP_DFT_USER_SHOWSCORE === 'true') DFT_USER_SHOWSCORE = true
-
-let DFT_USER_SORTQUESTIONS = false
-if (process.env.REACT_APP_DFT_USER_SORTQUESTIONS === 'true') DFT_USER_SORTQUESTIONS = true
-
-let DFT_USER_SKIPCORRECT = false
-if (process.env.REACT_APP_DFT_USER_SKIPCORRECT === 'true') DFT_USER_SKIPCORRECT = true
 //.............................................................................
 //.  Data Input Fields
 //.............................................................................
@@ -62,6 +40,14 @@ const initialFValues = {
 //...................................................................................
 function Register({ handlePage }) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
+  //
+  //  Application Environment Variables
+  //
+  const App_Env = JSON.parse(sessionStorage.getItem('App_Env'))
   //
   // State
   //
@@ -156,12 +142,12 @@ function Register({ handlePage }) {
       name: name,
       fedid: fedid,
       fedcountry: fedcountry,
-      dftmaxquestions: DFT_USER_MAXQUESTIONS,
-      dftowner: DFT_USER_OWNER,
-      showprogress: DFT_USER_SHOWPROGRESS,
-      showscore: DFT_USER_SHOWSCORE,
-      sortquestions: DFT_USER_SORTQUESTIONS,
-      skipcorrect: DFT_USER_SKIPCORRECT,
+      dftmaxquestions: App_Env.DFT_USER_MAXQUESTIONS,
+      dftowner: App_Env.DFT_USER_OWNER,
+      showprogress: App_Env.DFT_USER_SHOWPROGRESS,
+      showscore: App_Env.DFT_USER_SHOWSCORE,
+      sortquestions: App_Env.DFT_USER_SORTQUESTIONS,
+      skipcorrect: App_Env.DFT_USER_SKIPCORRECT,
       admin: false,
       dev: false
     }

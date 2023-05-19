@@ -7,9 +7,8 @@ import axios from 'axios'
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
-const debugLog = debugSettings()
+let debugLog
 const debugModule = 'apiAxios'
-if (debugLog) console.log(consoleLogTime(debugModule, 'Start Global'))
 //
 //  Global
 //
@@ -20,22 +19,27 @@ let g_AxSess = 0
 // methods - post(get), post(update), delete(delete), post(upsert)
 //
 export default async function apiAxios(props) {
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
+  //
+  //  Application Environment Variables
+  //
+  const App_Env = JSON.parse(sessionStorage.getItem('App_Env'))
+  if (debugLog) console.log(consoleLogTime(debugModule, 'App_Env '), App_Env)
+
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
-  if (debugLog) console.log(consoleLogTime(debugModule, 'props'), { ...props })
+
   //
   //  Constants
   //
-  const AppTimeout = JSON.parse(sessionStorage.getItem('App_Timeout'))
-  if (debugLog) console.log(consoleLogTime(debugModule, 'AppTimeout'), AppTimeout)
-  const {
-    AxMethod = 'post',
-    AxUrl,
-    AxData,
-    AxTimeout = AppTimeout.timeout,
-    AxInfo = 'SqlDatabase',
-    AxRetry = AppTimeout.retry,
-    AxExtra = AppTimeout.extra
-  } = props
+  const { AxMethod = 'post', AxUrl, AxData, AxInfo = 'SqlDatabase' } = props
+  if (debugLog) console.log(consoleLogTime(debugModule, 'props'), { ...props })
+  const AxTimeout = App_Env.TIMEOUT
+  const AxRetry = App_Env.TIMEOUT_RETRY
+  const AxExtra = App_Env.TIMEOUT_EXTRA
+  if (debugLog) console.log(consoleLogTime(debugModule, 'AxTimeout'), AxTimeout)
   //
   //  retry on Fail
   //

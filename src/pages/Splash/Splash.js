@@ -17,15 +17,20 @@ import MyButton from '../../components/controls/MyButton'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+let debugLog
 const debugModule = 'Splash'
-//
-// Constants
-//
-const URL_HELLO = process.env.REACT_APP_URL_HELLO
 //===================================================================================
 export default function Splash({ handlePage }) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
+  //
+  //  Application Environment Variables
+  //
+  const App_Env = JSON.parse(sessionStorage.getItem('App_Env'))
+  if (debugLog) console.log(consoleLogTime(debugModule, 'App_Env'), App_Env)
   //
   // State
   //
@@ -68,9 +73,18 @@ export default function Splash({ handlePage }) {
     myPromiseHelloServer.then(function (rtnObj) {
       if (debugLog) console.log(consoleLogTime(debugModule, 'rtnObj'), { ...rtnObj })
       //
-      //  Error
+      //  Error - no rsponse from server
       //
-      if (!rtnObj || !rtnObj.rtnValue) {
+      if (!rtnObj) {
+        let message = 'No response from the Server'
+        setForm_message(message)
+        setshowConnect(true)
+        return
+      }
+      //
+      //  Error returned from the server
+      //
+      if (!rtnObj.rtnValue) {
         let message
         rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
         if (debugLog) console.log(consoleLogTime(debugModule, 'Error Message'), message)
@@ -109,7 +123,7 @@ export default function Splash({ handlePage }) {
         AxClient: debugModule,
         AxTable: 'dbstats'
       }
-      const URL = App_URL + URL_HELLO
+      const URL = App_URL + App_Env.URL_HELLO
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
       //
       //  Info

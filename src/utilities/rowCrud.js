@@ -7,17 +7,21 @@ import apiAxios from './apiAxios'
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
-const debugLog = debugSettings()
+let debugLog
 const debugModule = 'rowCrud'
-//
-// Constants
-//
-const URL_TABLES = process.env.REACT_APP_URL_TABLES
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------
 export default async function rowCrud(props) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
+  //
+  //  Debug Settings
+  //
+  debugLog = debugSettings()
+  //
+  //  Application Environment Variables
+  //
+  const App_Env = JSON.parse(sessionStorage.getItem('App_Env'))
   //
   //  Define returned object (for errors)
   //
@@ -161,7 +165,7 @@ export default async function rowCrud(props) {
       //
       //  Full URL
       //
-      const URL = App_URL + URL_TABLES
+      const URL = App_URL + App_Env.URL_TABLES
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
       if (debugLog)
         console.log(
