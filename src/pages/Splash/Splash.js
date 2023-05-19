@@ -70,8 +70,7 @@ export default function Splash({ handlePage }) {
       //
       //  Error
       //
-      const rtnValue = rtnObj.rtnValue
-      if (!rtnValue) {
+      if (!rtnObj || !rtnObj.rtnValue) {
         let message
         rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
         if (debugLog) console.log(consoleLogTime(debugModule, 'Error Message'), message)
