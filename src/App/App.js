@@ -80,6 +80,7 @@ export default function App() {
     //
     //  First Time Setup
     //
+    if (debugLog) console.log(consoleLogTime(debugModule, 'g_firstTimeFlag'), g_firstTimeFlag)
     if (g_firstTimeFlag) {
       g_firstTimeFlag = false
       firstTime()
@@ -101,9 +102,8 @@ export default function App() {
     //  Application Environment Variables
     //
     const App_EnvJSON = sessionStorage.getItem('App_Env')
-    App_EnvJSON
-      ? (App_Env = JSON.parse(App_EnvJSON))
-      : console.log(consoleLogTime(debugModule, 'App_Env not written'))
+    App_EnvJSON ? (App_Env = JSON.parse(App_EnvJSON)) : console.log('App_Env not written')
+    if (debugLog) console.log(consoleLogTime(debugModule, 'App_EnvJSON '), App_EnvJSON)
     //
     //  Start Pages
     //
