@@ -113,7 +113,8 @@ export default function writeUsersHistory() {
     newQH.r_hid = 0
     newQH.ogtitle = Page_Quiz_ogtitle
     newQH.yymmdd = yymmdd
-
+    newQH.u_name = User_User.u_name
+    if (debugLog) console.log(consoleLogTime(debugModule, 'newQH'), newQH)
     Page_History_Data.unshift(newQH)
     sessionStorage.setItem('Page_History_Data', JSON.stringify(Page_History_Data))
   }

@@ -163,8 +163,8 @@ export default function QuizHistory({ handlePage }) {
   //  Get User
   //
   const User_User = JSON.parse(sessionStorage.getItem('User_User'))
-  const u_name = User_User.u_name
-  const u_uid = User_User.u_uid
+  const User_name = User_User.u_name
+  const User_uid = User_User.u_uid
   const User_Admin = User_User.u_admin
   //
   //  Rebuild Data (switched user)
@@ -233,13 +233,13 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Selection
     //
-    let AxString = `r_hid, r_uid, u_name, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_totalpoints, r_maxpoints, r_correctpercent from usershistory`
+    let AxString = `r_hid, r_uid, coalesce(u_name, '${User_name}') as u_name, r_datetime, r_owner, r_group, ogtitle, r_qid, r_ans, r_questions, r_totalpoints, r_maxpoints, r_correctpercent from usershistory`
     AxString = AxString + ` join ownergroup on r_owner = ogowner and r_group = oggroup`
     AxString = AxString + ` join users on r_uid = u_uid`
     //
     //  Select User (if not ALL)
     //
-    if (!g_allUsers) AxString = AxString + ` where r_uid = ${u_uid}`
+    if (!g_allUsers) AxString = AxString + ` where r_uid = ${User_uid}`
     AxString = AxString + ` order by r_hid desc`
     if (debugLog) console.log(consoleLogTime(debugModule, 'AxString'), AxString)
     //
@@ -352,7 +352,7 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Subtitle
     //
-    g_allUsers ? setSubtitle('ALL USERS') : setSubtitle(`${u_name} (${u_uid})`)
+    g_allUsers ? setSubtitle('ALL USERS') : setSubtitle(`${User_name} (${User_uid})`)
     //
     //  Filter
     //
@@ -363,7 +363,7 @@ export default function QuizHistory({ handlePage }) {
         //
         let userFilter = items
         if (!g_allUsers) {
-          userFilter = items.filter(x => x.r_uid === u_uid)
+          userFilter = items.filter(x => x.r_uid === User_uid)
         }
         //
         //  Nothing to search, return rows
@@ -427,7 +427,7 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Subtitle
     //
-    g_allUsers ? setSubtitle('ALL USERS') : setSubtitle(`${u_name} (${u_uid})`)
+    g_allUsers ? setSubtitle('ALL USERS') : setSubtitle(`${User_name} (${User_uid})`)
     //
     //  Refresh data
     //
