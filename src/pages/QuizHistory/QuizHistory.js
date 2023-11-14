@@ -3,7 +3,16 @@
 //
 import { useState, useEffect } from 'react'
 import PeopleOutlineTwoToneIcon from '@mui/icons-material/PeopleOutlineTwoTone'
-import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Box } from '@mui/material'
+import {
+  Paper,
+  TableBody,
+  TableRow,
+  TableCell,
+  Toolbar,
+  InputAdornment,
+  Box,
+  Typography
+} from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import SearchIcon from '@mui/icons-material/Search'
 import FilterListIcon from '@mui/icons-material/FilterList'
@@ -37,7 +46,7 @@ import consoleLogTime from '../../debug/consoleLogTime'
 //
 //  Debug Settings
 //
-let debugLog = false
+const debugLog = debugSettings()
 const debugModule = 'QuizHistory'
 //
 //  Styles
@@ -99,32 +108,15 @@ const searchTypeOptionsLarge = [
   { id: 'ogtitle', title: 'Group' }
 ]
 const searchTypeOptionsSmall = [{ id: 'ogtitle', title: 'Group' }]
-//...........................................................................
-//  Global Variables
-//...........................................................................
+
 let g_allUsers = false
 let g_allUsersText = 'ALL'
-let g_handleQuizReset = true
-export function QuizHistoryReset() {
-  if (debugLog) console.log(consoleLogTime(debugModule, 'QuizHistoryReset'))
-  g_allUsers = false
-  g_allUsersText = 'ALL'
-  if (debugLog) console.log(consoleLogTime(debugModule, 'g_allUsers'), g_allUsers)
-  //
-  //  Rebuild data
-  //
-  sessionStorage.removeItem('Pg_Qh_Data')
-  sessionStorage.removeItem('Pg_Qh_Selection')
-  g_handleQuizReset = true
-}
+if (debugLog) console.log(consoleLogTime(debugModule, 'QuizHistory Global'))
 //============================================================================
 //= Exported Module
 //============================================================================
 export default function QuizHistory({ handlePage }) {
-  //
-  //  Debug Settings
-  //
-  debugLog = debugSettings()
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //...........................................................................
   // Module STATE
   //...........................................................................
@@ -146,9 +138,11 @@ export default function QuizHistory({ handlePage }) {
   const [startPage0, setStartPage0] = useState(false)
   const [allUsersText, setAllUsersText] = useState('ALL')
   const [subtitle, setSubtitle] = useState('')
+  const [form_message, setForm_message] = useState('')
   //...........................................................................
   // Module Main Line
   //...........................................................................
+  if (debugLog) console.log(consoleLogTime(debugModule, 'records'), records)
   //
   //  Small Screen overrides
   //
@@ -173,57 +167,69 @@ export default function QuizHistory({ handlePage }) {
   const u_uid = User_User.u_uid
   const User_Admin = User_User.u_admin
   //
+  //  Rebuild Data (switched user)
+  //
+  let Page_History_Rebuild = JSON.parse(sessionStorage.getItem('Page_History_Rebuild'))
+  if (!Page_History_Rebuild) Page_History_Rebuild = false
+  if (Page_History_Rebuild) {
+    sessionStorage.setItem('Page_History_Rebuild', false)
+    sessionStorage.removeItem('Page_History_Data')
+    setRecords([])
+    loadData()
+  }
+  //
   //  Initial Data Load
   //
   useEffect(() => {
-    handleQuizReset()
+    loadData()
     // eslint-disable-next-line
-  }, [g_handleQuizReset])
-  //
-  //  Populate the Table
-  //
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useMyTable(
-    records,
-    headCells,
-    filterFn,
-    startPage0,
-    setStartPage0
-  )
+  }, [])
+
   //...................................................................................
-  //.  Reset the Quiz
+  //.  Reset the Data
   //...................................................................................
-  function handleQuizReset() {
+  function loadData() {
     //
-    //  No reset
+    //  Do not refetch data if already exists
     //
-    if (!g_handleQuizReset) return
-    g_handleQuizReset = false
+    if (debugLog) console.log(consoleLogTime(debugModule, 'records'), [...records])
+    if (records.length !== 0) return
     //
-    //  Session Storage ?
+    //  Restore saved search values
     //
-    const Pg_Qh_Data = JSON.parse(sessionStorage.getItem('Pg_Qh_Data'))
-    if (Pg_Qh_Data) setRecords(Pg_Qh_Data)
-    //
-    //  Restore saved search values & search
-    //
-    const selection = JSON.parse(sessionStorage.getItem('Pg_Qh_Selection'))
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Pg_Qh_Selection'), { ...selection })
+    const selection = JSON.parse(sessionStorage.getItem('Page_History_Selection'))
+    if (debugLog)
+      console.log(consoleLogTime(debugModule, 'Page_History_Selection'), { ...selection })
     if (selection) {
       const searchType = selection.searchType
       const searchValue = selection.searchValue
       setSearchType(searchType)
       setSearchValue(searchValue)
+    }
+    //
+    //  Session Storage ?
+    //
+    const Page_History_Data = JSON.parse(sessionStorage.getItem('Page_History_Data'))
+    if (debugLog) console.log(consoleLogTime(debugModule, 'Page_History_Data'), Page_History_Data)
+    if (Page_History_Data) {
+      setForm_message('Loading Data ....')
+      setRecords(Page_History_Data)
       handleSearch(searchType, searchValue)
+      setForm_message('')
     }
     //
     //  Get Data
     //
-    if (!Pg_Qh_Data) getRowAllData()
+    if (!Page_History_Data) getRowAllData()
   }
   //.............................................................................
   //.  GET ALL
   //.............................................................................
   function getRowAllData() {
+    //
+    //  User Message
+    //
+    setForm_message('Retrieving data from the database....')
     //
     //  Selection
     //
@@ -259,22 +265,29 @@ export default function QuizHistory({ handlePage }) {
       //
       //  Data
       //
-      const Pg_Qh_Data = rtnObj.rtnRows
+      const Page_History_Data = rtnObj.rtnRows
       //
       //  Data History add time stamp
       //
-      const Pg_Qh_Data_Update = Pg_Qh_Data.map(record => ({
+      const Page_History_Data_Update = Page_History_Data.map(record => ({
         ...record,
         yymmdd: format(parseISO(record.r_datetime), 'yy-MM-dd')
       }))
       //
       //  Session Storage
       //
-      sessionStorage.setItem('Pg_Qh_Data', JSON.stringify(Pg_Qh_Data_Update))
+      sessionStorage.setItem('Page_History_Data', JSON.stringify(Page_History_Data_Update))
       //
       //  Update Table
       //
-      setRecords(Pg_Qh_Data_Update)
+      setForm_message('')
+      if (debugLog)
+        console.log(
+          consoleLogTime(debugModule, 'Page_History_Data_Update'),
+          Page_History_Data_Update
+        )
+
+      setRecords(Page_History_Data_Update)
       //
       //  Filter
       //
@@ -293,7 +306,7 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Store Row
     //
-    sessionStorage.setItem('Pg_Qd_Row', JSON.stringify(row))
+    sessionStorage.setItem('Page_Qd_Row', JSON.stringify(row))
     //
     //  Get data
     //
@@ -307,8 +320,8 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Store Row
     //
-    sessionStorage.setItem('Pg_Qd_Row', JSON.stringify(row))
-    sessionStorage.setItem('Pg_Qz_ogtitle', JSON.stringify(row.ogtitle))
+    sessionStorage.setItem('Page_Qd_Row', JSON.stringify(row))
+    sessionStorage.setItem('Page_Quiz_ogtitle', JSON.stringify(row.ogtitle))
     //
     //  buildDataQuiz
     //
@@ -335,7 +348,7 @@ export default function QuizHistory({ handlePage }) {
       searchType: p_searchType,
       searchValue: p_searchValue
     }
-    sessionStorage.setItem('Pg_Qh_Selection', JSON.stringify(selection))
+    sessionStorage.setItem('Page_History_Selection', JSON.stringify(selection))
     //
     //  Subtitle
     //
@@ -356,6 +369,8 @@ export default function QuizHistory({ handlePage }) {
         //  Nothing to search, return rows
         //
         if (p_searchValue === '') {
+          if (debugLog)
+            console.log(consoleLogTime(debugModule, 'setFilterFn userFilter'), userFilter)
           return userFilter
         }
         //
@@ -418,6 +433,18 @@ export default function QuizHistory({ handlePage }) {
     //
     getRowAllData()
   }
+  //.............................................................................
+  //
+  //  Populate the Table
+  //
+  if (debugLog) console.log(consoleLogTime(debugModule, 'records'), records)
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useMyTable(
+    records,
+    headCells,
+    filterFn,
+    startPage0,
+    setStartPage0
+  )
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -490,6 +517,11 @@ export default function QuizHistory({ handlePage }) {
               className={classes.myButton}
             />
           ) : null}
+          {/*.................................................................................................*/}
+          <Box className={classes.messages}>
+            <Typography style={{ color: 'red' }}>{form_message}</Typography>
+          </Box>
+
           {/* .......................................................................................... */}
         </Toolbar>
         {/* .......................................................................................... */}

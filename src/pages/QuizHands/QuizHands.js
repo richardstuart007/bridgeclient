@@ -15,19 +15,19 @@ export default function QuizHands({ qqid }) {
   //
   //  Get hands
   //
-  const Pg_Qz_HandsJSON = sessionStorage.getItem('Pg_Qz_Hands')
+  const Page_Quiz_HandsJSON = sessionStorage.getItem('Page_Quiz_Hands')
   //
   //  No data, return
   //
-  if (Pg_Qz_HandsJSON === []) return null
+  if (Page_Quiz_HandsJSON === []) return null
   //
   //  Parse data
   //
-  const Pg_Qz_Hands = JSON.parse(Pg_Qz_HandsJSON)
+  const Page_Quiz_Hands = JSON.parse(Page_Quiz_HandsJSON)
   //
   //  Find the HandsRow for this ID
   //
-  let HandsRow = Pg_Qz_Hands.find(element => element.hqid === testingQid)
+  let HandsRow = Page_Quiz_Hands.find(element => element.hqid === testingQid)
   //
   //  Has HandsRow ?
   //

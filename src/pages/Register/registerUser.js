@@ -7,7 +7,7 @@ import apiAxios from '../../utilities/apiAxios'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 const debugModule = 'registerUser'
 //--------------------------------------------------------------------
 //-  Main Line
@@ -18,7 +18,7 @@ export default async function registerUser(props) {
   //  Application Environment Variables
   //
   const App_Env = JSON.parse(sessionStorage.getItem('App_Env'))
-  //
+  if (debugLog) console.log(consoleLogTime(debugModule, 'App_Env'), { ...App_Env })
   //
   //  Deconstruct props
   //

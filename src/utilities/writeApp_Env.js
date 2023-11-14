@@ -53,7 +53,7 @@ export default function writeApp_Env() {
     DATABASE7: 'http://localhost:3917',
     SERVERURL17: 'LOCAL:bridge7',
     DFT_USER_MAXQUESTIONS: 20,
-    DFT_USER_OWNER: 'NZBridge',
+    DFT_USER_OWNER: 'Richard',
     DFT_USER_SHOWPROGRESS: true,
     DFT_USER_SHOWSCORE: true,
     DFT_USER_SORTQUESTIONS: true,

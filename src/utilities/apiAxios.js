@@ -58,7 +58,7 @@ export default async function apiAxios(props) {
     for (let w_AxTry = 1; w_AxTry < fpRetry + 1; w_AxTry++) {
       try {
         const w_AxTimeoutAlt = AxTimeout + (w_AxTry - 1) * AxExtra
-        const apiRetryRtn = await fpAsyncFunction(w_AxTry, w_AxTimeoutAlt)
+        const apiRetryRtn = await fpAsyncFunction(w_AxTry, w_AxTimeoutAlt, fpRetry)
         if (debugLog) console.log(consoleLogTime(debugModule, 'apiRetryRtn'), { ...apiRetryRtn })
         //
         //  No Catch (not a server error)
@@ -80,7 +80,7 @@ export default async function apiAxios(props) {
   //--------------------------------------------------------------------------------------------
   // Try request
   //--------------------------------------------------------------------------------------------
-  async function TryReq(fpAxTry, fpAxTimeoutAlt) {
+  async function TryReq(fpAxTry, fpAxTimeoutAlt, fpRetry) {
     //
     //  Try
     //
@@ -177,7 +177,11 @@ export default async function apiAxios(props) {
       //
       //  Error logging - Error
       //
-      console.log(consoleLogTime(debugModule, 'Catch - error'), error)
+      let messageSeverity = `Warning Try ${fpAxTry}/${fpRetry}`
+      if (error.message.substr(1, 7) === 'timeout')
+        messageSeverity = `Warning Timeout Try ${fpAxTry}/${fpRetry}`
+      if (fpAxTry === fpRetry) messageSeverity = `ERROR Final Retry ${fpAxTry} failed`
+      console.log(consoleLogTime(debugModule, `${messageSeverity}`), error)
       //
       //  Update body parms
       //

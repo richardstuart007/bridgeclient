@@ -23,10 +23,6 @@ import useMyTable from '../../components/controls/useMyTable'
 //
 import rowCrud from '../../utilities/rowCrud'
 //
-//  Resets
-//
-import { QuizHistoryReset } from '../QuizHistory/QuizHistory'
-//
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
@@ -210,7 +206,10 @@ export default function SwitchUser({ handlePage }) {
   function submitSwitchUser(row) {
     sessionStorage.setItem('User_User', JSON.stringify(row))
     sessionStorage.setItem('User_UserSwitch', JSON.stringify(true))
-    QuizHistoryReset()
+    //
+    //  Force Rebuild History
+    //
+    sessionStorage.setItem('Page_History_Rebuild', true)
     handlePage('PAGEBACK')
   }
   //...................................................................................

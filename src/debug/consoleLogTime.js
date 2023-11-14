@@ -41,6 +41,7 @@ export default function consoleLogTime(debugModule, message = '') {
     //  Calculate duration (current - previous)
     //
     const duration = timeCurrent - prevTime
+    const durationString = ('   ' + duration).slice(-4)
     //
     //  Update stored values
     //
@@ -52,7 +53,9 @@ export default function consoleLogTime(debugModule, message = '') {
     //
     //  Build return string
     //
-    const consoleLogTimemessage = `${prevCounter} ${duration} ${message}`
+    let messageString = message
+    if (message.length < 12) messageString = ('            ' + message).slice(-12)
+    const consoleLogTimemessage = `${prevCounter} ${durationString} ${messageString}`
     return consoleLogTimemessage
   } catch (error) {
     console.log(error)

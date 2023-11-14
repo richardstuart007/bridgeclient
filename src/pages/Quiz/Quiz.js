@@ -64,8 +64,8 @@ export default function Quiz({ handlePage }) {
   //
   //  Reset Quiz State
   //
-  const Pg_Qz_Reset = JSON.parse(sessionStorage.getItem('Pg_Qz_Reset'))
-  if (Pg_Qz_Reset) handleQuizReset()
+  const Page_Quiz_Reset = JSON.parse(sessionStorage.getItem('Page_Quiz_Reset'))
+  if (Page_Quiz_Reset) handleQuizReset()
   //
   //  No data (Error)
   //
@@ -79,14 +79,14 @@ export default function Quiz({ handlePage }) {
     //
     //  Reset flag
     //
-    sessionStorage.setItem('Pg_Qz_Reset', false)
+    sessionStorage.setItem('Page_Quiz_Reset', false)
     //
     //  Get store data & copy to State
     //
-    const Pg_Qz_Q_FltJSON = sessionStorage.getItem('Pg_Qz_Q_Flt')
-    const Pg_Qz_Q_Flt = JSON.parse(Pg_Qz_Q_FltJSON)
+    const Page_Quiz_Q_FltJSON = sessionStorage.getItem('Page_Quiz_Q_Flt')
+    const Page_Quiz_Q_Flt = JSON.parse(Page_Quiz_Q_FltJSON)
     let quest = []
-    Pg_Qz_Q_Flt.forEach(row => {
+    Page_Quiz_Q_Flt.forEach(row => {
       const rowData = { ...row }
       quest.push(rowData)
     })
@@ -102,7 +102,7 @@ export default function Quiz({ handlePage }) {
     // Reset Answers
     //
     g_quizAns = []
-    sessionStorage.setItem('Pg_Qz_A', JSON.stringify(g_quizAns))
+    sessionStorage.setItem('Page_Quiz_A', JSON.stringify(g_quizAns))
     setAnsPass(0)
     setAnsCount(0)
   }
@@ -127,7 +127,7 @@ export default function Quiz({ handlePage }) {
     //   Write Answers
     //
     g_quizAns[g_Idx] = id
-    sessionStorage.setItem('Pg_Qz_A', JSON.stringify(g_quizAns))
+    sessionStorage.setItem('Page_Quiz_A', JSON.stringify(g_quizAns))
     const nextAnsCount = ansCount + 1
     setAnsCount(nextAnsCount)
     //
@@ -148,7 +148,7 @@ export default function Quiz({ handlePage }) {
   //...................................................................................
   return (
     <>
-      <QuizQuestion quizRow={quizRow} quizQuestion={g_Idx + 1} quizTotal={g_questCount} />
+      <QuizQuestion quizRow={quizRow} quizQuestion={g_Idx + 1} quizTotal={g_questCount} QorA='Q' />
       <QuizBidding qqid={quizRow.qqid} />
       <QuizHands qqid={quizRow.qqid} />
       <Card sx={{ maxWidth: 600, marginTop: '16px' }} style={{ backgroundColor: 'LightGray' }}>

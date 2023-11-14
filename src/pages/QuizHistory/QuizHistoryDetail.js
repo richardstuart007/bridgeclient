@@ -92,7 +92,7 @@ export default function QuizHistoryDetail({ handlePage }) {
     //
     //  Get Row Values
     //
-    const row = JSON.parse(sessionStorage.getItem('Pg_Qd_Row'))
+    const row = JSON.parse(sessionStorage.getItem('Page_Qd_Row'))
     updateSelection(row)
   }
   //...................................................................................
@@ -102,13 +102,13 @@ export default function QuizHistoryDetail({ handlePage }) {
     //
     //  Get Stored Data
     //
-    const Pg_Qz_Q_Flt = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_Flt'))
+    const Page_Quiz_Q_Flt = JSON.parse(sessionStorage.getItem('Page_Quiz_Q_Flt'))
     const Hist_r_ans = row.r_ans
     //
     //  Questions
     //
     let ArrQuestions = []
-    Pg_Qz_Q_Flt.forEach(row => {
+    Page_Quiz_Q_Flt.forEach(row => {
       const rowData = { ...row }
       ArrQuestions.push(rowData)
     })
@@ -203,7 +203,12 @@ export default function QuizHistoryDetail({ handlePage }) {
           Result ({mark}%) {countPass} out of {countAns}
         </Typography>
       </Box>
-      <QuizQuestion quizRow={quizRow} quizQuestion={arrAnsNum[ansIdx] + 1} quizTotal={countAns} />
+      <QuizQuestion
+        quizRow={quizRow}
+        quizQuestion={arrAnsNum[ansIdx] + 1}
+        quizTotal={countAns}
+        QorA='A'
+      />
       <QuizBidding qqid={quizRow.qqid} />
       <QuizHands qqid={quizRow.qqid} />
       <QuizReviewAnswers quizRow={quizRow} AnswerNum={arrAns[ansIdx]} />

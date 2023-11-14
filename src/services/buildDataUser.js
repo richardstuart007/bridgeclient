@@ -13,9 +13,9 @@ const debugModule = 'buildDataUser'
 //
 //  Global Variables
 //
-let User_Q = []
-let User_Qid = []
-let User_QidString = ''
+let User_Questions = []
+let User_Questions_Id = []
+let User_Questions_IdString = ''
 let User_Bid = []
 let User_Hands = []
 //...................................................................................
@@ -34,8 +34,8 @@ export default function buildDataUser() {
     //
     //  Reset the Data
     //
-    sessionStorage.setItem('User_Q', JSON.stringify(User_Q))
-    sessionStorage.setItem('User_Qid', JSON.stringify(User_Qid))
+    sessionStorage.setItem('User_Questions', JSON.stringify(User_Questions))
+    sessionStorage.setItem('User_Questions_Id', JSON.stringify(User_Questions_Id))
     sessionStorage.setItem('User_Bid', JSON.stringify(User_Bid))
     sessionStorage.setItem('User_Hands', JSON.stringify(User_Hands))
     //
@@ -86,16 +86,16 @@ export default function buildDataUser() {
       //
       //  Data
       //
-      User_Q = rtnObj.rtnRows
+      User_Questions = rtnObj.rtnRows
       //
       //  Session Storage
       //
-      if (debugLog) console.log(consoleLogTime(debugModule, 'User_Q ', User_Q))
-      sessionStorage.setItem('User_Q', JSON.stringify(User_Q))
+      if (debugLog) console.log(consoleLogTime(debugModule, 'User_Questions ', User_Questions))
+      sessionStorage.setItem('User_Questions', JSON.stringify(User_Questions))
       //
       //  No Questions
       //
-      if (!User_Q[0]) {
+      if (!User_Questions[0]) {
         return
       }
       //
@@ -113,30 +113,31 @@ export default function buildDataUser() {
     return
   }
   //...................................................................................
-  //.  Output User_Q
+  //.  Output User_Questions
   //...................................................................................
   function getQid() {
     //
     //  Question IDs
     //
-    User_Qid = []
-    for (let i = 0; i < User_Q.length; i++) {
-      User_Qid.push(User_Q[i].qqid)
+    User_Questions_Id = []
+    for (let i = 0; i < User_Questions.length; i++) {
+      User_Questions_Id.push(User_Questions[i].qqid)
     }
     //
     //  Order by question id
     //
-    User_Qid.sort()
-    if (debugLog) console.log(consoleLogTime(debugModule, 'User_Qid ', User_Qid))
+    User_Questions_Id.sort()
+    if (debugLog) console.log(consoleLogTime(debugModule, 'User_Questions_Id ', User_Questions_Id))
     //
     //  String version of ID
     //
-    User_QidString = User_Qid.toString()
-    if (debugLog) console.log(consoleLogTime(debugModule, 'User_QidString ', User_QidString))
+    User_Questions_IdString = User_Questions_Id.toString()
+    if (debugLog)
+      console.log(consoleLogTime(debugModule, 'User_Questions_IdString ', User_Questions_IdString))
     //
     //  Session Storage
     //
-    sessionStorage.setItem('User_Qid', JSON.stringify(User_Qid))
+    sessionStorage.setItem('User_Questions_Id', JSON.stringify(User_Questions_Id))
   }
   //...................................................................................
   //.  Load Server - Bidding
@@ -146,7 +147,7 @@ export default function buildDataUser() {
     //
     //  Selection
     //
-    let AxString = `* from bidding where bqid in (${User_QidString})`
+    let AxString = `* from bidding where bqid in (${User_Questions_IdString})`
     if (debugLog) console.log(consoleLogTime(debugModule, 'AxString', AxString))
     //
     //  Process promise
@@ -197,7 +198,7 @@ export default function buildDataUser() {
     //
     //  Selection
     //
-    let AxString = `* from hands where hqid in (${User_QidString})`
+    let AxString = `* from hands where hqid in (${User_Questions_IdString})`
     if (debugLog) console.log(consoleLogTime(debugModule, 'AxString', AxString))
     //
     //  Process promise

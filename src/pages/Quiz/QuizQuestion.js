@@ -15,13 +15,32 @@ export default function QuizQuestion(params) {
   //
   //  Deconstruct params
   //
-  const { quizRow, quizQuestion, quizTotal = 0 } = params
+  const { quizRow, quizQuestion, quizTotal = 0, QorA = 'Q' } = params
   //
   //  Deconstruct row
   //
   const { qowner, qgroup, qqid, qdetail } = quizRow
   let hyperLink
   qdetail.substring(0, 8) === 'https://' ? (hyperLink = true) : (hyperLink = false)
+  //
+  //  Hyperlink Question
+  //
+  let buttonLink
+  let buttonText
+  if (hyperLink) {
+    buttonLink = qdetail
+    buttonText = 'Click to view the Question'
+    //
+    //  Hyperlink get Answer from Library
+    //
+    if (QorA === 'A') {
+      const Page_Lib_Data_JSON = sessionStorage.getItem('Page_Lib_Data')
+      const Page_Lib_Data = JSON.parse(Page_Lib_Data_JSON)
+      const libRow = Page_Lib_Data.find(e => (e.lrowner === qowner) & (e.lrgroup === qgroup))
+      buttonLink = libRow.lrlink
+      buttonText = 'Click to view the Answer'
+    }
+  }
   //
   //  Hyperlink open
   //
@@ -48,11 +67,11 @@ export default function QuizQuestion(params) {
       {/* .......................................................................................... */}
       {hyperLink && (
         <MyButton
-          onClick={openTab(qdetail)}
+          onClick={openTab(buttonLink)}
           type='submit'
           style={{ color: 'white' }}
           size='small'
-          text='Click to view the Question'
+          text={buttonText}
         ></MyButton>
       )}
       {/* .......................................................................................... */}

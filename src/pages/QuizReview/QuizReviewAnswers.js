@@ -13,6 +13,12 @@ export default function QuizReviewAnswers(props) {
   //
   const { quizRow, AnswerNum } = props
   //
+  //  Hyperlink ?
+  //
+  const qdetail = quizRow.qdetail
+  let hyperLink
+  qdetail.substring(0, 8) === 'https://' ? (hyperLink = true) : (hyperLink = false)
+  //
   //  Load answers to array
   //
   const Answers = quizRow.qans
@@ -25,9 +31,11 @@ export default function QuizReviewAnswers(props) {
       <Card sx={{ maxWidth: 600, marginTop: '16px' }} style={{ backgroundColor: 'LightGray' }}>
         <Grid container sx={{ mt: 2, maxWidth: 600 }} alignItems='center'>
           <Grid item xs={11}>
-            <Typography variant='subtitle2' style={{ color: 'Blue' }}>
-              {quizRow.qdetail}
-            </Typography>
+            {!hyperLink ? (
+              <Typography variant='subtitle2' style={{ color: 'Blue' }}>
+                {quizRow.qdetail}
+              </Typography>
+            ) : null}
           </Grid>
           <Grid item xs={1}>
             <Typography variant='subtitle2' color='Blue' align='center'>

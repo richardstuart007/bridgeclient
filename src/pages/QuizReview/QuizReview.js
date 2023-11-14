@@ -80,13 +80,13 @@ export default function QuizReview({ handlePage }) {
     //
     //  Get Store Values
     //
-    const Pg_Qz_Q_Flt = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_Flt'))
-    const Pg_Qz_A = JSON.parse(sessionStorage.getItem('Pg_Qz_A'))
+    const Page_Quiz_Q_Flt = JSON.parse(sessionStorage.getItem('Page_Quiz_Q_Flt'))
+    const Page_Quiz_A = JSON.parse(sessionStorage.getItem('Page_Quiz_A'))
     //
     //  Questions
     //
     let ArrQuestions = []
-    Pg_Qz_Q_Flt.forEach(row => {
+    Page_Quiz_Q_Flt.forEach(row => {
       const rowData = { ...row }
       ArrQuestions.push(rowData)
     })
@@ -101,7 +101,7 @@ export default function QuizReview({ handlePage }) {
     let AnsQuestIdx = -1
     let AnsReview = 0
 
-    Pg_Qz_A.forEach(id => {
+    Page_Quiz_A.forEach(id => {
       AnsCount++
       AnsQuestIdx++
       //
@@ -180,7 +180,12 @@ export default function QuizReview({ handlePage }) {
       </Box>
 
       {nothingToReview ? null : (
-        <QuizQuestion quizRow={quizRow} quizQuestion={arrAnsNum[ansIdx] + 1} quizTotal={countAns} />
+        <QuizQuestion
+          quizRow={quizRow}
+          quizQuestion={arrAnsNum[ansIdx] + 1}
+          quizTotal={countAns}
+          QorA='A'
+        />
       )}
       {nothingToReview ? null : <QuizBidding qqid={quizRow.qqid} />}
       {nothingToReview ? null : <QuizHands qqid={quizRow.qqid} />}

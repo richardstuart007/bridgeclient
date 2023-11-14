@@ -16,19 +16,19 @@ export default function QuizBidding({ qqid }) {
   //
   //  Get Bidding
   //
-  const Pg_Qz_BidJSON = sessionStorage.getItem('Pg_Qz_Bid')
+  const Page_Quiz_BidJSON = sessionStorage.getItem('Page_Quiz_Bid')
   //
   //  No Bidding, return
   //
-  if (Pg_Qz_BidJSON === []) return null
+  if (Page_Quiz_BidJSON === []) return null
   //
   //  Parse data
   //
-  const Pg_Qz_Bid = JSON.parse(Pg_Qz_BidJSON)
+  const Page_Quiz_Bid = JSON.parse(Page_Quiz_BidJSON)
   //
   //  Find the BiddingRow
   //
-  let BiddingRow = Pg_Qz_Bid.find(element => element.bqid === testingQid)
+  let BiddingRow = Page_Quiz_Bid.find(element => element.bqid === testingQid)
   //
   //  Has BiddingRow ?
   //

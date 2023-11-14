@@ -10,10 +10,10 @@ const debugModule = 'buildDataQuiz'
 //
 let User_User
 let MaxQuestions
-let Pg_Qz_Q_Flt = []
-let Pg_Qz_Q_Flt_qqid = []
-let Pg_Qz_Bid
-let Pg_Qz_Hands
+let Page_Quiz_Q_Flt = []
+let Page_Quiz_Q_Flt_qqid = []
+let Page_Quiz_Bid
+let Page_Quiz_Hands
 //...................................................................................
 //.  Main Line
 //...................................................................................
@@ -40,18 +40,18 @@ export default function buildDataQuiz(props) {
     //
     //  Store Owner/group
     //
-    sessionStorage.setItem('Pg_Qz_Owner', JSON.stringify(p_owner))
-    sessionStorage.setItem('Pg_Qz_OwnerGroup', JSON.stringify(p_group))
+    sessionStorage.setItem('Page_Quiz_Owner', JSON.stringify(p_owner))
+    sessionStorage.setItem('Page_Quiz_OwnerGroup', JSON.stringify(p_group))
     //
     //  Reset the Data
     //
-    sessionStorage.setItem('Pg_Qz_CatchMessage', '')
-    sessionStorage.setItem('Pg_Qz_Reset', true)
-    sessionStorage.setItem('Pg_Qz_Bid', [])
-    sessionStorage.setItem('Pg_Qz_Hands', [])
-    sessionStorage.setItem('Pg_Qz_Q_Flt', [])
-    sessionStorage.setItem('Pg_Qz_Q_Flt_Cnt', 0)
-    sessionStorage.setItem('Pg_Qz_Q_Flt_qqid', [])
+    sessionStorage.setItem('Page_Quiz_CatchMessage', '')
+    sessionStorage.setItem('Page_Quiz_Reset', true)
+    sessionStorage.setItem('Page_Quiz_Bid', [])
+    sessionStorage.setItem('Page_Quiz_Hands', [])
+    sessionStorage.setItem('Page_Quiz_Q_Flt', [])
+    sessionStorage.setItem('Page_Quiz_Q_Flt_Cnt', 0)
+    sessionStorage.setItem('Page_Quiz_Q_Flt_qqid', [])
     //
     //  Load data
     //
@@ -68,66 +68,68 @@ export default function buildDataQuiz(props) {
     //
     //  Question Data
     //
-    const User_Q = JSON.parse(sessionStorage.getItem('User_Q'))
+    const User_Questions = JSON.parse(sessionStorage.getItem('User_Questions'))
     //
     //  Filter Owner/group
     //
-    const User_Q_Flt = User_Q.filter(x => x.qowner === p_owner && x.qgroup === p_group)
+    const User_Questions_Flt = User_Questions.filter(
+      x => x.qowner === p_owner && x.qgroup === p_group
+    )
     //
-    //  Output Pg_Qz_Q_Flt
+    //  Output Page_Quiz_Q_Flt
     //
-    QuestionsSortMax(User_Q_Flt)
+    QuestionsSortMax(User_Questions_Flt)
     //
     //  Load related Bids
     //
     const User_Bid = JSON.parse(sessionStorage.getItem('User_Bid'))
-    Pg_Qz_Bid = User_Bid.filter(x => Pg_Qz_Q_Flt_qqid.includes(x.bqid))
-    sessionStorage.setItem('Pg_Qz_Bid', JSON.stringify(Pg_Qz_Bid))
+    Page_Quiz_Bid = User_Bid.filter(x => Page_Quiz_Q_Flt_qqid.includes(x.bqid))
+    sessionStorage.setItem('Page_Quiz_Bid', JSON.stringify(Page_Quiz_Bid))
     //
     //  Load related Hands
     //
     const User_Hands = JSON.parse(sessionStorage.getItem('User_Hands'))
-    Pg_Qz_Hands = User_Hands.filter(x => Pg_Qz_Q_Flt_qqid.includes(x.hqid))
-    sessionStorage.setItem('Pg_Qz_Hands', JSON.stringify(Pg_Qz_Hands))
+    Page_Quiz_Hands = User_Hands.filter(x => Page_Quiz_Q_Flt_qqid.includes(x.hqid))
+    sessionStorage.setItem('Page_Quiz_Hands', JSON.stringify(Page_Quiz_Hands))
   }
   //...................................................................................
-  //.  Output Pg_Qz_Q_Flt
+  //.  Output Page_Quiz_Q_Flt
   //...................................................................................
-  function QuestionsSortMax(User_Q_Flt) {
+  function QuestionsSortMax(User_Questions_Flt) {
     if (debugLog) console.log(consoleLogTime(debugModule, 'QuestionsSortMax'))
     //
     //  Random sort questions
     //
     const SortQuestions = User_User.u_sortquestions
     SortQuestions
-      ? (Pg_Qz_Q_Flt = User_Q_Flt.sort(() => Math.random() - 0.5))
-      : (Pg_Qz_Q_Flt = User_Q_Flt)
+      ? (Page_Quiz_Q_Flt = User_Questions_Flt.sort(() => Math.random() - 0.5))
+      : (Page_Quiz_Q_Flt = User_Questions_Flt)
     //
     //  Apply max number
     //
-    if (Pg_Qz_Q_Flt.length > MaxQuestions) {
-      let i = Pg_Qz_Q_Flt.length - 1
+    if (Page_Quiz_Q_Flt.length > MaxQuestions) {
+      let i = Page_Quiz_Q_Flt.length - 1
       for (i; i >= MaxQuestions; i--) {
-        Pg_Qz_Q_Flt.pop()
+        Page_Quiz_Q_Flt.pop()
       }
     }
     //
     //  Question IDs
     //
-    Pg_Qz_Q_Flt_qqid = []
-    for (let i = 0; i < Pg_Qz_Q_Flt.length; i++) {
-      Pg_Qz_Q_Flt_qqid.push(Pg_Qz_Q_Flt[i].qqid)
+    Page_Quiz_Q_Flt_qqid = []
+    for (let i = 0; i < Page_Quiz_Q_Flt.length; i++) {
+      Page_Quiz_Q_Flt_qqid.push(Page_Quiz_Q_Flt[i].qqid)
     }
     //
     //  Order by question id
     //
-    Pg_Qz_Q_Flt_qqid.sort()
+    Page_Quiz_Q_Flt_qqid.sort()
     //
     //  Session Storage
     //
-    sessionStorage.setItem('Pg_Qz_Q_Flt', JSON.stringify(Pg_Qz_Q_Flt))
-    sessionStorage.setItem('Pg_Qz_Q_Flt_Cnt', JSON.stringify(Pg_Qz_Q_Flt.length))
-    sessionStorage.setItem('Pg_Qz_Q_Flt_qqid', JSON.stringify(Pg_Qz_Q_Flt_qqid))
+    sessionStorage.setItem('Page_Quiz_Q_Flt', JSON.stringify(Page_Quiz_Q_Flt))
+    sessionStorage.setItem('Page_Quiz_Q_Flt_Cnt', JSON.stringify(Page_Quiz_Q_Flt.length))
+    sessionStorage.setItem('Page_Quiz_Q_Flt_qqid', JSON.stringify(Page_Quiz_Q_Flt_qqid))
   }
   //...................................................................................
 }

@@ -304,8 +304,8 @@ export default function App() {
     //
     //  Quiz
     //
-    sessionStorage.setItem('Pg_Qz_Owner', JSON.stringify(''))
-    sessionStorage.setItem('Pg_Qz_OwnerGroup', JSON.stringify(''))
+    sessionStorage.setItem('Page_Quiz_Owner', JSON.stringify(''))
+    sessionStorage.setItem('Page_Quiz_OwnerGroup', JSON.stringify(''))
   }
   //.............................................................................
   //.  Handle Page Change

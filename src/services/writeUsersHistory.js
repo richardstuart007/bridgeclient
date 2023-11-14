@@ -23,7 +23,7 @@ export default function writeUsersHistory() {
   //
   //  Answers
   //
-  const r_ans = JSON.parse(sessionStorage.getItem('Pg_Qz_A'))
+  const r_ans = JSON.parse(sessionStorage.getItem('Page_Quiz_A'))
   const r_questions = r_ans.length
   //
   //  If no questions answered, do not write history
@@ -36,11 +36,11 @@ export default function writeUsersHistory() {
   //
   //  Get History data
   //
-  const Pg_Qh_Data = JSON.parse(sessionStorage.getItem('Pg_Qh_Data'))
+  const Page_History_Data = JSON.parse(sessionStorage.getItem('Page_History_Data'))
   //
   //  Get group title
   //
-  const Pg_Qz_ogtitle = JSON.parse(sessionStorage.getItem('Pg_Qz_ogtitle'))
+  const Page_Quiz_ogtitle = JSON.parse(sessionStorage.getItem('Page_Quiz_ogtitle'))
   //
   //  Key
   //
@@ -50,8 +50,8 @@ export default function writeUsersHistory() {
   //
   //  Selection Data
   //
-  const r_owner = JSON.parse(sessionStorage.getItem('Pg_Qz_Owner'))
-  const r_group = JSON.parse(sessionStorage.getItem('Pg_Qz_OwnerGroup'))
+  const r_owner = JSON.parse(sessionStorage.getItem('Page_Quiz_Owner'))
+  const r_group = JSON.parse(sessionStorage.getItem('Page_Quiz_OwnerGroup'))
   //
   //  Question IDs of Answered questions
   //
@@ -61,8 +61,8 @@ export default function writeUsersHistory() {
   let r_totalpoints = 0
   let r_maxpoints = 0
   let r_correctpercent = 0
-  const Pg_Qz_Q_Flt = JSON.parse(sessionStorage.getItem('Pg_Qz_Q_Flt'))
-  Pg_Qz_Q_Flt.forEach(row => {
+  const Page_Quiz_Q_Flt = JSON.parse(sessionStorage.getItem('Page_Quiz_Q_Flt'))
+  Page_Quiz_Q_Flt.forEach(row => {
     count++
     if (count <= r_questions) {
       r_qid.push(row.qqid)
@@ -107,15 +107,15 @@ export default function writeUsersHistory() {
   //
   //  Add record to storage (if history already exists)
   //
-  if (Pg_Qh_Data) {
-    const template = Pg_Qh_Data[0]
+  if (Page_History_Data) {
+    const template = Page_History_Data[0]
     const newQH = { ...template, ...AxRow }
     newQH.r_hid = 0
-    newQH.ogtitle = Pg_Qz_ogtitle
+    newQH.ogtitle = Page_Quiz_ogtitle
     newQH.yymmdd = yymmdd
 
-    Pg_Qh_Data.unshift(newQH)
-    sessionStorage.setItem('Pg_Qh_Data', JSON.stringify(Pg_Qh_Data))
+    Page_History_Data.unshift(newQH)
+    sessionStorage.setItem('Page_History_Data', JSON.stringify(Page_History_Data))
   }
   //
   //  Build Props
@@ -151,9 +151,9 @@ export default function writeUsersHistory() {
     //
     //  Update storage with r_hid
     //
-    if (Pg_Qh_Data) {
-      Pg_Qh_Data[0].r_hid = newRow.r_hid
-      sessionStorage.setItem('Pg_Qh_Data', JSON.stringify(Pg_Qh_Data))
+    if (Page_History_Data) {
+      Page_History_Data[0].r_hid = newRow.r_hid
+      sessionStorage.setItem('Page_History_Data', JSON.stringify(Page_History_Data))
     }
     return
   })
