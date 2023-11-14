@@ -181,7 +181,7 @@ export default async function apiAxios(props) {
       if (error.message.substr(1, 7) === 'timeout')
         messageSeverity = `Warning Timeout Try ${fpAxTry}/${fpRetry}`
       if (fpAxTry === fpRetry) messageSeverity = `ERROR Final Retry ${fpAxTry} failed`
-      console.log(consoleLogTime(debugModule, `${messageSeverity}`), error)
+      if (debugLog) console.log(consoleLogTime(debugModule, `${messageSeverity}`), error)
       //
       //  Update body parms
       //
@@ -197,9 +197,10 @@ export default async function apiAxios(props) {
       //
       //  Error logging - Timing
       //
-      console.log(
-        consoleLogTime(debugModule, `<--Timing-> ${error.AxdurationInMs} ${AxInfo} ERROR`)
-      )
+      if (debugLog)
+        console.log(
+          consoleLogTime(debugModule, `<--Timing-> ${error.AxdurationInMs} ${AxInfo} ERROR`)
+        )
       //
       //  Update store
       //

@@ -7,7 +7,7 @@ import apiAxios from '../../utilities/apiAxios'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugModule = 'registerUser'
 //--------------------------------------------------------------------
 //-  Main Line
