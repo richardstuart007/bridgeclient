@@ -11,7 +11,6 @@ import Navigation from './Navigation'
 //  Components
 //
 import cards from '../../assets/images/cards.svg'
-import Ukraine from '../../assets/images/Ukraine.svg'
 //
 //  Debug Settings
 //
@@ -156,18 +155,6 @@ export default function Layout({ handlePage, children }) {
       <AppBar position='fixed' className={classes.appBar} elevation={0} color='primary'>
         <Toolbar>
           <Grid container alignItems='center'>
-            {/* .......................................................................................... */}
-            <Grid>
-              <CardMedia
-                component='img'
-                sx={{
-                  width: 30,
-                  height: 30
-                }}
-                image={Ukraine}
-                alt=''
-              />
-            </Grid>
             {/* .......................................................................................... */}
             <Grid item>
               <Avatar className={classes.avatar} src={cards} />
