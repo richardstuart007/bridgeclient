@@ -1,7 +1,7 @@
 //
 //  Libraries
 //
-import { Typography, AppBar, Toolbar, Avatar, Grid, CardMedia } from '@mui/material'
+import { Typography, AppBar, Toolbar, Avatar, Grid } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 //
 //  Common Sub Components
