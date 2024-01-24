@@ -1,18 +1,18 @@
 //
 //  Utilities
 //
-import apiAxios from '../../utilities/apiAxios'
+import apiAxios from '../utilities/apiAxios'
 //
 //  Debug Settings
 //
-import debugSettings from '../../debug/debugSettings'
-import consoleLogTime from '../../debug/consoleLogTime'
+import debugSettings from '../debug/debugSettings'
+import consoleLogTime from '../debug/consoleLogTime'
 
-const debugModule = 'registerUser'
+const debugModule = 'createPwd'
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------
-export default async function registerUser(props) {
+export default async function createPwd(props) {
   const debugLog = debugSettings()
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
@@ -23,23 +23,7 @@ export default async function registerUser(props) {
   //
   //  Deconstruct props
   //
-  const {
-    AxCaller,
-    user,
-    email,
-    password,
-    name,
-    fedid,
-    fedcountry,
-    dftmaxquestions,
-    dftowner,
-    showprogress,
-    showscore,
-    sortquestions,
-    skipcorrect,
-    admin,
-    dev,
-  } = props
+  const { AxCaller, user, password } = props
   let AxClient = `${debugModule}/${AxCaller}`
   //
   //  Get the URL
@@ -61,27 +45,15 @@ export default async function registerUser(props) {
       //
       body = {
         AxClient: AxClient,
-        AxTable: 'users',
+        AxTable: 'userspwd',
         user: user,
-        email: email,
         password: password,
-        name: name,
-        fedid: fedid,
-        fedcountry: fedcountry,
-        dftmaxquestions: dftmaxquestions,
-        dftowner: dftowner,
-        showprogress: showprogress,
-        showscore: showscore,
-        sortquestions: sortquestions,
-        skipcorrect: skipcorrect,
-        admin: admin,
-        dev: dev,
       }
-      const URL = App_URL + App_Env.URL_REGISTER
+      const URL = App_URL + App_Env.URL_REGISTERPWD
       //
       //  Info
       //
-      const info = `Client(${AxClient}) Action(Register)`
+      const info = `Client(${AxClient}) Action(RegisterPwd)`
       //
       //  SQL database
       //

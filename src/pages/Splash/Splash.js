@@ -8,6 +8,7 @@ import { Paper, Grid, Typography } from '@mui/material'
 //
 import apiAxios from '../../utilities/apiAxios'
 import writeSession from '../../services/writeSession'
+import createOptions from '../../utilities/createOptions'
 //
 //  Controls
 //
@@ -157,6 +158,18 @@ export default function Splash({ handlePage }) {
       return rtnObj
     }
   }
+  //--------------------------------------------------------------------
+  //-  Check The Server/Database
+  //--------------------------------------------------------------------
+  function createOptionsOwner() {
+    createOptions({
+      cop_AxTable: 'owner',
+      cop_id: 'oowner',
+      cop_title: 'otitle',
+      cop_store: 'Data_Options_Owner',
+      cop_received: 'Data_Options_Owner_Received',
+    })
+  }
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -174,62 +187,62 @@ export default function Splash({ handlePage }) {
         <Grid
           container
           spacing={1}
-          justify="center"
-          alignItems="center"
-          direction="column"
+          justify='center'
+          alignItems='center'
+          direction='column'
           style={{ minheight: '100vh' }}
         >
           {/*.................................................................................................*/}
           <Grid item xs={12} sx={{ mt: 2 }}>
-            <Typography variant="h6" style={{ color: 'blue' }}>
+            <Typography variant='h6' style={{ color: 'blue' }}>
               Splash Information
             </Typography>
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <Typography variant="subtitle2">Developed by Richard Stuart</Typography>
+            <Typography variant='subtitle2'>Developed by Richard Stuart</Typography>
           </Grid>
-                   {/*.................................................................................................*/}
-                   <Grid item xs={12}>
-            <Typography variant="subtitle2" sx={{ color: 'red' }}>
+          {/*.................................................................................................*/}
+          <Grid item xs={12}>
+            <Typography variant='subtitle2' sx={{ color: 'red' }}>
               ANY ISSUES please email me
             </Typography>
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <Typography variant="subtitle2" sx={{ color: 'red' }}>
+            <Typography variant='subtitle2' sx={{ color: 'red' }}>
               richardstuart007@hotmail.com
             </Typography>
           </Grid>
- 
+
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <Typography variant="subtitle2" sx={{ color: 'green' }}>
+            <Typography variant='subtitle2' sx={{ color: 'green' }}>
               There are known issues with Registering
             </Typography>
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <Typography variant="subtitle2" sx={{ color: 'green' }}>
+            <Typography variant='subtitle2' sx={{ color: 'green' }}>
               Generic student users have been created
             </Typography>
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <Typography variant="subtitle2" sx={{ color: 'black' }}>
+            <Typography variant='subtitle2' sx={{ color: 'black' }}>
               student01, student02 ... student11
             </Typography>
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <Typography variant="subtitle2" sx={{ color: 'black' }}>
+            <Typography variant='subtitle2' sx={{ color: 'black' }}>
               password = s
             </Typography>
           </Grid>
           {/*.................................................................................................*/}
           {ScreenSmall ? (
             <Grid item xs={12}>
-              <Typography variant="subtitle2" sx={{ color: 'blue', backgroundColor: 'yellow' }}>
+              <Typography variant='subtitle2' sx={{ color: 'blue', backgroundColor: 'yellow' }}>
                 Restricted Functionality on a SMALL screen
               </Typography>
             </Grid>
@@ -242,9 +255,9 @@ export default function Splash({ handlePage }) {
           {showConnect ? (
             <Grid item xs={12}>
               <MyButton
-                type="submit"
-                text="Retry Connection"
-                value="Submit"
+                type='submit'
+                text='Retry Connection'
+                value='Submit'
                 onClick={() => sayHello(true)}
               />
             </Grid>
@@ -253,11 +266,12 @@ export default function Splash({ handlePage }) {
           {showContinue ? (
             <Grid item xs={12}>
               <MyButton
-                type="submit"
-                text="Register/Signin"
-                value="Submit"
+                type='submit'
+                text='Register/Signin'
+                value='Submit'
                 onClick={() => {
                   writeSession()
+                  createOptionsOwner()
                   handlePage('Signin')
                 }}
               />

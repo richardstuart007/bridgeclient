@@ -7,26 +7,26 @@ import rowCrud from '../utilities/rowCrud'
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
-
-const debugModule = 'writeUsersSessions'
+let debugLog
+const debugModule = 'writeUsersowner'
 //===================================================================================
-export default function writeUsersSessions() {
-  const debugLog = debugSettings()
+export default function writeUsersowner(params) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
-  //  Get User
+  //  Debug Settings
   //
-  const User_User = JSON.parse(sessionStorage.getItem('User_User'))
+  debugLog = debugSettings()
+  //
+  //  Unpack
+  //
+  const { uouid, uouser, uoowner } = params
   //
   //  Build row
   //
-  const usuid = User_User.u_uid
-  const ususer = User_User.upuser
-  const usdatetime = new Date().toJSON()
   const AxRow = {
-    usuid: usuid,
-    usdatetime: usdatetime,
-    ususer: ususer,
+    uouid: uouid,
+    uouser: uouser,
+    uoowner: uoowner,
   }
   if (debugLog) console.log(consoleLogTime(debugModule, 'AxRow'), { ...AxRow })
   //
@@ -36,7 +36,7 @@ export default function writeUsersSessions() {
     AxCaller: debugModule,
     AxMethod: 'post',
     AxAction: 'INSERT',
-    AxTable: 'userssessions',
+    AxTable: 'usersowner',
     AxRow: AxRow,
   }
   //
@@ -58,11 +58,7 @@ export default function writeUsersSessions() {
     const data = rtnObj.rtnRows
     const newRow = data[0]
     if (debugLog)
-      console.log(consoleLogTime(debugModule, `Row (${newRow.ruid}) INSERTED in Database`))
-    //
-    //  Update storage with new row
-    //
-    sessionStorage.setItem('User_Session', JSON.stringify(newRow))
+      console.log(consoleLogTime(debugModule, `Row (${newRow.uouid}) INSERTED in Database`))
     return
   })
   //

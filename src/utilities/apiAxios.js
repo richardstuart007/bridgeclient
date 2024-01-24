@@ -134,7 +134,7 @@ export default async function apiAxios(props) {
         method: AxMethod,
         url: AxUrl,
         data: AxDataAlt,
-        timeout: fpAxTimeoutAlt
+        timeout: fpAxTimeoutAlt,
       })
       //
       //  Sucessful response
@@ -172,7 +172,7 @@ export default async function apiAxios(props) {
         rtnMessage: error.message,
         rtnCatchFunction: debugModule,
         rtnCatch: true,
-        rtnCatchMsg: ''
+        rtnCatchMsg: '',
       }
       //
       //  Error logging - Error
@@ -236,7 +236,7 @@ export default async function apiAxios(props) {
       AxInfo: AxInfo,
       AxData: AxData,
       AxUrl: AxUrl,
-      AxMethod: AxMethod
+      AxMethod: AxMethod,
     }
     if (debugLog) console.log(consoleLogTime(debugModule, 'objReq'), { ...objReq })
     //
@@ -277,7 +277,7 @@ export default async function apiAxios(props) {
       AxTry: resObj.rtnBodyParms.AxTry,
       AxTimeout: resObj.rtnBodyParms.AxTimeout,
       AxClient: resObj.rtnBodyParms.AxClient,
-      AxObj: resObj
+      AxObj: resObj,
     }
     if (debugLog) console.log(consoleLogTime(debugModule, 'objRes'), { ...objRes })
     //

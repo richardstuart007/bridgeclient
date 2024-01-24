@@ -25,7 +25,7 @@ import consoleLogTime from '../../debug/consoleLogTime'
 //
 //  Debug Settings
 //
-const debugLog = debugSettings()
+
 const debugModule = 'Navigation'
 //
 //  Style overrides
@@ -33,14 +33,15 @@ const debugModule = 'Navigation'
 const useStyles = makeStyles(theme => {
   return {
     root: {
-      display: 'flex'
-    }
+      display: 'flex',
+    },
   }
 })
 //============================================================================
 //= Exported Module
 //============================================================================
 export default function Navigation({ handlePage }) {
+  const debugLog = debugSettings()
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //...........................................................................
   // Module STATE

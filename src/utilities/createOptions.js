@@ -6,13 +6,14 @@ import rowCrud from './rowCrud'
 //  Debug Settings
 //
 import debugSettings from '../debug/debugSettings'
-import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+import consoleLogTime from '../debug/consoleLogTime'
+
 const debugModule = 'createOptions'
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function createOptions(props) {
+  const debugLog = debugSettings()
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   const {
     cop_AxTable,
@@ -21,7 +22,7 @@ export default function createOptions(props) {
     cop_id,
     cop_title,
     cop_store,
-    cop_received
+    cop_received,
   } = props
   //
   //  Received flag
@@ -37,7 +38,7 @@ export default function createOptions(props) {
     AxCaller: debugModule,
     AxTable: cop_AxTable,
     AxAction: 'SELECTSQL',
-    AxString: AxString
+    AxString: AxString,
   }
   const myPromiseGet = rowCrud(rowCrudparams)
   //
@@ -74,7 +75,7 @@ export default function createOptions(props) {
       data.forEach(item => {
         const itemObj = {
           id: item[cop_id],
-          title: item[cop_title]
+          title: item[cop_title],
         }
         Options.push(itemObj)
       })
@@ -87,7 +88,7 @@ export default function createOptions(props) {
         const itemObj = {
           owner: item[cop_owner],
           id: item[cop_id],
-          title: item[cop_title]
+          title: item[cop_title],
         }
         Options.push(itemObj)
       })

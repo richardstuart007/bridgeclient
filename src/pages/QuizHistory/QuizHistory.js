@@ -11,7 +11,7 @@ import {
   Toolbar,
   InputAdornment,
   Box,
-  Typography
+  Typography,
 } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import SearchIcon from '@mui/icons-material/Search'
@@ -46,7 +46,7 @@ import consoleLogTime from '../../debug/consoleLogTime'
 //
 //  Debug Settings
 //
-const debugLog = debugSettings()
+
 const debugModule = 'QuizHistory'
 //
 //  Styles
@@ -54,30 +54,30 @@ const debugModule = 'QuizHistory'
 const useStyles = makeStyles(theme => ({
   pageContent: {
     margin: theme.spacing(1),
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
   },
   searchInputLarge: {
     minWidth: '300px',
-    width: '30%'
+    width: '30%',
   },
   searchInputSmall: {
     minWidth: '220px',
-    width: '30%'
+    width: '30%',
   },
   searchInputTypeBox: {
     width: '10%',
-    margin: `0 0 0 ${theme.spacing(2)}`
+    margin: `0 0 0 ${theme.spacing(2)}`,
   },
   searchInputType: {
-    minWidth: '200px'
+    minWidth: '200px',
   },
   myButton: {
     margin: `0 0 0 ${theme.spacing(4)}`,
-    backgroundColor: 'azure'
+    backgroundColor: 'azure',
   },
   messages: {
-    margin: `0 0 0 ${theme.spacing(4)}`
-  }
+    margin: `0 0 0 ${theme.spacing(4)}`,
+  },
 }))
 //
 //  Table Heading
@@ -94,28 +94,28 @@ const headCellsLarge = [
   { id: 'r_maxpoints', label: 'Maximum' },
   { id: 'r_correctpercent', label: 'Score %' },
   { id: 'review', label: 'Review', disableSorting: true },
-  { id: 'quiz', label: 'Quiz', disableSorting: true }
+  { id: 'quiz', label: 'Quiz', disableSorting: true },
 ]
 const headCellsSmall = [
   { id: 'ogtitle', label: 'Group' },
   { id: 'review', label: 'Review', disableSorting: true },
-  { id: 'quiz', label: 'Quiz', disableSorting: true }
+  { id: 'quiz', label: 'Quiz', disableSorting: true },
 ]
 const searchTypeOptionsLarge = [
   { id: 'r_hid', title: 'ID' },
   { id: 'yymmdd', title: 'Date' },
   { id: 'r_owner', title: 'Owner' },
-  { id: 'ogtitle', title: 'Group' }
+  { id: 'ogtitle', title: 'Group' },
 ]
 const searchTypeOptionsSmall = [{ id: 'ogtitle', title: 'Group' }]
 
 let g_allUsers = false
 let g_allUsersText = 'ALL'
-if (debugLog) console.log(consoleLogTime(debugModule, 'QuizHistory Global'))
 //============================================================================
 //= Exported Module
 //============================================================================
 export default function QuizHistory({ handlePage }) {
+  const debugLog = debugSettings()
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //...........................................................................
   // Module STATE
@@ -131,7 +131,7 @@ export default function QuizHistory({ handlePage }) {
   const [filterFn, setFilterFn] = useState({
     fn: items => {
       return items
-    }
+    },
   })
   const [searchType, setSearchType] = useState('ogtitle')
   const [searchValue, setSearchValue] = useState('')
@@ -250,7 +250,7 @@ export default function QuizHistory({ handlePage }) {
       AxCaller: debugModule,
       AxTable: 'usershistory',
       AxAction: 'SELECTSQL',
-      AxString: AxString
+      AxString: AxString,
     }
     const myPromiseGet = rowCrud(rowCrudparams)
     //
@@ -271,7 +271,7 @@ export default function QuizHistory({ handlePage }) {
       //
       const Page_History_Data_Update = Page_History_Data.map(record => ({
         ...record,
-        yymmdd: format(parseISO(record.r_datetime), 'yy-MM-dd')
+        yymmdd: format(parseISO(record.r_datetime), 'yy-MM-dd'),
       }))
       //
       //  Session Storage
@@ -327,7 +327,7 @@ export default function QuizHistory({ handlePage }) {
     //
     const params = {
       p_owner: row.r_owner,
-      p_group: row.r_group
+      p_group: row.r_group,
     }
     buildDataQuiz(params)
     handlePage('Quiz')
@@ -346,7 +346,7 @@ export default function QuizHistory({ handlePage }) {
     //
     const selection = {
       searchType: p_searchType,
-      searchValue: p_searchValue
+      searchValue: p_searchValue,
     }
     sessionStorage.setItem('Page_History_Selection', JSON.stringify(selection))
     //
@@ -403,7 +403,7 @@ export default function QuizHistory({ handlePage }) {
         if (debugLog)
           console.log(consoleLogTime(debugModule, 'setFilterFn itemsFilter'), itemsFilter)
         return itemsFilter
-      }
+      },
     })
   }
   //.............................................................................
@@ -472,7 +472,7 @@ export default function QuizHistory({ handlePage }) {
                 <InputAdornment position='start'>
                   <SearchIcon />
                 </InputAdornment>
-              )
+              ),
             }}
             onChange={e => setSearchValue(e.target.value)}
           />

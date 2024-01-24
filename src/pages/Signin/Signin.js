@@ -19,19 +19,22 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
 const debugModule = 'Signin'
 //
 //  Initial Values
 //
 const initialFValues = {
   user: '',
-  password: ''
+  password: '',
 }
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function Signin({ handlePage }) {
+  //
+  //  Debug Settings
+  //
+  const debugLog = debugSettings()
   //
   //  Application Environment Variables
   //
@@ -45,20 +48,8 @@ export default function Signin({ handlePage }) {
   //  Interface to Form
   //
   const { values, errors, setErrors, handleInputChange } = useMyForm(initialFValues, true, validate)
-  //
-  //  Try
-  //
-  try {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
-    //
-    //  Restore previous signin info
-    //
-    const User_User = JSON.parse(sessionStorage.getItem('User_User'))
-    if (User_User) initialFValues.user = User_User.u_user
-  } catch (e) {
-    if (debugLog) console.log(consoleLogTime(debugModule, 'Catch'))
-    console.log(e)
-  }
+
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //.............................................................................
   //.  Input field validation
   //.............................................................................
@@ -81,7 +72,7 @@ export default function Signin({ handlePage }) {
     //  Set the errors
     //
     setErrors({
-      ...temp
+      ...temp,
     })
     if (fieldValues === values) return Object.values(temp).every(x => x === '')
   }
@@ -162,7 +153,7 @@ export default function Signin({ handlePage }) {
         AxClient: debugModule,
         AxTable: 'users',
         user: user,
-        password: password
+        password: password,
       }
       const URL = App_URL + App_Env.URL_SIGNIN
       if (debugLog) console.log(consoleLogTime(debugModule, 'URL'), URL)
@@ -176,7 +167,7 @@ export default function Signin({ handlePage }) {
       const apiAxiosProps = {
         AxUrl: URL,
         AxData: body,
-        AxInfo: info
+        AxInfo: info,
       }
       const rtnObj = await apiAxios(apiAxiosProps)
       return rtnObj
@@ -193,7 +184,7 @@ export default function Signin({ handlePage }) {
         rtnCatchFunction: debugModule,
         rtnCatch: true,
         rtnCatchMsg: 'Catch calling apiAxios',
-        rtnRows: []
+        rtnRows: [],
       }
       return rtnObj
     }
@@ -259,7 +250,7 @@ export default function Signin({ handlePage }) {
             margin: 1,
             padding: 1,
             maxWidth: 400,
-            backgroundColor: 'whitesmoke'
+            backgroundColor: 'whitesmoke',
           }}
         >
           <Grid container spacing={1} justify='center' alignItems='center' direction='column'>
@@ -315,7 +306,7 @@ export default function Signin({ handlePage }) {
             <MyButton
               color='warning'
               onClick={() => {
-                handlePage('Register')
+                handlePage('RegisterPwd')
               }}
               text='Register'
             />

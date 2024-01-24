@@ -7,26 +7,52 @@ import rowCrud from '../utilities/rowCrud'
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
-
-const debugModule = 'writeUsersSessions'
+let debugLog
+const debugModule = 'writeUsers'
 //===================================================================================
-export default function writeUsersSessions() {
-  const debugLog = debugSettings()
+export default function writeUsers(params) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
-  //  Get User
+  //  Debug Settings
   //
-  const User_User = JSON.parse(sessionStorage.getItem('User_User'))
+  debugLog = debugSettings()
+  //
+  //  Unpack
+  //
+  const {
+    u_uid,
+    u_name,
+    u_email,
+    u_joined,
+    u_fedid,
+    u_admin,
+    u_showprogress,
+    u_showscore,
+    u_sortquestions,
+    u_skipcorrect,
+    u_dftmaxquestions,
+    u_fedcountry,
+    u_user,
+    u_dev,
+  } = params
   //
   //  Build row
   //
-  const usuid = User_User.u_uid
-  const ususer = User_User.upuser
-  const usdatetime = new Date().toJSON()
   const AxRow = {
-    usuid: usuid,
-    usdatetime: usdatetime,
-    ususer: ususer,
+    u_uid: u_uid,
+    u_name: u_name,
+    u_email: u_email,
+    u_joined: u_joined,
+    u_fedid: u_fedid,
+    u_admin: u_admin,
+    u_showprogress: u_showprogress,
+    u_showscore: u_showscore,
+    u_sortquestions: u_sortquestions,
+    u_skipcorrect: u_skipcorrect,
+    u_dftmaxquestions: u_dftmaxquestions,
+    u_fedcountry: u_fedcountry,
+    u_user: u_user,
+    u_dev: u_dev,
   }
   if (debugLog) console.log(consoleLogTime(debugModule, 'AxRow'), { ...AxRow })
   //
@@ -36,7 +62,7 @@ export default function writeUsersSessions() {
     AxCaller: debugModule,
     AxMethod: 'post',
     AxAction: 'INSERT',
-    AxTable: 'userssessions',
+    AxTable: 'users',
     AxRow: AxRow,
   }
   //
@@ -58,11 +84,7 @@ export default function writeUsersSessions() {
     const data = rtnObj.rtnRows
     const newRow = data[0]
     if (debugLog)
-      console.log(consoleLogTime(debugModule, `Row (${newRow.ruid}) INSERTED in Database`))
-    //
-    //  Update storage with new row
-    //
-    sessionStorage.setItem('User_Session', JSON.stringify(newRow))
+      console.log(consoleLogTime(debugModule, `Row (${newRow.u_uid}) INSERTED in Database`))
     return
   })
   //

@@ -11,7 +11,7 @@ import {
   Toolbar,
   InputAdornment,
   Box,
-  Typography
+  Typography,
 } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import SearchIcon from '@mui/icons-material/Search'
@@ -43,7 +43,7 @@ import consoleLogTime from '../../debug/consoleLogTime'
 //
 //  Debug Settings
 //
-const debugLog = debugSettings()
+
 const debugModule = 'Library'
 //
 //  Styles
@@ -51,30 +51,30 @@ const debugModule = 'Library'
 const useStyles = makeStyles(theme => ({
   pageContent: {
     margin: theme.spacing(1),
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
   },
   searchInputLarge: {
     minWidth: '300px',
-    width: '30%'
+    width: '30%',
   },
   searchInputSmall: {
     minWidth: '220px',
-    width: '30%'
+    width: '30%',
   },
   searchInputTypeBox: {
     width: '10%',
-    margin: `0 0 0 ${theme.spacing(2)}`
+    margin: `0 0 0 ${theme.spacing(2)}`,
   },
   searchInputType: {
-    minWidth: '200px'
+    minWidth: '200px',
   },
   myButton: {
     margin: `0 0 0 ${theme.spacing(4)}`,
-    backgroundColor: 'azure'
+    backgroundColor: 'azure',
   },
   messages: {
-    margin: `0 0 0 ${theme.spacing(4)}`
-  }
+    margin: `0 0 0 ${theme.spacing(4)}`,
+  },
 }))
 //
 //  Table Heading
@@ -89,12 +89,12 @@ const headCellsLarge = [
   { id: 'lrtype', label: 'Type' },
   { id: 'learn', label: 'Learn', disableSorting: true },
   { id: 'ogcntquestions', label: 'Questions' },
-  { id: 'quiz', label: 'Quiz', disableSorting: true }
+  { id: 'quiz', label: 'Quiz', disableSorting: true },
 ]
 const headCellsSmall = [
   { id: 'lrdesc', label: 'Description' },
   { id: 'learn', label: 'Learn', disableSorting: true },
-  { id: 'quiz', label: 'Quiz', disableSorting: true }
+  { id: 'quiz', label: 'Quiz', disableSorting: true },
 ]
 const searchTypeOptionsLarge = [
   { id: 'lrlid', title: 'ID' },
@@ -103,13 +103,14 @@ const searchTypeOptionsLarge = [
   { id: 'lrref', title: 'Reference' },
   { id: 'lrdesc', title: 'Description' },
   { id: 'lrwho', title: 'Who' },
-  { id: 'lrtype', title: 'Type' }
+  { id: 'lrtype', title: 'Type' },
 ]
 const searchTypeOptionsSmall = [{ id: 'lrdesc', title: 'Description' }]
 //============================================================================
 //= Exported Module
 //============================================================================
 export default function Library({ handlePage }) {
+  const debugLog = debugSettings()
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //...........................................................................
   // Module STATE
@@ -125,7 +126,7 @@ export default function Library({ handlePage }) {
   const [filterFn, setFilterFn] = useState({
     fn: items => {
       return items
-    }
+    },
   })
   const [searchType, setSearchType] = useState('lrdesc')
   const [searchValue, setSearchValue] = useState('')
@@ -231,7 +232,7 @@ export default function Library({ handlePage }) {
       AxCaller: debugModule,
       AxTable: 'library',
       AxAction: 'SELECTSQL',
-      AxString: AxString
+      AxString: AxString,
     }
     const myPromiseGet = rowCrud(rowCrudparams)
     //
@@ -281,7 +282,7 @@ export default function Library({ handlePage }) {
     //
     const params = {
       p_owner: row.lrowner,
-      p_group: row.lrgroup
+      p_group: row.lrgroup,
     }
     buildDataQuiz(params)
     handlePage('Quiz')
@@ -300,7 +301,7 @@ export default function Library({ handlePage }) {
     //
     const selection = {
       searchType: p_searchType,
-      searchValue: p_searchValue
+      searchValue: p_searchValue,
     }
     sessionStorage.setItem('Page_Lib_Selection', JSON.stringify(selection))
     if (debugLog) console.log(consoleLogTime(debugModule, `Page_Lib_Selection`), selection)
@@ -358,7 +359,7 @@ export default function Library({ handlePage }) {
           default:
         }
         return itemsFilter
-      }
+      },
     })
   }
   //.............................................................................
@@ -407,7 +408,7 @@ export default function Library({ handlePage }) {
                 <InputAdornment position='start'>
                   <SearchIcon />
                 </InputAdornment>
-              )
+              ),
             }}
             onChange={e => setSearchValue(e.target.value)}
           />

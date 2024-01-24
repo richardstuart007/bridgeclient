@@ -60,6 +60,7 @@ export default function writeApp_Env() {
     DFT_USER_SKIPCORRECT: true,
     URL_HELLO: '/QuizHello',
     URL_REGISTER: '/QuizRegister',
+    URL_REGISTERPWD: '/QuizRegisterPwd',
     URL_SIGNIN: '/QuizSignin',
     URL_TABLES: '/QuizTables'
   }
@@ -197,6 +198,7 @@ export default function writeApp_Env() {
   //
   if (process.env.REACT_APP_URL_HELLO) App_Env.URL_HELLO = process.env.REACT_APP_URL_HELLO
   if (process.env.REACT_APP_URL_REGISTER) App_Env.URL_REGISTER = process.env.REACT_APP_URL_REGISTER
+  if (process.env.REACT_APP_URL_REGISTERPWD) App_Env.URL_REGISTERPWD = process.env.REACT_APP_URL_REGISTERPWD
   if (process.env.REACT_APP_URL_SIGNIN) App_Env.URL_SIGNIN = process.env.REACT_APP_URL_SIGNIN
   if (process.env.REACT_APP_URL_TABLES) App_Env.URL_TABLES = process.env.REACT_APP_URL_TABLES
   //

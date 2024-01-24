@@ -32,28 +32,28 @@ const useStyles = makeStyles(theme => {
     page: {
       background: 'white',
       width: '100%',
-      padding: theme.spacing(1)
+      padding: theme.spacing(1),
     },
     root: {
-      display: 'flex'
+      display: 'flex',
     },
     title: {
-      marginLeft: theme.spacing(2)
+      marginLeft: theme.spacing(2),
     },
     clientserver: {
-      marginLeft: theme.spacing(2)
+      marginLeft: theme.spacing(2),
     },
     welcome: {
-      marginLeft: theme.spacing(2)
+      marginLeft: theme.spacing(2),
     },
     appBar: {
       background: 'green',
-      width: '100%'
+      width: '100%',
     },
     toolbar: theme.mixins.toolbar,
     avatar: {
-      marginLeft: theme.spacing(2)
-    }
+      marginLeft: theme.spacing(2),
+    },
   }
 })
 //============================================================================
@@ -94,6 +94,12 @@ export default function Layout({ handlePage, children }) {
       break
     case 'Register':
       title = 'Register'
+      break
+    case 'RegisterPwd':
+      title = 'RegisterPwd'
+      break
+    case 'RegisterUser':
+      title = 'RegisterUser'
       break
     case 'Signin':
       title = 'SignIn'
@@ -152,9 +158,9 @@ export default function Layout({ handlePage, children }) {
       {/* .......................................................................................... */}
       {/* app bar                                         */}
       {/* .......................................................................................... */}
-      <AppBar position='fixed' className={classes.appBar} elevation={0} color='primary'>
+      <AppBar position="fixed" className={classes.appBar} elevation={0} color="primary">
         <Toolbar>
-          <Grid container alignItems='center'>
+          <Grid container alignItems="center">
             {/* .......................................................................................... */}
             <Grid item>
               <Avatar className={classes.avatar} src={cards} />
@@ -172,7 +178,7 @@ export default function Layout({ handlePage, children }) {
                   className={classes.welcome}
                   sx={{
                     display: { xs: 'none', sm: 'inline' },
-                    color: 'red'
+                    color: 'red',
                   }}
                 >
                   {User_Name}
@@ -185,7 +191,7 @@ export default function Layout({ handlePage, children }) {
                 <Typography
                   className={classes.clientserver}
                   sx={{
-                    display: { xs: 'none', sm: 'inline', color: 'white', backgroundColor: 'red' }
+                    display: { xs: 'none', sm: 'inline', color: 'white', backgroundColor: 'red' },
                   }}
                 >
                   ADMIN
@@ -198,7 +204,7 @@ export default function Layout({ handlePage, children }) {
                 <Typography
                   className={classes.clientserver}
                   sx={{
-                    display: { xs: 'none', sm: 'inline', color: 'white', backgroundColor: 'red' }
+                    display: { xs: 'none', sm: 'inline', color: 'white', backgroundColor: 'red' },
                   }}
                 >
                   DEV
@@ -211,7 +217,12 @@ export default function Layout({ handlePage, children }) {
                 <Typography
                   className={classes.clientserver}
                   sx={{
-                    display: { xs: 'none', sm: 'inline', color: 'white', backgroundColor: 'purple' }
+                    display: {
+                      xs: 'none',
+                      sm: 'inline',
+                      color: 'white',
+                      backgroundColor: 'purple',
+                    },
                   }}
                 >
                   SWITCHED

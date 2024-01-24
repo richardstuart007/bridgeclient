@@ -8,7 +8,7 @@ import writeUsersSessions from '../services/writeUsersSessions'
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
-const debugLog = debugSettings()
+
 const debugModule = 'buildDataUser'
 //
 //  Global Variables
@@ -22,6 +22,7 @@ let User_Hands = []
 //.  Main Line
 //...................................................................................
 export default function buildDataUser() {
+  const debugLog = debugSettings()
   //
   //  Try
   //
@@ -65,7 +66,7 @@ export default function buildDataUser() {
       AxCaller: debugModule,
       AxTable: 'questions',
       AxAction: 'SELECTSQL',
-      AxString: SqlString
+      AxString: SqlString,
     }
     const myPromiseQuestions = rowCrud(rowCrudparams)
     //
@@ -157,7 +158,7 @@ export default function buildDataUser() {
       AxCaller: debugModule,
       AxTable: 'bidding',
       AxAction: 'SELECTSQL',
-      AxString: AxString
+      AxString: AxString,
     }
     const myPromiseBidding = rowCrud(rowCrudparams)
     //
@@ -209,7 +210,7 @@ export default function buildDataUser() {
       AxTable: 'hands',
       AxAction: 'SELECTSQL',
       AxString: AxString,
-      timeout: null
+      timeout: null,
     }
     const myPromiseHands = rowCrud(rowCrudparams)
     //

@@ -27,7 +27,7 @@ import rowCrud from '../../utilities/rowCrud'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+
 const debugModule = 'SwitchUser'
 //
 //  Styles
@@ -35,23 +35,23 @@ const debugModule = 'SwitchUser'
 const useStyles = makeStyles(theme => ({
   pageContent: {
     margin: theme.spacing(1),
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
   },
   searchInput: {
     minWidth: '300px',
-    width: '30%'
+    width: '30%',
   },
   searchInputTypeBox: {
     width: '10%',
-    margin: `0 0 0 ${theme.spacing(2)}`
+    margin: `0 0 0 ${theme.spacing(2)}`,
   },
   searchInputType: {
-    minWidth: '200px'
+    minWidth: '200px',
   },
   myButton: {
     margin: `0 0 0 ${theme.spacing(4)}`,
-    backgroundColor: 'azure'
-  }
+    backgroundColor: 'azure',
+  },
 }))
 //
 //  Table Heading
@@ -64,19 +64,20 @@ const headCells = [
   { id: 'u_fedid', label: 'Bridge ID' },
   { id: 'u_fedcountry', label: 'Country' },
   { id: 'u_dftmaxquestions', label: 'Max Questions' },
-  { id: 'actions', label: 'Actions', disableSorting: true }
+  { id: 'actions', label: 'Actions', disableSorting: true },
 ]
 const searchTypeOptions = [
   { id: 'u_email', title: 'Email' },
   { id: 'u_user', title: 'User' },
   { id: 'u_uid', title: 'ID' },
   { id: 'u_name', title: 'Name' },
-  { id: 'u_fedid', title: 'Bridge ID' }
+  { id: 'u_fedid', title: 'Bridge ID' },
 ]
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function SwitchUser({ handlePage }) {
+  const debugLog = debugSettings()
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //.............................................................................
   //
@@ -90,7 +91,7 @@ export default function SwitchUser({ handlePage }) {
   const [filterFn, setFilterFn] = useState({
     fn: items => {
       return items
-    }
+    },
   })
   const [searchType, setSearchType] = useState('u_name')
   const [searchValue, setSearchValue] = useState('')
@@ -126,7 +127,7 @@ export default function SwitchUser({ handlePage }) {
       AxCaller: debugModule,
       AxTable: 'users',
       AxAction: 'SELECTSQL',
-      AxString: AxString
+      AxString: AxString,
     }
     var myPromiseGet = rowCrud(rowCrudparams)
     //
@@ -197,7 +198,7 @@ export default function SwitchUser({ handlePage }) {
           default:
         }
         return itemsFilter
-      }
+      },
     })
   }
   //.............................................................................
@@ -234,7 +235,7 @@ export default function SwitchUser({ handlePage }) {
                 <InputAdornment position='start'>
                   <SearchIcon />
                 </InputAdornment>
-              )
+              ),
             }}
             onChange={e => setSearchValue(e.target.value)}
           />

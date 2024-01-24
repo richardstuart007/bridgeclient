@@ -4,6 +4,8 @@
 import UsersSettings from './UsersSettings/UsersSettings'
 import Splash from './Splash/Splash'
 import Register from './Register/Register'
+import RegisterPwd from './RegisterPwd/RegisterPwd'
+import RegisterUser from './RegisterUser/RegisterUser'
 import Signin from './Signin/Signin'
 import Quiz from './Quiz/Quiz'
 import QuizReview from './QuizReview/QuizReview'
@@ -35,6 +37,7 @@ export default function Control({ handlePage }) {
   //
   //  Present the selected component
   //
+  if (debugLog) console.log(consoleLogTime(debugModule, 'PageCurrent'), PageCurrent)
   return (
     <>
       {PageCurrent === 'Splash' ? (
@@ -45,6 +48,10 @@ export default function Control({ handlePage }) {
         <UsersSettings handlePage={handlePage} />
       ) : PageCurrent === 'Register' ? (
         <Register handlePage={handlePage} />
+      ) : PageCurrent === 'RegisterPwd' ? (
+        <RegisterPwd handlePage={handlePage} />
+      ) : PageCurrent === 'RegisterUser' ? (
+        <RegisterUser handlePage={handlePage} />
       ) : PageCurrent === 'Signin' ? (
         <Signin handlePage={handlePage} />
       ) : PageCurrent === 'Library' ? (

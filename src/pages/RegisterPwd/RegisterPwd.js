@@ -6,21 +6,20 @@ import { Paper, Grid, Typography } from '@mui/material'
 //
 //  Utilities
 //
-import registerUser from './registerUser'
+import createPwd from '../../services/createPwd'
 //
 //  Controls
 //
 import MyButton from '../../components/controls/MyButton'
 import MyInput from '../../components/controls/MyInput'
 import { useMyForm, MyForm } from '../../components/controls/useMyForm'
-import SelectCountry from '../../services/SelectCountry'
 //
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
 let debugLog
-const debugModule = 'Register'
+const debugModule = 'RegisterPwd'
 //.............................................................................
 //.  Data Input Fields
 //.............................................................................
@@ -28,31 +27,22 @@ const debugModule = 'Register'
 //  Initial Values
 //
 const initialFValues = {
-  name: '',
-  fedid: '',
-  fedcountry: 'NZ',
   user: '',
-  email: '',
   password: '',
 }
 //...................................................................................
 //.  Main Line
 //...................................................................................
-function Register({ handlePage }) {
+function RegisterPwd({ handlePage }) {
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //
   //  Debug Settings
   //
   debugLog = debugSettings()
   //
-  //  Application Environment Variables
-  //
-  const App_Env = JSON.parse(sessionStorage.getItem('App_Env'))
-  //
   // State
   //
   const [form_message, setForm_message] = useState('')
-  const [showButtons, setShowButtons] = useState(true)
   //
   //  Interface to Form
   //
@@ -67,28 +57,32 @@ function Register({ handlePage }) {
   function validate(fieldValues = values) {
     let temp = { ...errors }
     //
-    //  name
-    //
-    if ('name' in fieldValues) {
-      temp.name = fieldValues.name.length !== 0 ? '' : 'This field is required.'
-    }
-    //
     //  user
     //
     if ('user' in fieldValues) {
       temp.user = fieldValues.user.length !== 0 ? '' : 'This field is required.'
-    }
-    //
-    //  email
-    //
-    if ('email' in fieldValues) {
-      temp.email = validateEmail(fieldValues.email) ? '' : 'Email is not a valid format'
+      if (fieldValues.user.length !== 0) {
+        const noSpacesText = fieldValues.user.replace(/\s/g, '')
+        if (fieldValues.user !== noSpacesText) {
+          const updValues = { ...fieldValues }
+          updValues.user = noSpacesText
+          setValues(updValues)
+        }
+      }
     }
     //
     //  password
     //
     if ('password' in fieldValues) {
       temp.password = fieldValues.password.length !== 0 ? '' : 'This field is required.'
+      if (fieldValues.password.length !== 0) {
+        const noSpacesText = fieldValues.password.replace(/\s/g, '')
+        if (fieldValues.password !== noSpacesText) {
+          const updValues = { ...fieldValues }
+          updValues.password = noSpacesText
+          setValues(updValues)
+        }
+      }
     }
     //
     //  Set the errors
@@ -98,14 +92,6 @@ function Register({ handlePage }) {
     })
 
     if (fieldValues === values) return Object.values(temp).every(x => x === '')
-  }
-  //...................................................................................
-  function validateEmail(email) {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )
   }
   //...................................................................................
   //.  Form Submit
@@ -120,51 +106,34 @@ function Register({ handlePage }) {
   //...................................................................................
   function FormUpdate() {
     //
-    //  User message
-    //
-    setForm_message('Registration in progress please WAIT..')
-    //
-    //  Hide signin button
-    //
-    setShowButtons(false)
-    //
     //  Deconstruct values
     //
-    const { name, user, email, password, fedid, fedcountry } = values
+    const { user, password } = values
+    //
+    //  Save the password locally
+    //
+    sessionStorage.setItem('User_Password', JSON.stringify(password))
     //
     //  Process promise
     //
     const params = {
       AxCaller: debugModule,
       user: user,
-      email: email,
       password: password,
-      name: name,
-      fedid: fedid,
-      fedcountry: fedcountry,
-      dftmaxquestions: App_Env.DFT_USER_MAXQUESTIONS,
-      dftowner: App_Env.DFT_USER_OWNER,
-      showprogress: App_Env.DFT_USER_SHOWPROGRESS,
-      showscore: App_Env.DFT_USER_SHOWSCORE,
-      sortquestions: App_Env.DFT_USER_SORTQUESTIONS,
-      skipcorrect: App_Env.DFT_USER_SKIPCORRECT,
-      admin: false,
-      dev: false,
     }
-    const myPromiseRegister = registerUser(params)
+    const myPromiseRegisterPwd = createPwd(params)
     //
     //  Resolve Status
     //
-    myPromiseRegister.then(function (rtnObj) {
+    myPromiseRegisterPwd.then(function (rtnObj) {
       //
       //  Valid ?
       //
       const rtnValue = rtnObj.rtnValue
       if (rtnValue) {
-        const Usersrow = rtnObj.rtnRows[0]
-        setForm_message(`Data updated in Database with ID(${Usersrow.u_uid})`)
-        sessionStorage.setItem('User_User', JSON.stringify(Usersrow))
-        handlePage('Signin')
+        const Userspwd = rtnObj.rtnRows[0]
+        sessionStorage.setItem('User_Userspwd', JSON.stringify(Userspwd))
+        handlePage('RegisterUser')
       } else {
         //
         //  Error
@@ -172,26 +141,12 @@ function Register({ handlePage }) {
         let message
         rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
         setForm_message(message)
-        //
-        //  Show button
-        //
-        setShowButtons(true)
       }
       return
     })
-    return myPromiseRegister
+    return myPromiseRegisterPwd
   }
-  //...................................................................................
-  //.  Select Country
-  //...................................................................................
-  function handleSelectCountry(CountryCode) {
-    //
-    //  Populate Country Object & change country code
-    //
-    const updValues = { ...values }
-    updValues.u_fedcountry = CountryCode
-    setValues(updValues)
-  }
+
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -217,7 +172,7 @@ function Register({ handlePage }) {
             {/*.................................................................................................*/}
             <Grid item xs={12} sx={{ mt: 2 }}>
               <Typography variant='h6' style={{ color: 'blue' }}>
-                Registration Page
+                Register User & Password
               </Typography>
             </Grid>
 
@@ -243,52 +198,6 @@ function Register({ handlePage }) {
                 sx={{ minWidth: '300px' }}
               />
             </Grid>
-            {/*.................................................................................................*/}
-            <Grid item xs={12} sx={{ mt: 2 }}>
-              <Typography variant='subtitle2' style={{ color: 'blue' }}>
-                Your Details
-              </Typography>
-            </Grid>
-            {/*.................................................................................................*/}
-            <Grid item xs={12}>
-              <MyInput
-                name='name'
-                label='name'
-                value={values.name}
-                onChange={handleInputChange}
-                error={errors.name}
-                sx={{ minWidth: '300px' }}
-              />
-            </Grid>
-            {/*.................................................................................................*/}
-            <Grid item xs={12}>
-              <MyInput
-                name='email'
-                label='email'
-                value={values.email}
-                onChange={handleInputChange}
-                error={errors.email}
-                sx={{ minWidth: '300px' }}
-              />
-            </Grid>
-            {/*.................................................................................................*/}
-            <Grid item xs={12}>
-              <MyInput
-                name='fedid'
-                label='Bridge Federation Id'
-                value={values.fedid}
-                onChange={handleInputChange}
-                error={errors.fedid}
-              />
-            </Grid>
-            {/*.................................................................................................*/}
-            <Grid item xs={12}>
-              <SelectCountry
-                label='Bridge Federation Country'
-                onChange={handleSelectCountry}
-                countryCode={values.u_fedcountry}
-              />
-            </Grid>
 
             {/*.................................................................................................*/}
             <Grid item xs={12}>
@@ -296,34 +205,33 @@ function Register({ handlePage }) {
             </Grid>
 
             {/*.................................................................................................*/}
-            {showButtons ? (
-              <Grid item xs={12}>
-                <MyButton
-                  text='Register'
-                  onClick={() => {
-                    FormSubmit()
-                  }}
-                />
-              </Grid>
-            ) : null}
+
+            <Grid item xs={12}>
+              <MyButton
+                text='Continue'
+                onClick={() => {
+                  FormSubmit()
+                }}
+              />
+            </Grid>
           </Grid>
         </Paper>
         {/*.................................................................................................*/}
-        {showButtons ? (
-          <Grid item xs={12}>
-            <MyButton
-              color='warning'
-              onClick={() => {
-                handlePage('Signin')
-              }}
-              text='Signin'
-            />
-          </Grid>
-        ) : null}
+
+        <Grid item xs={12}>
+          <MyButton
+            color='warning'
+            onClick={() => {
+              handlePage('Signin')
+            }}
+            text='Back'
+          />
+        </Grid>
+
         {/*.................................................................................................*/}
       </MyForm>
     </>
   )
 }
 
-export default Register
+export default RegisterPwd

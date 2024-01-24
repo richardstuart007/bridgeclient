@@ -9,10 +9,11 @@ import { TextField } from '@mui/material'
 //
 import debugSettings from '../../debug/debugSettings'
 import consoleLogTime from '../../debug/consoleLogTime'
-const debugLog = debugSettings()
+
 const debugModule = 'MyDatePicker'
 //=====================================================================================
 export default function MyDatePicker(props) {
+  const debugLog = debugSettings()
   if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
 
   const { name, label, value, onChange, ...other } = props
@@ -22,8 +23,8 @@ export default function MyDatePicker(props) {
   const convertToDefEventPara = (name, value) => ({
     target: {
       name,
-      value
-    }
+      value,
+    },
   })
 
   return (
