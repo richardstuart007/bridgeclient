@@ -3,66 +3,118 @@
 //
 import debugSettings from '../debug/debugSettings'
 import consoleLogTime from '../debug/consoleLogTime'
+import {
+  DEBUG_LOG_OVERRIDE,
+  DEBUG_LOG,
+  PAGESTART,
+  PAGESTARTAPP,
+  SERVER_DATABASE,
+  NODE_ENV,
+  TIMEOUT,
+  TIMEOUT_EXTRA,
+  TIMEOUT_RETRY,
+  SERVER01,
+  DATABASE01,
+  SERVERURL01,
+  SERVER02,
+  DATABASE02,
+  SERVERURL02,
+  SERVER03,
+  DATABASE03,
+  SERVERURL03,
+  SERVER04,
+  DATABASE04,
+  SERVERURL04,
+  SERVER11,
+  SERVERURL11,
+  SERVER12,
+  SERVERURL12,
+  SERVER13,
+  SERVERURL13,
+  SERVER14,
+  SERVERURL14,
+  SERVER16,
+  DATABASE6,
+  SERVERURL16,
+  SERVER17,
+  DATABASE7,
+  SERVERURL17,
+  DFT_USER_MAXQUESTIONS,
+  DFT_USER_OWNER,
+  DFT_USER_SHOWPROGRESS,
+  DFT_USER_SHOWSCORE,
+  DFT_USER_SORTQUESTIONS,
+  DFT_USER_SKIPCORRECT,
+  URL_HELLO,
+  URL_REGISTER,
+  URL_REGISTERPWD,
+  URL_SIGNIN,
+  URL_TABLES,
+} from './AppConstants'
 //
 //  Debug Settings
 //
 let debugLog
-const debugModule = 'writeApp_Env'
-export default function writeApp_Env() {
+const debugModule = 'Appwrite_App_Env'
+//=..........................................................................
+//  Main Line
+//=..........................................................................
+export default function Appwrite_App_Env() {
   //
   //  Debug Settings
   //
   debugLog = debugSettings()
+  if (debugLog) console.log(consoleLogTime(debugModule, 'Start'))
   //...........................................................................
   //  Defaults
   //...........................................................................
   const App_Env = {
-    DEBUG_LOG_OVERRIDE: false,
-    DEBUG_LOG: false,
-    PAGESTART: 'Library',
-    PAGESTARTAPP: 'Splash',
-    SERVER_DATABASE: '04',
-    NODE_ENV: 'production',
-    TIMEOUT: 1000,
-    TIMEOUT_EXTRA: 1500,
-    TIMEOUT_RETRY: 2,
-    SERVER01: 'REMOTE:Render/3901',
-    DATABASE01: 'REMOTE-1:Elephant',
-    SERVERURL01: 'https://bridgeserver01.onrender.com',
-    SERVER02: 'REMOTE:Render/3902',
-    DATABASE02: 'REMOTE-2:Railway',
-    SERVERURL02: 'https://bridgeserver02.onrender.com',
-    SERVER03: 'REMOTE:Cyclic/3903',
-    DATABASE03: 'REMOTE-3:Elephant',
-    SERVERURL03: 'https://bridgeserver03.cyclic.app',
-    SERVER04: 'REMOTE:Cyclic/3904',
-    DATABASE04: 'REMOTE-4:Railway04',
-    SERVERURL04: 'https://bridgeserver04.cyclic.app',
-    SERVER11: 'LOCAL:3911',
-    SERVERURL11: 'http://localhost:3911',
-    SERVER12: 'LOCAL:3912',
-    SERVERURL12: 'http://localhost:3912',
-    SERVER13: 'LOCAL:3913',
-    SERVERURL13: 'http://localhost:3913',
-    SERVER14: 'LOCAL:3914',
-    SERVERURL14: 'http://localhost:3914',
-    SERVER16: 'LOCAL:3916',
-    DATABASE6: 'http://localhost:3916',
-    SERVERURL16: 'LOCAL:bridge6',
-    SERVER17: 'LOCAL:3917',
-    DATABASE7: 'http://localhost:3917',
-    SERVERURL17: 'LOCAL:bridge7',
-    DFT_USER_MAXQUESTIONS: 20,
-    DFT_USER_OWNER: 'Richard',
-    DFT_USER_SHOWPROGRESS: true,
-    DFT_USER_SHOWSCORE: true,
-    DFT_USER_SORTQUESTIONS: true,
-    DFT_USER_SKIPCORRECT: true,
-    URL_HELLO: '/QuizHello',
-    URL_REGISTER: '/QuizRegister',
-    URL_REGISTERPWD: '/QuizRegisterPwd',
-    URL_SIGNIN: '/QuizSignin',
-    URL_TABLES: '/QuizTables'
+    DEBUG_LOG_OVERRIDE: DEBUG_LOG_OVERRIDE,
+    DEBUG_LOG: DEBUG_LOG,
+    PAGESTART: PAGESTART,
+    PAGESTARTAPP: PAGESTARTAPP,
+    SERVER_DATABASE: SERVER_DATABASE,
+    NODE_ENV: NODE_ENV,
+    TIMEOUT: TIMEOUT,
+    TIMEOUT_EXTRA: TIMEOUT_EXTRA,
+    TIMEOUT_RETRY: TIMEOUT_RETRY,
+    SERVER01: SERVER01,
+    DATABASE01: DATABASE01,
+    SERVERURL01: SERVERURL01,
+    SERVER02: SERVER02,
+    DATABASE02: DATABASE02,
+    SERVERURL02: SERVERURL02,
+    SERVER03: SERVER03,
+    DATABASE03: DATABASE03,
+    SERVERURL03: SERVERURL03,
+    SERVER04: SERVER04,
+    DATABASE04: DATABASE04,
+    SERVERURL04: SERVERURL04,
+    SERVER11: SERVER11,
+    SERVERURL11: SERVERURL11,
+    SERVER12: SERVER12,
+    SERVERURL12: SERVERURL12,
+    SERVER13: SERVER13,
+    SERVERURL13: SERVERURL13,
+    SERVER14: SERVER14,
+    SERVERURL14: SERVERURL14,
+    SERVER16: SERVER16,
+    DATABASE6: DATABASE6,
+    SERVERURL16: SERVERURL16,
+    SERVER17: SERVER17,
+    DATABASE7: DATABASE7,
+    SERVERURL17: SERVERURL17,
+    DFT_USER_MAXQUESTIONS: DFT_USER_MAXQUESTIONS,
+    DFT_USER_OWNER: DFT_USER_OWNER,
+    DFT_USER_SHOWPROGRESS: DFT_USER_SHOWPROGRESS,
+    DFT_USER_SHOWSCORE: DFT_USER_SHOWSCORE,
+    DFT_USER_SORTQUESTIONS: DFT_USER_SORTQUESTIONS,
+    DFT_USER_SKIPCORRECT: DFT_USER_SKIPCORRECT,
+    URL_HELLO: URL_HELLO,
+    URL_REGISTER: URL_REGISTER,
+    URL_REGISTERPWD: URL_REGISTERPWD,
+    URL_SIGNIN: URL_SIGNIN,
+    URL_TABLES: URL_TABLES,
   }
   //
   //  Save
@@ -198,7 +250,8 @@ export default function writeApp_Env() {
   //
   if (process.env.REACT_APP_URL_HELLO) App_Env.URL_HELLO = process.env.REACT_APP_URL_HELLO
   if (process.env.REACT_APP_URL_REGISTER) App_Env.URL_REGISTER = process.env.REACT_APP_URL_REGISTER
-  if (process.env.REACT_APP_URL_REGISTERPWD) App_Env.URL_REGISTERPWD = process.env.REACT_APP_URL_REGISTERPWD
+  if (process.env.REACT_APP_URL_REGISTERPWD)
+    App_Env.URL_REGISTERPWD = process.env.REACT_APP_URL_REGISTERPWD
   if (process.env.REACT_APP_URL_SIGNIN) App_Env.URL_SIGNIN = process.env.REACT_APP_URL_SIGNIN
   if (process.env.REACT_APP_URL_TABLES) App_Env.URL_TABLES = process.env.REACT_APP_URL_TABLES
   //

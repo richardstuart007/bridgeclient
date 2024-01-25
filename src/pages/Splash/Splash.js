@@ -46,13 +46,13 @@ export default function Splash({ handlePage }) {
   //  Say Hello to server
   //
   useEffect(() => {
-    sayHello(false)
+    sayHello()
     // eslint-disable-next-line
   }, [])
   //...................................................................................
   //.  Check Server is responding
   //...................................................................................
-  function sayHello(signin) {
+  function sayHello() {
     if (debugLog) console.log(consoleLogTime(debugModule, 'sayHello'))
     //
     //  Check if errors
@@ -96,11 +96,9 @@ export default function Splash({ handlePage }) {
       //-----------------
       //  OK
       //-----------------
-      if (signin) handlePage('Signin')
-      else {
-        setForm_message('')
-        setshowContinue(true)
-      }
+      createOptionsOwner()
+      setForm_message('')
+      setshowContinue(true)
     })
   }
   //--------------------------------------------------------------------
@@ -258,7 +256,7 @@ export default function Splash({ handlePage }) {
                 type='submit'
                 text='Retry Connection'
                 value='Submit'
-                onClick={() => sayHello(true)}
+                onClick={() => sayHello()}
               />
             </Grid>
           ) : null}
@@ -271,7 +269,6 @@ export default function Splash({ handlePage }) {
                 value='Submit'
                 onClick={() => {
                   writeSession()
-                  createOptionsOwner()
                   handlePage('Signin')
                 }}
               />
